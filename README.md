@@ -4,27 +4,16 @@
 翻译Renpy官方文档到中文
 
 #### 软件架构
-软件架构说明
+网页框架由[amWiki](http://amwiki.org/)驱动，感谢amWiki作者
 
+#### 最后更新时间
+2018/4/21
 
-#### 安装教程
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 使用说明
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 参与贡献
-
-1. Fork 本项目
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+#### 目前进度
+Quick Start
+    * The Ren'Py Launcher
+    * A Simple Game
+    * Characters
 
 
 #### 码云特技
