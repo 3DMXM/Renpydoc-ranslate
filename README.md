@@ -10,10 +10,10 @@
 2018/4/21
 
 #### 目前进度
-Quick Start
-    * The Ren'Py Launcher
-    * A Simple Game
-    * Characters
+Quick Start     
+   - The Ren'Py Launcher
+   - A Simple Game
+   - Characters
 
 
 #### 码云特技
