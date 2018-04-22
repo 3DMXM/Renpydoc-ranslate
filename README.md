@@ -18,6 +18,16 @@ Quick Start
    - Images
    - Transitions
    - Positions
+   - Music and Sound
+   - Pause Statement
+   - Ending the Game
+   - Menus, Labels, and Jumps
+   - Supporting Flags using the Default, Python and If Statements
+   - Releasing Your Game
+   - Script of The Question
+   - Where do we go from here?
+GUI Customization Guide
+   - Simple GUI Customization
 
 2018/4/21
 Quick Start     
