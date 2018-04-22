@@ -25,7 +25,8 @@ Quick Start
    - Supporting Flags using the Default, Python and If Statements
    - Releasing Your Game
    - Script of The Question
-   - Where do we go from here?
+   - Where do we go from here?   
+  
 GUI Customization Guide
    - Simple GUI Customization
 
