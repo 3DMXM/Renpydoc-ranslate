@@ -1,4 +1,4 @@
-# Renpydoc-ranslate
+# Renpydoc-translate
 
 #### 项目介绍
 翻译Renpy官方文档到中文
