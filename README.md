@@ -3,7 +3,7 @@
 #### 项目介绍
 翻译Renpy官方文档到中文
 
-[2015年的项目](https://github.com/fk1995/RenPy-Documentation-translations)
+参考[2015年由fk1995创建的项目](https://github.com/fk1995/RenPy-Documentation-translations)
 
 #### 软件架构
 网页框架由[amWiki](http://amwiki.org/)驱动，感谢amWiki作者
