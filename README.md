@@ -7,9 +7,16 @@
 网页框架由[amWiki](http://amwiki.org/)驱动，感谢amWiki作者
 
 #### 最后更新时间
-2018/4/21
+2018/4/22
 
 #### 目前进度
+
+2018/4/22
+Quick Start     
+   - Images
+   - Transitions
+   - Positions
+
 2018/4/21
 Quick Start     
    - The Ren'Py Launcher
