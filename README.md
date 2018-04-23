@@ -9,9 +9,16 @@
 网页框架由[amWiki](http://amwiki.org/)驱动，感谢amWiki作者
 
 #### 最后更新时间
-2018/4/22
+2018/4/23
 
 #### 目前进度
+2018/4/23
+GUI Customization Guide
+   - Simple GUI Customization
+   - Intermediate GUI Customization
+    - - Dialogue
+    - - Choice Menus
+    - - Overlay Images
 
 2018/4/22
 Quick Start     
