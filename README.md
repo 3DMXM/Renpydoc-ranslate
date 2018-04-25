@@ -9,9 +9,15 @@
 网页框架由[amWiki](http://amwiki.org/)驱动，感谢amWiki作者
 
 #### 最后更新时间
-2018/4/23
+2018/4/25
 
 #### 目前进度
+2018/4/25
+Text, Displayables, Transforms, and Transitions
+    - Layered Images
+    - - define layered images
+
+
 2018/4/23
 GUI Customization Guide
    - Simple GUI Customization
