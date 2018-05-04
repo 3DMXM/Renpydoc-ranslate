@@ -14,14 +14,14 @@
 #### 目前进度
 2018/5/4
 Text, Displayables, Transforms, and Transitions   
-    - Layered Images  
+    * Layered Images
     - - Statement Reference  
     - - Poses
     - - Advice 
 
 2018/5/3
 Text, Displayables, Transforms, and Transitions   
-    - Layered Images  
+    * Layered Images  
     - - Using an Layered Image  
     - - Automatic Attributes  
 
