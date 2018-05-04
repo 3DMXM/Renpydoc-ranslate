@@ -16,30 +16,30 @@
 2018/5/4    
 Text, Displayables, Transforms, and Transitions
 - Layered Images   
-    - - Statement Reference    
-    - - Poses   
-    - - Advice    
+    -  Statement Reference    
+    -  Poses   
+    -  Advice    
 
 2018/5/3
 Text, Displayables, Transforms, and Transitions   
 * Layered Images  
-    - - Using an Layered Image  
-    - - Automatic Attributes  
+    -  Using an Layered Image  
+    -  Automatic Attributes  
 
 
 2018/4/25
 Text, Displayables, Transforms, and Transitions   
 - Layered Images  
-    - - define layered images   
+    -  define layered images   
 
 
 2018/4/23
 GUI Customization Guide   
-   - Simple GUI Customization
-   - Intermediate GUI Customization
-    - - Dialogue
-    - - Choice Menus
-    - - Overlay Images
+- Simple GUI Customization
+- Intermediate GUI Customization
+    -  Dialogue
+    -  Choice Menus
+    -  Overlay Images
 
 2018/4/22
 Quick Start     
