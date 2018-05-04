@@ -9,24 +9,31 @@
 网页框架由[amWiki](http://amwiki.org/)驱动，感谢amWiki作者
 
 #### 最后更新时间
-2018/5/3
+2018/5/4
 
 #### 目前进度
+2018/5/4
+Text, Displayables, Transforms, and Transitions   
+    - Layered Images  
+    - - Statement Reference  
+    - - Poses
+    - - Advice 
+
 2018/5/3
-Text, Displayables, Transforms, and Transitions
-    - Layered Images
-    - - Using an Layered Image
-    - - Automatic Attributes
+Text, Displayables, Transforms, and Transitions   
+    - Layered Images  
+    - - Using an Layered Image  
+    - - Automatic Attributes  
 
 
 2018/4/25
-Text, Displayables, Transforms, and Transitions
-    - Layered Images
-    - - define layered images
+Text, Displayables, Transforms, and Transitions   
+    - Layered Images  
+    - - define layered images   
 
 
 2018/4/23
-GUI Customization Guide
+GUI Customization Guide   
    - Simple GUI Customization
    - Intermediate GUI Customization
     - - Dialogue
