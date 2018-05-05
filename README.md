@@ -9,9 +9,15 @@
 网页框架由[amWiki](http://amwiki.org/)驱动，感谢amWiki作者
 
 #### 最后更新时间
-2018/5/4
+2018/5/5
 
 #### 目前进度
+
+2018/5/5    
+Text, Displayables, Transforms, and Transitions
+- Layered Images   
+    -  Python   
+  
 
 2018/5/4    
 Text, Displayables, Transforms, and Transitions
