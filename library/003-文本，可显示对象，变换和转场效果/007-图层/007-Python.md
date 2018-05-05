@@ -58,7 +58,7 @@ __at__
 其他关键字参数被转义成变换特性（transform properties）。如果任意一个特性出现，将创建一个包裹图像的变换。  
 （比如说，pos=(100,200)可以用来设定图片的偏移量为水平方向100像素，垂直方向200像素。）    
 
-### LayeredImage(attributes,at[],name=None, image_format=None, format_funtion=None, attribute_function=None,**kwargs)
+### ==LayeredImage==(attributes,at[],name=None, image_format=None, format_funtion=None, attribute_function=None,**kwargs)
 这是一个类图像对象，当带有一组正确的属性时，显示一个由组合与这些属性相关联的可显示对象创建的可显示对象。   
 
 __attribute__         
