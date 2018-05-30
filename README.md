@@ -4,14 +4,18 @@
 翻译Renpy官方文档到中文
 
 参考[2015年由fk1995创建的项目](https://github.com/fk1995/RenPy-Documentation-translations)
+2018.5 已经变成与CursedOctopus的合体项目
 
 #### 软件架构
 网页框架由[amWiki](http://amwiki.org/)驱动，感谢amWiki作者
 
 #### 最后更新时间
-2018/5/5
+2018/5/30
 
 #### 目前进度
+
+2018/5/29
+source目录下的rst文件粘贴完毕
 
 2018/5/5    
 Text, Displayables, Transforms, and Transitions
