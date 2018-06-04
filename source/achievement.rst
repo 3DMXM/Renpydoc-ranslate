@@ -1,3 +1,5 @@
+.. _achievements:
+
 成就
 ============
 
@@ -56,7 +58,6 @@
   **stat_max**
 
     解锁成就的stat整数值。
-    The integer value of the stat at which the achievement unlocks.
 
   **stat_modulo**
 

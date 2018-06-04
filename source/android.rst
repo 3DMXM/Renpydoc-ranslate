@@ -1,12 +1,14 @@
 .. _android:
 
-=======
+==============
 安卓(Android)
-=======
+==============
 
 Ren'Py支持运行安卓操作系统的设备，比如智能手机和平板电脑。由于这些设备并不100%支持Ren'Py的所有函数，在那些设备运行的包会做最小化修改。
 
 与Ren'Py引擎分开下载的RAPT程序——Ren'Py安卓打包工具，可以创建安卓的测试版和正式版打包文件。
+
+.. _required-language:
 
 语言要求
 =================
@@ -15,6 +17,8 @@ Ren'Py支持运行安卓操作系统的设备，比如智能手机和平板电�
 
     这个程序包括一些证书下的自由软件认证，包括GNU Lesser General Public License。完整的软件列表参见 https://www.renpy.org/l/license/.
 
+
+.. _user-instructions:
 
 用户指南
 =================
@@ -34,7 +38,7 @@ Ren'Py支持运行安卓操作系统的设备，比如智能手机和平板电�
      控制安卓的媒体音量。
 
 
-.. _android-platform-differences:
+.. _platform-differences:
 
 平台差异
 ====================
@@ -60,6 +64,8 @@ Ren'Py支持运行安卓操作系统的设备，比如智能手机和平板电�
 为了帮助创作者适应这些差异，Ren'Py会给予设备屏幕尺寸和性能，针对安卓自动选择界面变化。详见 :ref:`界面变种 <screen-variants>` 。
 
 
+.. _testing-and-emulation:
+
 测试和模拟
 =====================
 
@@ -79,7 +85,7 @@ Television / OUYA
 这些模拟器可以用于快速测试项目，当然最好能在真实的硬件上做测试。模拟器不处理那些人为因素导致的事件，比如用户的“胖手指”。
 
 
-.. highlight:: none
+.. _building-android-applications:
 
 生成安卓应用程序
 =============================
@@ -100,13 +106,15 @@ Ren'Py包含一些工具能帮助创作者以包(package)为中心进行安卓�
 一旦你完成了这些步骤，就能得到一个可以运行的安卓包。当你修改了某个游戏的配置或者完整配置一个新游戏时，只需要执行步骤3；如果你要重新生成一个包，通常只需要执行步骤4。
 
 
+.. _step-1-installing-the-dependencies:
+
 步骤1：安装依赖组件
 -----------------------------------
 
 在你生成包(package)之前，总共有3种东西需要手工下载和安装
 
 **Java Development Kit.**
-Java开发工具包（Java Development Kit （JDK）） 包含一些|PGS4A|需要的工具。
+Java开发工具包（Java Development Kit （JDK）） 包含一些RAPT需要的工具。
 RAPT需要使用这些工具，包括用于生成密钥(key)和签名包的工具。JDK的下载地址为：
 
     http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
@@ -125,6 +133,8 @@ RAPT需要使用这些工具，包括用于生成密钥(key)和签名包的工�
 
 不过，主流版本的Linux和OS X平台都可以正常工作。
 
+
+.. _step-2-set-up-the-android-sdk-and-development-environment:
 
 步骤2：配置安卓SDK和开发环境
 ----------------------------------------------------------
@@ -152,12 +162,16 @@ RAPT会实时报告它正在做的工作。它还会将各类许可的警告信�
    至少，你应该将android.keystore文件保存在一个安全的地方。你还应该将保存这个密钥的备份，因为没有这个密钥的话，你就不能上传生成的应用程序。
 
 
+.. _step-3-configure-your-game:
+
 步骤3：配置游戏
 ---------------------------
 
 生成一个包(package)之前，你必须向Ren'Py提供一些关于游戏安卓版本的信息。在Ren'Py启动器的安卓界面，选择“配置”。
 
 如果你需要修改这些信息——例如，你做了一个游戏的新版本——你可以重新运行配置命令。之前你配置的选项已经被记住了。
+
+.. _step-4-build-and-install-the-package:
 
 步骤4：生成应用包并安装
 -------------------------------------
@@ -166,7 +180,7 @@ RAPT会实时报告它正在做的工作。它还会将各类许可的警告信�
 
 如果你需要将游戏的apk文件手工复制到安卓设备上的话，在Ren'Py启动器的安卓界面选择“生成应用包”。然后进入RAPT目录下的bin目录，将文件mygame-release.apk复制到安卓设备上。之后找到安卓的文件管理应用找到对应的apk文件，打开文件执行安装。
 
-
+.. _viewing-debug-output:
 
 查看debug输出
 ====================
@@ -176,6 +190,8 @@ RAPT会实时报告它正在做的工作。它还会将各类许可的警告信�
 想要查看Ren'Py的输出，可以使用这个命令：
 
     adb logcat -s python:*
+
+.. _icon-and-presplash-images:
 
 图标和presplash图片
 =========================
@@ -200,8 +216,7 @@ android-presplash.jpg
 ouya-icon.png
     用在OUYA主机上的732×412图标。
 
-
-.. _expansion-apk:
+.. _google-play-expansion-apks:
 
 Google Play扩展APK
 ==========================
