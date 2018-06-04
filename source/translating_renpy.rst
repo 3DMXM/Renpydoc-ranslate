@@ -59,7 +59,7 @@ style.rpy
 修改字体
 --------------
 
-en'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不过经常会需要用到其他字体。编辑launcher/game/tl/language/style.rpy文件可以配置字体，比如添加字体：::
+Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不过经常会需要用到其他字体。编辑launcher/game/tl/language/style.rpy文件可以配置字体，比如添加字体：::
 
     init python:
         translate_font("language", "myfont.ttf")
