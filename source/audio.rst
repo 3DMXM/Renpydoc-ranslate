@@ -1,3 +1,5 @@
+.. _audio:
+
 音频
 =======
 
@@ -15,7 +17,7 @@ Ren'Py支持任意数量的音频通道。有三种一般音频通道是默认�
 * voice - 语音播放通道。
 
 通用通道支持音频的播放和音频队列，但同一时间只能播放1个音频文件。可以使用
-:func:`renpy.music.register_channel()`函数注册新的通用通道。
+:func:`renpy.music.register_channel` 函数注册新的通用通道。
 
 游戏内自定义配置菜单中的“音乐音量”、“音效音量”和“语音音量”设置的值，会应用于以上对应的音频通道。
 
@@ -26,6 +28,7 @@ Ren'Py支持任意数量的音频通道。有三种一般音频通道是默认�
 
 游戏内播放音乐和音效的常用办法，是使用Ren'Py的三种音乐/音效语句。
 
+.. _play-statement:
 
 play语句
 ------------------
@@ -46,11 +49,12 @@ play语句用于播放音效和音乐。如果某个文件正在通过通用通�
         "我们也可以播放一个音效或音乐的列表。"
         play music [ "a.ogg", "b.ogg" ] fadeout 1.0 fadein 1.0
 
-在audio通常上，同时播放多个音效文件：::
+在audio通道上，同时播放多个音效文件：::
 
         play audio "sfx1.opus"
         play audio "sfx2.opus"
 
+.. _stop-statement:
 
 stop语句
 --------------
@@ -60,6 +64,7 @@ stop语句以关键词 ``stop`` 开头，后面跟需要静音的音频通道名
         stop sound
         stop music fadeout 1.0
 
+.. _queue-statement:
 
 queue语句
 ---------------
@@ -72,7 +77,6 @@ queue语句以关键词 ``queue`` 开头，后面跟播放使用的音频通道�
         queue music [ "a.ogg", "b.ogg" ]
 
 使用这些语句的优点是，当lint工具运行时，可以检测出你程序中是否有丢失的音乐音效文件。后面的一些函数允许python接入和控制这些文件，并且会揭示一些高级(却很少用到)的特性。
-
 
 .. _partial-playback:
 
@@ -102,7 +106,7 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 
 将会在完整播放完文件song.opus后，回到6.333秒标记处重新播放至结尾，并不断循环重复。
 
-.. _silence:
+.. _playing-silence:
 
 播放静音
 ---------------
@@ -112,7 +116,6 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
         play audio [ "<silence .5>", "boom.opus" ]
 
 将播放半秒的静音，然后出现一个爆炸音效。
-
 
 .. _audio-namespace:
 
@@ -129,6 +132,7 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 
     play music sunflower
 
+.. _functions:
 
 相关函数
 ---------
@@ -324,6 +328,7 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 
     若不为None，包含一个淡出效果时间，单位为秒。否则淡出时间取决于config.fade_music。
 
+.. _sound-functions:
 
 音效函数
 ---------------
