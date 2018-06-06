@@ -1,3 +1,5 @@
+.. _building-distributions:
+
 生成分发版
 ======================
 
@@ -28,6 +30,8 @@ Windows, Mac, and Linux for Markets
 .. warning::
 
   Ren'Py生成的zip和tar.bz2文件包含Ren'Py在Linux和Macintosh平台运行的授权信息。在Windows平台解包zip并重新打包，不能在Linux和Macintosh平台运行。
+
+.. _basic-configuration:
 
 基本配置
 -------------------
@@ -72,10 +76,12 @@ icon.icns
 
 这些图标文件必须使用特殊格式。你可能需要使用一个程序或网络服务 (比如 http://iconverticons.com/ ) 转换图片。
 
+.. _classifying-and-ignoring-files:
+
 归类和省略文件
 ------------------------------
 
-生成过程的第一步，是将Ren'Py分发版和你游戏中的文件分类到并添加至各个文件列表。这些文件列表会添加为包(package)文件。
+生成过程的第一步，是将Ren'Py分发版和你游戏中的文件分类并添加至各个文件列表。这些文件列表会添加为包(package)文件。
 
 文件分类通过build.classify函数实现。这个函数使用一个正则表达式和空格分隔的文件名列表。正则表达式会从头到尾对文件名进行匹配，第一个匹配到的对象优先处理(尽管后面可能有个比较级正则表达式)。正则表达式可以匹配开头的 “/” 符号。正则表达式包含下列特殊字符：
 
@@ -90,10 +96,11 @@ icon.icns
 
 \*\*.txt
     匹配所有txt文件。
+
 game/\*.txt
     匹配game目录下的txt文件。
 
-默认总共有7个文件列表能用于文件的分类。(Ren'Py将自身文件放入前6个。)
+默认总共有7个文件列表用于文件的分类。(Ren'Py将自身文件放入前6个。)
 
 all
     这些文件会包含在所有包(package)中，生成安卓版本。
@@ -126,6 +133,8 @@ archive
      build.classify("game/**.png", "archive")
      build.classify("game/**.jpg", "archive")
 
+.. _documentation:
+
 文档
 -------------
 
@@ -148,6 +157,8 @@ Packages
     build.package("all-premium", "zip", "windows mac linux all bonus")
 
 支持生成的包类型包括“zip”和“tar.bz2”格式，以及用于装文件的目录“direcroty”。
+
+.. _archives:
 
 归档文件
 --------
@@ -176,6 +187,7 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
 
 关于游戏归档的问题，请三思。使用开放文件可能有助于后人在未来的平台上运行你的游戏——那些可能在你离开这个世界之后才出现的平台。
 
+.. _build-functions:
 
 生成(build)函数
 ---------------
@@ -261,6 +273,8 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
   **hidden**
 
     若为True，会在启动器(launcher)的包(package)列表中隐藏这个包。
+
+.. _advanced-configuration:
 
 高级配置项
 ----------------------

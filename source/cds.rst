@@ -1,3 +1,5 @@
+.. _creator-defined-statements:
+
 创作者定义语句
 ==========================
 
@@ -127,6 +129,7 @@ parse方法使用一个Lexer对象：
 
         在一个子块(subblock)Lexer中，前进到下一行。在第一行之前必须调用这个方法，这样第一行才会被处理。
 
+.. _lint-utility-functions:
 
 lint功能函数
 ----------------------
@@ -137,6 +140,8 @@ lint功能函数
 
 
   检查文本标签 `s` 的正确性。如果存在错误则返回错误字符串，没有错误则返回None。
+
+.. _example:
 
 样例
 -------
@@ -169,4 +174,4 @@ lint功能函数
 
 使用时这样写：::
 
-    line e "These quotes will show up," Eileen said, "and don't need to be backslashed."
+    line e "这里的引号不会显示" 艾琳说, "也不需要反斜杠转义符。"
