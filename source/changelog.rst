@@ -1,3 +1,5 @@
+.. _full-changelog:
+
 ==============
 完整变更日志
 ==============
@@ -11,18 +13,24 @@
 
 6.0版和7.0版之间的变化，可以参看变更日志的其他部分，或者在Ren'Py的网站上查看更老版本的变更日志。这一层的内容是7.0跟6.99.14.3两个版本间的差异。
 
-图层化图像
+.. _layered-images:
+
+层叠式图像
 --------------
 
- :ref:`图层化图像 <layered-images>` 是使用在Ren'Py中的新定义图像。它设计用于精灵(sprite)，该精灵是通过Photoshop等软件制作出的一系列图层。图层化图像系统让图像根据属性(attribute)显示不同内容，由Python条件表达式决定显示哪个图层的图像。
+ :ref:`层叠式图像 <layered-images>` 是使用在Ren'Py中的新定义图像。它设计用于精灵(sprite)，该精灵是通过Photoshop等软件制作出的一系列图层。层叠式图像系统让图像根据属性(attribute)显示不同内容，由Python条件表达式决定显示哪个图层的图像。
 
-图层化图像用为 :func:`composite`
-和 :func:`ConditionSwitch` 的一种替代方案。它使用的语言让定义合成图像更方便。而且Ren'Py可以根据被合适命名的文件，生成对应部分的定义。相比Ren'Py的其他功能，图层化图像也更优秀。比如属性(attribute)可以预加载，而ConditionSwith却不行。图层化图像还可以在交互式指导器(interactive director)中使用。
+层叠式图像用为 :func:`composite`
+和 :func:`ConditionSwitch` 的一种替代方案。它使用的语言让定义合成图像更方便。而且Ren'Py可以根据被合适命名的文件，生成对应部分的定义。相比Ren'Py的其他功能，层叠式图像也更优秀。比如属性(attribute)可以预加载，而ConditionSwith却不行。层叠式图像还可以在交互式指导器(interactive director)中使用。
+
+.. _dict-transitions:
 
 字典转场
 ----------------
 
-:ref:`Dict Transitions <dict-transitions>` 可以使用with语句和某些其他函数将转场应用于一个或多个图层。Ren'Py不会在使用这些转场时暂停。字典转场使精灵进行转场的时候也同时显示对话成为可能。
+:ref:`字典转场 <dict-transitions>` 可以使用with语句和某些其他函数将转场应用于一个或多个图层。Ren'Py不会在使用这些转场时暂停。字典转场使精灵进行转场的时候也同时显示对话成为可能。
+
+.. _changes-1:
 
 变更
 -------
@@ -37,23 +45,25 @@
 
 交互式指导器(interactive director)现在多了一个按钮，允许创作者选择显示在界面的顶部还是底部。
 
-:ref:`屏幕语言 <sl-for>` 声明现在需要一个索引子句::
+:ref:`界面语言的for语句 <sl-for>` 声明现在需要一个index子句::
 
     for i index i.name in party:
         ...
 
 当被提供时，它应该返回一个唯一的值，该值可以像按钮地图信息和转换状态其来源的对象。
 
-现在有可选的上标文字，允许两种不同的上标文字同时显示。（比如翻译和注音。）
+现在有可选的上标文字，允许两种不同的上标文字同时显示。(比如翻译和注音。)
 
 新的 :ref:`可视组件前缀 <displayable-prefix>` 系统可以定义你自己的可视组件，组件可以用字符串访问，这与图像，图像文件和solid具有的字符串形式相同。
 
-Ren'Py现在支持创建具有单个文件的.zip文件（例如.rpa文件）大于2GB。这需要使用Zip64标准，在某些平台上可能不支持解压缩这种文件，最需要注意的是Windows XP。
+Ren'Py现在支持创建具有单个文件的.zip文件(例如.rpa文件)大于2GB。这需要使用Zip64标准，在某些平台上可能不支持解压缩这种文件，最需要注意的是Windows XP。
 
-新的 :func:`renpy.get_hidden_tags` 函数返回一组标签（tag），包含隐藏属性，另一个 :func:`renpy.get_showing_tags`函数则返回一组排列好的标签（tag）。
+新的 :func:`renpy.get_hidden_tags` 函数返回一组标签(tag)，包含隐藏属性，另一个 :func:`renpy.get_showing_tags`函数则返回一组排列好的标签(tag)。
 
 
 为了与ATL和其他动画保持一致，第二次显示视频精灵现在将重播视频。
+
+.. _translations:
 
 多语言支持
 ------------
@@ -61,6 +71,8 @@ Ren'Py现在支持创建具有单个文件的.zip文件（例如.rpa文件）大
 Ren'Py 教程和The Question示例现已支持法语，感谢 Alexandre Tranchant。
 
 对日语和俄语的支持更新。
+
+.. _fixes-1:
 
 修复
 -----
@@ -79,6 +91,8 @@ Ren'Py 教程和The Question示例现已支持法语，感谢 Alexandre Tranchan
 6.99.14.3
 =========
 
+.. _changes-2:
+
 变更
 -------
 
@@ -95,6 +109,7 @@ Ren'Py 教程和The Question示例现已支持法语，感谢 Alexandre Tranchan
 
 原有的函数名已保留作为兼容的别名。
 
+.. _fixes-2:
 
 修复
 -----
@@ -116,10 +131,12 @@ Ren'Py 教程和The Question示例现已支持法语，感谢 Alexandre Tranchan
 6.99.14.2
 =========
 
+.. _features-and-changes:
+
 特性和变更
 --------------------
 
-Ren'Py里现在支持Atom文本编辑器。选择了Atom文本编辑器后，Ren'Py会下载Atom，安装language-renpy、renpy-dark-syntax和renpy-light-syntax的Atom插件，并创建一个新的profile文件。
+Ren'Py现在支持Atom文本编辑器。选择了Atom文本编辑器后，Ren'Py会下载Atom，安装language-renpy、renpy-dark-syntax和renpy-light-syntax的Atom插件，并创建一个新的profile文件。
 使用这些新的默认设置能让Ren'Py变成更轻松。
 
 现在还支持在对基于图片的字体使用下划线。
@@ -140,10 +157,12 @@ ATL的interpolation语句现在可以在多行的变换(transform)中同时执�
 
 新的 :var:`gui.button_image_extension` 配置项允许按钮(button)图片使用.webps文件。
 
+.. _self-voicing:
+
 自动语音
 ------------
 
-Ren'Py的自动语音模式，针对视觉障碍用户的功能又提升了：
+Ren'Py的自动语音模式，针对视觉障碍用户的功能又进行了提升：
 
 * 选择按钮之后会在后面加上单词“selected”。
 * 选择条(bar)之后会在后面加上单词“bar”。
@@ -151,6 +170,8 @@ Ren'Py的自动语音模式，针对视觉障碍用户的功能又提升了：
 * Ren'Py内建的ALT文本实现多语言支持(translation)。
 
 由于改变了自动语音的输出，这个变更应该不会对已存在的支持语言生效。
+
+.. _fixes-3:
 
 修复
 -----
@@ -214,20 +235,24 @@ Ren'Py在缓存图片和界面时，现在拒绝调用那些从磁盘读取文�
 
 现在F4键可以显示图像加载日志了。
 
+.. _other-improvements:
+
 其他改进
 ------------------
 
-变换(transform)现在有了一个新的 :tpref:`maxsize` ”特性，能够将图像缩小到某个范围的方框里。
+变换(transform)现在有了一个新的 :tpref:`maxsize` 特性，能够将图像缩小到某个范围的方框里。
 
 当Ren'Py重新加载(reload)时，会保留Python表达式缓存，相比原来每次重新加载都unmarshall缓存有明显的性能提升。
 
 track.txt和errors.txt文件现在底部会有一个日期，更容易判断这个文件是否过期失效。
 
-新的:func:`renpy.list_images` 函数返回所有定义过的图像列表。
+新的 :func:`renpy.list_images` 函数返回所有定义过的图像列表。
 
 Drag组件现在新增了 `mouse_drop` 特性。若这项特性为True，使用鼠标指针坐标选择Drag组件落下的位置，而不是使用overlap最大的Drag组件。
 
 西班牙语版本更新。
+
+.. _other-fixes:
 
 其他修复
 -----------
@@ -243,6 +268,8 @@ Drag组件现在新增了 `mouse_drop` 特性。若这项特性为True，使用�
 
 Ren'Py 6.99.14
 ==============
+
+.. _performance:
 
 性能表现
 -----------
@@ -263,7 +290,7 @@ Ren'Py有一些选项控制显示性能，使用shift+G能进入选项菜单。�
 触发的数量阈值应该已经足够高，只要游戏中没有创建环状的对象引用，就不需要主动要求GC。
 (环状的对象引用是指，几个对象互相引用对方，形成一个循环。)我们修改了Ren'Py，可以排除常见的环状对象引用代码。
 
-Ren'Py的GC管理能减少或消除GC对大多数游戏的丢帧影响。不过，也可以把 :var:`config.manage_gc`设置为False，恢复为之前的调优方法(tune)。
+Ren'Py的GC管理能减少或消除GC对大多数游戏的丢帧影响。不过，也可以把 :var:`config.manage_gc` 设置为False，恢复为之前的调优方法(tune)。
 
 默认情况下，“hide”事件句柄会触发Ren'Py移除临时界面(比如say和choice界面)和可视组件。检查这类句柄的过程系统消耗很大，还好这类句柄很少使用。
 将 :var:`config.zap_transients` 设置为False可以把这个配置恢复为之前版本的状态。
@@ -275,6 +302,7 @@ Ren'Py的GC管理能减少或消除GC对大多数游戏的丢帧影响。不过�
 
 此外当然还有很多性能方面的提升，实际效果都是提升了运行速度。这个版本还只是性能提升的第一战，新的性能分析框架允许Ren'Py开发者进一步提升性能。
 
+.. _multiple-character-dialogue:
 
 多角色对话
 ---------------------------
@@ -287,6 +315,8 @@ Ren'Py的GC管理能减少或消除GC对大多数游戏的丢帧影响。不过�
 由于显示多个角色的对话可以有好几种方式(并排？上下排列？一个还是两个文本框？)，Ren'Py尚不能提供现成的支持方案。
 请参考 :ref:`多角色对话 <Mmultiple-character-dialogue>`
 章节的内容，查看哪些样式需要创作者定义。
+
+.. _gui-preferences:
 
 GUI环境设定
 ----------------
@@ -306,6 +336,8 @@ Ren'Py提供了一套新的GUI环境设定系统，替换了原来的样式环�
         textbutton _("Dyslexic") action gui.SetPreference("font", "OpenDyslexic-Regular.otf")
 
 设置环境设定。详见 :ref:`GUI环境设定 <gui-preferences>`。
+
+.. _tooltips:
 
 Tooltips
 --------
@@ -329,6 +361,8 @@ Ren'Py中增加了一个新的tooltip系统，替换了原来存在tooltip。在
     text GetTooltip()
 
 这个系统意在节省代码和让界面具有更高的可读性。 详见 :ref:`tooltips` 章节。
+
+.. _changes-3:
 
 变更
 -------
@@ -361,6 +395,8 @@ Ren'Py现在解决了样式特性 :propref:`xpos` 和 :propref:`xalign`
 视口(viewport)和vpgrid现在支持pagekeys特性，允许用户使用PageUp和PageDown按键滚动视口。arrowkey特性也包含在文档中。
 
 RAPT现在使用源代码和目标版本1.6来编译Java代码，这使得它可以构建在最新的JDK上。
+
+.. _fixes-3:
 
 修复
 -----
