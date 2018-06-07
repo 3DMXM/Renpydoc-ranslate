@@ -1,3 +1,5 @@
+.. _color-class:
+
 Color类
 ===========
 

@@ -1,12 +1,12 @@
+.. _conditional-statements:
+
 条件语句
 ======================
 
 Ren'Py中包含几种语句可以基于某些表达式值改变主控流程。（多提一句， :ref:`jump <jump-statement>`,
 :ref:`call <call-statement>` 和 :ref:`return <return-statement>` 语句修改主控流程不需要前置条件。）
 
-Note that is pages discusses statements that can be used inside Ren'Py
-script. Python embedded in a Ren'Py game uses the Python while, if,
-and for statements, but can't embed Ren'Py script statements.
+注意之前几页讨论过的，可以使用在Ren'Py脚本中的各类语句。Python的while、if、and语句可以内嵌在Ren'Py游戏中，但不能内嵌在Ren'Py脚本语句之中。
 
 .. _if-statement:
 
@@ -60,7 +60,7 @@ while语句
     while True:
 
         "这是一首永远不会结束的歌。"
-        "它会一直一直放下去，我的同胞。"
+        "它会不断不断播放下去，我的同胞们。"
 
 当主控流程遇到while语句时，while后的表达式会被计算一次，另外每次while下的语句块(block)执行结束后又会回到while表达式。除非while中的表达式结果为False，不然后面的语句块会反复不断运行。
 
@@ -81,11 +81,11 @@ pass语句
     elif points >= 1:
         pass
     else:
-        "情况不妙。"
+        "情况看起来不妙。"
 
 ::
 
-    # vent.step()函数可能会返回True，但依然有一些事件(event)需要执行。
+    # event.step()函数可能会返回True，但依然有一些事件(event)需要执行。
 
     while event.step():
         pass

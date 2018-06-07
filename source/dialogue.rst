@@ -1,5 +1,7 @@
+.. _dialogue-and-narration:
+
 对话(dialogue)和旁白(narration)
-======================
+================================
 
 文本是视觉系小说的根本，对以故事情节为主的游戏来说更是重中之重。这里说的文本可能包括使用人物名字作为标签(label)的对话，以及不存在任何主体的旁白。(为了偷懒，我们把对话和旁白统称为对话，除非某些场合下两者有重大区别。)由于对话如此重要，创作者需要能够定制化对话的某些特性使其符合制作游戏的特色。
 
@@ -37,6 +39,7 @@ say语句的最后一种形式是一个字符串及一个过渡(transition)效�
    ###
        "I walked past a sign saying, \"Let's give it 100%!\""
 
+.. _defining-character-objects:
 
 定义角色(character)对象
 --------------------------
@@ -120,11 +123,11 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
   *mode*
 
-    该参数是一个字符串，给定了角色发言时进入的模式(mode)。详见 :ref:`模式(mode) <mode>`章节。
+    该参数是一个字符串，给定了角色发言时进入的模式(mode)。详见 :ref:`模式(mode) <mode>` 章节。
 
   *callback*
 
-    角色发言时，若有事件(event)发生则会被调用的函数。详见 :ref:`角色(character)回调(callback) <character_callbacks>`章节。
+    角色发言时，若有事件(event)发生则会被调用的函数。详见 :ref:`角色(character)回调(callback) <character_callbacks>` 章节。
 
   **点击继续** “点击继续”提示是在(一段内容)所有文本均已展示完的情况下，通常出现一次，提醒用户进入下一部分内容。
 
@@ -166,8 +169,10 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
   设置 :var:`config.character_id_prefixes` 后，就可以样式化其他可视组件了。例如，如果使用了默认的GUI配置，带有前缀 `namebox_` 的风格将会应用在发言角色名上。
 
+.. _say-with-image-attributes:
+
 带有图片属性(attribute)的say语句
--------------------------
+----------------------------------
 
 当一个角色与一个图像标签(tab)关联，包含对应角色的say语句将在角色名和第二个字符串之间就可以插入图片属性(attribute)。
 
@@ -199,6 +204,7 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
 使用这个方式，若需要在图片改变时触发一个转场(transition)效果的话，将config.say_attribute_transition设置为一种转场(transition)即可。
 
+.. _example-characters:
 
 样例角色
 ------------------
@@ -211,6 +217,8 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
     # 从一个变量中获取角色名称。
     define p = Character("player_name", dynamic=True)
 
+.. _special-characters:
+
 特殊角色
 ------------------
 
@@ -221,7 +229,7 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
 ``nvl``
     在
-    :ref:`NVL-mode`下可以引发对话的角色类型。这种类型的角色可以在界面上一次显示多行文本。
+    :ref:`NVL-mode` 下可以引发对话的角色类型。这种类型的角色可以在界面上一次显示多行文本。
 
 ``narrator``
     旁白角色，不需要角色名的say语句中使用。
@@ -245,18 +253,18 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
     # 展现对话的第一行台词，等待一个点击事件，变更角色表情，然后展示其余台词。
 
     show eileen concerned
-    e "Sometimes, I feel sad."
+    e "有时候，我会感到忧伤。"
     show eileen happy
-    extend " But I usually quickly get over it!"
+    extend " 但是我通常很快就能恢复过来！"
 
     # 与上面类似，不同之处在于，当第一行台词结束后自动变更角色表情。
     # 只有当用户始终没有自己设置文本显示速度的情况下，这种设计才是合理的。
 
 
     show eileen concerned
-    e "Sometimes, I feel sad.{nw}"
+    e "有时候，我会感到忧伤。{nw}"
     show eileen happy
-    extend " But I usually quickly get over it!"
+    extend " 但是我通常很快就能恢复过来！"
 
 .. _dialogue-window-management:
 
@@ -276,8 +284,8 @@ window hide语句触发窗口隐藏。该语句接受一个可选入参，入参
 
 ``window auto``
 
-window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show`中列出的语句——默认是say语句前，窗口会自动展现。在
-:var:`config.window_auto_hide`中列出的语句——默认是 ``scene`` 和 ``call screen`` 语句前，窗口会自动隐藏。(只有直接显式使用该语句才有效，而函数返回该语句内容相同的字符串不生效。)
+window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show` 中列出的语句——默认是say语句前，窗口会自动展现。在 
+:var:`config.window_auto_hide` 中列出的语句——默认是 ``scene`` 和 ``call screen`` 语句前，窗口会自动隐藏。(只有直接显式使用该语句才有效，而函数返回该语句内容相同的字符串不生效。)
 
 ``window auto`` 语句分别使用 :var:`config.window_show_transition`
 和:var:`config.window_hide_transition` 作为显示和隐藏窗口的转场效果。 ``window auto`` 启用的自动化管理可以被 ``window show`` 或者 ``window hide`` 语句关闭。
@@ -306,6 +314,7 @@ window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show
 对话窗口管理是
 :func:`Preference` 特性构造器“show empty window”一项的主题。若“show empty window”特性被关闭，以上语句均不会产生任何效果。
 
+.. _say-with-arguments:
 
 带有参数的say语句
 ------------------
@@ -314,8 +323,9 @@ window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show
 
     e "Hello, world." (what_color="#8c8")
 
-传入say语句的参数首先会被 var:`config.say_arguments_callback`回调函数处理，前提是入参不是None。若有回调函数无法处理的参数，将会被传给角色(character)，因为这些参数会被看作定义角色所需。上面的样例会将对话显示为绿色。
+传入say语句的参数首先会被 var:`config.say_arguments_callback` 回调函数处理，前提是入参不是None。若有回调函数无法处理的参数，将会被传给角色(character)，因为这些参数会被看作定义角色所需。上面的样例会将对话显示为绿色。
 
+.. _python-equivalents:
 
 等效python语句
 ------------------
@@ -340,10 +350,10 @@ is equivalent to::
 
     label start:
 
-        # This is a terrible variable name.
+        # 这是个糟糕的变量名。
         e = 100
 
-        e "Our starting energy is [e] units."
+        e "我们的起始能量是 [e] 个单位。"
 
 say语句带入参，对应回调函数的情况，样例：::
 
@@ -359,11 +369,7 @@ say语句带入参，对应回调函数的情况，样例：::
 
 但是，我们也可以使用 var:`config.say_arguments_callback` 回调函数或者外包(wrap)一个角色实现一些与众不同的功能。
 
-
-
-
-
-窗口管理的实现，是通过设置 :var:`_window` 和
+窗口管理的实现，是通过设置 :var:`_window` 和 
 :var:`_window_auto` 变量，及使用下面两个函数：
 
 .. function:: _window_hide(trans=False)

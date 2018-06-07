@@ -1,3 +1,5 @@
+.. _chrome-os-chrome-browser:
+
 Chrome OS/Chrome浏览器
 ==========================
 

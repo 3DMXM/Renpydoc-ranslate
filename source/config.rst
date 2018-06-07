@@ -1,3 +1,5 @@
+.. _configuration-variables:
+
 =======================
 配置项变量
 =======================
@@ -14,6 +16,7 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
         config.screen_width = 1024
         config.screen_height = 600
 
+.. _commonly-used:
 
 常用配置项
 -------------
@@ -54,6 +57,7 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
     这个配置项设置了默认值。默认值可以使用 ``window show`` 、 ``window hide`` 和 ``window auto`` 语句改变。详见
     :ref:`dialogue-window-management`。
 
+.. _transitions:
 
 转场
 -----------
@@ -132,11 +136,14 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 
     没有显示指定转场效果时，window show语句使用的转场效果。
 
+.. _preference-defaults:
 
 环境设定默认值
 -------------------
 
 Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境设定变量 <preference-variables>`部分的内容。
+
+.. _occasionally-used:
 
 偶尔用到的配置项
 -----------------
@@ -169,7 +176,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
     若是一个函数，该函数会带一个入参被调用，即对话当前行标识号。该函数应该返回一个字符串，这个字符串给出的文件存在的情况下，文件就会作为语音播放。
 
-    更多细节详见 :ref:`Automatic Voice <automatic-voice>` 。
+    更多细节详见 :ref:`自动语音 <automatic-voice>` 。
 
 .. var:: config.automatic_images = None
 
@@ -557,7 +564,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
     若为None，也就是默认情况，默认值取 :var:`config.name`。
 
-
+.. _rarely-or-internally-used:
 
 极少使用或内部使用
 -------------------------
@@ -693,7 +700,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 .. var:: config.imagemap_auto_function = ...
 
     将界面语言中
-    :ref:`imagebutton <sl-imagebutton>` 或 :ref:`imagemap <sl-imagemap>`
+    :ref:`imagebutton <sl-imagebutton>` 或 :ref:`imagemap <sl-imagemap>` 
     `auto` 特性(property)扩展为可视组件。这个函数使用auto特性(property)值和使用的图像，以及下列状态之一：“insensitive”、“idle”、“hover”、“selected_idle”、“selected_hover”、“ground”。函数返回一个可视组件对象或None。
 
     默认的使用方法是使用图像格式化 `auto` 特性，并检查得到的文件名是否存在。
@@ -825,7 +832,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 .. var:: config.play_channel = "audio"
 
     被 :func:`renpy.play`、
-    :propref:`hover_sound`和 :propref:`activate_sound`使用的音频通道名称。
+    :propref:`hover_sound` 和 :propref:`activate_sound`使用的音频通道名称。
 
 .. var:: config.predict_statements = 10
 
@@ -983,6 +990,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
     若非None，这项应该是一个函数，会在使用 :ref:`with
     语句 <with-statement>` 时被调用。这个函数可以在转场(transition)过程中对添加在界面上的临时元素做出响应。转场(transition)过程中，调用该函数时使用一个入参。该函数会返回一个转场(transition)，可能就是作为入参的那个转场，也可能不是。
 
+.. _garbage-collection:
 
 垃圾回收(GC)
 ------------------
@@ -1005,7 +1013,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
 .. var:: config.idle_gc_count = 2500
 
-    当Ren'Py到达一个稳定状态时，触发GC的对象净数。(稳定状态是指界面更新后第四帧之后)
+    当Ren'Py到达一个稳定状态时，触发GC的对象净数。(稳定状态是指界面更新第四帧之后)
 
 .. var:: gc_print_unreachable = False
 

@@ -29,26 +29,30 @@ config.custom_text_tags字典中，通过声明一个文本标签函数的入口
 
 内容元组由两部分组成。第一部分是下列面出的常量之一。第二部分根据第一部分的内容发生变化，下面会详细说明。
 
-renpy.TEXT_TEXT
+**renpy.TEXT_TEXT**
 
     第二部分是向用户显示的文本。
 
-renpy.TEXT_TAG
+**renpy.TEXT_TAG**
 
     第二部分是某个文本标签的内容，不带闭合花括号。
 
-renpy.TEXT_DISPLAYABLE
+**renpy.TEXT_DISPLAYABLE**
 
     第二部分是一个嵌入文本中的可视组件。
 
-renpy.TEXT_PARAGRAPH
+**renpy.TEXT_PARAGRAPH**
 
     这表示两段文本之间的断行。第二部分未定义(但必须存在)。
+
+.. _caveats:
 
 附加说明
 -------
 
 对话文本标签{p}、{w}、{nw}和{fast}在定制文本标签之前优先处理，所以不应该被包含在一个定制文本标签里面，也不应该与定制文本标签互相穿透。
+
+.. _examples:
 
 样例
 --------
@@ -70,7 +74,7 @@ renpy.TEXT_PARAGRAPH
         config.custom_text_tags["big"] = big_tag
 
 
-    "This is {big=3}BIG!{/big}"
+    "这个字就是 {big=3}大!{/big}"
 
 样例rot13文本标签将rot13变换(transform)应用于文本。注意，rot26——应用两次rot13——就是普通的文本。 ::
 

@@ -1,7 +1,11 @@
+.. _developer-tools:
+
 开发者工具
 ===============
 
 Ren'Py包含一些功能，可以让开发工作变得更容易。其中很多功能需要配置项 :var:`config.developer` 设置为True才能执行。
+
+.. _shift-o-console:
 
 Shift+O 控制台
 ---------------
@@ -15,17 +19,23 @@ Shift+O 控制台
 * 运算某个Python表达式或语句并查看结果。
 * 在游戏过程中追踪Python表达式。
 
+.. _shift-e-editor-support:
+
 Shift+E Editor 帮助与支持
 ----------------------
 
 配置项 :var:`config.editor` 允许开发者使用“启动编辑器”组合键(默认是“shift+E”)时，运行指定的编辑器命令。
 
-详见 :ref:`集成文本编辑器 <text-editor-integration>`
+详见 :ref:`集成文本编辑器 <text-editor-integration>` 。
+
+.. _shift-d-developer-menu:
 
 Shift+D 开发者菜单
 ----------------------
 
 当 :var:`config.developer` 为True时，使用组合键“shift+D”会显示开发者菜单，并提供下面那些功能的简易接入。
+
+.. _shift-r-reloading:
 
 Shift+R 重新加载脚本
 -----------------
@@ -36,20 +46,26 @@ Shift+R 重新加载脚本
 
 需要注意的是游戏状态，包含了变量值和场景列表重载后会被重置。这意味着某些语句的执行结果可能也发生了变化，需要回滚并重新执行那些语句才能看到修改后的效果。
 
-Shift+I Style Inspecting
+.. _shift-i-style-inspecting:
+
+Shift+I 样式检查
 ------------------------
 
 当 :var:`config.developer` 为True，使用组合键“shift+I”能触发样式检查。样式检查中会显示鼠标指针下面的可视组件列表。并显示每一个可视组件的类型、样式和渲染尺寸。
 
-Shift+Y Style 文件系统备份
----------------------
+.. _shift-y-style-dumping:
+
+Shift+Y Style 样式备份
+----------------------------
 
 当 :var:`config.developer` 为True，使用“备份样式”组合键(默认是“shift+Y”)，会把Ren'Py知道的所有样式描述信息都记录到文件“sytles.txt”中。样式描述信息包括样式的每一种特性(property)，特性的值，以及特性继承自哪种样式。
+
+.. _fast-skipping:
 
 > Fast Skipping
 ---------------
 
-当 :var:`config.developer` 或 :var:`config.fast_skipping` 为True时，使用“快速跳过”快捷键(默认是“>”)，将触发游戏立刻跳过知道下一个重要互动行为。出于这种需求，重要互动行为不由say语句、转场(transition)和暂停(pause)命令触发的。通常情况下，快速跳过会直接跳到下一个菜单选项，但也会在用户自定义的互动行为前停止。
+当 :var:`config.developer` 或 :var:`config.fast_skipping` 为True时，使用“快速跳过”快捷键(默认是“>”)，将触发游戏立刻跳到下一个重要互动。出于这种需求，重要互动不由say语句、转场(transition)和暂停(pause)命令触发的。通常情况下，快速跳过会直接跳到下一个菜单选项，但也会在用户自定义的互动行为前停止。
 
 .. _warping_to_a_line:
 
@@ -72,6 +88,7 @@ Ren'Py支持脚本中“传送(warp)至某行”功能，不需要开发者运�
 
 传送功能需要 :var:`config.developer` 设置为True。
 
+.. _debug-functions:
 
 调试函数
 ---------------
@@ -82,7 +99,7 @@ Ren'Py支持脚本中“传送(warp)至某行”功能，不需要开发者运�
 
 .. function:: renpy.log(msg)
 
-  若 :func:`config.log` 没有配置，则不执行任何操作。否则，将打开日志文件(如果还没有打开的话)，根据 :func:`config.log_width` 配置的宽度将信息格式化，并打印在日志文件上。
+  若 :func:`config.log` 没有配置，则不执行任何操作。否则，将打开日志文件(如果还没有打开的话)，根据 :var:`config.log_width` 配置的宽度将信息格式化，并打印在日志文件上。
 
 .. function:: renpy.unwatch(expr)
 

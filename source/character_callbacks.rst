@@ -4,8 +4,7 @@
 ===================
 
 对话中的各种事件发生时，Ren'Py都有能力执行回调函数。
-这是通过将 `callback` 入参传入 :func:`Character`函数或设置 :var:`config.character_callback` 和
-:var:`config.all_character_callbacks` 配置项实现的。
+这是通过将 `callback` 入参传入 :func:`Character` 函数或设置 :var:`config.character_callback` 和 :var:`config.all_character_callbacks` 配置项实现的。
 
 调用角色回调函数时传入唯一的固定位置参数，即发生的事件消息。可能的事件消息包括：
 
@@ -31,7 +30,9 @@
 
 其他的固定位置入参和额外的关键词入参值可能会在后面用到。回调函数不能理解的参数就忽略。
 
-Example
+.. _example:
+
+样例
 -------
 
 这个样例播放“哔-”代替角色语音，前提是慢速文本启用：::
@@ -46,7 +47,7 @@ Example
             elif event == "slow_done":
                 renpy.sound.stop()
 
-    define pike = Character("Christopher Pike", callback=beepy_voice)
+    define pike = Character("克里斯托弗·派克", callback=beepy_voice)
 
     label start:
 

@@ -1,24 +1,25 @@
-.. _gui:
+.. _gui-customization-guide:
 
-=======================
+===========================
 GUI(图形用户接口)定制化指导
-=======================
+===========================
 
 Ren'Py的一个特色是，看起来挺萌的GUI系统。有需要的话还可以根据喜好完全替换成定制的GUI。本页内容阐述了如何制作出简单和中级的定制化GUI。
 
-如果需要做更深度的定制化，请参阅
-:ref:`样式 <styles>` (包括 :ref:`样式特性 <style-properties>`)
+如果需要做更深度的定制化，请参阅 :ref:`样式 <styles>` (包括 :ref:`样式特性 <style-properties>`)
 和 :ref:`界面 <screens>` (包括 :ref:`界面动作 <screen-actions>`
-和 :ref:`特殊界面 <screen-special>`).
+和 :ref:`特殊界面 <screen-special>` )。
 
 这是基于你在使用新样式的Ren'Py GUI为前提(定制化配置包含在gui.rpy文件中)。使用老版本的GUI(使用screen.rpy文件进行定制化配置)的用户，应该把本页内容当作是深度定制化指导。
 
+.. _simple-gui-customization:
 
 简单GUI定制化
 ========================
 
 GUI定制化工作包含几个简单部分，对所有项目都适用而不仅仅针对最简单的视觉小说。这些定制化工作的共同点是，都不需要编辑gui.rpy文件。这些定制化会给GUI带来一些微妙的变化，而不是让GUI彻底改头换面。
 
+.. _change-size-and-colors:
 
 更改尺寸和颜色
 ----------------------
@@ -31,23 +32,24 @@ GUI定制化工作包含几个简单部分，对所有项目都适用而不仅�
 
 Ren'Py会提示选择项目的默认分辨率和配色主题。选择后GUI就会生效。
 
+.. _options-rpy:
 
 Options.rpy文件
------------
+----------------
 
 options.rpy文件中有一堆配置项会被GUI使用。
 
 :var:`config.name`
-    一个字符串，表示该游戏一个“人类可读”标题名称。这个字符串同时用在窗口标题和GUI需要显示游戏标题的地方。
+    一个字符串，表示该游戏一个“人类可读的”标题名称。这个字符串同时用在窗口标题和GUI需要显示游戏标题的地方。
 
 :var:`gui.show_name`
-    这个配置项应该被设置为False，用于在画面主菜单中隐藏标题名字和版本号。(因为，标题应是被“烧入”主菜单的图片中)
+    这个配置项应该被设置为False，用于在画面主菜单中隐藏标题名字和版本号。(因为，标题应是被“镶嵌”在主菜单的图片中)
 
 :var:`config.version`
     一个字符串，表示游戏版本号。这在多个场合都会呈现在用户面前。
 
 :var:`gui.about`
-    在about(关于)界面上的附加文本内容。如果你想要展示多行的credits(制作人员信息)，可以使用 \\n\\n 换行。
+    在关于(about)界面上的附加文本内容。如果你想要展示多行的credits(制作人员信息)，可以使用 \\n\\n 换行。
 
 这是一个包含以上配置项的样例::
 
@@ -66,6 +68,7 @@ options.rpy文件中有一堆配置项会被GUI使用。
 
     High school backgrounds by Mugenjohncel.""")
 
+.. _game-and-main-menu-background-images:
 
 游戏和主菜单背景图像
 -------------------------------------
@@ -88,8 +91,9 @@ gui/game_menu.png
     .. figure:: gui/easy_game_menu.jpg
         :width: 100%
 
-        “about(关于)”界面可以是游戏菜单(使用gui/game_menu.png文件作为背景)或者主菜单(使用gui/main_menu.png作为背景)。两种菜单可以被设置为同一张图片。
+        “关于(about)”界面可以是游戏菜单(使用gui/game_menu.png文件作为背景)或者主菜单(使用gui/main_menu.png作为背景)。两种菜单可以被设置为同一张图片。
 
+.. _window-icon:
 
 窗口图标
 -----------
@@ -101,7 +105,7 @@ gui/game_menu.png
 注意，改变gui/window_icon.png后，只对游戏正在运行时的图标有效。想要改变Windows平台的“.exe”文件和mac平台的应用程序图标，我们需要看看
 :ref:`生成文档 <special-files>`.
 
-
+.. _intermediate-gui-customization:
 
 中级GUI定制化
 ==============================
@@ -122,10 +126,10 @@ gui/game_menu.png
 
 你可能会等到游戏接近完成的情况下才考虑对gui.rpy进行定制化修改。老版本的gui.rpy文件可以在新版本的Re'Py中运行，新版本的gui.rpy文件可能会有老版本缺少的功能特性或者缺陷修复。在项目制作前期就定制化GUI可能会导致，很难利用这些改善和提升。
 
-
+.. _dialogue:
 
 对话(dialogue)
---------
+---------------
 
 与“向用户呈现对话相关的定制化”有关的内容有好几项。第一项是文本框(textbox)。
 
@@ -142,6 +146,8 @@ gui/textbox.png
 
     该项设置对话文本、菜单、输入和其他游戏内文字的字体。字体文件需要存在于game目录中。
 
+    (译者注：“ArchitectsDaughter”字体不支持中文。后续截图中使用的是类似效果的“方正咆哮体”。)
+
 .. var:: gui.text_size = 33
 
     设置对话文本字号。无论增大或缩小字号都需要注意符合文本显示区域的空间限制。
@@ -154,7 +160,7 @@ gui/textbox.png
 
     文本框高度。这项应该跟gui.textbox.png文件的高度一致。
 
-角色名字label(标签)默认会使用强调色。定义角色时可以很简单地修改为需要的颜色::
+角色名字标签(label)默认会使用强调色。定义角色时可以很简单地修改为需要的颜色::
 
     define e = Character("Eileen", who_color="#104010")
 
@@ -170,8 +176,10 @@ gui/textbox.png
 
         使用以上描述定制化配置后的对话
 
+.. _choice-menus:
+
 选项菜单(choice menu)
-------------
+-------------------------
 
 选项界面使用menu语句向玩家展现选项。同样的，与选项界面的定制化配置有关的配置项有好几个。首先是两个图片文件:
 
@@ -210,8 +218,10 @@ gui/button/choice_hover_background.png
 
         使用以上描述定制化配置后的选择界面样例。
 
+.. _overlay-images:
+
 叠加图片(overlay image)
---------------
+------------------------
 
 还有一些叠加图片需要介绍。这些图片用于暗化或者亮化背景图片，使得按钮等其他用户图形组件更醒目。这些图片被放在overlay目录下：
 
@@ -219,7 +229,7 @@ gui/overlay/main_menu.png
     主菜单界面的叠加图片。
 
 gui/overlay/game_menu.png
-    “游戏菜单类”界面，包括读档、存档、preference(环境设定)、about(关于)、help(帮助)等，使用的叠加图片。在“The Question”游戏中，同一个叠加图像用在包括主菜单等各种界面上。
+    “游戏菜单类”界面，包括读档、存档、preference(环境设定)、关于(about)、help(帮助)等，使用的叠加图片。在“The Question”游戏中，同一个叠加图像用在包括主菜单等各种界面上。
 
 gui/overlay/confirm.png
     用在选择确认界面暗化背景的叠加图片。
@@ -248,6 +258,7 @@ gui/overlay/confirm.png
 
         更换叠加图片后的游戏菜单界面。
 
+.. _colors-fonts-and-font-sizes:
 
 颜色，字体和字号
 -----------------------------
@@ -260,7 +271,7 @@ gui/overlay/confirm.png
    现在有不少在线工具用于查询HTML颜色代码，这是
    <a href="http://htmlcolorcodes.com/color-picker/">其中一个</a>.</p>
 
-除了上面提到的 :var:`gui.text_color`, :var:`gui.choice_idle_color`, 和 :var:`gui.choice_hover_color`,
+除了上面提到的 :var:`gui.text_color` 、 :var:`gui.choice_idle_color` 、 和 :var:`gui.choice_hover_color` ，
 还有下面这些配置项:
 
 .. var:: gui.accent_color = '#000060'
@@ -296,7 +307,7 @@ gui/overlay/confirm.png
 
     沉默色，用于条(bar)、滚动条和滑块无法正确展示数值或者可视区域时，这些组件某些部分的颜色。(这只会出现在重新生成图片，而启动器中图片无法马上生效的情况下。)
 
-除了 :var:`gui.text_font`外,还有以下配置项与文本字体有关。配置的字体文件也应该要被放置在游戏目录中。
+除了 :var:`gui.text_font` 外,还有以下配置项与文本字体有关。配置的字体文件也应该要被放置在游戏目录中。
 
 .. var:: gui.interface_text_font = "ArchitectsDaughter.ttf"
 
@@ -314,7 +325,7 @@ gui/overlay/confirm.png
 
 .. var:: gui.label_text_size = 45
 
-    游戏用户接口label(标签)部分的文本字号。
+    游戏用户接口标签(label)部分的文本字号。
 
 .. var:: gui.notify_text_size = 24
 
@@ -331,8 +342,10 @@ gui/overlay/confirm.png
 
         定制化文本颜色、字体和字号后的游戏菜单
 
+.. _borders:
+
 Borders(边界)
--------
+-------------
 
 有一些GUI组件，例如按钮(button)和条(bar)，使用可伸缩的背景的话，还可以配置Borders(边界)对象。在讨论如何定制化按钮和条(bar)之前，我们首先描述一下边界的实现机制。
 
@@ -343,7 +356,7 @@ Borders(边界)对象按照“左、上、右、下”的顺序，依次给定�
 
 .. image:: oshs/game/images/borders.png
 
-符合如下定义的Borders(边界)对象s::
+符合如下定义的Borders(边界)对象::
 
     Borders(40, 40, 40, 40)
 
@@ -398,8 +411,10 @@ gui/frame.png
 
         使用以上的定制化配置后的确认提示界面。
 
+.. _buttons:
+
 按钮(button)
--------
+-------------
 
 (译者注：为了避免与键盘按键key混淆，文档内的button一律翻译为按钮。)
 
@@ -541,6 +556,8 @@ gui/button/check_selected_foreground.png, gui/button/radio_selected_foreground.p
 
         使用本段讨论的各种定制化配置后的环境设定界面。
 
+.. _save-slot-buttons:
+
 存档槽位按钮
 ------------------
 
@@ -589,8 +606,10 @@ gui/button/slot_hover_background.png
 
         应用本节讨论的各项定制化后的存档界面。
 
+.. _sliders:
+
 滑块(slider)
--------
+-------------
 
 滑块(slider)是一类用在环境设定界面的条(bar)，允许玩家可以根据自身喜好调整大量的数值。GUI默认只使用横向的滑块，不过游戏中也往往会用到垂直的滑块。
 
@@ -623,29 +642,29 @@ gui/slider/horizontal_idle_thumb.png, gui/slider/horizontal_hover_thumb.png, gui
 
     .. figure:: oshs/game/gui/slider/horizontal_idle_bar.png
 
-        ui/slider/horizontal_idle_bar.png样例图片。
+        gui/slider/horizontal_idle_bar.png 样例图片。
 
     .. figure:: oshs/game/gui/slider/horizontal_hover_bar.png
 
-        gui/slider/horizontal_hover_bar.png样例图片。
+        gui/slider/horizontal_hover_bar.png 样例图片。
 
     .. figure:: oshs/game/gui/slider/horizontal_idle_thumb.png
 
-        gui/slider/horizontal_idle_thumb.png样例图片。
+        gui/slider/horizontal_idle_thumb.png 样例图片。
 
     .. figure:: oshs/game/gui/slider/horizontal_hover_thumb.png
 
-        gui/slider/horizontal_hover_thumb.png样例图片。
+        gui/slider/horizontal_hover_thumb.png 样例图片。
 
     .. figure:: gui/slider_preferences.jpg
         :width: 100%
 
         应用本节提到的定制化后的界面效果。
 
-
+.. _scrollbars:
 
 scrollbar(滚动条)
-----------
+------------------
 
 scrollbar(滚动条)是用于滚动视点的条(bar)。在GUI中，历史(history)界面是滚动条明显会被用到的地方，但垂直滚动条在其他界面也可能会被用到。
 
@@ -683,30 +702,32 @@ gui/scrollbar/horizontal_idle_thumb.png, gui/scrollbar/horizontal_hover_thumb.pn
     .. figure:: oshs/game/gui/scrollbar/vertical_idle_bar.png
         :height: 150
 
-        gui/scrollbar/vertical_idle_bar.png样例图片
+        gui/scrollbar/vertical_idle_bar.png 样例图片
 
     .. figure:: oshs/game/gui/scrollbar/vertical_hover_bar.png
         :height: 150
 
-        gui/scrollbar/vertical_hover_bar.png样例图片
+        gui/scrollbar/vertical_hover_bar.png 样例图片
 
     .. figure:: oshs/game/gui/scrollbar/vertical_idle_thumb.png
         :height: 150
 
-        gui/scrollbar/vertical_idle_thumb.png样例图片
+        gui/scrollbar/vertical_idle_thumb.png 样例图片
 
     .. figure:: oshs/game/gui/scrollbar/vertical_hover_thumb.png
         :height: 150
 
-        gui/scrollbar/vertical_hover_thumb.png样例图片
+        gui/scrollbar/vertical_hover_thumb.png 样例图片
 
     .. figure:: gui/scrollbar_history.jpg
         :width: 100%
 
         使用本节中提到的定制化内容后的历史(history)界面。
 
+.. bars:
+
 条(bar)
-----
+--------
 
 最常见的老式条(bar)会向用户展示一个进度数字。条(bar)不会用在GUI中，但会用在创作者定义的(creator-defined)界面中。
 
@@ -753,6 +774,7 @@ gui/bar/right.png, gui/bar/top.png
 
         经过我们定制化后的条(bar)样例。
 
+.. _skip-and-notify:
 
 跳过(skip)和通知(notify)
 ---------------
@@ -802,13 +824,17 @@ gui/notify.png
 
         定制化后，跳过(skip)和通知(notify)界面的实际情况。
 
+.. _dialogue-continued:
+
 对话(dialogue)-续
 -------------------
 
 除了以上提到的简单定制化，还有一些控制对话表现方式的路子。
 
+.. _textbox:
+
 文本框(textbox)
-^^^^^^^
+^^^^^^^^^^^^^^^^^^^
 
 对话显示在文本框(textbox)[或者窗口]里。除了更换gui/textbox.png图片之外，下面的配置项也能控制文本框展示效果。
 
@@ -820,8 +846,10 @@ gui/notify.png
 
     指定文本框在屏幕中垂直高度的参数。0.0为顶部，0.5为垂直居中T，1.0为底部。
 
+.. _name-and-namebox:
+
 名字(name)和名字框(namebox)
-^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置在该frame中。并且，有一些配置项控制名字的表现效果。正在说话的角色如果有名字的话，名字框(namebox)是唯一能显示这个名字的地方(包括名字为空“ ”的情况)。
 
@@ -841,8 +869,10 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 
     这些配置项控制包含名字框(namebox)frame的显示效果。
 
+.. _dialogue-ex:
+
 对话(dialogue)
-^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
 .. var:: gui.dialogue_xpos = 402
 .. var:: gui.dialogue_ypos = 75
@@ -856,6 +886,8 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 .. var:: gui.dialogue_text_xalign = 0.0
 
     对话内容文本的水平对齐方式。0.0为左对齐，0.5为居中，1.0为右对齐。
+
+.. _examples:
 
 样例
 ^^^^^^^^
@@ -888,9 +920,10 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 
         应用以上定制化设置后的演示游戏。
 
+.. _history:
 
 历史(history)
--------
+------------------
 
 这里有一些配置项可以控制历史(history)界面的展现效果。
 
@@ -930,6 +963,7 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 
         应用以上定制化配置后的历史(history)界面。
 
+.. _nvl:
 
 NVL
 ---
@@ -1003,8 +1037,10 @@ Ren'Py并不默认使用NVL模式。调用NVL模式必须使用NVL模式角色�
 
         应用以上定制化配置后的样例游戏。
 
-文本（Text）
-----
+.. _text:
+
+文本(Text)
+------------
 
 大部分文本都可以利用GUI的配置项实现定制化。以下列出了可以使用的配置项：
 
@@ -1026,28 +1062,28 @@ Ren'Py并不默认使用NVL模式。调用NVL模式必须使用NVL模式角色�
 
 指定文本类型的名称前缀可以省略，这样定制化后就是所有文本的默认外观设置。相反，也可以加上名称前缀，比如上面提到的各种按钮类型，或者以下的类型：
 
-interface（接口）
+interface(接口)
     针对out-of-game(游戏本体之外)的interface(接口)的默认文本。
 
-input（输入）
+input(输入)
     针对文本输入控件的文本。
 
 input_prompt
     针对文本输入提示语。
 
 label
-    针对装饰label(标签)。
+    针对装饰标签(label)。
 
 prompt
     针对用户收到的提示确认之类问题。
 
-name（名字）
+name(名字)
     针对角色名字(name)。
 
-dialogue（对话）
+dialogue(对话)
     针对各种对话(dialogue)。
 
-notify（通知）
+notify(通知)
     针对通知(notify)的文本。
 
 
@@ -1058,9 +1094,10 @@ notify（通知）
 
 这将在对话文本下方产生右向的drop-shadow样式投影。
 
+.. _translation-and-gui-variables:
 
 多语言支持(translation)和GUI配置项
------------------------------
+-----------------------------------
 
 gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置将一直保持不变，除非运行到多语言支持(translation)python语句块。在多语言支持(translation)python语句块中更改GUI配置项，使得适配第二种语言文字的样式成为可能。例如，以下代码改变了默认文本的字体和字号。::
 
@@ -1085,14 +1122,17 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 
 如果忘了写第二个语句，DejaVuSans将依然被作为按钮文本的字体使用。
 
+.. _advanced-customization:
 
 高级定制化
 ======================
 
 更多高级定制化可以通过定制化screen.rpy文件实现，甚至可以把整个文件清空并填上你自己写的内容。这里有几处要点有助你起步。
 
+.. _styles:
+
 样式(style)
-------
+------------
 
 :ref:`样式 <styles>` 和 :ref:`样式特性 <style-properties>` 控制可视组件(displayable)的显示方式。若需要知道某个可视组件(displayable)使用的是什么样式(style)，之需要将鼠标移动到它上面并使用快捷键“shift+I”。这将唤起样式检测器，并显示样式名称。我们之后对应的样式名称后，就可以使用一个样式(style)语句实现对应样式的定制化。
 
@@ -1103,11 +1143,12 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 
 利用样式(style)语句可以实现海量的定制化功能。
 
+.. _screens-navigation:
 
-界面——引导（Screens - Navigation）
---------------------
+界面——引导(Screens - Navigation)
+---------------------------------
 
-接下去的定制化就需要修改界面(screen)了。关于界面(screen)部分最重要文档，详见 `界面和界面语言 <screens.html#screens>`_ 和 `界面动作、数值及函数 <screen_actions.html#screen-actions>`_ 段落。
+接下去的定制化就需要修改界面(screen)了。关于界面(screen)部分最重要文档，详见 :ref:`界面和界面语言 <screens>` 和 :ref:`界面动作、数值及函数 <screen-actions>` 段落。
 
 
 最重要的界面之一，是引导(navigation)界面，同时用在主菜单和游戏菜单，提供引导用户的功能。该界面是可编辑的，比如在界面上增加更多的按钮。修改引导界面的例子如下::
@@ -1160,8 +1201,10 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 
 我们在主菜单之前加了一个prologue(序曲)界面，游戏菜单之前加了一个codex(规则)界面，在主菜单和游戏菜单之前都加了一个extras(附加)界面。
 
+.. _screens-game-menu:
+
 界面——游戏菜单(Screens - Game Menu)
--------------------
+------------------------------------
 
 根据定制需求，游戏菜单界面可以被重新制作。新的游戏菜单界面提供了一个标题和可以滚动的视点。一个最小化的定制游戏菜单界面是这样的::
 
@@ -1183,6 +1226,8 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 很明显，一个具有更多功能特性的codex(规则)界面比这要复杂得多。
 
 请注意“tag menu”这行。这行非常重要，因为这行的功能是，在codex界面展示时，隐藏其他菜单界面。如果没有这行，规则界面与其他界面之间的切换就会变得很困难。
+
+.. _screens-click-to-continue:
 
 界面——单击继续
 ---------------------------
@@ -1206,20 +1251,21 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 
 这个特殊的ctc界面使用了一个延迟5秒的transform(转换)效果展现一个frame。CTC动画延迟几秒后显示是个好主意，这给Ren'Py足够的时间准备和加载图片文件。
 
+.. _total-gui-replacement:
 
 GUI整体替换
 ---------------------
 
 高级创作者可能会部分甚至全部替换screen.rpy文件的内容。这样做的话，gui.rpy的部分或全部内容都会失效。调用 :func:`gui.init` 重置样式(style)可能是个好主意 - ——之后，创作者可能就可以为所欲为了。通常需要保证，在部分或所有的 :ref:`特殊界面 <screen-special>` 中，用户能使用Ren'Py本身提供的各种基础功能。
 
+.. _see-also:
 
 更多
 ========
 
 关于GUI的更新信息，详见 :ref:`高级GUI <gui-advanced>` 章节。
 
-
-.. _gui-changes:
+.. _incompatible-gui-changes:
 
 不兼容的GUI变更
 ========================
