@@ -1,5 +1,4 @@
-.. _menus:
-.. _menu-statement:
+.. _in-game-menus:
 
 =============
 游戏内菜单
@@ -20,7 +19,7 @@
 
              "我喝了茶，并努力使讲话不像发表政治声明。"
 
-         "跪拜":
+         "跪拜礼":
              jump genuflect_ending
 
     label after_menu:

@@ -19,6 +19,7 @@ Ren'Py内涵多种方式用于显示文本。 :ref:`say <say-statement>`
 
 本节内容讨论在Ren'Py中处理文本显示问题的过程。
 
+.. _escape-characters:
 
 转义字符
 =================
@@ -57,20 +58,20 @@ Ren'Py内涵多种方式用于显示文本。 :ref:`say <say-statement>`
 
 Ren'Py支持在文本字符串中插入数值。例如，假设用户名字存储在 ``playername`` 变量中，我们可以写这样一行对话：::
 
-    g "欢迎来到猫耳株式会社, [playername]!"
+    g "欢迎来到猫耳协会， [playername] ！"
 
 Ren'Py会在全局存储区寻找同名变量并插入到文本中。当我们在某个界面使用一个文本控件时，Ren'Py也会将预定义的界面本地变量值插入到控件中。(这个值也可以通过向文本控件传入一个explicit scope参数来覆盖。)
 
 Ren'Py并不限制只允许插入简单变量值，也支持插入字段(field)和元组元素值。以下写法也是可以的：::
 
-    g "我的姓是 [player.names[0]]."
+    g "我姓 [player.names[0]]。"
 
 显示数值之前可以先进行格式化。下面的例子显示的是一个保留小数点后两位的浮点数：::
 
     $ percent = 100.0 * points / max_points
     g "我百分之 [percent:.2] 喜欢你！"
 
-Ren'Py字符串的数值插入符合 `PEP 3101 <https://www.python.org/dev/peps/pep-3101>`_ 的字符串格式规范。 Ren'Py字符串插入使用  ``[`` ，因为 ``{`` 被用于文本标签(tag)了。
+Ren'Py字符串的数值插入符合 :pep:`3101` 的字符串格式规范。 Ren'Py字符串插入使用  ``[`` ，因为 ``{`` 被用于文本标签(tag)了。
 
 还有，Ren'Py支持!s、!r、!q和!t等转换标记。!q转换标记表示文本标签(tag)内引号已经正确匹配和使用，显示字符串时不会转义为不希望出现的格式。举例：::
 
@@ -79,17 +80,18 @@ Ren'Py字符串的数值插入符合 `PEP 3101 <https://www.python.org/dev/peps/
 !t转换标记会转换或计算插入字符串的值：::
 
     if points > 5:
-        $ mood = _("happy")
+        $ mood = _("高兴")
     else:
-        $ mood = _("annoyed")
+        $ mood = _("头大")
 
-    g "我很 [mood!t] 见到你。"
+    g "见到你我很 [mood!t] 。"
 
+.. _styling-and-text-tags：
 
 样式化和文本标签(tag)
 =====================
 
-在Ren'Py中，文本有两种方式获取样式(style)信息。第一种是，根据整个文本段落(block)应用的样式获取。请详见 :ref:`style system <styles>` 及 :ref:`text style properties <text-style-properties>`部分的内容。
+在Ren'Py中，文本有两种方式获取样式(style)信息。第一种是，根据整个文本段落(block)应用的样式获取。请详见 :ref:`样式系统 <styles>` 及 :ref:`文本样式特性 <text-style-properties>` 部分的内容。
 
 第二种是，通过使用文本标签(tag)。文本标签(tag)可用于一个文本段落(block)中一部分的样式化，也可以用于程序中所有文本段落中一部分的样式化。如果你发现自己在文本的每一行里都应用了同样的文本标签，可以考虑使用样式代替这种做法。
 
@@ -102,6 +104,8 @@ Ren'Py字符串的数值插入符合 `PEP 3101 <https://www.python.org/dev/peps/
     "Plain {b}Bold {i}Bold-Italic{/b} Italic{/i} Plain"
 
 某些文本标签可以带一个入参。带入参的文本标签后面会带一个等号(=)，后面跟参数值。入参不能含有右花括号(})。入参的含义根据不同的文本标签而不同。
+
+.. _general-text-tags:
 
 通用文本标签
 -----------------
@@ -118,12 +122,12 @@ Ren'Py字符串的数值插入符合 `PEP 3101 <https://www.python.org/dev/peps/
 
     * 当入参以“call:”开头，入参的其余部分是要调用的脚本标签(label)名。通常来说，call执行完后会回到当前的Ren'Py语句。
 
-    * 当入参以“call_in_new_context:”开头，入参的其余部分是某个新的上下文(使用 :func:`renpy.call_in_new_context`函数)中需要调用的脚本标签名。
+    * 当入参以“call_in_new_context:”开头，入参的其余部分是某个新的上下文(使用 :func:`renpy.call_in_new_context` 函数)中需要调用的脚本标签名。
 
     * 除了以上情况，入参是一个URL，可以使用系统web浏览器打开。
 
     如果在入参中没有显式的协议头， :var:`config.hyperlink_protocol`
-    中配置的值会自动添加到入参头部。如果 :var:`config.hyperlink_protocol` 已经被配置为“jump”，{a=label}跟{a=jump:label}就是等价的。创作者可以使用 :var:`config.hyperlink_handlers`配置一个新的协议名称。
+    中配置的值会自动添加到入参头部。如果 :var:`config.hyperlink_protocol` 已经被配置为“jump”，{a=label}跟{a=jump:label}就是等价的。创作者可以使用 :var:`config.hyperlink_handlers` 配置一个新的协议名称。
 
     ::
 
@@ -157,37 +161,37 @@ Ren'Py字符串的数值插入符合 `PEP 3101 <https://www.python.org/dev/peps/
 
     粗体标签，将自身及其毕业标签内的文本渲染为粗体。 ::
 
-        "An example of {b}bold test{/b}."
+        "一个 {b}粗体测试{/b}。"
 
 .. text-tag:: color
 
     颜色文本标签将自身及其闭合标签内的文本渲染为特定的颜色值。颜色值使用#rgb、#rgba、#rrggbb或#rrggbbaa格式。 ::
 
-        "{color=#f00}Red{/color}, {color=#00ff00}Green{/color}, {color=#0000ffff}Blue{/color}"
+        "{color=#f00}红色{/color}, {color=#00ff00}绿色{/color}, {color=#0000ffff}蓝色{/color}"
 
 .. text-tag:: cps
 
     “每秒钟字符数”标签设置了文本显示速度，作用范围为标签自身及其闭合标签范围内文本。若入参开头带有一个星号和数字n，表示使用文本n倍速显示。如果没有星号，则数字n表示每秒显示n个字符。 ::
 
-        "{cps=20}Fixed Speed{/cps} {cps=*2}Double Speed{/cps}
+        "{cps=20}固定速度{/cps} {cps=*2}两倍速{/cps}
 
 .. text-tag:: font
 
     字体标签将标签自身及其闭合区间之间的文本渲染为指定的字体。入参即使用的字体文件名。 ::
 
-        "Try out the {font=mikachan.ttf}mikachan font{/font}."
+        "尝试使用字体 {font=mikachan.ttf}mikachan font{/font}。"
 
 .. text-tag:: i
 
    斜体标签将自身及其闭合标签之间的文本渲染为斜体。 ::
 
-       "Visit the {i}leaning tower of Pisa{/i}."
+       "游览 {i}比萨斜塔{/i}。"
 
 .. text-tag:: image
 
    图片标签是一个自闭合标签，作用是在文本中插入一个图片。插入的图片高度应该和单行文本的高度一致。入参可以是图片文件名，或者使用image语句定义的图像名。 ::
 
-       g "Good to see you! {image=heart.png}"
+       g "见到你真好！ {image=heart.png}"
 
 .. text-tag:: k
 
@@ -198,8 +202,7 @@ Ren'Py字符串的数值插入符合 `PEP 3101 <https://www.python.org/dev/peps/
 
 .. text-tag:: outlinecolor
 
-    描边改变文本的所有描边（包括阴影）颜色为指定颜色，颜色格式为 #rgb, #rgba,
-    #rrggbb, 或 #rrggbbaa。 ::
+    outlinecolor将文本的所有描边（包括阴影）颜色改为指定颜色，颜色格式为 #rgb、#rgba、#rrggbb或#rrggbbaa。 ::
 
         "让我们加一个{outlinecolor=#00ff00}绿色{/outlinecolor} 描边。"
 
@@ -221,7 +224,7 @@ Ren'Py字符串的数值插入符合 `PEP 3101 <https://www.python.org/dev/peps/
 
    删除线标签在其自身及其闭合标签之间的文本上画一条删除线。 ::
 
-       g "很高兴 {s}见到你{/s}."
+       g "很高兴 {s}见到你{/s}。"
 
 .. text-tag:: size
 
@@ -245,13 +248,15 @@ Ren'Py字符串的数值插入符合 `PEP 3101 <https://www.python.org/dev/peps/
 
    垂直空白标签是一个自闭合标签，在文本的两行之间插入一段竖直的空白。入参是一个整数，表示插入的空白高度，单位为像素。 ::
 
-      "Line 1{vspace=30}Line 2"
+      "第一行{vspace=30}第二行"
 
 .. text-tag:: #
 
    以#符号开头的文本标签会被忽略，可以用于脚本调试。::
 
       "New{#playlist}"
+
+.. _dialogue-text-tags:
 
 对话文本标签
 ------------------
@@ -290,6 +295,8 @@ Ren'Py字符串的数值插入符合 `PEP 3101 <https://www.python.org/dev/peps/
 
 也可以使用Python定义出 :ref:`custom text tags <custom-text-tags>` 。
 
+.. _style-text-tags:
+
 样式文本标签
 ---------------
 
@@ -308,6 +315,7 @@ Ren'Py支持文本标签使用各种样式。需要使用的话，标签的入�
 * black_color
 * kerning
 
+.. _non-english-languages:
 
 非英语
 =====================
@@ -335,6 +343,7 @@ Ren'Py在之后的版本可能会支持世界上绝大多数的语言，而不�
 后续也可以使用
 :func:`renpy.language_tailor` 函数配置换行算法。
 
+.. _vertical-text:
 
 垂直文本
 -------------
@@ -368,7 +377,7 @@ Ruby文本(较常用来标明假名或者注音)是一种在某个字符或单�
 1. :propref:`line_leading` 特性必须为Ruby文本预留足够的高度。
 2. 创建一个新的自定义名的样式(style)。该样式的特性，比如 :propref:`size` 需要适合Ruby文本。
 3. 新样式的yoffset必须特别设置，这是为了将Ruby文本升到一般文本基线之上。
-4. 文本样式的:propref:`ruby_style` 域应该被设置为上面新创建的样式。
+4. 文本样式的 :propref:`ruby_style` 域应该被设置为上面新创建的样式。
 
 举例：::
 
@@ -391,6 +400,8 @@ Ruby文本(较常用来标明假名或者注音)是一种在某个字符或单�
 
 确保Ruby文本不会与其他文本内容重叠是创作者的职责。为了防止这种问题的出现，最好在文本上方多预留一些空间。
 
+.. _fonts:
+
 字体
 =====
 
@@ -400,6 +411,7 @@ TrueType或OpenType字体会给定字体文件名。那个字体文件必须被�
 
 Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字体。当我们接入一个字体集时，使用从0开始的字体下标，后面跟@符号和文件名。例如，“0@font.ttc”是字体集font的第一种字体，“1@font.ttc”是字体集font的第二种字体，以此类推。
 
+.. _font-replacement:
 
 字体替换
 ----------------
@@ -412,6 +424,8 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
         config.font_replacement_map["DejaVuSans.ttf", False, True] = ("DejaVuSans-Oblique.ttf", False, False)
 
 完成替换后可以提升斜体文本的感官效果。
+
+.. _image-based-fonts:
 
 基于图形的字体
 -----------------
@@ -559,28 +573,44 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
 
         ebf "Finally, Ren'Py supports BMFonts."
 
+.. _font-groups:
 
 字体组
 -----------
 
-When creating a multilingual game, it may not be possible to find a single
-font that covers every writing system the game use while projecting the
-the mood the creator intends. To support this, Ren'Py supports font groups
-that can take characters from two or more fonts and combine them into a
-single font.
+创建一个多语言游戏时，有时无法找到单一的字体能够包含所有文字并保持创作者想要表现的氛围。
+因此，Ren'Py支持将“字体组”的形式，将两种或更多字体合并为一种字体。
 
-To create a font group, create a FontGroup object and call the .add method
-on it once or more. a FontGroup can be used wherever a font name can be
-used. The add method takes the start and end of a range of unicode character
-points, and the first range to cover a point is used.
+创建字体组时，需要创建一个FontGroup对象并调用逐次调用 ``.add`` 方法。FontGroup对象可以直接当作字体使用。
+add方法会查看指定范围内的unicode字符，并采用最先能匹配到的unicode字符范围对应的字体。
 
-For example::
+
+举例：
+
+::
 
     style default:
          font FontGroup().add("english.ttf", 0x0020, 0x007f).add("japanese.ttf", 0x0000, 0xffff)
 
-.. include:: inc/font_group
+.. class:: FontGroup()
 
+  可以将一组字体当作一种字体使用。
+
+  .. method:: add(font, start, end)
+
+    说明字体中字符的unicode范围。
+
+    **start**
+
+      unicode范围起点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
+
+    **end**
+
+      unicode范围终点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
+
+    当多个 ``.add()`` 调用中包含同一个字符时，使用第一个包含这个字符的add方法中的字体。
+
+    这个方法会返回FontGroup对象，所以能多个 ``.add()`` 串联使用。
 
 .. _text-displayables:
 
@@ -629,7 +659,7 @@ For example::
 
     若该值为真(true)，则应用文本插入(interpolation)。若该值为假(false)，不应用文本插入。若该值为None，由config.new_substitutions控制文本插入表现。
 
-
+.. _text-utility-functions:
 
 文本功用函数
 ======================
@@ -641,11 +671,12 @@ For example::
   **allow**
 
     允许通过的标签的集。如果某个标签不在该列表中，将会被移除。
-    A set of tags that are allowed. If a tag is not in this list, it is removed.
 
   **deny**
 
     禁止通过的标签的集。如果某个标签不在该列表中，将会保留在字符串中。
+
+.. _slow-text-concerns:
 
 慢速文本的顾虑
 ==================
@@ -654,11 +685,13 @@ Ren'Py允许创作者或者用于指示某些文本以慢速显示。这种情�
 
 不幸的是，这意味着字符间的重叠区域会被渲染成工件(artifact)。为了尽可能减少这种渲染工件(artifact)，需要尽可能保证 :propref:`line_leading` 和
 :propref:`line_spacing` 值足够大，各行之间没有覆盖的区域。如果首行缩进文本，特别是line_spacing为负值的情况，我们需要考虑增大
-:propref:`line_overlap_split`的值。
+:propref:`line_overlap_split` 的值。
 
 水平工件(artifact)也可能由于字偶距原因而挤在一起，不过这不是什么严重的问题，毕竟相邻字符之间显示的时间差不过1帧而已。
 
 对于静态文本来说工件(artifact)不是什么问题，比如菜单等用户界面部分。
+
+.. _text-overflow-logging:
 
 文本溢出日志
 ---------------------

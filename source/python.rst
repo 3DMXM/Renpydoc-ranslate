@@ -35,6 +35,7 @@ python语句包含一个Python的语句块(block)，当主控流程达到该语�
 
    ``in`` 标识符包含一个变量名。Python会使用那个变量名所代表的存储区(store)，而非默认存储区。
 
+.. _one-line-python-statement:
 
 单行Python语句
 -------------------------
@@ -155,6 +156,8 @@ init offset语句为所有在初始化阶段运行的语句设置了优先级偏
 
 第一条define语句运行在优先级2，这意味着其会在第二条define语句后运行，因此变量 ``foo`` 的最终值为2。
 
+.. _names-in-the-store:
+
 存储区变量名
 ------------------
 
@@ -175,12 +178,13 @@ define语句将一个值声明为一个变量，而其通常用作定义一个�
         $ e += 1
         e "你得了一分！"
 
-无法运行，因为变量`e`同时用作角色和flag。
+无法运行，因为变量 `e` 同时用作角色和flag。
 
 其他也常常需要放入存储区的对象是转场(transition)和变换(transform)。
 
-以下划线 (\_) 开头的变量名是预留给Ren'Py内部使用。详情可以查看 :ref:`预留变量名目录 <reserved-names>`.
+以下划线 (\_) 开头的变量名是预留给Ren'Py内部使用。详情可以查看 :ref:`预留变量名目录 <reserved-names>` 。
 
+.. _other-named-stores:
 
 其他的命名存储区
 ------------------
@@ -210,13 +214,12 @@ define语句将一个值声明为一个变量，而其通常用作定义一个�
 
 命名存储区与默认存储区在存档、读档和回滚方面的情况一样。define语句也可以在命名存储区内定义变量或函数名。
 
-
-.. _python-modules:
+.. _first-and-third-party-python-modules-and-packages:
 
 第一方和第三方Python模块(module)和包(package)
 -------------------------------------------------
 
-Ren'Py可以导入(import)纯python的模块和包。第一方的模块和包——传作者需要用在游戏中——可以直接放置在game文件夹里。第三方的包可以放在game/python-packages文件夹里。
+Ren'Py可以导入(import)纯python的模块和包。创作者需要用在游戏中的第一方的模块和包，可以直接放置在game文件夹里。第三方的包可以放在game/python-packages文件夹里。
 
 例如，如果要安装requests包，创作者可以用命令行进入游戏所在目录，然后运行如下命令：::
 
