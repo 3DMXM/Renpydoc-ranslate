@@ -15,12 +15,15 @@
 
 图像的突然变化显得很突兀，Ren'Py提供了 ``with`` 语句，可以在场景切换时提供各种效果。
 
+.. _concepts:
 
 一些概念
 ========
 
+.. _image:
+
 图像(image)
------
+------------
 
 图像(image)是可以使用show语句显示在界面上的一类东西的统称。图像(image)由一个名称和一个可视组件构成。当某个图像展示在某个图层上时，也表示那个图像关联的可视组件显示在图层上。
 
@@ -32,8 +35,10 @@
 除了静态图片之外，图像(image)可以使用 :ref:`Ren'Py支持的所有可视组件
 <displayables>` 。 用于显示图像的语句也可以用来显示动画、纯色和其他可视组件。
 
+.. _layer:
+
 图层(layer)
------
+------------
 
 图层是一个可以显示在界面上的可视组件列表。Ren'Py支持多图层，包括使用自定义图层。图层(layer)的顺序在游戏内设置(被
 :var:`config.layers` 变量控制)， 而图层内可视组件的顺序由scene和show语句的顺序及语句中的特性(property)共同决定。
@@ -52,8 +57,10 @@ screens
 overlay
      当UI函数被覆盖(overlay)函数调用时，默认使用的图层。当一个互动行为重新启动时，该图层会被清空。
 
-若需要定义新的图层，可以编写和更新 :var:`config.layers`等与图层有关的配置变量。使用
-:func:`renpy.layer_at_list`函数，可以改变图层的特性。
+若需要定义新的图层，可以编写和更新 :var:`config.layers` 等与图层有关的配置变量。使用
+:func:`renpy.layer_at_list` 函数，可以改变图层的特性。
+
+.. _defining-images:
 
 定义图像(image)
 ===============
@@ -98,7 +105,6 @@ image语句用于定义图像(image)。一条image语句由以下部分组成：
 image语句在初始化阶段就运行，在开始标签(label)运行或者初始菜单展现之前。就算image语句不放在初始化语句块(block)中，它们依然会获得初始化语句块同样的优先级级别500。
 
 其他信息可以参考 :ref:`ATL的image语句变种 <atl-image-statement>` 。
-
 
 .. _show-statement:
 
@@ -282,6 +288,8 @@ with语句使用特殊值 ``None`` ，就可以满足我们的要求。 ``with N
 
 只有一个转场(transition)效果发生，发生在只有背景“washington”到背景加两个角色的场景。
 
+.. _with-clause-of-scene-show-and-hide-statements:
+
 scene、show和hide语句中的with分句
 -----------------------------------------------
 
@@ -302,15 +310,17 @@ with分句等效于在原有语句前面先加了一行 ``with None`` 语句，�
     show lucy mad at right
     with dissolve
 
+.. _hide-and-show-window:
+
 hide和show窗口
 ====================
 
 当某个角色不处于发言状态时，window语句用于控制窗口显示。(例如，在过渡效果或者暂停状态下。)window show语句显示窗口，而window hide语句隐藏窗口。
 
 转场(transition)效果是可选的，若指定了过渡效果，就会应用在窗口的显示和隐藏。若没有指定，默认使用 :var:`config.window_show_transition` 和
-:var:`config.window_hide_transition`的值。指定None则不使用任何过渡效果。
+:var:`config.window_hide_transition` 的值。指定None则不使用任何过渡效果。
 
-窗口自身可以通过调用 :var:`config.empty_window`显示。 窗口默认旁白说了一句话，内容为空字符串。::
+窗口自身可以通过调用 :var:`config.empty_window` 显示。 窗口默认旁白说了一句话，内容为空字符串。::
 
     ###
         show bg washington
@@ -327,6 +337,8 @@ hide和show窗口
         "……和移动，在窗口显示的情况下。"
 
         window hide dissolve
+
+.. _image-functions:
 
 图像(image)函数
 ===============
