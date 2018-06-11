@@ -18,6 +18,8 @@ Ren'Py包含了视觉系小说多语言支持的综合框架。有4类要素支�
 
 目前Ren'Py的多语言支持主要聚焦在标准化的多语言支持。如果实现的话，创作者就可以使用将游戏脚本直接扔给多语言解释器，或者自己创建多语言模板。目前支持的非标准化多语言支持有诸多限制。
 
+.. _primary-and-alternate-languages:
+
 主语言和备选语言
 ===============================
 
@@ -26,6 +28,8 @@ Ren'Py需要每一个作品都使用一种主语言编写。这种主语言无�
 当选择使用None语言后，Ren'Py的大多数多语言支持功能都会关闭。
 
 备选语言在作品中出现时，推荐使用原来的Python标识符连写两次。(格式为，以字母或下划线开头，后面跟字母、数字或者下划线。)
+
+.. _generating-translation-files:
 
 生成翻译文件
 ============================
@@ -36,15 +40,21 @@ Ren'Py需要每一个作品都使用一种主语言编写。这种主语言无�
 
 每一个游戏脚本文件都会被创建对应的翻译文件。common.rpy文件也会被创建，其内容包含所有Ren'Py制作游戏使用的通用字符串的多语言支持。
 
+.. _translating-dialogue:
+
 多语言对话
 ====================
 
 因为Ren'Py是一个视觉系小说引擎，我们最需要的自然就是对话的多语言支持。Ren'Py包含了一个具有可塑性的框架，允许对话内容的分割、合并、调整顺序及整段删除。
 
+.. _translation-units:
+
 多语言支持的单元
 -----------------
 
-一个由0个或多个可支持多语言的语句构成的语句块(block)是多语言支持的基础单元，后面可选加上一条say语句。可支持多语言的语句包括voice和nvl语句。例如下面脚本中的：::
+一个由0个或多个可支持多语言的语句构成的语句块(block)是多语言支持的基础单元，后面可选加上一条say语句。可支持多语言的语句包括voice和nvl语句。例如下面脚本中的：
+
+::
 
     label start:
         e "Thank you for taking a look at the Ren'Py translation framework."
@@ -57,24 +67,34 @@ Ren'Py需要每一个作品都使用一种主语言编写。这种主语言无�
 
 这段脚本可以分割为多个多语言支持单元。每个单元都有对应的一个标识符用于声明该单元。标识符根据单元前的脚本标签(label)和单元内的语句来生成。(如果多个单元被声明为同一个多语言数字，从第二个单元开始会自动添加上一个自然数编号便于区分。)
 
-在上面的样例脚本中，第一个单元生成的标识号为start_636ae3f5，包含这条语句：::
+在上面的样例脚本中，第一个单元生成的标识号为start_636ae3f5，包含这条语句：
+
+::
 
     e "Thank you for taking a look at the Ren'Py translation framework."
 
-第二个单元的标识号是start_bd1ad9e1m，包含这条语句：::
+第二个单元的标识号是start_bd1ad9e1m，包含这条语句：
+
+::
 
     e "We aim to provide a comprehensive framework for translating dialogue, strings, images, and styles."
 
-第三个单元的标识号是start_9e949aac，包含这条语句：::
+第三个单元的标识号是start_9e949aac，包含这条语句：
+
+::
 
     e "Pretty much everything your game needs!"
 
 当游戏脚本加载时，这些多语言支持的单元会被Ren'Py自动创建。
 
+.. _translate-statement:
+
 translate语句
 -------------------
 
-当你生成了对某种语言的支持时，Ren'Py会针对每一个多语言支持单元生成一条translate语句。我们再以刚才的那段脚本举例，Ren'Py生成的语句如下：::
+当你生成了对某种语言的支持时，Ren'Py会针对每一个多语言支持单元生成一条translate语句。我们再以刚才的那段脚本举例，Ren'Py生成的语句如下：
+
+::
 
     # game/script.rpy:95
     translate piglatin start_636ae3f5:
@@ -94,7 +114,9 @@ translate语句
         # e "Pretty much everything your game needs!"
         e ""
 
-编辑这个文件就可以实现对piglatin语言的支持了。完成编辑后的样子如下：::
+编辑这个文件就可以实现对piglatin语言的支持了。完成编辑后的样子如下：
+
+::
 
     # game/script.rpy:95
     translate piglatin start_636ae3f5:
@@ -116,10 +138,14 @@ translate语句
 
 当引擎在主线脚本中遇到一个语句块(block)，Ren'Py就会检查是否存在对应的translate语句存在。如果存在的话，Ren'Py将会执行translate语句，并向用户显示对应语言的内容。
 
+.. _more-complex-translations:
+
 更复杂的多语言支持
 -------------------------
 
-translate语句中数量并不要求与原语言语句数量保持1比1。例如，一行很长的语句可以分割：::
+translate语句中数量并不要求与原语言语句数量保持1比1。例如，一行很长的语句可以分割：
+
+::
 
     # game/script.rpy:99
     translate piglatin start_bd1ad9e1:
@@ -136,11 +162,15 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
          # e "Pretty much everything your game needs!"
          pass
 
-甚至可以运行非对话型的语句，比如条件语句或者Python语句。例如，我们可以把下面这句：::
+甚至可以运行非对话型的语句，比如条件语句或者Python语句。例如，我们可以把下面这句：
+
+::
 
   e "You scored [points] points!"
 
-在其他语言中写成：::
+在其他语言中写成：
+
+::
 
     # game/script.rpy:103
     translate piglatin start_36562aba:
@@ -149,9 +179,10 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
         e $ latin_points = to_roman_numerals(points)
         e "Ouyay oredscay [latin_points] ointspay!"
 
+.. _tips:
 
 小贴士
-----
+-------
 
 在处理多语言支持的对话内容时必须非常小心，特别是某个脚本标签(label)下某个对话内容重复多次的情况。在某些时候，有必要在主语言脚本中直接声明多语言支持的标识符，像这条语句：
 
@@ -176,7 +207,9 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
 
 除了对话，Ren'Py也可以提供菜单与其他字符串内文本的多语言支持。接口的各种语言文本条数是严格1比1对应的。某个字符串被对上的话，就能被另一种语言的字符串替换。
 
-当生成翻译文件时，Ren'Py会扫描脚本文件中的菜单和 _()函数中定义的字符串。然后它会将这些字符串内容放入一个多语言字符串语句块(block)中。例如，如果我们有如下的脚本内容：::
+当生成翻译文件时，Ren'Py会扫描脚本文件中的菜单和 _()函数中定义的字符串。然后它会将这些字符串内容放入一个多语言字符串语句块(block)中。例如，如果我们有如下的脚本内容：
+
+::
 
   define e = Character(_("Eileen"))
 
@@ -190,7 +223,9 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
        "Head East":
           # ...
 
-Ren'Py会自动生成：::
+Ren'Py会自动生成：
+
+::
 
   translate piglatin strings:
 
@@ -203,7 +238,9 @@ Ren'Py会自动生成：::
       old "Head East"
       new ""
 
-完成后的多语言支持内容为：::
+完成后的多语言支持内容为：
+
+::
 
   translate piglatin strings:
 
@@ -218,7 +255,9 @@ Ren'Py会自动生成：::
 
 字符串的多语言支持用于在对话中插入的某些字符串。那些字符串不能以对话形式支持多语言。
 
-如果某个字符串同时用在多处，可以使用{#...}文本标签(tag)加以区别。尽管这些字符串使用同样的名字，Ren'Py把这些稍有差别的字符串看作需要多语言支持：::
+如果某个字符串同时用在多处，可以使用{#...}文本标签(tag)加以区别。尽管这些字符串使用同样的名字，Ren'Py把这些稍有差别的字符串看作需要多语言支持：
+
+::
 
     "New"
     "New{#project}"
@@ -231,10 +270,14 @@ translate字符串语句可以用来对None语言脚本的转换。在使用非�
          old "Start Game"
          new "Artstay Amegay"
 
+.. _translating-substitutions:
+
 多语言替换
 -------------------------
 
-!t标志用于表示多语言的字符串转换。下面这段脚本使用了原对话和多语言字符串的组合：::
+!t标志用于表示多语言的字符串转换。下面这段脚本使用了原对话和多语言字符串的组合：
+
+::
 
   if mood_points > 5:
       $ mood = _("great")
@@ -250,18 +293,20 @@ translate字符串语句可以用来对None语言脚本的转换。在使用非�
 
 多语言字符串可以从某个项目中提取，然后移植到另一个项目。完成这点需要以下步骤：
 
-* 选取来源项目，并选择“Generate Translations”。
-* 输入需要提取的语言，并点击“Extract String Translations”。
-* 回到主菜单，选取目标项目，并选择“Generate Translations”。
-* 输入需要复用的语言(通常与之前提取的语言相通)，并选择“Merge String Translations”。
+* 选取来源项目，并选择“生成翻译文件”。
+* 输入需要提取的语言，并点击“导出字串翻译”。
+* 回到主菜单，选取目标项目，并选择“生成翻译文件”。
+* 输入需要复用的语言(通常与之前提取的语言相通)，并选择“合并字串翻译”。
 
 这里有两个选项，控制语言的复用功能：
 
-Replace existing translations
-    如果这项被勾选，已经存在的重要翻译文件会被覆盖。默认情况下，复用过程会拒绝覆盖已经存在的重要翻译文件。
+替换已存在的翻译
+    如果选用这项，已经存在的重要翻译文件会被覆盖。默认情况下，复用过程会拒绝覆盖已经存在的重要翻译文件。
 
-Reverse languages
-    在复用之前对换字符串。例如，使用一个原本英语为主语言俄语为备选语言的项目，复用为俄语为主语言英语为备选语言的项目时，就需要勾选该项。
+反转语言
+    在复用之前反转主备语言类型。例如，使用一个原本英语为主语言俄语为备选语言的项目，复用为“俄语为主语言英语为备选语言”的项目时，就需要勾选该项。
+
+.. _image-and-file-translations:
 
 图片和文件的多语言支持
 ===========================
@@ -270,16 +315,21 @@ Reverse languages
 
 Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片。例如，假如使用了“piglatin”语言，并加载了“library.png”图片，Ren'Py就会使用“game/tl/piglatin/library.png”图片代替“game/library.png”。
 
+.. _style-translations:
 
 样式的多语言支持
 ==================
 
-当对某个游戏实现多语言支持时，最好变更样式(style)——特别是那些与字体相关的样式。Ren'Py使用多语言样式语句块(block)和多语言python语句块处理这类情况。这些语句块(block)可以更改语言相关的变量和样式。例如：::
+当对某个游戏实现多语言支持时，最好变更样式(style)——特别是那些与字体相关的样式。Ren'Py使用多语言样式语句块(block)和多语言python语句块处理这类情况。这些语句块(block)可以更改语言相关的变量和样式。例如：
+
+::
 
   translate piglatin style default:
       font "stonecutter.ttf"
 
-以及等效的：::
+以及等效的：
+
+::
 
   translate piglatin python:
       style.default.font = "stonecutter.ttf"
@@ -288,6 +338,7 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 
 样式的多语言支持可以添加在任何.rpy文件中。
 
+.. _default-language:
 
 默认语言
 ================
@@ -295,11 +346,13 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 使用以下方法可以选择默认语言：
 
 * 根据设置的RENPY_LANGUAGE环境变量。
-* 根据设置的:var:`config.language` 。
+* 根据设置的 :var:`config.language` 。
 * 使用之前游戏中选择的语言选项。
 * 游戏第一次运行时，使用
   :var:`config.default_language` is used.。(默认使用None语言。)
 * 以上情况都未配置，使用None语言。
+
+.. _translation-actions-functions-and-variables:
 
 多语言支持的动作、函数和变量
 =============================================
@@ -334,8 +387,7 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 
   返回已知语言的集。不包含默认语言None。
 
-In addition, there are three functions that are related to string
-translation:
+此外，还有3个与字符串多语言支持相关的函数：
 
 .. function:: _(s)
 
@@ -379,8 +431,7 @@ translation:
 
   当前语言名称，如果使用的是默认语言则是None。需要改变语言的话，调用 :func:`renpy.change_language`. 函数。
 
-
-
+.. _unsanctioned-translations:
 
 非常规多语言支持
 =========================
