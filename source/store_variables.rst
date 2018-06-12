@@ -1,3 +1,5 @@
+.. _store-variables:
+
 存储区配置项
 ===============
 
@@ -51,11 +53,15 @@ Ren'Py有一些存储区配置项，控制存储区的功能。存储区配置�
 
 .. var:: name_only = Character(...)
 
-    当某个say语句中的一个字符串作为一个角色名称时，这项就是创建的模板角色。这条语句：::
+    当某个say语句中的一个字符串作为一个角色名称时，这项就是创建的模板角色。这条语句：
+
+    ::
 
         "Eileen" "Hello, world."
 
-    等效于：::
+    等效于：
+
+    ::
 
         $ temp_char = Character("Eileen", kind=name_only)
         temp_char "Hello, world."
@@ -64,11 +70,15 @@ Ren'Py有一些存储区配置项，控制存储区的功能。存储区配置�
 
 .. var:: narrator = Character(...)
 
-    旁白角色(say语句中不需要给定角色名)。这条语句：::
+    旁白角色(say语句中不需要给定角色名)。这条语句：
+
+    ::
 
         "Hello, world."
 
-    等效于：::
+    等效于：
+
+    ::
 
         narrator "Hello, world."
 
@@ -102,4 +112,4 @@ Ren'Py有一些存储区配置项，控制存储区的功能。存储区配置�
 
 .. var:: _window_subtitle = ''
 
-    这项会添加到 :var:`config.window_title`作为游戏窗口的标题。在游戏菜单内，这项会自动设置为 :var:`config.menu_window_subtitle`的值。
+    这项会添加到 :var:`config.window_title` 作为游戏窗口的标题。在游戏菜单内，这项会自动设置为 :var:`config.menu_window_subtitle` 的值。

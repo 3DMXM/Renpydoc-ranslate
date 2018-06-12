@@ -82,12 +82,10 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
 
   border对象提供边界(border)尺寸和码放(tile)给 :func:`Frame()` 对象。其也可以提供填充( :func:`padding` )信息，用于带填充特性的窗口(window)或者框架(frame)。
 
-  *left top right bottom*
-
+  `left top right bottom`
     这些参数提供的某个框架(frame)需要使用的插入尺寸，以及各条边的填充(padding)边界。这些值应该是0或者正整数。
 
-  *pad_left pad_top pad_right pad_bottom*
-
+  `pad_left pad_top pad_right pad_bottom`
     这些参数会添加到各条边填充(padding)的值，可以是正整数或负整数。(例如，如果 *left* 是5， *pad_left* 是-3，那么最终的填充(padding)值就是2。)
 
   填充(padding)信息是一个字段(field)：
@@ -136,32 +134,26 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
 
   Frame是一个可视组件，可以调整图像尺寸使其匹配某个可用区域，同时也保存其边界(border)的宽度和高度。Frame通常用于窗口(window)或按钮(button)的背景。
 
-  .. figure:: /images/frame_example.png
+  .. figure:: images/frame_example.png
 
     使用框架(frame)将图像增大为原尺寸的两倍。
 
-  **image**
-
+  `image`
     一个可以被框架(frame)调整尺寸的图像操纵器。
 
-  **left**
-
+  `left`
     左边框的边界(border)尺寸。此入参也可以是一个 :func:`Border()` 对象，这种情况下其他几个参数也都被这个Border对象一块代替。
 
-  **top**
-
+  `top`
     上边框的边界(border)尺寸。
 
-  **right**
-
+  `right`
     右边框的边界(border)尺寸。如果为None，则默认与  *left* 一样。
 
-  **bottom**
-
+  `bottom`
     下边框的边界(border)尺寸。如果为None，则默认与  *top* 一样。
 
-  **tile**
-
+  `tile`
     若该值为True，使用码放(tile)形式重新调整图像区域尺寸，否则使用缩放(scale)形式。
 
   ::
@@ -261,7 +253,7 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
 
   这里使用的条件表达式不应该有明显的副作用。
 
-  **predict_all**
+  `predict_all`
 
     若为True，当显示可视组件时，所有可能的可视组件都会提前缓存。若为False，只加载当前条件表达式的可视组件。若为None，使用 :func:`config.conditionswitch_predict_all` 的配置。
 
@@ -275,10 +267,8 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
 
   基于某个Python函数可以改变自身子组件的可视组件，作用范围贯穿于某次互动行为。
 
-  **function**
-
-    使用入参调用的一个函数名：
-    A function that is called with the arguments:
+  `function`
+    使用入参调用的某个函数的名称：
 
     - 可视组件的显示时间。
     - 具有相同标签(tag)的任意可视组件的显示时间。
@@ -316,8 +306,7 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
 
   默认图像需要提前指定。
 
-  **predict_all**
-
+  `predict_all`
     若为True，当显示可视组件时，所有可能的可视组件都会提前缓存。若为False，只加载当前条件表达式的可视组件。若为None，使用 :func:`config.conditionswitch_predict_all` 的配置。
 
   ShowingSwitch的一个用途是，根据角色感情更改角色周围的图像。例如：
@@ -410,8 +399,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
   这种过渡(transition)效果用于从一个可视组件(大多数使用某种动画变化)过渡到另一个。当变换(transform)完全不透明时，新的可视组件会被启用；当变化完全透明时，旧的可视组件会被启用。
 
-  **alpha**
-
+  `alpha`
     若该值为True，前后图像会相互混合。若该值为False，也就是默认值，前面的图像会显示半透明，覆盖在后面的图像上。
 
 .. _image-manipulators:
@@ -464,11 +452,11 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
   这个图像操纵器从二进制文件加载图像。
 
-  **data**
+  `data`
 
   由byte组成的字符串，表示标准文件格式下的压缩图片数据。
 
-  **filename**
+  `filename`
 
   与图像关联的 *filename* 文件名。这项用于向Ren'Py提供数据格式的提示。(图像并不是从磁盘加载的。)
 
@@ -514,8 +502,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
   在 *size* 范围内以tile形式码放 *im* 。
 
-  **size**
-
+  `size`
     如果不为None，该值是一个(width, height)元组。如果为空，默认值为(config.screen_width, config.screen_height)，即整个界面的尺寸。
 
 .. _im-matrixcolor:
@@ -523,7 +510,9 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 im.MatrixColor
 --------------
 
-im.MatrixColor图像操纵器是使用一个矩阵控制图像色彩变换的图像操纵器。使用的矩阵可以是一个im.matrix对象，使用一个支持矩阵乘法的5×5矩阵进行编码，通过一系列函数返回编码结果。im.matrix对象可以多重相乘并同时生效。例如：::
+im.MatrixColor图像操纵器是使用一个矩阵控制图像色彩变换的图像操纵器。使用的矩阵可以是一个im.matrix对象，使用一个支持矩阵乘法的5×5矩阵进行编码，通过一系列函数返回编码结果。im.matrix对象可以多重相乘并同时生效。例如：
+
+::
 
     image city blue = im.MatrixColor(
         "city.jpg",
@@ -567,8 +556,7 @@ im.MatrixColor图像操纵器是使用一个矩阵控制图像色彩变换的图
 
   返回一个im.matrix矩阵对象，可用于转换某个图像的明度。
 
-  **b**
-
+  `b`
     图像明度的变化值。该值是一个介于-1和1之间的数值。-1表示最低明度，1表示最高明度。
 
 .. function:: im.matrix.colorize(black_color, white_color)
@@ -610,12 +598,10 @@ im.MatrixColor图像操纵器是使用一个矩阵控制图像色彩变换的图
 
   返回一个im.matrix矩阵对象，改变图像的饱和度。这种改变与alpha通道无关。
 
-  **level**
-
+  `level`
     处理后图像的色彩饱和度相对值。1.0表示原图色彩饱和度，0.0表示灰度图。
 
-  **desat**
-
+  `desat`
     这是一个3元素元组，每个元素对应红、绿、蓝三个通道的饱和度相对值。默认值基于NTSC色彩空间亮度通道的值。由于人眼对绿色最敏感，所以绿色通道保留的信息通常比其他两个通道多。
 
 .. function:: im.matrix.tint(r, g, b)
@@ -627,7 +613,9 @@ im.MatrixColor图像操纵器是使用一个矩阵控制图像色彩变换的图
 占位组件
 ------------
 
-占位组件(placeholder)用于正确显示背景图或者角色图像。在开发者模式下，使用某个未定义的图像时，占位组件会被自动使用。如果你觉得默认的显示有问题，也可以手动指定占位组件的使用。 ::
+占位组件(placeholder)用于正确显示背景图或者角色图像。在开发者模式下，使用某个未定义的图像时，占位组件会被自动使用。如果你觉得默认的显示有问题，也可以手动指定占位组件的使用。
+
+::
 
     # 默认情况下，会使用girl占位组件。
     image sue = Placeholder("boy")
@@ -640,36 +628,29 @@ im.MatrixColor图像操纵器是使用一个矩阵控制图像色彩变换的图
 
   该可视组件可以用于显示一个占位角色或背景。
 
-  **base**
-
+  `base`
     显示图像的类型。应该是以下类型之一：
 
     **'bg'**
-
       显示一个背景占位组件。这个组件会以浅灰填满整个界面，并在界面上方显示图像名。
 
     **'boy'**
-
       显示一个“记为男性”的占位组件，胸口位置显示图片名。
 
     **'girl'**
-
       显示一个“记为女性”的占位组件，胸口位置显示图片名。
 
     **None**
-
       尝试自动确认图像用途。如果图像名以“bg”、“cg”或者“event”开头，则取值'bg'。
 
       否则，引擎会连接一个web服务器根据角色名字猜测性别并应用。(web服务器也无法判断的情况下，默认为'girl'占位组件。)
 
       只有把config.developer设置为true时，才会连接web服务器。
 
-  **full**
-
+  `full`
     若该值为True，使用全身像的精灵(sprite)。否则，使用3/4像的精灵(sprite)。
 
-  **flip**
-
+  `flip`
     若该值为True，精灵(sprite)会水平晃动。
 
 .. _displayable-prefix:
@@ -679,7 +660,9 @@ im.MatrixColor图像操纵器是使用一个矩阵控制图像色彩变换的图
 
 可视组件可以使制作者定义他们自己的可视组件，并且涉及到所有Ren'Py可以用到可视组件的地方。一个前缀可视组件是一个带有英文冒号的字符串。前缀在冒号左边，参数在冒号右边。 :var:`config.displayable_prefix` 变量将前缀对应到一个函数。函数接受此参数，并返回一个可视组件或None。
 
-比如说，这个例子创建一个big前缀，返回一个原来两倍大的图像。 ::
+比如说，这个例子创建一个big前缀，返回一个原来两倍大的图像。
+
+::
 
     init -10 python:
         def embiggen(s):

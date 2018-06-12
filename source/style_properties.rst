@@ -4,10 +4,11 @@
 样式特性(property)
 ================
 
-(译者注：property一词通常也翻译成“属性”。鉴于文档中的attribute也可以翻译成“属性”。为了防止混淆，将property翻译为“特性”。)
+(译者注：property一词通常翻译成“属性”。鉴于文档中的attribute也可以翻译成“属性”。为了防止混淆，将property翻译为“特性”。)
 
 样式特性与 :ref:`样式 <styles>` 相关，控制可视组件的显示方式。样式特性出现时可以没有前缀，这种情况下样式特性应用于所有状态的可视组件；带前缀的样式特性则限制了应用组件的状态。
 
+.. _style-property-prefixes:
 
 样式特性前缀
 =======================
@@ -66,7 +67,9 @@
  * - ``selected_insensitive_``
    - selected\_insensitive
 
-我们可以使用一个文本按钮实际演示一下。文本按钮使用两个默认的样式： ``button`` 用于按钮本身， ``button_text`` 用于按钮上的文本。 :propref:`background` 样式特性设置按钮的背景， :propref:`color` 特性设置文本颜色：::
+我们可以使用一个文本按钮实际演示一下。文本按钮使用两个默认的样式： ``button`` 用于按钮本身， ``button_text`` 用于按钮上的文本。 :propref:`background` 样式特性设置按钮的背景， :propref:`color` 特性设置文本颜色：
+
+::
 
      # 当按钮为insensitive状态时，背景为灰色；hover状态是，背景为浅蓝；
      # 其他情况下，背景为深蓝。
@@ -79,6 +82,8 @@
      style button_text:
          color "#fff"
          selected_color "#ff0"
+
+.. _style-property-values:
 
 样式特性的值
 =====================
@@ -114,22 +119,23 @@
 
     * ``(0, 0, 255, 255)`` 表现为完全不透明的蓝色。
 
-    最后，color可以是 :class:`Color`类的一个实例。
-
+    最后，color可以是 :class:`Color` 类的一个实例。
 
 .. _style-prefix-search:
 
-样式特性搜索
+样式前缀搜索
 -------------------
 
 当某个样式特性包含“[prefix\_]”可替换前缀，就会进行前缀搜索。前缀搜索会查找没一种状态前缀，根据原特性已经明确声明过的信息。
 
-举例，如果我们有如下脚本：::
+举例，如果我们有如下脚本：
+
+::
 
     style button:
         hover_background "[prefix_]background.png"
 
-样式特性搜索会分别搜索hover和selected\_hover状态。前缀的搜索基于样式特性定义语句中的state值。
+样式前缀搜索会分别搜索hover和selected\_hover状态。前缀的搜索基于样式特性定义语句中的state值。
 
 .. list-table::
  :header-rows: 1
@@ -155,16 +161,20 @@
  * - selected\_insensitive
    - "selected\_insensitive\_", "hover\_", "selected\_", "", "selected\_idle\_", "idle\_"
 
-样式特性搜索按上面表格给出的顺序进行。然后Ren'Py会坚持是否有符合那个名称的可加载文件或者图像存在。如果文件或图像存在，样式特性搜索就会结束，并且使用找到的可视组件。否则，搜索会继续尝试下一个前缀。
+样式前缀搜索按上面表格给出的顺序进行。然后Ren'Py会坚持是否有符合那个名称的可加载文件或者图像存在。如果文件或图像存在，样式前缀搜索就会结束，并且使用找到的可视组件。否则，搜索会继续尝试下一个前缀。
 
 样式前缀会传给可视组件，不需要用户输入。
 
-这里是一个样例，演示这个功能如何使用。假设文件“idel\_button.png”和“hover\_button.png”存在(并且不存在其他以“button.png”字符串结尾的其他文件)：::
+这里是一个样例，演示这个功能如何使用。假设文件“idel\_button.png”和“hover\_button.png”存在(并且不存在其他以“button.png”字符串结尾的其他文件)：
+
+::
 
     style button:
         background "[prefix_]button.png"
 
-等效于：::
+等效于：
+
+::
 
     style button:
         idle_background "idle_button.png"
@@ -175,6 +185,7 @@
         selected_hover_background "hover_button.png"
         selected_insensitive_background "idle_button.png"
 
+.. _list-of-all-style-properties:
 
 所有样式特性的列表
 ============================
@@ -190,7 +201,7 @@
 
 .. style-property:: alt string or None
 
-    当self-voicing启用时，备选文本会用于可视组件。详见:ref:`自动语音 <self-voicing>` 章节内容。
+    当self-voicing启用时，备选文本会用于可视组件。详见 :ref:`自动语音 <self-voicing>` 章节内容。
 
 .. style-property:: xpos position
 
@@ -282,7 +293,7 @@
 
 .. style-property:: xysize tuple of (int, int)
 
-    使用元组第一个元素设置xminimum和xmaximum，使用元组的第二个元素设置yminimum和ymaximum.该特性对可视组件的尺寸生效。
+    使用元组第一个元素设置xminimum和xmaximum，使用元组的第二个元素设置yminimum和ymaximum。该特性对可视组件的尺寸生效。
 
 .. style-property:: xfill boolean
 
@@ -298,14 +309,11 @@
 
 .. style-property:: area tuple of (int, int, int, int)
 
-    元组内元素可解释为 (`xpos`, `ypos`, `width`,
-    `height`)。如果把某个可视组件的左上角放在 `xpos` 和 `ypos`对应的位置，那么它的尺寸就是 `width`
-    和 `height`。
+    元组内元素可解释为 (`xpos`, `ypos`, `width`, `height`)。如果把某个可视组件的左上角放在 `xpos` 和 `ypos` 对应的位置，那么它的尺寸就是 `width` 和 `height`。
 
     这个特性会把xpos、ypos、xanchor、yanchor、xmaximum、ymaximum、xminimum、yminimum、xfill和yfill自动设置为合适的值。
 
     但这个特性并不适用于所有的可视组件和布局(layout)。
-
 
 .. _text-style-properties:
 
@@ -322,7 +330,7 @@
 
     若设置为False，文本不会改变字号，但确保在任何窗口大小下布局文本都有足够空间，这是创作者的职责。
 
-    对大多数文本来说都是用默认值True，但在需要 ``input``输入的情况下使用False。
+    对大多数文本来说都是用默认值True，但在需要 ``input`` 输入的情况下使用False。
 
 .. style-property:: altruby_style style or None
 
@@ -335,7 +343,7 @@
 .. style-property:: bold boolean
 
     若为True，使用粗体渲染。对全真(truetype)字体来说，这个特性会会综合提升字体的重量(weight)。这个特性也可能会触发字体映射，使用
-    :var:`config.font_replacement_map`配置的值。
+    :var:`config.font_replacement_map` 配置的值。
 
 .. style-property:: caret displayable or None
 
@@ -362,7 +370,7 @@
 .. style-property:: italic boolean
 
     若为True，使用斜体渲染文本。对全真(truetype)字体来说，这个特性会会综合提升字体的倾斜度(slant)。这个特性也可能会触发字体映射，使用
-    :var:`config.font_replacement_map`配置的值。
+    :var:`config.font_replacement_map` 配置的值。
 
 .. style-property:: justify boolean
 
@@ -430,7 +438,7 @@
 
 .. style-property:: newline_indent boolean
 
-    若为True，  :propref:`first_indent` 的缩进量会应用于每个新行。否则使用 the :propref:`rest_indent`
+    若为True，  :propref:`first_indent` 的缩进量会应用于每个新行。否则使用 :propref:`rest_indent`
     的缩进量。
 
 .. style-property:: outlines list of tuple of (int, color, int, int)
@@ -443,7 +451,9 @@
 
     轮廓线功能可以用于给字体添加投影，方法是将size设为0，偏移量设为非0。
 
-    默认情况下， `size`, `xoffset` 和 `yoffset` 会随文本一同拉伸。当我们给定absolute类型时，就能禁止拉伸。举例：::
+    默认情况下， `size`, `xoffset` 和 `yoffset` 会随文本一同拉伸。当我们给定absolute类型时，就能禁止拉伸。举例：
+
+::
 
         style default:
             outlines [ (absolute(1), "#000", absolute(0), absolute(0)) ]
@@ -471,7 +481,6 @@
 .. style-property:: slow_cps_multiplier float
 
     文本显示速度会乘上该值。可以用于表现某个角色的说话速度比正常速率略快的情况。
-
 
 .. style-property:: strikethrough boolean
 
@@ -589,7 +598,6 @@
 
     若非None，该值是一个字符串。Ren'Py会使用size_group值相同的尺寸渲染所有窗口。
 
-
 .. _button-style-properties:
 
 按钮样式特性
@@ -609,19 +617,22 @@
 
 .. style-property:: mouse string
 
-    鼠标样式用于按钮获得焦点状态。这是定义在 :var:`config.mouse`中的样式之一。
+    鼠标样式用于按钮获得焦点状态。这是定义在 :var:`config.mouse` 中的样式之一。
 
 .. style-property:: focus_mask multiple
 
     一个mask遮罩，用于控制按钮哪些区域可以获得焦点，哪些区域不响应点击。该特性的类型决定了其如何被解释。
 
-    Displayable
+    **Displayable**
         可视组件的不透明区域，可以让按钮获得焦点。
-    True
+
+    **True**
         按钮自身用作可视组件(按钮的非透明区域可以让按钮获得焦点)。
-    callable
+
+    **callable**
         如果一个不可视组件被调用(像函数、方法或者带有__call__方法的对象)，该该函数被使用两个入参调用，从对应可视组件左上角算起，x和y轴的两个偏移量。若函数返回结果为True，可视组件获得焦点。
-    None
+
+    **None**
         如果该值为None，整个按钮都可以获得焦点。
 
 .. style-property:: keyboard_focus boolean
@@ -710,7 +721,7 @@
 
 .. style-property:: mouse string
 
-    鼠标样式，用于按钮获得焦点时。该字符串应是 :var:`config.mouse`定义的样式之一。
+    鼠标样式，用于按钮获得焦点时。该字符串应是 :var:`config.mouse` 定义的样式之一。
 
 .. style-property:: unscrollable string or None
 
@@ -728,7 +739,6 @@
 .. style-property:: keyboard_focus boolean
 
    若为True，也是默认值，按钮可以通过键盘的焦点机制获得焦点，前提是这个按钮本身允许获得焦点。若为False，键盘焦点机制会跳过这个按钮。(键盘焦点机制使用键盘或者类似键盘的设备，比如游戏手柄。)
-
 
 .. _box-style-properties:
 
@@ -752,8 +762,6 @@
 .. style-property:: box_wrap boolean
 
     若为True，当到达方块最后一行或列时会发生扭转(warp)。若为False，会在每一行的结尾扩展。
-
-
 
 .. _grid-style-properties:
 

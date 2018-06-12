@@ -347,12 +347,10 @@ hide和show窗口
 
   该函数判断入参 *name* 代表的图像是否能显示。函数把入参 *name* 看做一个图像标签(tag)和属性(attribute)。该函数依据目前正显示在 *图层* 上的所有 *tag* 来尝试确认唯一的图像。若存在唯一可显示图像，则以元组形式返回图像名。否则返回None。
 
-  **tag**
-
+  `tag`
     图像标签(tag)属性。若为空，默认使用入参name的第一个组件。
 
-  **layer**
-
+  `layer`
     需要确认的图层(layer)名。若为空，则默认使用 *tag* 所在图层。
 
 .. function:: renpy.check_image_attributes(tag, attributes)
@@ -369,32 +367,27 @@ hide和show窗口
 
   将复制所有以“eileen”开头的图像并创建以“eileen2”开头的新图像。若“eileen happy”存在，则创建“eileen2 happy”。
 
-  **old**
-
+  `old`
     原图片名的字符串，图片名各部分以空格分隔。
 
-  **new**
-
+  `new`
     新图片名的字符串，图片名各部分以空格分隔。
 
 .. function:: renpy.get_attributes(tag, layer=None)
 
   根据入参图片标签 *tag* ，返回对应图像属性(attribute)的元组。若图像整在显示，则返回None。
 
-  **layer**
-
+  `layer`
     待检图层(layer)。若为空，使用 *tag* 所在的默认图层。
 
 .. function:: renpy.get_ordered_image_attributes(tag, attributes=(), sort=None)
 
   返回图像标签(tag)列表，按照对用户来说合理的方式排序。
 
-  **attributes**
-
+  `attributes`
     若该值不为空，只寻找与给定属性(attribute)兼容的结果。(兼容的意思是，各类属性在同一时间里能找到对应唯一图像。)
 
-  **sort**
-
+  `sort`
     若不为None，返回的属性(attribute)列表就是排序后的。该函数应当用作中断器(tiebreaker)。
 
 .. function:: renpy.get_placement(d)
@@ -423,12 +416,10 @@ hide和show窗口
 
   若入参name为名的图像存在返回真(true)，若不存在返回假(false)。
 
-  **name**
-
+  `name`
     一个图像名的字符串，或者图像名各组件的元组。
 
-  **exact**
-
+  `exact`
     只有跟name全匹配的图像名存在时才返回真(true)——部分匹配则返回假(false)。
 
 .. function:: renpy.seen_image(name)
@@ -439,12 +430,10 @@ hide和show窗口
 
   若与name同名标签的图像整在图层  *layer* 上显示，则返回真(true)。
 
-  **image**
-
+  `image`
     可能是一个给定图像名的字符串，或者给定图像名各组件的元组。还可以只是给定图像标签(tag)的字符串。
 
-  **layer**
-
+  `layer`
     待检图层(layer)。若为None，使用 *tag* 所在默认图层。
 
 .. function:: renpy.start_predict(*args)

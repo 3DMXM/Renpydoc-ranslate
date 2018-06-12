@@ -14,13 +14,16 @@
 为了让定义层叠式图像更加方便，Ren'Py提供了layeredimage语句。以layeredimage开头的语句表示，允许传作者使用特定域的语言定义一个层叠式图像。
 还有 :func:`LayeredImage` 对象，虽然它不是一般的图像(image)对象，但可以使用image语句声明，也可以和一般图像一样使用。
 
+.. _defining-layered-images:
 
 定义层叠式图像
 -----------------------
 
 层叠式图像的特定域脚本语言由几种语句组成。其中一种语句就是一个引入图像的普通脚本语言语句，跟在它后面的语句则引入图层和图层组。
 
-为了介绍这种特殊的语言，这里的例子是一个使用了多种功能特性(feature)的层叠式图像，所有的隐式项全都使用显式标明。 ::
+为了介绍这种特殊的语言，这里的例子是一个使用了多种功能特性(feature)的层叠式图像，所有的隐式项全都使用显式标明。 
+
+::
 
     layeredimage augustina:
 
@@ -86,7 +89,7 @@ attribute语句引入的图层，是仅在图像需要对应属性(attribute)时
 最后，if语句添加了一个图层，该图层使用一条Python语句在不同的可视组件间选择显示的对象。Python语句总是重新计算，并显示第一个满足条件表达式为True的图像。
 
 特性(property)由特性名称和一个简单表达式构成，可以传给每一个图层。一些特性(property)会改变某些语句的功能。
-如果含有某一个或多个 :ref:` 变换特性 <transform-properties>` 会创建一个 :func:`Transform` 对象并wrap出显示结果。
+如果含有某一个或多个 :ref:`变换特性 <transform-properties>` 会创建一个 :func:`Transform` 对象并wrap出显示结果。
 at后面的某个变换(transform)或者变换列表也会让可视组件产生变化。例如，这里的pos特性(property)创建了一个变换(transform)，移动角色“mouth”图像的位置。
 
 最终图像的尺寸等于能包围所有图层的方框尺寸。所以最好直接让某一个图层就是最终图像的完整尺寸，这个尺寸能包含所有的图层。
@@ -94,6 +97,7 @@ at后面的某个变换(transform)或者变换列表也会让可视组件产生�
 
 group和attribute语句在某个层叠式图像中可以出现多次，所有指定属性(attribute)的图像都会显示。
 
+.. _using-an-layered-image:
 
 使用层叠式图像
 ----------------------
@@ -108,15 +112,21 @@ group和attribute语句在某个层叠式图像中可以出现多次，所有指
 
 当精灵(sprite)显示时，额外属性(attribute)的要素只要不冲突就都会添加到图像上。
 (使用Ren'Py时广泛存在的，匹配不到已定义图像的情况，基本不会发生在层叠式图像上。)
-所以，::
+所以，
+
+::
 
     show augustina wink
 
-会激活与wink属性(attribute)关联的图层。我们可以可以关闭wink属性，使用：::
+会激活与wink属性(attribute)关联的图层。我们可以可以关闭wink属性，使用：
+
+::
 
     show augustina open
 
-因为open状态的眼睛与wink状态的眼睛冲突。我们还可以直接移除wink属性，使用：::
+因为open状态的眼睛与wink状态的眼睛冲突。我们还可以直接移除wink属性，使用：
+
+::
 
     show augustina -wink
 
@@ -124,7 +134,7 @@ group和attribute语句在某个层叠式图像中可以出现多次，所有指
 
 层叠式图像还可以使用在scene语句中。
 
-
+.. _automatic-attributes:
 
 自动化属性
 --------------------
@@ -135,7 +145,9 @@ group和attribute语句在某个层叠式图像中可以出现多次，所有指
 
 这样做的时候，创作者还可以利用属性(attribute)的另一项功能特性——第一行可以添加任意特性(property)，并省略整个语句块(block)。
 
-之前的样例可以这样写：::
+之前的样例可以这样写：
+
+::
 
     layeredimage augustina:
 
@@ -170,7 +182,9 @@ group和attribute语句在某个层叠式图像中可以出现多次，所有指
 
 与属性(attribute)一样，特性(property)也可以放在组的第一行并省略语句块。always语句中的可视组件和特性(property)也可以采用同样的方式。
 
-样例的最终格式如下：::
+样例的最终格式如下：
+
+::
 
     layeredimage augustina:
 
@@ -198,14 +212,17 @@ group和attribute语句在某个层叠式图像中可以出现多次，所有指
 
 如果我们不需要默认属性，还可以减少几行脚本。那样，每个组都只需要一行。
 
+.. _statement-reference:
 
 语句参考
 -------------------
 
 需要注意，当层叠式图像首次定义时，if语句中的所有条件表达式都在初始化阶段就会被计算。
 
+.. _layeredimage:
+
 layeredimage语句
-^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
 
 ``layeredimage`` 语句在Ren'Py用作某个层叠式图像定义的开头语句。layeredimage语句开始处是图像名称，后面的语句块内包含attribute、group和if语句。
 
@@ -223,12 +240,14 @@ layeredimage语句
 `at`
     应用于层叠式图像的一个变换(transform)或变换的列表。
 
+.. _attribute:
+
 Attribute语句
-^^^^^^^^^
+^^^^^^^^^^^^^^
 
 ``attribute`` 语句添加了一个图层(layer)，当使用给定的属性(attribute)时显示对应的图像(image)。同一个属性可以用在多个图层中，并响应这个属性一齐显示(if_also和if_not特性可以更改这点)。
 
-attribute语句使用一个属性(attribute)名称。其可以使用两个关键词。 ``default`` 关键词表示，在没有同组冲突属性出现的情况下作为默认的属性。 ``null`` 关键词防止Ren'Py自动搜索对应属性的可视组件，对某些有使用条件 `if_all`， `if_any`， 或 `if_not`的属性时很有用。
+attribute语句使用一个属性(attribute)名称。其可以使用两个关键词。 ``default`` 关键词表示，在没有同组冲突属性出现的情况下作为默认的属性。 ``null`` 关键词防止Ren'Py自动搜索对应属性的可视组件，对某些有使用条件 `if_all`， `if_any`， 或 `if_not` 的属性时很有用。
 
 如果没有直接给出可视组件(displayable)，Ren'Py会将图层(layer)、组(group)、组变种(group variant)和属性(attribute)用下划线连接，算出一个可视组件的名称。所以如果我们有一个名为“augustina”的图像，组名“eyes”，属性名“closed”，那么最终使用的图像名为“augustina_eyes_closed”。
 (层叠式图像的格式化函数就负责处理这个工作，默认的格式化函数是 :func:`layeredimage.format_function`。)
@@ -253,8 +272,10 @@ attribute语句使用下列特性(property)：
 `at`
     应用于层叠式图像的一个变换(transform)或变换的列表。
 
+.. _group:
+
 Group语句
-^^^^^
+^^^^^^^^^^
 
 ``group`` 语句将一些转换后的图层(layer)组成一个组。一个组(group)中不能包含不同的属性(attribute)。(不过一个组中可以包含同样的属性两次。)
 
@@ -281,11 +302,12 @@ group语句使用的特性(property)与 ``attribute`` 语句相同。应用于�
 * 变种(variant)名称。
 * 属性(attribute)名称。
 
-全部使用下划线组成。例如，我们有一个名为“augustina work”的图层图像，名为“eyes”的组，就会根据正则表达式 augustina_work_eyes_`attribute`匹配图像。 如果带一个`blue`的`variant`，就会根据正则表达式 augustina_work_eyes_blue_`attribute`进行匹配。
+全部使用下划线组成。例如，我们有一个名为“augustina work”的图层图像，名为“eyes”的组，就会根据正则表达式 augustina_work_eyes_`attribute` 匹配图像。 如果带一个 `blue` 的 `variant` ，就会根据正则表达式 augustina_work_eyes_blue_`attribute` 进行匹配。
 
+.. _always:
 
 Always语句
-^^^^^^
+^^^^^^^^^^^
 
 ``always`` 语句定义一个保持显示的图层。always语句必须提供一个可视组件，当然也可以使用特性(property)。
 这两部分可以放在同一行，也可以放在一个语句块(block)中。
@@ -307,13 +329,17 @@ always语句使用下列特性：
 `at`
     应用于图层的一个变换(transform)或变换的列表。
 
+.. _if:
+
 If语句
 ^^^^^^
 
 ``if`` 语句(或者更完整的if-elif-else语句)允许创作者设置一个或多个条件表达式。这些条件表达式会运行时进行计算。
 每个条件表达式与某个图层(layer)关联，第一个结果为True的条件表达式对应的图像会被显示。如果没有条件表达式为True，else语句对应的图像就会显示。
 
-一个稍微复杂的if语句样例如下：::
+一个稍微复杂的if语句样例如下：
+
+::
 
     if glasses == "evil":
         "augustina_glasses_evil"
@@ -350,13 +376,17 @@ If语句
 predict_all不为True时，应该避免修改if语句的条件表达式。因为层叠式图像要么显示要么即将显示，修改if语句条件表达式会导致没有预加载的图像就被使用。
 这种设计主要用于很少变化的角色自定义选项。
 
+.. _poses:
+
 姿势
 -----
 
 一个角色对应的精灵(sprite)可能有多个姿势，不同姿势的所有内容——至少有趣的所有内容——都是不同的。
 例如，如果某个角色有站立和坐着两种姿势，所有的图像部件就都在不同的位置。
 
-在那种情况下，可以根据同一个图像标签(tag)定义多个层叠式图像。  ``layeredimage`` 语句可以允许创作者包含属性(attribute)作为图像名称的一部分。所以我们可以这样：::
+在那种情况下，可以根据同一个图像标签(tag)定义多个层叠式图像。  ``layeredimage`` 语句可以允许创作者包含属性(attribute)作为图像名称的一部分。所以我们可以这样：
+
+::
 
     layeredimage augustina sitting:
         ...
@@ -364,7 +394,9 @@ predict_all不为True时，应该避免修改if语句的条件表达式。因为
     layeredimage augustina standing:
         ...
 
-使用层叠式图像合成一个对话框头像(side image)特别好用。不同角色的对话框头像不会与其他角色的有任何关系。 ::
+使用层叠式图像合成一个对话框头像(side image)特别好用。不同角色的对话框头像不会与其他角色的有任何关系。 
+
+::
 
     layeredimage side eileen:
         ...
@@ -372,9 +404,10 @@ predict_all不为True时，应该避免修改if语句的条件表达式。因为
     layeredimage side lucy:
         ...
 
+.. _advice:
 
 几个建议
-------
+---------
 
 **在图像名称中使用下划线。**
 默认情况下，Ren'Py中的层叠式图像使用下划线作为图像名各段的分隔符。
@@ -389,6 +422,7 @@ Ren'Py的一条规则是，如果创作者想要显示一个图像，那个图�
 Ren'Py读取图像并加载到RAM之前会进行优化，将所有图像剪裁到非透明像素的包围框(bounding box)。
 因此，在图像被正确预加载的前提下，创作者剪裁图像并不会提升性能或减少图像尺寸。
 
+.. _python:
 
 Python
 ------
@@ -400,37 +434,29 @@ Python
   这个函数用于由某个属性(attribute)控制展现层叠式图像中的某个图层(layer)。单个的属性可以控制多个图层，在这种情况下那个属性的图层会同时响应并显示。
 
   **group**
-
     一个字符串，表示属性控制的组名称。可以是None，表示由属性名创建同名的组。
 
   **attribute**
-
     一个字符串，表示属性的名称。
 
   **image**
-
     如果不是None，这项应该是受属性控制显示的可视组件。
 
   **default**
-
     如果是True，并且组内其他属性没有设置为默认属性，就使用 *attribute* 作为默认属性。
 
   还有下面几个关键词入参：
 
   **at**
-
     应用于图像的一个变换(transform)或者变换列表。
 
   **if_all**
-
     一项属性(attribute)或属性列表。只有所有属性都显示时，对应的可视组件才会显示。
 
   **if_any**
-
     一项属性(attribute)或属性列表。只要不是空列表，任意属性显示时，对应的可视组件都会显示。
 
   **if_not**
-
     一项属性(attribute)或属性列表。所有属性都不显示的情况下，可视组件才显示。
 
     其他关键词入参都可以集成为变换(transform)的特性(property)。如果出现了这样的关键词入参，就会创建一个变换用于warp图像。
@@ -443,27 +469,21 @@ Python
     这个函数用于由某个条件表达式控制展现层叠式图像中的某个图层(layer)。当条件表达式为True时，显示图层。否则不显示。
 
     **condition**
-
       这是一个字符串，表示Python条件表达式，决定是否显示图层。
 
     **image**
-
       若不是None，这是一个可视组件，条件表达式condition为True时显示。
 
     **if_all**
-
       一项属性或属性列表。只有所有属性都显示时，才计算条件表达式的值。
 
     **if_any**
-
       一项属性或属性列表。只要列表不是空列表，任意属性显示时都计算条件表达式的值。
 
     **if_not**
-
       一项属性或属性列表。只有所有属性都不显示时，才计算条件表达式的值。
 
     **at**
-
       应用于图像的一个变换(transform)或者变换列表。
 
     其他关键词入参都可以集成为变换(transform)的特性(property)。如果出现了这样的关键词入参，就会创建一个变换用于warp图像。
@@ -474,28 +494,22 @@ Python
     这是一个类图像对象，如果显示某个合适的属性(attribute)的集合，使用集合中那些属性对应的可视组件合成一个可视组件并显示。
 
     **attribute**
-
       这必须是一个Attribute对象列表。每个Attribute对象影响一个可视组件作为最终图像的一部分是否显示。列表中的元素是从后往前顺序排列，第一个元素距离观察者(viewer)最远，最后一个元素距离最近。
 
     **at**
-
       一个变换(transform)或变换列表，应用于可视组件。
 
     **name**
-
       属性名称。这项用作图像组成名称的一部分。
 
     **image_format**
-
       如果给定的图像是一个字符串，并且出现了image_format，就在图像名中插入image_format，用作图片文件。例如，“sprites/eileen/{image}.png”会搜索sprites子目录下的图像。
       (这项不用在auto组中，auto组只搜索图像而不搜索图片文件。)
 
     **format_function**
-
       一个函数，用于代替 *layeredimage.format_function* 函数，将图像信息格式化并传入某个可视组件。
 
     **attribute_function**
-
       如果不是None，这个函数使用应用于图像的属性(attribute)集作为参数，并返回选择的图层所使用的属性集。
       在属性自身被选中后，决定显示图层时，调用这个函数。它可以用于表示属性或随机选择的属性间复杂的依赖关系。
 
@@ -511,31 +525,24 @@ Python
     调用这个函数可以将属性(attribute)或条件表达式的信息格式化并传入可视组件中。创作者可以用自定义函数替换这个函数，不过新的函数会忽略未知的关键词入参。
 
     **what**
-
       一个字符串，表示格式化内容的描述信息，常用于创建更详尽的错误信息。
 
     **name**
-
       图像属性(attribute)名称。
 
     **group**
-
       属性的组(group)名，如果不支持组或者其是条件表达式的一部分则为None。
 
     **variant**
-
       组(group)内的variant入参，如果没有则为None。
 
     **attribute**
-
       属性(attribute)本身。
 
     **image**
-
       一个可视组件或者字符串。
 
     **image_format**
-
       LayeredImage函数的image_format入参。
 
     如果 ``image`` 的值是None，那么就用下划线连接 ``name`` 、 ``group`` (如果非None)、 ``variant`` (如果非None)和 ``attribute`` ，组合并创建出 *image* 。这个创建的 *image* 是一个字符串。
@@ -546,6 +553,8 @@ Python
     如果 *image_format* 是“mages/{image}.png”，Ren'Py找到的最终图像就是“images/eileen_expression_happy.png”。
     但是注意，Ren'Py还会找到不带format入参的同名图像。
 
+.. _proxying-layered-images:
+
 层叠式图像生成代理对象
 -----------------------
 
@@ -553,22 +562,24 @@ Python
 
 LayeredImagePorxy对象实现了这个功能，为层叠式图像创建出可以在各处使用的副本。
 
-举例：::
+举例：
+
+::
 
     image dupe = LayeredImageProxy("augustina")
 
-这行脚本创建了一个可以独立显示的图像副本。这个副本能搭配上某个变换(transform)入参，并用于设定对话框头像(side image)的位置，像这样：::
+这行脚本创建了一个可以独立显示的图像副本。这个副本能搭配上某个变换(transform)入参，并用于设定对话框头像(side image)的位置，像这样：
+
+::
 
     image side augustina = LayeredImageProxy("augustina", Transform(crop=(0, 0, 362, 362), xoffset=-80))
 
-    .. function:: LayeredImageProxy(name, transform=None)
+.. function:: LayeredImageProxy(name, transform=None)
 
-      这是一个类图像对象。可以将某个层叠式图像的属性(attribute)传给另一个层叠式图像。
+  这是一个类图像对象。可以将某个层叠式图像的属性(attribute)传给另一个层叠式图像。
 
-      :dfn:`name`
+  `name`
+    一个字符串，表示需要生成代理对象的层叠式图像名。
 
-        一个字符串，表示需要生成代理对象的层叠式图像名。
-
-      :dfn:`transform`
-
-        若给定了这个入参，表示生成代理对象后，会应用于图像上的某个变换(transform)或变换列表。
+  `transform`
+    若给定了这个入参，表示生成代理对象后，会应用于图像上的某个变换(transform)或变换列表。

@@ -11,12 +11,16 @@ Ren'Py使用Python程序语言编写，并且支持在Ren'Py脚本中包含Pytho
 Python
 ------
 
-python语句包含一个Python的语句块(block)，当主控流程达到该语句时就会执行对应的语句块。一条基本的python语句非常简练：::
+python语句包含一个Python的语句块(block)，当主控流程达到该语句时就会执行对应的语句块。一条基本的python语句非常简练：
+
+::
 
     python:
         flag = True
 
-在必要时，python语句可以更复杂：::
+在必要时，python语句可以更复杂：
+
+::
 
     python:
         player_health = max(player_health - damage, 0)
@@ -42,7 +46,9 @@ python语句包含一个Python的语句块(block)，当主控流程达到该语�
 
 最常见的情况就是只有一行Python语句，运行在默认存储区内。例如，一行Python可以用来初始化或者更新一个flag。为了让编写只有一行的Python更精炼，这里提供了单行Python语句。
 
-单行Python语句以美元符号($)开头，一行语句内容可以包罗万象。这是一些单行Python语句样例：::
+单行Python语句以美元符号($)开头，一行语句内容可以包罗万象。这是一些单行Python语句样例：
+
+::
 
     # 立一个flag。
     $ flag = True
@@ -64,7 +70,9 @@ python语句包含一个Python的语句块(block)，当主控流程达到该语�
 init python语句
 ---------------------
 
-``init python`` 语句在初始化阶段运行，早于其他游戏资源加载。在其他方面，这种功能可以用于定义类(class)和函数(function)，或者初始化样式(style)、配置变量、持久化数据。 ::
+``init python`` 语句在初始化阶段运行，早于其他游戏资源加载。在其他方面，这种功能可以用于定义类(class)和函数(function)，或者初始化样式(style)、配置变量、持久化数据。
+
+::
 
     init python:
 
@@ -94,16 +102,22 @@ init python语句也可以使用 ``hide`` 或 ``in`` 分句。
 define语句
 ----------------
 
-define语句在初始化时将一个变量赋值。例如：::
+define语句在初始化时将一个变量赋值。例如：
+
+::
 
     define e = Character("艾琳")
 
-等价于::
+等价于
+
+::
 
     init python:
         e = Character("艾琳")
 
-define语句可以选择使用一个命名存储区(详见下面的例子)，将存储区名放在变量前面，用英文句号(.)连接。举例：::
+define语句可以选择使用一个命名存储区(详见下面的例子)，将存储区名放在变量前面，用英文句号(.)连接。举例：
+
+::
 
     define character.e = Character("艾琳")
 
@@ -116,21 +130,29 @@ define语句可以选择使用一个命名存储区(详见下面的例子)，将
 default语句
 -----------------
 
-default语句给一个变量赋值，前提是该变量在游戏启动或者新游戏加载时未定义。举例：::
+default语句给一个变量赋值，前提是该变量在游戏启动或者新游戏加载时未定义。举例：
+
+::
 
     default points = 0
 
-如果变量 ``points`` 在游戏启动时未定义，这条default语句等价于：::
+如果变量 ``points`` 在游戏启动时未定义，这条default语句等价于：
+
+::
 
     label start:
         $ points = 0
 
-如果变量 ``points`` 在游戏加载时未定义，这条default语句等价于：::
+如果变量 ``points`` 在游戏加载时未定义，这条default语句等价于：
+
+::
 
     label after_load:
         $ points = 0
 
-default语句可以选择使用一个命名存储区(详见下面的例子)，将存储区名放在变量前面，用英文句号(.)连接。举例：::
+default语句可以选择使用一个命名存储区(详见下面的例子)，将存储区名放在变量前面，用英文句号(.)连接。举例：
+
+::
 
     default schedule.day = 0
 
@@ -140,11 +162,15 @@ default语句可以选择使用一个命名存储区(详见下面的例子)，�
 init offset语句
 ---------------------
 
-init offset语句为所有在初始化阶段运行的语句设置了优先级偏移量(offset)。(init、init python、define、default、screen、transform、style等语句。)init offset语句中给定的偏移量(offset)对之后同一个语句块(block)及其子语句块的所有语句均生效，除非期间出现一个init priority语句。下面这条语句：::
+init offset语句为所有在初始化阶段运行的语句设置了优先级偏移量(offset)。(init、init python、define、default、screen、transform、style等语句。)init offset语句中给定的偏移量(offset)对之后同一个语句块(block)及其子语句块的所有语句均生效，除非期间出现一个init priority语句。下面这条语句：
+
+::
 
     init offset = 42
 
-将优先级偏移量(offset)设置为42。而在下面段脚本中：::
+将优先级偏移量(offset)设置为42。而在下面段脚本中：
+
+::
 
     init offset = 2
     define foo = 2
@@ -165,7 +191,9 @@ Ren'Py存储Python变量的地方称作存储区(store)。请务必保证你使�
 
 define语句将一个值声明为一个变量，而其通常用作定义一个角色。这表示角色和flag不能同名。
 
-下面这段有问题的脚本：::
+下面这段有问题的脚本：
+
+::
 
     define e = Character("艾琳")
 
@@ -193,7 +221,9 @@ define语句将一个值声明为一个变量，而其通常用作定义一个�
 
 命名存储区可以可以通过 ``python`` 或 ``init python`` 语句中的 ``in`` 分句接入。python和init python语句都在命名存储区内运行Python。每个存储区相当于一个Python模块(module)。默认存储区就是  ``store`` ，接入该存储区内的变量名格式为 ``store.name`` 。这些python模块可以通过使用Python import语句导入(import)，模块中的变量和函数名可以使用Python from语句导入(import)。
 
-举例：::
+举例：
+
+::
 
     init python in mystore:
 
@@ -221,7 +251,9 @@ define语句将一个值声明为一个变量，而其通常用作定义一个�
 
 Ren'Py可以导入(import)纯python的模块和包。创作者需要用在游戏中的第一方的模块和包，可以直接放置在game文件夹里。第三方的包可以放在game/python-packages文件夹里。
 
-例如，如果要安装requests包，创作者可以用命令行进入游戏所在目录，然后运行如下命令：::
+例如，如果要安装requests包，创作者可以用命令行进入游戏所在目录，然后运行如下命令：
+
+::
 
     pip install --target game/python-packages requests
 

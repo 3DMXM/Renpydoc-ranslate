@@ -132,7 +132,9 @@ interpolation语句可以包含一些其他分句。若出现了特性(property)
 
 如果出现的是简单表达式，其可以简化为一个变换(transform)，这个变换是一个最简单的interpolate语句，不包含warp、spline或者circular动作。变换(transform)中的各项特性(property)会同直接包含在interpolation语句中一般被处理。
 
-一些interpolation语句样例如下：::
+一些interpolation语句样例如下：
+
+::
 
     show logo base:
          # 在界面的右上角显示logo。
@@ -241,7 +243,9 @@ repeat语句是一种简单语句，包含它的语句块(block)会从开头从�
 .. productionlist:: atl
     atl_repeat : "repeat" (`simple_expression`)?
 
-repeat语句必须是一个语句块(block)的最后一个语句：::
+repeat语句必须是一个语句块(block)的最后一个语句：
+
+::
 
     show logo base:
         xalign 0.0
@@ -514,7 +518,9 @@ easeout_quart       easeIn_quart
 easeout_quint       easeIn_quint
 ===============     ===================
 
-我们可以在一个Python语句块中，使用renpy.atl_warper构造器定义新的warper函数。定义warper函数的文件需要放在使用那个函数的其他任何文件之前。定义的代码如下：::
+我们可以在一个Python语句块中，使用renpy.atl_warper构造器定义新的warper函数。定义warper函数的文件需要放在使用那个函数的其他任何文件之前。定义的代码如下：
+
+::
 
     python early hide:
 

@@ -6,7 +6,9 @@
 
 环境设定配置存储在Ren'Py的环境设定(preference)中。由于环境设定的值被设置为实时使用 :func:`Preference` 动作，环境设定配置应该使用default语句来设置环境设定的默认值。
 
-举例：::
+举例：
+
+::
 
     default preferences.text_cps = 142
 
@@ -87,7 +89,7 @@
 
     若为True，自动前进模式会等待语音文件或自动语音播放之后再进入下一句。若为False，则不等待。等效于环境设定的“wait for voice”。
 
-
+.. _audio-channel-defaults:
 
 音频通道默认配置
 -----------------------

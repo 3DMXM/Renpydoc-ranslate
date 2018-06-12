@@ -1,4 +1,4 @@
-.. _screen-special:
+.. _special-screen-names:
 
 ====================
 特殊界面名称
@@ -12,6 +12,8 @@
 
 一些界面也还有关联的专属id。专属id会被分配给指定类型的可视组件。其还可以导致特性(property)分配给对应的可视组件，并可以让Ren'Py显示界面的其他部分可以访问这个可视组件。
 
+.. _in-game-screens:
+
 游戏内界面
 ===============
 
@@ -22,7 +24,7 @@
 Say
 ---
 
-``say``界面在ADV模式对话时，通过say语句被调用。其显示时使用下列参数：
+``say`` 界面在ADV模式对话时，通过say语句被调用。其显示时使用下列参数：
 
 `who`
     发言角色名的文本。
@@ -112,7 +114,7 @@ Input
 
 通常使用下面的id定义一个可视组件：
 
-"input"
+**"input"**
     一个必须存在的输入组件。其所有参数都会应用于renpy.input，所以必须存在。
 
 ::
@@ -162,7 +164,7 @@ NVL
 
 `items`
     这是所有会用在
-    :ref:`选择界面 <choice-screen>`中的item列表。如果列表是空的，则菜单就不会显示。
+    :ref:`选择界面 <choice-screen>` 中的item列表。如果列表是空的，则菜单就不会显示。
 
 如果 `items` 不存在，NVL界面通常会给出id为“what”的文本部件(widget)。Ren'Py使用这个文本不见计算自动前进模式时间、点击继续等。(如果使用默认what_id的话，就能启用自动模式。)
 
@@ -178,7 +180,7 @@ Ren'Py 也支持 ``nvl_choice`` 界面，这个界面与 ``nvl`` 界面使用相
             has vbox:
                 style "nvl_vbox"
 
-            # Display dialogue.
+            # 显示对话。
             for d in dialogue:
                 window:
                     id d.window_id
@@ -191,7 +193,7 @@ Ren'Py 也支持 ``nvl_choice`` 界面，这个界面与 ``nvl`` 界面使用相
 
                     text d.what id d.what_id
 
-            # Display a menu, if given.
+            # 如果存在菜单就显示。
             if items:
 
                 vbox:
@@ -222,27 +224,28 @@ Notify
 `message`
     显示的信息。
 
-默认的notify界面和关联的transform如下：::
+默认的notify界面和关联的transform如下：
+
+::
 
     screen notify(message):
         zorder 100
 
         text message at _notify_transform
 
-        # 这控制了界面第一次显示和隐藏之间的时间。
+        # 这控制界面第一次显示和隐藏之间的时间。
         timer 3.25 action Hide('notify')
 
     transform _notify_transform:
-        # 这些控制了位置
+        # 这些控制位置
         xalign .02 yalign .015
 
-        # 这些控制了显示隐藏的动作。
+        # 这些控制显示隐藏的动作。
         on show:
             alpha 0
             linear .25 alpha 1.0
         on hide:
             linear .5 alpha 0.0
-
 
 .. _skip-indicator:
 
@@ -251,7 +254,9 @@ Notify
 
 ``skip_indicator`` 界面在“跳过”过程中出现，完成“跳过”后隐藏。其不使用任何参数。
 
-这是一个非常简单的跳过提示界面：::
+这是一个非常简单的跳过提示界面：
+
+::
 
 
     screen skip_indicator():
@@ -260,6 +265,8 @@ Notify
 
         text _("Skipping")
 
+.. _ctc-click-to-continue:
+
 
 CTC(点击继续)
 -----------------------
@@ -267,9 +274,11 @@ CTC(点击继续)
 ``ctc`` 界面会在对话显示完毕，提示用户点击显示更多文本的情况下出现。其可能会使用一个参数。
 
 `arg`
-    如果 :func:`Character` 对象有一个`ctc`入参，就会被作为第一个固定位置入参传入ctc界面。
+    如果 :func:`Character` 对象有一个 `ctc` 入参，就会被作为第一个固定位置入参传入ctc界面。
 
-这是一个非常简单的ctc界面：::
+这是一个非常简单的ctc界面：
+
+::
 
     screen ctc(arg=None):
 
@@ -280,19 +289,19 @@ CTC(点击继续)
             xalign 0.98
             yalign 0.98
 
-
+.. _out-of-game-menu-screens:
 
 游戏外菜单界面
 ========================
 
-这些是菜单界面。 ``main_menu`` 和 ``yesno_prompt``会被隐式调用。当用户调用游戏菜单时，名为 :data:`_game_menu_screen` 的界面就会显示。(默认与 ``save`` 相同。)
+这些是菜单界面。 ``main_menu`` 和 ``yesno_prompt`` 会被隐式调用。当用户调用游戏菜单时，名为 :data:`_game_menu_screen` 的界面就会显示。(默认与 ``save`` 相同。)
 
 记住，菜单界面可以任意组合和修改。
 
 .. _main-menu-screen:
 
-主菜单（Main Menu）
----------
+主菜单(Main Menu)
+-------------------
 
 ``main_menu`` 界面是游戏开始时显示的第一个界面。
 
@@ -469,7 +478,7 @@ Preferences
 
 ``preference`` 界面用于提供游戏显示方面的环境设定选项。
 
-环境设定主要是 :func:`Preference`返回的动作或者条(bar)值。
+环境设定主要是 :func:`Preference` 返回的动作或者条(bar)值。
 
 ::
 

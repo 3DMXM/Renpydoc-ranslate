@@ -8,7 +8,9 @@
 
 Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会发生改变。在初始化语句块(block)之外修改配置项变量会导致未定义的行为。配置项变量不是存档文件的一部分。
 
-配置项变量通常是初始化Python语句块(block)中修改：::
+配置项变量通常是初始化Python语句块(block)中修改：
+
+::
 
     init python:
 
@@ -141,7 +143,7 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 环境设定默认值
 -------------------
 
-Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境设定变量 <preference-variables>`部分的内容。
+Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境设定变量 <preference-variables>` 部分的内容。
 
 .. _occasionally-used:
 
@@ -206,14 +208,14 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
 .. var:: config.character_id_prefixes = [ ]
 
-    这项指定了一个可以用于 :func:`Character`对象的样式特性(property)前缀列表。当某个样式前缀与列表中的前缀匹配，带有那个前缀的可视组件就会应用对应的样式。
+    这项指定了一个可以用于 :func:`Character` 对象的样式特性(property)前缀列表。当某个样式前缀与列表中的前缀匹配，带有那个前缀的可视组件就会应用对应的样式。
 
     例如，给默认GUI添加“namebox”前缀。当某个角色给定了namebox_background特性时，它会将带有id“namebox”的可视组件设置为say界面的 :propref:`background`。
 
 .. var:: config.config.conditionswitch_predict_all = False
 
     针对  :func:`ConditionSwitch`
-    和 :func:`ShowingSwitch`的predict_all入参默认值，决定是否所有可用的可视组件都显示。
+    和 :func:`ShowingSwitch` 的predict_all入参默认值，决定是否所有可用的可视组件都显示。
 
 .. var:: config.debug = False
 
@@ -246,7 +248,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
     当该项为True时，style语句的执行会推迟到所有“translate python”语句块(block)执行后。这允许多语言支持python语句块更新某些变量。这些变量会用于多语言支持样式之外的style语句中。
 
-    该项默认值是False， :func:`gui.init`被调用时会将这项设置为True。
+    该项默认值是False， :func:`gui.init` 被调用时会将这项设置为True。
 
 .. var:: config.developer = "auto"
 
@@ -298,7 +300,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
 .. var:: config.font_replacement_map = { }
 
-    这项是一个从(font, bold, italics)到(font, bold, italics)映射，用来使用指定的粗体或斜体替换默认字体。例如，如果想要“Vera.ttf”版本的斜体使用“VeraIt.ttf”代替，可以这样写：::
+    这项是一个从(font, bold, italics)到(font, bold, italics)映射，用来使用指定的粗体或斜体替换默认字体。例如，如果想要“Vera.ttf”版本的斜体使用“VeraIt.ttf”代替，可以这样写：
+
+    ::
 
         init python:
             config.font_replacement_map["Vera.ttf", False, True] = ("VeraIt.ttf", False, False).
@@ -351,13 +355,13 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
 .. var:: config.image_cache_size = None
 
-    如果非None，该项用于设置 :ref:`图像缓存 <images>`的大小，是界面尺寸的整倍数，单位为像素。
+    如果非None，该项用于设置 :ref:`图像缓存 <images>` 的大小，是界面尺寸的整倍数，单位为像素。
 
     如果设置过大，是浪费内存的行为。如果设置过小，图像从磁盘直接加载，会降低性能。
 
 .. var:: config.image_cache_size_mb = 300
 
-    该项用于设置 :ref:`图像缓存 <images>`的大小，单位是MB。如果 :var:`config.cache_surfaces` 的值是False，每个图像的一个像素占用4 byte的存储空间；否则，每个图像的一个像素占用8 byte的存储空间.
+    该项用于设置 :ref:`图像缓存 <images>` 的大小，单位是MB。如果 :var:`config.cache_surfaces` 的值是False，每个图像的一个像素占用4 byte的存储空间；否则，每个图像的一个像素占用8 byte的存储空间.
 
     如果设置过大，是浪费内存的行为。如果设置过小，图像从磁盘直接加载，会降低性能。只要
     :var:`config.image_cache_size` 的配置不是空值(None)，就不使用config.image_cache_size_mb。
@@ -392,12 +396,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
 .. var:: config.missing_background = "black"
 
-    当 :var:`config.developer` 为True且某个之前 :ref:`scene语句
-    <scene-statement>`使用了未定义的图像时，该项就会作为背景使用。这项的值应该是一个图像名(字符串)，而不是可视组件。
+    当 :var:`config.developer` 为True且某个之前 :ref:`scene语句 <scene-statement>` 使用了未定义的图像时，该项就会作为背景使用。这项的值应该是一个图像名(字符串)，而不是可视组件。
 
 .. var:: config.mode_callbacks = [ ... ]
 
-    进入某个模式(mode)时调用的回调函数列表。详见 :ref:`模式(mode) <modes>`章节的内容。
+    进入某个模式(mode)时调用的回调函数列表。详见 :ref:`模式(mode) <modes>` 章节的内容。
 
     默认值是定义在 :var:`config.adv_nvl_transition`
     and :var:`config.nvl_adv_transition`.
@@ -467,7 +470,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
     只有文本替代执行后且文本已经使用标签(tag)分割，这个函数才会被调用，所以入参就是实际文本。所有可视文本都可以传入这个函数：不限于对话文本，还包括用户接口文本。
 
-    这个函数可以用来把特定的ASCII编码序列替换为Unicode字符，样例如下：::
+    这个函数可以用来把特定的ASCII编码序列替换为Unicode字符，样例如下：
+
+    ::
 
         def replace_text(s):
             s = s.replace("'", u'\u2019') # apostrophe
@@ -483,7 +488,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 .. var:: config.save_json_callbacks = [ ]
 
     用于创建json对象的一个回调函数列表，创建的json对象可以通过 :func:`FileJson`
-    和 :func:`renpy.slot_json`接入并执行存储和标记操作。
+    和 :func:`renpy.slot_json` 接入并执行存储和标记操作。
 
     每个回调函数都是用某个保存过的Python字典调用。回调函数修改字典内容时，应使用适配json的Python数据类型，比如数值、字符串、列表和字典。在字典结尾的回调函数会作为存档槽位的一部分保存。
 
@@ -495,7 +500,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
     该函数会返回一对结果，包含一个固定位置入参的元组(大多数情况下是空的)，以及一个关键词入参的字典(大多数情况只包含interact)。
 
-    举例：::
+    举例：
+
+    ::
 
         def say_arguments_callback(who, interact=True, color="#fff"):
             return (), { "interact" : interact, "what_color" : color }
@@ -504,11 +511,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
 .. var:: config.screen_height = 600
 
-    界面高度。通常使用 :func:`gui.init`进行设置。
+    界面高度。通常使用 :func:`gui.init` 进行设置。
 
 .. var:: config.screen_width = 800
 
-    界面宽度。通常使用 :func:`gui.init`进行设置。
+    界面宽度。通常使用 :func:`gui.init` 进行设置。
 
 .. var:: config.speaking_attribute = None
 
@@ -573,7 +580,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
     若非None，这项应该是一个函数，使用两个入参：物理窗口的宽度和高度。它会返回一个元组，给出OpenGL视点(viewport)的宽度和高度，也就是Ren'Py会绘制图片的一块屏幕区域。
 
-    该项配置用于配置Ren'Py只允许使用某些尺寸的屏幕。例如，下列配置值允许使用原始屏幕的整数倍大小(保持宽高比)：::
+    该项配置用于配置Ren'Py只允许使用某些尺寸的屏幕。例如，下列配置值允许使用原始屏幕的整数倍大小(保持宽高比)：
+
+    ::
 
         init python:
 
@@ -755,7 +764,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 .. var:: config.loadable_callback = None
 
     若非None，该函数调用时带一个文件名。当文件可以加载时，函数返回True，否则返回False。这个函数可以跟
-    :var:`config.file_open_callback` 或 :var:`config.missing_image_callback`协同生效。
+    :var:`config.file_open_callback` 或 :var:`config.missing_image_callback` 协同生效。
 
 .. var:: config.log_width = 78
 
@@ -782,7 +791,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
     若非None，当加载图片失败时会调用这个函数。函数可能返回None，也可能返回一个图像操作器(manipulator)。如果返回的是图像操作器，可以使用图像操作器代替丢失的图片。
 
-    创作者可能需要同时配置 :var:`config.loadable_callback`的值，特别是使用 :func:`DynamicImage`对象的情况。
+    创作者可能需要同时配置 :var:`config.loadable_callback` 的值，特别是使用 :func:`DynamicImage` 对象的情况。
 
 .. var:: config.missing_label_callback = None
 
@@ -814,8 +823,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
 .. var:: config.overlay_during_with = True
 
-    如果我们想要在 :ref:`with 语句
-    <with-statement>`覆盖已显示图像就设置为True，如果我们想要在with语句中隐藏重叠部分就设置为False。
+    如果我们想要在 :ref:`with 语句 <with-statement>` 覆盖已显示图像就设置为True，如果我们想要在with语句中隐藏重叠部分就设置为False。
 
 .. var:: config.overlay_layers = [ 'overlay' ]
 
@@ -832,7 +840,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 .. var:: config.play_channel = "audio"
 
     被 :func:`renpy.play`、
-    :propref:`hover_sound` 和 :propref:`activate_sound`使用的音频通道名称。
+    :propref:`hover_sound` 和 :propref:`activate_sound` 使用的音频通道名称。
 
 .. var:: config.predict_statements = 10
 
@@ -862,8 +870,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
 .. var:: config.say_allow_dismiss = None
 
-    若非None，这应是一个函数。当用户尝试dismiss某个 :ref:`say
-    语句 <say-statement>`时，该函数会被调用，不使用任何入参。如果该函数返回True就允许dismiss，否则就忽略。
+    若非None，这应是一个函数。当用户尝试dismiss某个 :ref:`say 语句 <say-statement>` 时，该函数会被调用，不使用任何入参。如果该函数返回True就允许dismiss，否则就忽略。
 
 .. var:: config.say_layer = "screens"
 
@@ -896,8 +903,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看:var:`环境�
 
 .. var:: config.scene = renpy.scene
 
-    在 :ref:`scene
-    语句 <scene-statement>`用于代替renpy.scene的函数。需要注意，这个函数用于清空界面，config.show用于显示某个新图像。这个函数具有与renpy.scene相同的签名(signature)。
+    在 :ref:`scene 语句 <scene-statement>` 用于代替renpy.scene的函数。需要注意，这个函数用于清空界面，config.show用于显示某个新图像。这个函数具有与renpy.scene相同的签名(signature)。
 
 .. var:: config.screenshot_callback = ...
 

@@ -16,6 +16,8 @@
 
 每个可视组件总是有一个相关联的变换(transform)。如果没有指定变换(transform)。主(prior)变换就会被使用。当变换(transform)被改变的时候，未定义的值会被主变换使用，或者如果没有主变换的话从 `default` 配置获取。
 
+.. _default-transforms:
+
 默认变换
 ==================
 
@@ -83,9 +85,11 @@ offscreenleft和offscreenright变换位置会图片显示在界面之外。这�
 
     水平和垂直都居中。
 
-Creator-Defined Transforms
+.. _creator-defined-transforms:
+
+创作者定义的变换
 ==========================
 
 创作者可以使用
-:ref:`animation and transformation language(ATL语言) <atl>`自定义变换(transform)及
+:ref:`animation and transformation language(ATL语言) <atl>` 自定义变换(transform)及
 :class:`Transform` 的函数。

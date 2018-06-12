@@ -63,102 +63,82 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
   创建并返回了一个角色对象，其控制了对话和旁白的观感。
 
-  *name*
-
+  `name`
     如果该参数是一个字符串，则成为对话中角色的名字。如果 *name* 参数是 ``None`` ，名字不会显示，用于旁白。
 
-  *kind*
-
+  `kind`
     新建角色的基底角色。当使用该参数时，新建角色没有显示赋值的参数，均使用对应基底角色的属性作为默认值。这个设计常用来定义模板(template)角色，然后继承模板角色属性并修改。
 
   **链接图片** 与某个角色关联的图像标签(tag)名。这种设计，允许一个包含角色的say语句使用标签(tag)名来展现角色图片，也同时允许角色说话时Ren'Py自动选择并展现一个头像。
 
-  *image*
-
+  `image`
     与角色关联的图像标签(tag)名的字符串。
 
   **语音标签(tag)** 若某个声音标签(tag)被指定为某个角色所有，标签下对应的声音文件将会与该角色关联，这些声音文件可以在自定义设置界面被静音或者被播放。
 
-  *voice_tag*
-
+  `voice_tag`
     voice_tag是一个字符串，在“voice”频道内可以voice_tag可以控制关联角色声音文件的静音或者播放。
 
   **前缀和后缀** 这个设计允许在角色名字或者展现文本上添加前缀和后缀。前缀和后缀可以用在每一行对话的前后添加引用内容。
 
-  *what_prefix*
-
+  `what_prefix`
     对话未展现内容的前缀字符串。
 
-  *what_suffix*
-
+  `what_suffix`
     对话未展现内容的后缀字符串。
 
-  *who_prefix*
-
+  `who_prefix`
     未展现角色名字的前缀字符串。
 
-  *who_suffix*
-
+  `who_suffix`
     未展现角色名字的后缀字符串。
 
   **改变角色显示名** 该可选项用于控制显示角色名。
 
-  *dynamic*
-
+  `dynamic`
     该参数若为真(true)，角色名应是一个包含python表达式的字符串。该字符串会在每行对话执行前先演算，将演算结果用作角色名。
 
   **互动控制** 这些可选项在“对话展示、发生互动、模式输入”情况下控制显示效果。
 
-  *condition*
-
+  `condition`
     若给定，该参数应是一个包含python表达式的字符串。若表达式结果为假(false)，对话不会发生，即say语句不会执行。
 
-  *interact*
-
+  `interact`
     若该值为True，默认情况下无论对话何时被展现，都会发生一项互动。若该值为False，则互动不会发生，而一些额外元素可以被添加到界面上。
 
-  *advance*
-
+  `advance`
     若该值为True，默认情况下用户可以快进语句执行，还有一些其他的快进方式(比如跳过skip和auto-forward mode自动前进模式)也将生效。若该值为False，用户不能跳过say语句，除非脚本中出现某些替换方法(比如跳转超链接)。
 
-  *mode*
-
+  `mode`
     该参数是一个字符串，给定了角色发言时进入的模式(mode)。详见 :ref:`模式(mode) <modes>` 章节。
 
-  *callback*
-
+  `callback`
     角色发言时，若有事件(event)发生则会被调用的函数。详见 :ref:`角色(character)回调(callback) <character_callbacks>` 章节。
 
   **点击继续** “点击继续”提示是在(一段内容)所有文本均已展示完的情况下，通常出现一次，提醒用户进入下一部分内容。
 
-  *ctc*
-
+  `ctc`
     一个用做“点击继续”提示的可展现部件，若有其他特殊提示被使用时可能不会展现。
 
-  *ctc_pause*
-
+  `ctc_pause`
     当文本显示被{p}或{w}标签(tag)暂停时，用作“点击继续”提示的一个可视组件。
 
-  *ctc_timedpause*
-
+  `ctc_timedpause`
     当文本显示被{p=}或{w=}标签(tag)暂停时，用作“点击继续”提示的一个可视组件。当该值为None时，会使用ctc_pause的值作为默认值。若你想要使用ctc_pause而不是ctc_timedpause，请使用 ``Null()`` 。
 
-  *ctc_position*
-
+  `ctc_position`
     该参数控制“点击继续”提示的位置。若值为 ``"nestled"`` ，该提示会作为目前展示文本的一部分出现，在最后一个字符显示后立即出现相应提示。若值为 ``"fixed"`` ，提示会被直接添加到界面上，其在界面上的位置由位置风格属性控制。
 
   **界面** 显示对话使用到一个 :ref:`界面 <screens>` 。该入参允许你选择界面(screen)，并传入参数。
 
-  *screen*
-
+  `screen`
     显示对话时使用的界面名。
 
   关键词参数以前缀 ``show_`` 开头，去掉前缀后传参给界面(screen)。例如， ``show_myflag`` 的值会改为变量 ``myflag`` 并传参给界面(screen)。(myflag变量并不是默认会用参数，但可以被一个定制对话界面使用。)
 
   鉴于某些历史原因，show系列变量由Ren'Py引擎处理：
 
-  *show_layer*
-
+  `show_layer`
     若给定了这个参数，其应该是一个字符串，这个字符串给定了展现“说话”界面所在图层的名字。
 
   **样式化文本和窗口** 以 ``who_`` 、 ``what_`` 和 ``window_`` 开头的关键词参数，会去掉前缀后分别用于 `样式 <styles>` 角色名、对话文本和窗口内容。
@@ -273,23 +253,21 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 Ren'Py中包括几种语句，允许管理对话窗口。由于对话窗口在对话中一直是展现的，这些窗口控制语句在非对话互动的情况下控制窗口的出现或者消失。
 
 ``window show``
-
-window show语句触发窗口展现。该语句接受一个可选入参，入参为transition，用于窗口出现的转场效果。如果transition参数为空，将使用定义在  :var:`config.window_show_transition`
-的值。
+  window show语句触发窗口展现。该语句接受一个可选入参，入参为transition，用于窗口出现的转场效果。如果transition参数为空，将使用定义在  :var:`config.window_show_transition` 的值。
 
 ``window hide``
-
-window hide语句触发窗口隐藏。该语句接受一个可选入参，入参为transition，用于窗口隐藏的转场效果。如果transition参数为空，将使用定义在  :var:`config.window_hide_transition` 的值。
+  window hide语句触发窗口隐藏。该语句接受一个可选入参，入参为transition，用于窗口隐藏的转场效果。如果transition参数为空，将使用定义在  :var:`config.window_hide_transition` 的值。
 
 ``window auto``
-
-window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show` 中列出的语句——默认是say语句前，窗口会自动展现。在 
+  window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show` 中列出的语句——默认是say语句前，窗口会自动展现。在 
 :var:`config.window_auto_hide` 中列出的语句——默认是 ``scene`` 和 ``call screen`` 语句前，窗口会自动隐藏。(只有直接显式使用该语句才有效，而函数返回该语句内容相同的字符串不生效。)
 
 ``window auto`` 语句分别使用 :var:`config.window_show_transition`
 和:var:`config.window_hide_transition` 作为显示和隐藏窗口的转场效果。 ``window auto`` 启用的自动化管理可以被 ``window show`` 或者 ``window hide`` 语句关闭。
 
-举例：::
+举例：
+
+::
 
     window show # 使用默认转场效果显示窗口
     pause       # 在暂停中依然显示窗口
@@ -331,17 +309,23 @@ window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show
 
 .. note::
 
-   如果你已经看过:ref:`python` 的内容，本节内容才可能对你有用。
+   如果你已经看过 :ref:`python` 的内容，本节内容才可能对你有用。
 
-当say语句的第一个参数是一个一般现在时表达式，整个语句等效于调用了角色的对话(dialogue)函数并且互动参数为True。举例：::
+当say语句的第一个参数是一个一般现在时表达式，整个语句等效于调用了角色的对话(dialogue)函数并且互动参数为True。举例：
+
+::
 
     e "Hello, world."
 
-is equivalent to::
+等效于
+
+::
 
     $ e("Hello, world.", interact=True)
 
-在脚本执行时，默认保存内容前，say语句会搜索 ``角色`` 名字并先保存。如果你想要在默认保存内容中有一个与角色名相同的变量，可以这样定义：::
+在脚本执行时，默认保存内容前，say语句会搜索 ``角色`` 名字并先保存。如果你想要在默认保存内容中有一个与角色名相同的变量，可以这样定义：
+
+::
 
     define character.e = Character("Eileen")
 
@@ -354,7 +338,9 @@ is equivalent to::
 
         e "我们的起始能量是 [e] 个单位。"
 
-say语句带入参，对应回调函数的情况，样例：::
+say语句带入参，对应回调函数的情况，样例：
+
+::
 
     e "Hello, world." (what_size=32)
 
@@ -362,7 +348,9 @@ say语句带入参，对应回调函数的情况，样例：::
 
     e("Hello, world.", interact=True, what_size=32)
 
-当e是一个角色对象时，还可以进一步等效为：::
+当e是一个角色对象时，还可以进一步等效为：
+
+::
 
     Character(kind=e, what_size=32)("Hello, world.", interact=True)
 
@@ -375,14 +363,12 @@ say语句带入参，对应回调函数的情况，样例：::
 
   python中等效于“window hide”窗口隐藏语句。
 
-  *trans*
-
+  `trans`
     若值为False，使用默认的窗口隐藏转场效果。若值为None，不使用转场效果。否则，就是用指定的特殊转场效果。
 
 .. function:: _window_show(trans=False)
 
   python中等效于“window show”窗口展现语句。
 
-  *trans*
-
+  `trans`
     若值为False，使用默认的窗口隐藏转场效果。若值为None，不使用转场效果。否则，就是用指定的特殊转场效果。

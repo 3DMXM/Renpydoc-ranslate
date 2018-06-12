@@ -5,14 +5,16 @@
 ===================
 
 在Ren'Py中，转场(transition)可以用作  :ref:`with 语句
-<with-statement>`及其他语句的一部分，用于场景切换时提供各种效果。Ren'Py自带一写预定义的转场(transition)效果，可以在with语句中直接使用。Ren'Py中还包含transition类，可以用于创建新的transition对象。
+<with-statement>` 及其他语句的一部分，用于场景切换时提供各种效果。Ren'Py自带一写预定义的转场(transition)效果，可以在with语句中直接使用。Ren'Py中还包含transition类，可以用于创建新的transition对象。
 
 .. _pre-defined-transitions:
 
-预定义的转场（Pre-Defined Transitions）
+预定义的转场(Pre-Defined Transitions)
 ========================================
 
-预定义的转场(transition)可以直接使用在with语句中。举例：::
+预定义的转场(transition)可以直接使用在with语句中。举例：
+
+::
 
     show bg washington
     with dissolve
@@ -116,12 +118,16 @@
 
 转场(transition)类是可以用于创建新转场效果的功能函数。这些函数是参数化的，允许创建一个系列的转场。
 
-使用with语句就可以调用转场类。举例：::
+使用with语句就可以调用转场类。举例：
+
+::
 
     # 一个持续时间10秒的溶解转场
     with Dissolve(10.0)
 
-如果我们经常调用同一个转场效果，可以使用 :ref:`define语句 <define-statement>` 把转场效果声明为一个变量。::
+如果我们经常调用同一个转场效果，可以使用 :ref:`define语句 <define-statement>` 把转场效果声明为一个变量。
+
+::
 
     define annoytheuser = Dissolve(1.0)
 
@@ -134,20 +140,16 @@
 
  返回一个转场(transition)效果，其使用一个控制组件(大多数情况下是某些动画)实现新旧界面的转场。transform表达式会进行计算。当transform完全不透明时新界面被启用，而transform完全透明时依然使用旧界面。
 
- **control**
-
+ `control`
    控制transform。
 
- **delay**
-
+ `delay`
    转场效果使用时间。
 
- **alpha**
-
+ `alpha`
    若该值为真(true)，图像会与其后面的图像混合。若该值为假(false)，图像完全不透明，并会覆盖在后面的图像上。
 
- **reverse**
-
+ `reverse`
    若该值为真(true)，alpha通道值反转。不透明区域来自旧图像，而透明区域来自新图像。
 
 .. function:: ComposeTransition(trans, before, after)
@@ -163,12 +165,10 @@
 
   返回一个转场效果，其会剪裁一个场景并将其放置在界面中指定位置。其可以模板化处理一堆效果，这些效果的共通点是将界面分割成矩形条(slice)。
 
-  **time**
-
+  `time`
     转场效果耗时。
 
-  **mode**
-
+  `mode`
     转场模式名。转场模式总共有3大类：wipes、slides、其他。也可以是“custom”，是一个用户自己定义的模式。
 
     在wipe模式下，原图像先保持不变，然后逐渐使用转场效果全部擦除。例如，在“wiperight”模式下，一个刷子会从左到右擦除原图像，即先擦除界面最左边的图像，接着擦除界面中间，最后擦除界面最右边。其他的wipe包括“wipeleft”、“wipedown”和“wipeup”。
@@ -181,25 +181,20 @@
 
   下列参数值在模式为“custom”的情况下才会使用。位置信息与界面尺寸相关，剪裁大小与图像尺寸相关。一个(0.25, 0.0, 0.5, 1.0)的剪裁会使用某个图像的中间一小块。
 
-  **startcrop**
+  `startcrop`
+    顶层图像的剪裁起始矩形。一个4元素的元组，包含x、y、width和height。
 
-   顶层图像的剪裁起始矩形。一个4元素的元组，包含x、y、width和height。
+  `startpos`
+     顶层图像绘制在界面上起始坐标。一个2元素的元组，包含x和y。
 
-  **startpos**
+  `endcrop`
+     顶层图像的剪裁结束矩形。一个4元素的元组，包含x、y、width和height。
 
-    顶层图像绘制在界面上起始坐标。一个2元素的元组，包含x和y。
+  `endpos`
+     顶层图像绘制在界面上结束坐标。一个2元素的元组，包含x和y。
 
-  **endcrop**
-
-    顶层图像的剪裁结束矩形。一个4元素的元组，包含x、y、width和height。
-
-  **endpos**
-
-    顶层图像绘制在界面上结束坐标。一个2元素的元组，包含x和y。
-
-  **topnew**
-
-    若该值为真(true)，被剪裁和移动的是新场景。若该值为假(false)，被剪裁和移动的是旧场景。
+  `topnew`
+     若该值为真(true)，被剪裁和移动的是新场景。若该值为假(false)，被剪裁和移动的是旧场景。
 
   ::
 
@@ -225,16 +220,13 @@
 
   返回一个使用溶解效果切换新旧场景的转场效果。
 
-  **time**
-
+  `time`
     溶解效果持续时间。
 
-  **alpha**
-
+  `alpha`
     若该值为真(true)，溶解效果会使用alpha通道。若该值为假(false)，直接替换原界面，这样效率比较高。
 
-  **time_warp**
-
+  `time_warp`
     一个调整时间线的功能函数。若不为空值(None)，其应该是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
 
 .. function:: Fade(out_time, hold_time, in_time, color="#000")
@@ -256,28 +248,22 @@
 
   返回一个转场效果，其使用溶解特效切换新旧界面，并利用某个图像控制溶解过程。这意味着纯白的像素首先被溶解，而纯黑的像素最后溶解。
 
-  **image**
-
+  `image`
     使用的控制图像。其必须是一个图片文件或者图像控制器。控制图像需要与待溶解场景的尺寸一致。
 
-  **time**
-
+  `time`
     溶解效果持续时间。
 
-  **ramplen**
-
+  `ramplen`
     色彩蔓延(ramp)步长。其必须是一个2的整次幂。默认值是8，当纯白像素全部溶解之后，下一步溶解的像素是在灰度上比纯白色低8度的颜色。
 
-  **reverse**
-
+  `reverse`
     若该值为真(true)，黑色像素反而先于白色像素溶解。
 
-  **alpha**
-
+  `alpha`
     若该值为真(true)，溶解效果会使用alpha通道。若该值为假(false)，直接替换原界面，这样效率比较高。
 
-  **time_warp**
-
+  `time_warp`
     一个调整时间线的功能函数。若不为空值(None)，其应该是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
 
   ::
@@ -288,46 +274,37 @@
 
 .. function:: MoveTransition(delay, enter=None, leave=None, old=False, layers=['master'], time_warp=None, enter_time_warp=None, leave_time_warp=None)
 
-  返回一个转场效果，其插入了新旧界面中图像(使用相同的图像标签tag)的坐标。
+  返回一个转场效果，其插入了新旧场景中(使用相同的图像标签tag)图像的坐标。
 
-  **delay**
-
+  `delay`
     插入效果耗时。
 
-  **enter**
-
+  `enter`
     若该值非空，图像所进入的场景会一同移动。 *enter* 的值应是一个应用在图像行的变换(transform)，该变换可以获取其起始坐标。
 
-  **leave**
-
+  `leave`
     若该值非空，图像所离开的场景会一同移动。 *leave* 的值应是一个应用在图像行的变换(transform)，该变换可以获取其结束坐标。
 
-  **old**
-
+  `old`
     若该值为真(true)，旧图像会被使用而不是新图像。
 
-  **layers**
-
+  `layers`
     移动的图层(layer)列表。
 
-  **time_warp**
-
+  `time_warp`
     应用于插入效果的时间warp函数。其是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
 
-  **enter_time_warp**
-
+  `enter_time_warp`
     应用于图像进入场景的时间warp函数。
 
-  **leave_time_warp**
-
+  `leave_time_warp`
     应用于图像离开场景的时间warp函数。
 
 .. function:: MultipleTransition(args)
 
   返回一个转场效果，其是多个转场效果顺序显示之后的集。
 
-  **args**
-
+  `args`
     一个包含奇数个物件的列表。列表中奇数序号的物件必须是场景，偶数序号的物件必须是转场效果。这里说的场景可以是如下类别之一：
 
     - 可视组件。
@@ -356,24 +333,20 @@
 
   返回一个转场效果，其使用像素化切换新旧场景。
 
-  **time**
-
+  `time`
     转场效果总耗时，单位为秒。
 
-  **steps**
-
+  `steps`
     在各个方向展开像素化使用的步数。每一步都会创建出上一步两倍宽度和高度的像素方块，所以5步像素化就能创建出32×32大小的像素方块。
 
 .. function:: PushMove(time, mode="pushright")
 
   返回一个转场效果，其使用新场景把旧场景“推”出界面。
 
-  **time**
-
+  `time`
     转场效果耗时。
 
-  **mode**
-
+  `mode`
     总共有4种模式：“pushright”、“pushleft”、“pushup”和“pushdown”，对应旧场景被“推”出界面的方向。
 
   ::
@@ -398,20 +371,17 @@
   - *prefixinleft* ， *prefixinright* ，*prefixintop* ，*prefixinbottom* —— 这些转场效果，使用 *delay* 秒时间，将图像移动至新坐标，并将新的图像从对应的界面边缘移入界面。
   - *prefixoutleft* ， *prefixoutright* ，*prefixouttop* ，*prefixoutbottom* —— 这些转场效果，使用 *delay* 秒时间，将图像移动至新坐标，并将新的需要隐藏的图像从对应的界面边缘移出界面。
 
-  **time_warp, in_time_warp, out_time_warp**
-
+  `time_warp, in_time_warp, out_time_warp`
     时间扭曲功能是根据输入的图像移动完成时间(取值范围为0.0值1.0)，返回一个图像直线运动的完成时间比例(取值范围为0.0值1.0)。
 
     该功能让图像运动速度复合缓动(ease)曲线，而不是让所有图像以一个统一恒定的速度移动。
 
     三个变量分别对应停留在界面的图像、新显示的图像和新隐藏的图像。
 
-  **old**
-
+  `old`
     若该值为真(true)，转场效果作用于旧的可视组件，而不是新的那些。
 
-  **layers**
-
+  `layers`
     应用转场效果的图层(layer)名。
 
   ::
@@ -423,7 +393,7 @@
 
 .. _dict-transitions:
 
-字典转场（Dict Transitions）
+字典转场(Dict Transitions)
 =============================
 
 在很多Ren'Py用到转场的地方，可以用一个字典存放各图层和转场的映射关系。这种情况下，Ren'Py会给每个图层应用一个合适的转场。
@@ -447,7 +417,9 @@
 :func:`renpy.transition` ， :func:`Show` and :func:`Hide` 动作和一系列接受转场的config变量一起使用。 字典层*不会*在不能作用于层的功能上起作用，比如ATL，:func:`ComposeTransition`
 和 :func:`MultipleTransition`。
 
-这可能与导致转场发生的语句互动不佳，就像由 ``window auto`` 产生的转场。这通常可以通过适用于不同层次的第二个字典转场来解决。举例来说，如果你发现当对话窗口显示和隐藏时出现了奇怪的闪动，试着把 options.rpy改成：::
+这可能与导致转场发生的语句互动不佳，就像由 ``window auto`` 产生的转场。这通常可以通过适用于不同层次的第二个字典转场来解决。举例来说，如果你发现当对话窗口显示和隐藏时出现了奇怪的闪动，试着把 options.rpy改成：
+
+::
 
     define config.window_show_transition = { "screens" : Dissolve(.25) }
     define config.window_hide_transition = { "screens" : Dissolve(.25) }

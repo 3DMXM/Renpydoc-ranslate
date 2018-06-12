@@ -40,7 +40,9 @@ play语句用于播放音效和音乐。如果某个文件正在通过通用通�
 
 ``fadein`` 和 ``fadeout`` 分句是可选的。 fadeout指定了正在播放音乐需要停止时的淡出时间，单位为秒。fadein指定了播放新音乐的开头淡入时间。如果没有fadeout时间没有指定，就是用config.fade_music的配置值。
 
-``loop`` 和 ``noloop`` 分句也是可选的。 loop分句表示音乐循环播放，noloop分句表示音乐只播放一次。如果这两个分句都没有出现，根据通道的默认配置决定实际播放情况。::
+``loop`` 和 ``noloop`` 分句也是可选的。 loop分句表示音乐循环播放，noloop分句表示音乐只播放一次。如果这两个分句都没有出现，根据通道的默认配置决定实际播放情况。
+
+::
 
         play music "mozart.ogg"
         play sound "woof.mp3"
@@ -49,7 +51,9 @@ play语句用于播放音效和音乐。如果某个文件正在通过通用通�
         "我们也可以播放一个音效或音乐的列表。"
         play music [ "a.ogg", "b.ogg" ] fadeout 1.0 fadein 1.0
 
-在audio通道上，同时播放多个音效文件：::
+在audio通道上，同时播放多个音效文件：
+
+::
 
         play audio "sfx1.opus"
         play audio "sfx2.opus"
@@ -59,7 +63,9 @@ play语句用于播放音效和音乐。如果某个文件正在通过通用通�
 stop语句
 --------------
 
-stop语句以关键词 ``stop`` 开头，后面跟需要静音的音频通道名。最后有一个可选的 ``fadeout`` 分句。::
+stop语句以关键词 ``stop`` 开头，后面跟需要静音的音频通道名。最后有一个可选的 ``fadeout`` 分句。
+
+::
 
         stop sound
         stop music fadeout 1.0
@@ -71,7 +77,9 @@ queue语句
 
 queue语句用于组建音频文件队列。当前播放的文件被播放完毕之后，queue语句组建的音频文件队列就会开始播放。
 
-queue语句以关键词 ``queue`` 开头，后面跟播放使用的音频通道名。最后是否带 ``loop`` 或 ``noloop`` 分句是可选的。 ::
+queue语句以关键词 ``queue`` 开头，后面跟播放使用的音频通道名。最后是否带 ``loop`` 或 ``noloop`` 分句是可选的。
+
+::
 
         queue sound "woof.ogg"
         queue music [ "a.ogg", "b.ogg" ]
@@ -96,11 +104,15 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 ``loop``
     指定需要循环播放的文件起始和终止时间点。(默认的起始时间点为文件开头或 ``from`` 指定的时间点。)
 
-举例::
+举例：
+
+::
 
         play music "<from 5 to 15.5>waves.opus"
 
-将从5秒的标记处开始，播放总计10.5秒waves.opus文件内容。下面这条语句：::
+将从5秒的标记处开始，播放总计10.5秒waves.opus文件内容。下面这条语句：
+
+::
 
         play music "<loop 6.333>song.opus"
 
@@ -111,7 +123,9 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 播放静音
 ---------------
 
-一段指定时间范围播放静音，格式类似“<silence 3.0>”，其中3.0表示需要的静音持续时间，单位为秒。播放静音用于延迟音效文件的播放点。例如：::
+一段指定时间范围播放静音，格式类似“<silence 3.0>”，其中3.0表示需要的静音持续时间，单位为秒。播放静音用于延迟音效文件的播放点。例如：
+
+::
 
         play audio [ "<silence .5>", "boom.opus" ]
 
@@ -124,11 +138,15 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 
 ``play`` 和 ``queue`` 语句在音频命名空间内计算入参的值。这意味着可以使用define语句，为音频文件提供一个别名(alias)。
 
-例如，我们可以这样写：::
+例如，我们可以这样写：
+
+::
 
     define audio.sunflower = "music/sun-flower-slow-jam.ogg"
 
-然后这样使用：::
+然后这样使用：
+
+::
 
     play music sunflower
 

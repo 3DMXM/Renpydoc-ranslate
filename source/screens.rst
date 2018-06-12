@@ -9,8 +9,7 @@
 界面有下列4种方式显示：
 
 * 隐含在脚本语句执行中。例如，say语句会触发 `say` 界面的显示。
-* 自动显示。例如，Ren'Py启动后或者用户退回到主菜单时，会显示`main_menu`
-  界面。
+* 自动显示。例如，Ren'Py启动后或者用户退回到主菜单时，会显示 `main_menu` 界面。
 * 作为一个用户动作，与按钮、鼠标按键或者键盘按键相关联。默认情况下， `save` 界面是用户鼠标右击或者按下退出(Esc)键才会展示。也可以定义一个on-screen按钮用于显示 `save` 界面。
 * 明确使用某些语句触发界面显示的情况。
 
@@ -26,12 +25,16 @@
 
 每个界面有一个作用范围(scope)与其关联，并有一些给定的变量值。如果某些界面中包含变量，首先在界面的作用范围(scope)内查找变量，然后再查找全局变量。
 
+.. _screen-language:
+
 界面语言
 ===============
 
 界面语言是显示界面最正式的办法。它包含定义新界面的语句、添加可视组件至界面的语句和控制型语句。
 
-这是一个界面的样例：::
+这是一个界面的样例：
+
+::
 
     screen say(who, what):
         window id "window":
@@ -45,6 +48,8 @@
 `say`，所以该界面用于显示对话。其有两个入参，分别是 `who` 和 `what`。
 
 界面包含一个窗口，窗口id就叫“window”。窗口中包含一个垂直的框(box)，框内的空间为10个像素。它包含两个文本字段(field)，一个是发言者的名字，另一个是发言者的id。
+
+.. _screen-language-syntax:
 
 界面语言语法
 ----------------------
@@ -60,6 +65,7 @@
 * 一个特性列表。
 * 一条界面语言语句。
 
+.. _screen-statement:
 
 screen语句
 ----------------
@@ -95,11 +101,14 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 
         text "Hello, World."
 
-界面可以使用一个参数列表：::
+界面可以使用一个参数列表：
+
+::
 
    screen center_text(s, size=42):
         text s size size
 
+.. _user-interface-statements:
 
 用户接口语句
 =========================
@@ -132,15 +141,15 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
     向可视组件及其子组件的样式提供了一个前缀，例外情况是某些子组件用一个指定的样式或样式前缀。
 
     样式名由样式前缀、下划线和样式后缀组成。样式后缀通过样式后缀
-    `style_suffix`或可视组件决定。
+    `style_suffix` 或可视组件决定。
 
     例如，如果某个vbox有一个样式前缀 ``"pref"`` ，这个vbox的样式名就是 ``"pref_vbox"``. 。除非设置了某个指定的样式或者样式前缀，vbox内的按钮会用样式
     ``"pref_button"``。
 
-    如果样式不存在的话，使用这种方式接入的样式会被自动创建。将前缀设置为 ``None``会将可视组件及其子组件的所有前缀都移除。
+    如果样式不存在的话，使用这种方式接入的样式会被自动创建。将前缀设置为 ``None`` 会将可视组件及其子组件的所有前缀都移除。
 
 `style_group`
-    `style_prefix`的一个别名，用在旧版本的Ren'Py中。
+    `style_prefix` 的一个别名，用在旧版本的Ren'Py中。
 
 `style_suffix`
     指定后缀，与 `style_prefix` 连在一起创建一个样式名。如果后缀是 ``"small_button"`` ，前缀是 ``"pref"`` ，实用的样式名就是 ``"pref_small_button"`` 。
@@ -384,7 +393,7 @@ UI可视组件的子组件会被添加到方框(box)中。
     例如，如果 `auto` 是 "button_%s.png"，并且  `idle` 特性省略，那么idle的默认值就是 "button_idle.png"。类似的，如果 `auto` 是"button %s"，那么 ``button idle`` 图像就会被应用。
 
     `auto` 特性的具体动作可以修改
-    :var:`config.imagemap_auto_function`实现定制化。
+    :var:`config.imagemap_auto_function` 实现定制化。
 
 
 `insensitive`
@@ -695,7 +704,7 @@ Textbutton
 创建一个包含脚本标签(label)的按钮。按钮使用一个参数，即按钮内显示的文本内容。其可以使用下列特性：
 
 `action`
-    当按钮被激活时运行的动作动作。当`sensitive` 和 `selected` 特性没有提供的情况下， *action* 特性也控制那两种特性表现。
+    当按钮被激活时运行的动作动作。当 `sensitive` 和 `selected` 特性没有提供的情况下， *action* 特性也控制那两种特性表现。
 
 `alternate`
     使用变换的办法在按钮激活后运行的动作。当用户在基于鼠标的平台上那个点击鼠标右键，或者用户在基于触控的平台上长按某个按钮，都会触发。
@@ -783,7 +792,7 @@ transform下有一个子组件。
 Vbar
 ----
 
-等效于原生垂直的 `bar`_. 使用特性与条`bar`一样。
+等效于原生垂直的 `bar`_. 使用特性与条 `bar`一样。
 
 ::
 
@@ -1008,11 +1017,11 @@ imagemap语句用于指定一个imagemap。其不使用参数，后面跟下列�
 `auto`
     自动定义imagemap使用的图像。图像名是一个字符串，包含“%s”。如果文件存在，且某个图像特性是省略的，“%s”会使用对应特性名替换，其值作为特性的默认值。
 
-    例如，如果`auto` 后面的字符串是 "imagemap_%s.png"，且  `idle` 省略，idle的默认值就是 "imagemap_idle.png"。如果 `auto` 后面的字符串是 "imagemap %s"就使用
+    例如，如果 `auto` 后面的字符串是 "imagemap_%s.png"，且  `idle` 省略，idle的默认值就是 "imagemap_idle.png"。如果 `auto` 后面的字符串是 "imagemap %s"就使用
     ``imagemap idle`` 图像。
 
     `auto` 的动作可以修改
-    :var:`config.imagemap_auto_function`实现定制化。
+    :var:`config.imagemap_auto_function` 实现定制化。
 
 `ground`
     用于imagemap的背景图像，即不是hotspot也不是hotbar。
@@ -1099,10 +1108,10 @@ hotbar是由imagemap内一部分图像组成的条(bar)。其使用一个参数�
     对象，也可以是一个数值。
 
 `range`
-    条(bar)的最大值。当`value` 是一个数值的情况下，`range` 是必须的。
+    条(bar)的最大值。当 `value` 是一个数值的情况下，`range` 是必须的。
 
 `adjustment`
-    一个用于该条(bar)调整的 :func:`ui.adjustment`对象。
+    一个用于该条(bar)调整的 :func:`ui.adjustment` 对象。
 
 hotbar必须给定一个 `value` 或者一个 `adjustment` 对象。除此之外，还可以使用下列特性：
 
@@ -1122,11 +1131,11 @@ hotbar可以被赋予 ``alt`` 样式特性，允许Ren'Py的自动语音特性�
 高级可视组件语句包括：
 
 ``drag``
-    创建一个 :class:`Drag`对象。drag对象可以给定一个可选的子组件，或者可以用于这个子组件的 :propref:`child` 样式特性，以及子组件获得变相获得焦点的动作。drag也能使用 :propref:`focus_mask`
+    创建一个 :class:`Drag` 对象。drag对象可以给定一个可选的子组件，或者可以用于这个子组件的 :propref:`child` 样式特性，以及子组件获得变相获得焦点的动作。drag也能使用 :propref:`focus_mask`
     样式特性。
 
 ``draggroup``
-    创建一个 :class:`DragGroup`。drag组可以有任意个drag作为其子组件。
+    创建一个 :class:`DragGroup` 组。drag组可以有任意个drag作为其子组件。
 
 
 .. _sl-has:
@@ -1207,7 +1216,9 @@ for语句类似于Python中的for语句，差别在于这里的for语句不支�
                 textbutton numeral action Return(i + 1)
 
 
-for语句支持index子句：::
+for语句支持index子句：
+
+::
 
 
     screen five_buttons():
@@ -1319,13 +1330,17 @@ use语句可能使用一个特性， ``id``，可能出现在参数列表之后�
         pause
         return
 
+.. _use-and-transclude:
+
 use和transclude语句
-^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
 
 use语句也可以包含一个界面语言的语句块(block)，语句块中可能存在 ``transclude``
-s语句。 ``transclude`` 语句会被替换为use语句块内容。
+语句。 ``transclude`` 语句会被替换为use语句块内容。
 
-这就可以定义可复用的界面布局(layout)。例如，界面：::
+这就可以定义可复用的界面布局(layout)。例如，界面：
+
+::
 
     screen movable_frame(pos):
         drag:
@@ -1337,7 +1352,9 @@ s语句。 ``transclude`` 语句会被替换为use语句块内容。
 
                 transclude
 
-就意味着一个可复用的组件，可以warp其他组件。这是一个如何复用的样例：::
+就意味着一个可复用的组件，可以warp其他组件。这是一个如何复用的样例：
+
+::
 
     screen test:
         use movable_frame((0, 0)):
@@ -1349,7 +1366,7 @@ s语句。 ``transclude`` 语句会被替换为use语句块内容。
                 textbutton "Got it!" action Return(True)
 
 use和transclude结构是
-:ref:`创作者定义的界面语言语句 <creator-defined-sl>`的基础。
+:ref:`创作者定义的界面语言语句 <creator-defined-sl>` 的基础。
 
 .. _sl-python:
 
@@ -1393,7 +1410,9 @@ showif语句会向其子组件传送三种事件消息：
 
 基于这些需求，当if的主条件判断为True时elif语句的条件判断分句总是为False，而else分句只有当所有主要条件判断都为False时才会为True。
 
-举例：::
+举例：
+
+::
 
     transform cd_transform:
         # 这句会在appear、show或hide之前运行
@@ -1428,6 +1447,7 @@ showif语句会向其子组件传送三种事件消息：
     label start:
         call screen countdown
 
+.. _screen-statements:
 
 Screen语句
 =================
@@ -1435,6 +1455,8 @@ Screen语句
 除了screen语句，还有三种Ren'Py脚本语言语句可以唤起界面。
 
 其中两种使用一个关键词入参列表。这个列表是Python入参列表，使用圆括号，只由关键词参数组成。固定位置参数，额外的固定位置参数 (*)，以及额外的关键词参数 (**) 都不允许存在。
+
+.. _show-screen:
 
 Show Screen
 -----------
@@ -1457,6 +1479,7 @@ show screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面
     if rare_case:
         show rare_screen nopredict
 
+.. _hide-screen:
 
 Hide Screen
 -----------
@@ -1468,13 +1491,14 @@ hide screen语句用于隐藏当前正在显示的界面。如果指定的界面
     hide screen overlay_screen
     hide screen clock
 
+.. _call-screen:
 
 Call Screen
 -----------
 
-call screen语句会显示一个界面，在当前互动动作之后会隐藏这个界面。如果界面会返回一个值，返回值会放在 `_return`中。
+call screen语句会显示一个界面，在当前互动动作之后会隐藏这个界面。如果界面会返回一个值，返回值会放在 `_return` 中。
 
-这可以用来显示一个imagemap。imagemap可以使用:func:`Return`动作将一个值放入 `_return` 变量，或者使用 :func:`Jump`动作跳转到某个脚本标签(label)。
+这可以用来显示一个imagemap。imagemap可以使用 :func:`Return` 动作将一个值放入 `_return` 变量，或者使用 :func:`Jump` 动作跳转到某个脚本标签(label)。
 
 call screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面前缀出现。当界面含有前缀时，传入界面的入参会被计算。请确保作为界面入参的表达式不会引起不希望出现的副作用。
 
@@ -1501,7 +1525,7 @@ call screen语句使用一个可选的 ``with`` 关键词，后面跟一个转�
 
 Ren'Py可以同时运行在两种平台上：一种是传统的键鼠设备平台，比如Windows系统、Mac系统和Linux PC版；另一种是新的触控设备平台，比如基于安卓系统的智能手机和平板。界面变种允许一个游戏根据不同的硬件信息提供不同版本的界面。
 
-Ren'Py通过顺序搜索 :var:`config.variants`中的variant项来选择使用何种界面。会使用找到第一个variant。
+Ren'Py通过顺序搜索 :var:`config.variants` 中的variant项来选择使用何种界面。会使用找到第一个variant。
 
 如果环境变量 RENPY_VARIANT存在，config.variants就会使用RENPY_VARIANT中用空格分隔的各项值进行初始化。将RENPY_VARIANT设置为针对安卓设备的
 ``"medium tablet touch"`` 或 ``"small phone touch"`` ，就可以在PC端调测了。

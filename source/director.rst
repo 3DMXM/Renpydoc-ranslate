@@ -1,5 +1,7 @@
-Interactive Director
-====================
+.. _interactive-director:
+
+交互式指导器(interactive director)
+=====================================
 
 交互式指导器(interactive director)是一个工具，允许你在Ren'Py中直接编辑游戏脚本，并能直接预览编辑的结果。指导器(director)并不意味着可能完全代替文本编辑器。我们依然需要文本编辑器来撰写视觉小说的对话、选项和逻辑。
 
@@ -9,6 +11,7 @@ Interactive Director
 * transition(with)语句。
 * audio(play、queue、stop、voice)语句。
 
+.. _using-the-director:
 
 使用指导器(director)
 ------------------
@@ -21,13 +24,16 @@ Interactive Director
 
 当编辑完毕后点击“完成”。
 
+.. _variables:
+
 配置项
 ---------
 
 在命名空间 ``director`` 定义了一些配置项，用于控制交互式指导器(interactive director)的功能。这些配置项可以使用define语句设置，或者使用Python语句修改。
 
+.. _scene-show-and-hide:
 
-Scene, Show, and Hide
+scene、show和Hide
 ^^^^^^^^^^^^^^^^^^^^^
 
 .. var:: director.tag_blacklist = { "black", "text", "vtext" }
@@ -46,6 +52,8 @@ Scene, Show, and Hide
 
     一个transform列表，显示为编辑器的一部分。除此之外，Ren'Py之外使用transform语句定义的transform都会添加到这个列表中，并排序。
 
+.. _with:
+
 With
 ^^^^
 
@@ -53,7 +61,9 @@ With
 
     一个转场(transition)列表，列表中的转场可以通过with语句使用。由于转场不能被自动检测到，这个列表内的转场必须手工添加。
 
-Play, Queue, Stop, and Voice
+.. _play-queue-stop-and-voice:
+
+play、queue、stop和voice
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. var:: director.audio_channels = [ "music", "sound", "audio" ]
@@ -72,12 +82,16 @@ Play, Queue, Stop, and Voice
 
     从通道名到可用的音频文件名正则表达式的映射关系。例如，如果这项设置为 ``{ 'sound' : [ 'sound/*.opus' ], 'music' : [ 'music/*.opus' ] }`` ，music和sound通道就使用各自可用文件的正则表达式。
 
+.. _access:
+
 Access
 ^^^^^^
 
 .. var:: director.button = True
 
     若为True，指导器(director)会显示一个带按钮的界面，用于接入指导器窗口。若为False，游戏提供自身的接入方式，通过执行可用的director.Start动作。
+
+.. _line-spacing:
 
 行间隔
 ^^^^^^^^^^^^
@@ -94,6 +108,8 @@ Access
 
     两虚两个非指导器行的间隔。
 
+.. _viewport:
+
 视点
 ^^^^^^^^
 
@@ -101,14 +117,20 @@ Access
 
     指导器使用的可滚动视点的最大高度。
 
+.. _audio-filename-functions:
+
 音频文件函数
 ------------------------
 
-有一些音频文件函数可以用于把转换磁盘文件名转换为Python源代码的文件名。这些功能可以用于匹配Ren'Py的文件名映射。例如，我们有这样一段配置：::
+有一些音频文件函数可以用于把转换磁盘文件名转换为Python源代码的文件名。这些功能可以用于匹配Ren'Py的文件名映射。例如，我们有这样一段配置：
+
+::
 
     define config.voice_filename_format = "v/{filename}.ogg"
 
-我们就可以定义一个函数：::
+我们就可以定义一个函数：
+
+::
 
     init python in director:
 

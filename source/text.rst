@@ -56,28 +56,38 @@ Ren'Py内涵多种方式用于显示文本。 :ref:`say <say-statement>`
 插入数值
 ==================
 
-Ren'Py支持在文本字符串中插入数值。例如，假设用户名字存储在 ``playername`` 变量中，我们可以写这样一行对话：::
+Ren'Py支持在文本字符串中插入数值。例如，假设用户名字存储在 ``playername`` 变量中，我们可以写这样一行对话：
+
+::
 
     g "欢迎来到猫耳协会， [playername] ！"
 
 Ren'Py会在全局存储区寻找同名变量并插入到文本中。当我们在某个界面使用一个文本控件时，Ren'Py也会将预定义的界面本地变量值插入到控件中。(这个值也可以通过向文本控件传入一个explicit scope参数来覆盖。)
 
-Ren'Py并不限制只允许插入简单变量值，也支持插入字段(field)和元组元素值。以下写法也是可以的：::
+Ren'Py并不限制只允许插入简单变量值，也支持插入字段(field)和元组元素值。以下写法也是可以的：
+
+::
 
     g "我姓 [player.names[0]]。"
 
-显示数值之前可以先进行格式化。下面的例子显示的是一个保留小数点后两位的浮点数：::
+显示数值之前可以先进行格式化。下面的例子显示的是一个保留小数点后两位的浮点数：
+
+::
 
     $ percent = 100.0 * points / max_points
     g "我百分之 [percent:.2] 喜欢你！"
 
 Ren'Py字符串的数值插入符合 :pep:`3101` 的字符串格式规范。 Ren'Py字符串插入使用  ``[`` ，因为 ``{`` 被用于文本标签(tag)了。
 
-还有，Ren'Py支持!s、!r、!q和!t等转换标记。!q转换标记表示文本标签(tag)内引号已经正确匹配和使用，显示字符串时不会转义为不希望出现的格式。举例：::
+还有，Ren'Py支持!s、!r、!q和!t等转换标记。!q转换标记表示文本标签(tag)内引号已经正确匹配和使用，显示字符串时不会转义为不希望出现的格式。举例：
+
+::
 
     g "Don't pull a fast one on me, [playername!q]."
 
-!t转换标记会转换或计算插入字符串的值：::
+!t转换标记会转换或计算插入字符串的值：
+
+::
 
     if points > 5:
         $ mood = _("高兴")
@@ -95,7 +105,9 @@ Ren'Py字符串的数值插入符合 :pep:`3101` 的字符串格式规范。 Ren
 
 第二种是，通过使用文本标签(tag)。文本标签(tag)可用于一个文本段落(block)中一部分的样式化，也可以用于程序中所有文本段落中一部分的样式化。如果你发现自己在文本的每一行里都应用了同样的文本标签，可以考虑使用样式代替这种做法。
 
-总共有两种文本标签。某些文本标签是自闭合的，而有些文本标签需要成对的闭合标签。当多个成对的闭合标签出现时，闭合顺序必须是后出现的标签先闭合——Ren'Py会拒绝不正确匹配。例如：::
+总共有两种文本标签。某些文本标签是自闭合的，而有些文本标签需要成对的闭合标签。当多个成对的闭合标签出现时，闭合顺序必须是后出现的标签先闭合——Ren'Py会拒绝不正确匹配。例如：
+
+::
 
     # 这行是正确的
     "Plain {b}Bold {i}Bold-Italic{/i} Bold{/b} Plain"
@@ -110,7 +122,7 @@ Ren'Py字符串的数值插入符合 :pep:`3101` 的字符串格式规范。 Ren
 通用文本标签
 -----------------
 
-通用文本标签可以应用于如下文本：:
+通用文本标签可以应用于如下文本：
 
 .. _a-tag:
 .. text-tag:: a
@@ -195,7 +207,7 @@ Ren'Py字符串的数值插入符合 :pep:`3101` 的字符串格式规范。 Ren
 
 .. text-tag:: k
 
-   字偶距标签调整文本字偶距，作用范围为其自身及其闭合标签之间的文本。其使用一个浮点数值作为入参，该值给定了字符之间增加的距离，单位是像素(该值也可以是负值，表示字符之间缩小的距离)。::
+   字偶距标签调整文本字偶距，作用范围为其自身及其闭合标签之间的文本。其使用一个浮点数值作为入参，该值给定了字符之间增加的距离，单位是像素(该值也可以是负值，表示字符之间缩小的距离)。 ::
 
        "{k=-.5}Negative{/k} Normal {k=.5}Positive{/k}"
 
@@ -234,7 +246,7 @@ Ren'Py字符串的数值插入符合 :pep:`3101` 的字符串格式规范。 Ren
 
 .. text-tag:: space
 
-   空白标签是一个自闭合标签，在一行文本内插入一段水平的空白。入参是一个整数，表示插入的空白宽度，单位为像素。::
+   空白标签是一个自闭合标签，在一行文本内插入一段水平的空白。入参是一个整数，表示插入的空白宽度，单位为像素。 ::
 
        "空白之前。{space=30}空白之后。"
 
@@ -252,7 +264,7 @@ Ren'Py字符串的数值插入符合 :pep:`3101` 的字符串格式规范。 Ren
 
 .. text-tag:: #
 
-   以#符号开头的文本标签会被忽略，可以用于脚本调试。::
+   以#符号开头的文本标签会被忽略，可以用于脚本调试。 ::
 
       "New{#playlist}"
 
@@ -273,7 +285,7 @@ Ren'Py字符串的数值插入符合 :pep:`3101` 的字符串格式规范。 Ren
 
 .. text-tag:: nw
 
-    “不等待”标签是一个自闭合标签，该标签前的那行文本内容在显示一次后会立刻消失。::
+    “不等待”标签是一个自闭合标签，该标签前的那行文本内容在显示一次后会立刻消失。 ::
 
         g "看上去他们{nw}"
         show trebuchet
@@ -334,7 +346,9 @@ Ren'Py在之后的版本可能会支持世界上绝大多数的语言，而不�
 
     define gui.language = "japanese-loose"
 
-表意文字语言经常含有大量换行。要启用更快但运算量更少的换行算法的话，使用如下配置：::
+表意文字语言经常含有大量换行。要启用更快但运算量更少的换行算法的话，使用如下配置：
+
+::
 
     define gui.language = "greedy"
 
@@ -379,7 +393,9 @@ Ruby文本(较常用来标明假名或者注音)是一种在某个字符或单�
 3. 新样式的yoffset必须特别设置，这是为了将Ruby文本升到一般文本基线之上。
 4. 文本样式的 :propref:`ruby_style` 域应该被设置为上面新创建的样式。
 
-举例：::
+举例：
+
+::
 
   init python:
       style.default.line_leading = 12
@@ -392,7 +408,9 @@ Ruby文本(较常用来标明假名或者注音)是一种在某个字符或单�
 
 完成Ren'Py的相关配置后，我们就可以使用rt和rb文本标签，在脚本中包含Ruby文本了。rt标签用于标识一些字符将被显示为Ruby文本。如果在Ruby文本前面出现了rb标签，Ruby文本会与rb标签内的所有文本中央对齐。如果没有rb标签，Ruby文本会与对应的字符左对齐。
 
-举例：::
+举例：
+
+::
 
     e "Ruby 可以用来标识假名(東{rt}とう{/rt} 京{rt}きょう{/rt})。"
 
@@ -418,7 +436,9 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
 
 :var:`config.font_replacement_map` 配置项用于字体map图。字体文件、加粗和斜体会使用map图捆绑为一个组合。这个组合就用指定的斜体效果代替系统自动生成的斜体。
 
-这种替换可以实现将“Deja Vu Sans”版本的斜体换成官方的“oblique”版本。(当然你需要先在网上下载“oblique”字体。)::
+这种替换可以实现将“Deja Vu Sans”版本的斜体换成官方的“oblique”版本。(当然你需要先在网上下载“oblique”字体。)
+
+::
 
     init python:
         config.font_replacement_map["DejaVuSans.ttf", False, True] = ("DejaVuSans-Oblique.ttf", False, False)
@@ -440,27 +460,22 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
 
   我们推荐你创建的BMFont中包含拉丁字母和主要的标点符号，并确保在Ren'Py的接口上可以正确渲染。
 
-  **name**
-
+  `name`
     一个字符串，注册的字体名称。
 
-  **size**
-
+  `size`
     一个整数，注册字体的字号。
 
-  *bold**
-
+  `bold`
     一个布尔值，标识注册字体是否为粗体。
 
-  **italics**
-
+  `italics`
     一个布尔值，标识注册字体是否为斜体。
 
-  **underline**
-
+  `underline`
     可以忽略的参数。
 
-  **filename**
+  `filename`
 
     包含BMFont控制信息的文件。
 
@@ -470,44 +485,34 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
 
   请查看 `MudgeFont首页 <http://www.larryhastings.com/programming/mudgefont/>`_ 可以找到创建BMFonts的工具。Ren'Py假设MudgeFont的xml文件中的字符带都unicode字符数值，并会忽略所有负值。
 
-  **name**
-
+  `name`
     一个字符串，注册的字体名称。
 
-  **size**
-
+  `size`
     一个整数，注册字体的字号。
 
-  **bold**
-
+  `bold`
     一个布尔值，标识注册字体是否为粗体。
 
-  **italics**
-
+  `italics`
     一个布尔值，标识注册字体是否为斜体。
 
-  **underline**
-
+  `underline`
     可以忽略的参数。
 
-  **filename**
-
+  `filename`
     一个字符串，表示包含MudgeFont图形的文件。该图形通常是一个TGA文件，也可能是一个PNG或者其他Ren'Py支持的图片格式。
 
-  **xml**
-
+  `xml`
     包含MudgeFont工具生成信息的xml文件。
 
-  **spacewidth**
-
+  `spacewidth`
     表示空格字符的宽度的整数，单位是像素。
 
-  **default_kern**
-
+  `default_kern`
     字符间距的默认值，单位是像素。
 
-  **kerns**
-
+  `kerns`
     两字型字符串中字符间距的值。
 
 .. function:: renpy.register_sfont(name=None, size=None, bold=False, italics=False, underline=False, filename=None, spacewidth=10, default_kern=0, kerns={}, charset=u'!"#$%&'()*+, -./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~')
@@ -516,44 +521,34 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
 
   `关于SFont的更多详情 <http://www.linux-games.com/sfont/>`_ 。
 
-  **name**
-
+  `name`
     一个字符串，注册的字体名称。
 
-  **size**
-
+  `size`
     一个整数，注册字体的字号。
 
-  **bold**
-
+  `bold`
     一个布尔值，标识注册字体是否为粗体。
 
-  **italics**
-
+  `italics`
     一个布尔值，标识注册字体是否为斜体。
 
-  **underline**
-
+  `underline`
     可以忽略的参数。
 
-  **filename**
-
+  `filename`
     一个字符串，包含SFont图形的文件名。
 
-  **spacewidth**
-
+  `spacewidth`
     表示空格字符的宽度的整数，单位是像素。
 
-  **default_kern**
-
+  `default_kern`
     字符间距的默认值，单位是像素。
 
-  **kerns**
-
+  `kerns`
     两字型字符串中字符间距的值。
 
-  **charset**
-
+  `charset`
     字体的字符集。这是一个字符串，可以按照字符串中包含的字符顺序在图像文件中找到对应的字符。more的SFont字符集如下：
 
     ::
@@ -562,7 +557,9 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
         @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _
         ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~
 
-由于BMFont是Ren'Py支持的所有三种图形文字中完成度最高的，所以我们推荐新建项目使用BMFont。一个BMFont的使用样例如下：::
+由于BMFont是Ren'Py支持的所有三种图形文字中完成度最高的，所以我们推荐新建项目使用BMFont。一个BMFont的使用样例如下：
+
+::
 
     init python:
         renpy.register_bmfont("bmfont", 22, filename="bmfont.fnt")
@@ -600,12 +597,10 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
     说明字体中字符的unicode范围。
 
-    **start**
-
+    `start`
       unicode范围起点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
 
-    **end**
-
+    `end`
       unicode范围终点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
 
     当多个 ``.add()`` 调用中包含同一个字符时，使用第一个包含这个字符的add方法中的字体。
@@ -619,7 +614,7 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
 文本也可以用作一个 :ref:`displayable <displayables>`，这意味着你可以在文本上应用各种表单格式(transform)，可以当作一个图片显示并在界面上移动它的位置。
 
-.. function:: renpy.ParameterizedText(style='default', **properties)
+.. function:: renpy.ParameterizedText(style='default', `properties)
 
   该函数创建一个可视组件对象，可以带一个字符串做为入参，根据入参字符串生成的对象能当作图像显示。常用作预定义的 ``文本`` 图片的一部分。
 
@@ -643,20 +638,16 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
   创建一个可视组件，在界面上显示文本。
 
-  **text**
-
+  `text`
     在界面上显示的文本内容。该参数可以是一个字符串，或者一个字符串和可视组件的列表。
 
-  **slow**
-
+  `slow`
     决定文本是否缓慢显示，即在界面上逐个显示出每个字符。若为None，缓慢文本模式取决于slow_cps样式特性。否则，是否启用缓慢文本模式由此处参数slow决定。
 
-  **scope**
-
+  `scope`
     若不为None，该值应该是一个字典型数值，提供了额外的视角(scope)供文本插入(interpolation)的使用。
 
-  **substitute**
-
+  `substitute`
     若该值为真(true)，则应用文本插入(interpolation)。若该值为假(false)，不应用文本插入。若该值为None，由config.new_substitutions控制文本插入表现。
 
 .. _text-utility-functions:
@@ -668,12 +659,10 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
   返回入参s的一个拷贝，其是文本标签过滤后的结果。allow和deny关键词参数至少需要给出1个。
 
-  **allow**
-
+  `allow`
     允许通过的标签的集。如果某个标签不在该列表中，将会被移除。
 
-  **deny**
-
+  `deny`
     禁止通过的标签的集。如果某个标签不在该列表中，将会保留在字符串中。
 
 .. _slow-text-concerns:

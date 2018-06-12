@@ -348,8 +348,7 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 * 根据设置的RENPY_LANGUAGE环境变量。
 * 根据设置的 :var:`config.language` 。
 * 使用之前游戏中选择的语言选项。
-* 游戏第一次运行时，使用
-  :var:`config.default_language` is used.。(默认使用None语言。)
+* 游戏第一次运行时，使用 :var:`config.default_language` 。(默认使用None语言。)
 * 以上情况都未配置，使用None语言。
 
 .. _translation-actions-functions-and-variables:
@@ -363,19 +362,20 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 
   将游戏语言改为  *language* 。
 
-  **language**
-
+  `language`
     一个字符串，表示切换的目标语言命，若为None表示游戏脚本默认语言。
 
-语言行为函数可以用于在自定义配置界面添加一个语言自定义选项。::
+语言行为函数可以用于在自定义配置界面添加一个语言自定义选项。
 
-            frame:
-                style_prefix "pref"
-                has vbox
+::
 
-                label _("Language")
-                textbutton "English" action Language(None)
-                textbutton "Igpay Atinlay" action Language("piglatin")
+    frame:
+        style_prefix "pref"
+        has vbox
+
+        label _("Language")
+        textbutton "English" action Language(None)
+        textbutton "Igpay Atinlay" action Language("piglatin")
 
 总共有两个与多语言支持相关的函数：
 
@@ -429,7 +429,7 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 
 .. var:: _preferences.language
 
-  当前语言名称，如果使用的是默认语言则是None。需要改变语言的话，调用 :func:`renpy.change_language`. 函数。
+  当前语言名称，如果使用的是默认语言则是None。需要改变语言的话，调用 :func:`renpy.change_language` 函数。
 
 .. _unsanctioned-translations:
 

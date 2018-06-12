@@ -4,12 +4,16 @@
 语音
 =====
 
-Ren'Py支持对话文本与语音播放的联结。使用voice语句可以实现这个功能，voice语句给定了播放的语音文件： ::
+Ren'Py支持对话文本与语音播放的联结。使用voice语句可以实现这个功能，voice语句给定了播放的语音文件：
+
+::
 
   voice "line0001.ogg"
   "欢迎来到Ren'Py"
 
-通常来说，某个语音会被后面的互动行为中断。voice sustain语句则可以保证语音会播放完毕，即使遇到某个互动行为。::
+通常来说，某个语音会被后面的互动行为中断。voice sustain语句则可以保证语音会播放完毕，即使遇到某个互动行为。
+
+::
 
   voice "line0001.ogg"
   "欢迎来到Ren'Py..."
@@ -26,7 +30,9 @@ Ren'Py支持对话文本与语音播放的联结。使用voice语句可以实现
 
 Ren'Py内置了一个语音标签(tag)系统，使得针对某个选定的角色语音的静音和取消静音成为可能。若要活用这个优势，需要在使用 :func:`Character()` 创建每一个角色对象时都提供一个voice_tag入参，就可以使用 :func:`SetVoiceMute()` 或 :func:`ToggleVoiceMute()` 切换角色语音的静音和取消静音状态。
 
-举例：::
+举例：
+
+::
 
   define e = Character("艾琳", voice_tag="eileen")
   define l = Character("露西", voice_tag="lucy")
@@ -61,12 +67,15 @@ Ren'Py提供了自动匹配语音文件并播放的功能，不用在每行对�
 
 要让Ren'Py自动播放语音，需要将 :var:`config.auto_voice` 设置为一个包含 `{id}` 格式的字符串。当对话发生， `{id}` 会被对话标识符替换，并自动组成一个音频文件名。若音频文件名对应的文件真实存在，则那个文件就会播放。
 
-举例，比如我们如下定义：::
+举例，比如我们如下定义：
+
+::
 
     config.auto_voice = "voice/{id}.ogg"
 
 对话标识号是 ``demo_minigame_03fc91ef`` ，那么当对应的对话显示时，Ren'Py会寻找文件 ``voice/demo_minigame_03fc91ef.ogg`` 。如果文件存在，Ren'Py会播放这个文件。
 
+.. _voice-functions:
 
 语音函数
 ---------------
@@ -119,7 +128,7 @@ Ren'Py提供了自动匹配语音文件并播放的功能，不用在每行对�
 
   等效于voice sustain语句。
 
-
+.. _voice-actions:
 
 Voice Actions
 -------------
