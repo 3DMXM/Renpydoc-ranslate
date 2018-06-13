@@ -1,16 +1,21 @@
-====================================
+.. _transforms-and-transitions-in-python:
+
+===========================================
 Python中的变换(transform)和转场(transition)
-====================================
+===========================================
 
 可以使用Python创建新的变换(transform)和转场(transition)，并应用在Ren'Py脚本中。
 
+.. _transforms:
 
 变换(transform)
-----------
+------------------
 
 变换(transform)是一个Python的可调用组件。当使用一个可视组件调用变换时，变换会返回另一个可视组件。
 
-举例：::
+举例：
+
+::
 
     init python:
 
@@ -51,16 +56,16 @@ ATL变换在Python中等效于一个Transform对象。
 
     .. method:: set_child(child)
 
-        使用一个新的 `child`调用这个方法，`child`成为变换的子组件。
+        使用一个新的 `child` 调用这个方法，`child` 成为变换的子组件。
 
     .. method:: update()
 
         当变换特性(property)字段(field)在回调方法之外被更新时，这个方法会被调用，确保修改生效。
 
-
+.. _transitions:
 
 转场(transitions)
------------
+----------------------
 
 一个转场(transition)是一个Python的可调用组件。使用两个关键词入参调用，返回一个表现转场效果的可视组件。这两个关键词入参是：
 
@@ -72,7 +77,9 @@ ATL变换在Python中等效于一个Transform对象。
 
 返回的可视组件应该有一个 ``delay`` 字段(field)，域中的值表示转场效果运行的时间，单位为秒。
 
-举例：::
+举例：
+
+::
 
     init python:
 

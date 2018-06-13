@@ -42,16 +42,15 @@ Ren'Py包含一个对话历史系统，存放着每一行向用户显示过的�
 
     .. attribute:: image_tag
 
-        用于 :func:`Character`的图像标签(tag)，若没有则是None。
+        用于 :func:`Character` 的图像标签(tag)，若没有则是None。
 
     .. attribute:: voice
 
-        函数 :func:`_get_voice_info`返回的对象，存储播放的语音信息。
+        函数 :func:`_get_voice_info` 返回的对象，存储播放的语音信息。
 
     .. attribute:: rollback_identifier
 
-        这是一个标识符，可以传入 :func:`RollbackToIdentifier`
-         ，可以导致生成的这个历史层回滚到对应的那行脚本。如果位置依然在脚本日中时回滚才会发生，否则这个动作(action)是无效的。
+        这是一个标识符，可以传入 :func:`RollbackToIdentifier` ，可以导致生成的这个历史层回滚到对应的那行脚本。如果位置依然在脚本日中时回滚才会发生，否则这个动作(action)是无效的。
 
 
-一旦创建了一个HistoryEntry对象，就会传给 :var:`config.history_callbacks`中配置的每一个回调函数，那些回调函数允许创作者写的代码添加新的字段(field)。
+一旦创建了一个HistoryEntry对象，就会传给 :var:`config.history_callbacks` 中配置的每一个回调函数，那些回调函数允许创作者写的代码添加新的字段(field)。

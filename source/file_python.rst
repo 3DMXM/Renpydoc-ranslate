@@ -1,3 +1,5 @@
+.. _file-access:
+
 文件读写
 ===========
 
@@ -13,14 +15,14 @@
 
   列出game目录和归档文件下的所有文件。这个函数返回一个文件列表，使用“/”作为目录分隔符。
 
-  **common**
-
+  `common`
     若为True，通用目录也会包含在列表中。
 
 .. function:: renpy.loadable(filename)
 
   如果 *filename* 表示的文件可以加载就返回True。可以加载表示可以从磁盘上或者某个归档文件内读取。如果不能加载则返回False。
 
+.. _rarely-used:
 
 极少使用
 -----------

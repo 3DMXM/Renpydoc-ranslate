@@ -33,34 +33,28 @@
 
   报告成就 *name* 的完成进度，前提是该成就未解锁。成就 *name* 必须先定义各完成度。
 
-  **name**
-
+  `name`
     成就名，而不是成就的stat。
 
-  **complete**
-
+  `complete`
     一个整数，给定了达成成就的单元数量。
 
 .. function:: achievement.register(name, **kwargs)
 
   注册一个成就。成就并不强制需要注册，但这样做可以将成就信息传给后端。
 
-  **name**
-
+  `name`
     注册的成就名。
 
   下列关键词参数是可选的。
 
-  **steam**
-
+  `steam`
     在Steam上使用的成就名。如果没有指定，默认与 *name* 相同。
 
-  **stat_max**
-
+  `stat_max`
     解锁成就的stat整数值。
 
-  **stat_modulo**
-
+  `stat_modulo`
     如果使用 *stat_max* 对进度取模结果为0，就向用户显示进度。例如，如果stat_modula是10，当进度为10、20、30时分别会想用户显示进度信息。如果未给出该值，默认为0。
 
 .. function:: achievement.sync()

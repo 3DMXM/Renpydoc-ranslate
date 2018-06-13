@@ -1,3 +1,5 @@
+.. _screens-and-python:
+
 ==================
 界面与Python
 ==================
@@ -8,9 +10,11 @@ Ren'Py支持使用Python定义界面(screen)，与使用Ren'Py界面语言能实
 
 为了确保函数重新运行时无缝的用户体验(并不导致某些东西重置)，每次调用UI函数都提供 `id` 入参就很重要。如果重新创建了某个界面，Ren'Py会使用原可视组件内容的id更新每一个新的可视组件。id通过界面语言自动生成，但是手工处理界面时也许需要人工指定id。
 
-Warning: 不赞成也不推荐使用UI函数作为界面函数。
+.. warning:: 不赞成也不推荐使用UI函数作为界面函数。
 
-这是一个Python界面的样例：::
+这是一个Python界面的样例：
+
+::
 
     init python:
         def say_screen(who, what, **kwargs):
@@ -45,31 +49,25 @@ Warning: 不赞成也不推荐使用UI函数作为界面函数。
 
   定义一个名为 *name* 的界面。
 
-  **function**
-
+  `function`
     调用该函数可以显示界面。调用该函数时，使用界面作用域(scope)作为需要的关键词入参。它会忽略其他的关键词入参。
 
     这个函数需要调用ui函数将组件添加到界面上。
 
-  **modal**
-
+  `modal`
     一个字符串，根据计算后的值决定创建的界面是否模态(modal)。一个模态(modal)界面会防止它的子界面接受输入事件消息。
 
 
-  **zorder**
-
+  `zorder`
     一个字符串，最终计算后的值应该是一个整数。这个证书控制界面显示顺序。zorder值大的界面显示在zorder值小的界面上方。
 
-  **tag**
-
+  `tag`
     界面关联的图像标签(tag)。显示界面时，所有带有同样标签的其他界面都会被替换。标签默认与界面名相同。
 
-  **predict**
-
+  `predict`
     若为True，界面启用图像预加载。若为False，不使用预加载。默认值是Trues,
 
-  **variant**
-
+  `variant`
     字符串。表示使用的界面变种(variant)。
 
 .. function:: renpy.get_screen(name, layer=None)
@@ -113,24 +111,19 @@ Warning: 不赞成也不推荐使用UI函数作为界面函数。
 
   这个函数使用下列关键词入参：
 
-  **_screen_name**
-
+  `_screen_name`
     想要显示的界面的名称。
 
-  **_layer**
-
+  `_layer`
     界面显示使用的图层名。
 
-  **_tag**
-
+  `_tag`
     界面显示使用的图像标签(tag)。如果没有指定，就使用界面的图像标签关联的默认标签。如果那也没有指定，默认使用界面的名称做为标签名。
 
-  **_widget_properties**
-
+  `_widget_properties`
     从组件(widget)的id到某个“特性名->特性值”映射的映射关系。当带那个id的组件(widget)在界面上显示时，就能为其添加指定的特性(property)。
 
-  **_transient**
-
+  `_transient`
     若为True，界面会在当前互动结束后自动隐藏。
 
   不以下划线(_)开头的关键词入参用于初始化界面的作用域。
@@ -213,40 +206,33 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
 
   下列参数分别对应Adjustment对象的字段(field)或者特性(property)。
 
-  **range**
-
+  `range`
     调整范围，一个数值。
 
-  **value**
-
+  `value`
     调整为这个值，一个数值。
 
-  **step**
-
+  `step`
     调整的步长，一个数值。若为None，默认值是一个页面(page)的1/10大小，前提是设置了页面大小。否则默认为 *range* 大小的1/20。
 
     使用鼠标滚轮滚动一个视口(viewport)时会用到这个值。
 
-  **page**
-
+  `page`
     Adjustment对象的页面(page)大小。若为None，会通过视口(viewport)自动设置。如果没有设置，默认值是 *range* 大小的1/10。
 
     当点击一个滚动条(scrollbar)时，这项值会被用到。
 
   下列参数控制Adjustment对象的行为。
 
-  **adjustable**
-
+  `adjustable`
     若为True，条(bar)可以修改Adjustment对象。若为False，则不能修改。
 
     如果给定了 *changed* 函数或者Adjustment对象有一个关联的视口(viewport)，那这项的默认值是True。否则默认值是False。
 
-  **changed**
-
+  `changed`
     当Adjustment的值发生改变时，会用新的值调用这个函数。
 
-  **ranged**
-
+  `ranged`
     当通过一个视口(viewport)设置了Adjustment的范围时，会用Adjustment对象调用这个函数。
 
 .. function:: ui.change(value)
@@ -275,12 +261,10 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
 
   下列入参有文档说明。其他没有文档说明的入参属于Ren'Py内部使用。请都用关键词入参。
 
-  **roll_forward**
-
+  `roll_forward`
     当前向滚动发生时，这个函数会返回相应的信息。(若为None，前向滚动会被忽略。)这项应该总是传入 :func:`renpy.roll_forward_info()` 函数的结果。
 
-  **mouse**
-
+  `mouse`
     这个函数中鼠标指针使用的样式。
 
 .. function:: ui.layer(name)
@@ -379,7 +363,7 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
     .. method:: get_adjustment(self)
 
         调用这个方法可以获得一个针对条(bar)的adjustment对象。这个方法使用
-        :func:`ui.adjustment`创建Adjustment对象，并返回创建的对象。
+        :func:`ui.adjustment` 创建Adjustment对象，并返回创建的对象。
 
         继承后的类必须重写这个方法，使用默认方法会出现“未实现(NotImplemented)”错误(并被Ren'Py阻止直接报出这个错误)。
 
@@ -393,7 +377,7 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
 
         当某个界面更新，需要更换一个BarValue时，调用这个方法。它可以用于更新BarValue。调用顺序在get_adjustment之前。
 
-        注意， `other` 不需要与 `self`的类型相同。
+        注意， `other` 不需要与 `self` 的类型相同。
 
     .. method:: periodic(self, st)
 
@@ -452,14 +436,18 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
 创作者定义的界面语言语句
 ==========================================
 
-Ren'Py支持定义定制化界面语言语句。创作者定义的界面语言语句本质上是变相使用了界面语言中的 :ref:`use语句 <sl-use>` 。固定位置入参不变，特性(property)变成了关键词参数。如果自定义的语句后面有一个语句块(block)，use语句也支持。例如，下面的定制化界面语言语句：::
+Ren'Py支持定义定制化界面语言语句。创作者定义的界面语言语句本质上是变相使用了界面语言中的 :ref:`use语句 <sl-use>` 。固定位置入参不变，特性(property)变成了关键词参数。如果自定义的语句后面有一个语句块(block)，use语句也支持。例如，下面的定制化界面语言语句：
+
+::
 
     titledwindow "Test Window":
         icon "icon.png"
 
         text "This is a test."
 
-可以变成：::
+可以变成：
+
+::
 
     use titledwindow("Test Window", icon="icon.png"):
         text "This is a test."
@@ -472,22 +460,18 @@ Ren'Py支持定义定制化界面语言语句。创作者定义的界面语言�
 
   注册一个界面语言语句，用于创建一个可视组件。
 
-  **name**
-
+  `name`
     注册的界面语言语句名称，一个包含自定义Ren'Py关键词的字符串。这个关键词用于标识进入了新的语句。
 
-  **displayable**
-
+  `displayable`
     这是一个函数，被调用后返回一个可视组件对象。所有固定位置入参、特性(property)和样式特性都可以作为入参传入这个函数。其他关键词入参请看后面部分。
 
     这个函数的返回值必须是一个可视组件。如果它返回了多个可视组件，最外层可视组件的“_main”属性(attribute)应该被设置成那个“主”可视组件——子组件添加在“主”组件上。
 
-  **style**
-
+  `style`
     可视组件样式的基础名称。如果风格特性(property)没有指定，这项会添加风格前缀。处理后的样式名会以 ``style`` 关键词传入可视组件的处理函数。
 
-  **nchildren**
-
+  `nchildren`
     可视组件的子组件数量。可能是：
 
     **0**
@@ -504,12 +488,10 @@ Ren'Py支持定义定制化界面语言语句。创作者定义的界面语言�
 
   下列入参应该使用作为关键词入参传入：
 
-  **replaces**
-
+  `replaces`
     若为True，且需要该可视组件替换之前的可视组件，就把新的可视组件作为参数传入。
 
-  **default_keywords**
-
+  `default_keywords`
     可视组件的关键词入参默认集合。
 
   返回一个对象，并可以通过调用下列方法为这个对象添加固定位置入参和特性(property)。每个方法都会返回调用方法的对象自身，并允许方法链接起来用。
@@ -547,31 +529,31 @@ Ren'Py支持定义定制化界面语言语句。创作者定义的界面语言�
 
   使用Ren'Py注册一个定制化界面语言语句。
 
-  **name**
-
+  `name`
     这项必须是一个word型数据。它是定制化界面语言语句的名称。
 
-  **positional**
-
+  `positional`
     语句使用的固定位置参数的个数。
 
-  **children**
-
+  `children`
     界面使用的子组件。如果没有指定，默认为 *name* 。
 
-  **screen**
-
+  `screen`
     使用的界面名。如果没有指定，默认是 *name* 。
 
   返回的对象可以被添加固定位置入参和特性(property)。这个对象有一个与 :func:`renpy.register_sl_displayable` 返回对象相同的“.add_”方法。
 
-做一个创作者定义界面语言语句的例子，这里是 ``titledwindow`` 语句的实现。首先，在早期加载的文件——像名为“01custom.rpy”就加载足够早——中python early语句块中注册定制化语句。注册的脚本如下：::
+做一个创作者定义界面语言语句的例子，这里是 ``titledwindow`` 语句的实现。首先，在早期加载的文件——像名为“01custom.rpy”就加载足够早——中 ``python early`` 语句块中注册定制化语句。注册的脚本如下：
+
+::
 
 
     python early:
         renpy.register_sl_statement("titledwindow", positional=1, children=1).add_property("icon").add_property("pos")
 
-然后，我们定义一个实现了定制化语句的界面。这个界面可以在任何文件中定义。比如：::
+然后，我们定义一个实现了定制化语句的界面。这个界面可以在任何文件中定义。比如：
+
+::
 
     screen titledwindow(title, icon=None, pos=(0, 0)):
         drag:

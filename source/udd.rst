@@ -1,5 +1,4 @@
-.. _udd:
-.. _cdd:
+.. _creator-defined-displayables:
 
 ============================
 创作者定义的可视组件
@@ -9,16 +8,20 @@
 一个创作者定义的可视组件允许使用任何pygame事件消息。
 其可以渲染其他可视组件，并将其他可视组件放置在界面的任何位置。
 这可是突破Ren'Py提供的工具限制，适合创建一些2D的迷你游戏。
-(但请参考:ref:`sprites <sprites>`章节内容，那里相似地描述了生成同样物体的高阶方法。)
+(但请参考 :ref:`sprites <sprites>` 章节内容，那里相似地描述了生成同样物体的高阶方法。)
 
 创作者定义的可视组件完全使用Python代码编写，
 我们鼓励创作者在创建自己的可视组件之前具有一定程度的Python面向对象编程技能。
+
+.. _example:
 
 样例
 =======
 
 这是一个创作者定义可视组件的样例。
-这个可视组件能根据子组件中心与鼠标指针的距离修改子组件的alpha值。 ::
+这个可视组件能根据子组件中心与鼠标指针的距离修改子组件的alpha值。
+
+::
 
     init python:
 
@@ -91,7 +94,9 @@
             def visit(self):
                 return [ self.child ]
 
-使用创作者定义的可视组件时，我们可以创建对应的实例，并将实例添加至界面。 ::
+使用创作者定义的可视组件时，我们可以创建对应的实例，并将实例添加至界面。
+
+::
 
     screen alpha_magic:
         add Appearing("logo.png", 100, 200):
@@ -105,6 +110,7 @@
 
         return
 
+.. _renpy-displayable:
 
 renpy.Displayable
 =================
@@ -121,7 +127,9 @@ renpy.Displayable
 
     .. method:: __init__(**properties):
 
-        子类可能重写这个构造器，并添加新的参数。如果的确出现了新参数，需要把所有未知的关键词入参都传入到renpy.Displayable构造器，这样调用：::
+        子类可能重写这个构造器，并添加新的参数。如果的确出现了新参数，需要把所有未知的关键词入参都传入到renpy.Displayable构造器，这样调用：
+
+        ::
 
             super(MyDisplayable, self).__init__(**properties)
 
@@ -158,7 +166,7 @@ renpy.Displayable
             一个浮点数，显示时间轴，单位为秒。
 
         每次交互动作的开头都会生成一个事件消息，
-        :func:`renpy.timeout`函数可以用于触发另一个事件消息。
+        :func:`renpy.timeout` 函数可以用于触发另一个事件消息。
 
     .. method:: per_interact(self)
 
@@ -200,16 +208,16 @@ renpy.Render
     .. method:: place(d, x=0, y=0, width=None, height=None, st=None, at=None, render=None, main=True)
 
         渲染 `d` 并将其放入由 `x`、 `y`、
-        `width`和 `height`定义的矩形中，使用Ren'Py标准位置算法。
+        `width` 和 `height` 定义的矩形中，使用Ren'Py标准位置算法。
 
         `x`, `y`, `width`, `height`
-            放入的矩形区域。如果 `width` 或 `height`为None，就分别使用Render对象的宽或者高。
+            放入的矩形区域。如果 `width` 或 `height` 为None，就分别使用Render对象的宽或者高。
 
         `st`, `at`
             传入Render对象的两个时间。若为None，默认使用render方法调用这个方法时传入的时间。
 
         `render`
-            若不是None，这项代替 `d`成为渲染对象。
+            若不是None，这项代替 `d` 成为渲染对象。
 
         `main`
             同 .blit()。
@@ -237,7 +245,7 @@ renpy.Render
 
         设置该可视组件子组件在水平和垂直方向上的缩放(zoom)等级。只有子组件会被缩放——宽度、高度和blit坐标都不会缩放。
 
-
+.. _utility-functions:
 
 功能函数
 =================
@@ -266,7 +274,7 @@ renpy.Render
 
   如果pygame事件 *ev* 匹配 *keysym* 就返回True。
 
-  **keysym**
+  `keysym`
 
     下列情况之一：
 
@@ -278,15 +286,15 @@ renpy.Render
 
   渲染一个可视组件，并返回一个renpy.Render对象。
 
-  **d**
+  `d`
 
     待渲染的可视组件。
 
-  **width, height**
+  `width, height`
 
     可视组件渲染区域的宽度和高度。
 
-  **st, at**
+  `st, at`
 
     显示和动画时间轴。
 

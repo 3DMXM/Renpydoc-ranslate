@@ -35,7 +35,9 @@
 样例
 -------
 
-这个样例播放“哔-”代替角色语音，前提是慢速文本启用：::
+这个样例播放“哔-”代替角色语音，前提是慢速文本启用：
+
+::
 
     init python:
         def beepy_voice(event, interact=True, **kwargs):
@@ -51,4 +53,4 @@
 
     label start:
 
-        pike "So, hanging out on Talos IV, minding my own business, when..."
+        pike "在Talos IV附近逛逛，整整我自己的生意，只要……"

@@ -1,3 +1,5 @@
+.. _image-gallery-music-room-and-replay-actions:
+
 =============================================
 画廊、音乐空间和场景回放
 =============================================
@@ -19,17 +21,15 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
 2. 在Gallery实例中添加按钮和图片，以及解锁按钮和图片需要的条件。这也是一个多步过程。
 
-   1. 调用 :meth:`Gallery.button`定义一个新的按钮。
+   1. 调用 :meth:`Gallery.button` 定义一个新的按钮。
 
-   2. 可选，调用 :meth:`Gallery.unlock` 或 :meth:`Gallery.condition`添加一个或多个解锁条件至按钮。
+   2. 可选，调用 :meth:`Gallery.unlock` 或 :meth:`Gallery.condition` 添加一个或多个解锁条件至按钮。
 
-   3. 使用一个或多个可视组件作为参数，调用 :meth:`Gallery.image`定义一个图像(image)。或者直接调用
-      :meth:`Gallery.unlock_image` 。
+   3. 使用一个或多个可视组件作为参数，调用 :meth:`Gallery.image` 定义一个图像(image)。或者直接调用 :meth:`Gallery.unlock_image` 。
 
    4. 可选，调用 :meth:`Gallery.transform` 将可视组件与变换(transform)相关联。
 
-   5. 可选，调用 :meth:`Gallery.unlock`、:meth:`Gallery.condition`,
-      或 :meth:`Gallery.allprior`给图像添加一个或多个解锁条件。
+   5. 可选，调用 :meth:`Gallery.unlock` 、:meth:`Gallery.condition` 或 :meth:`Gallery.allprior` 给图像添加一个或多个解锁条件。
 
    重复步骤3至5就可以再次添加按钮，重复所有5个步骤就可以再次添加图片。
 
@@ -37,7 +37,9 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
 4. 在主菜单和额外菜单上添加进入画廊界面的入口。
 
-这是一个前3步的样例：::
+这是一个前3步的样例：
+
+::
 
     init python:
 
@@ -140,7 +142,9 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
             # 也能用于导航到其他画廊界面。
             textbutton "Return" action Return() xalign 0.5 yalign 0.5
 
-步骤4会由于游戏结构的不同而大相径庭，不过一种通用办法是添加下面这行：::
+步骤4会由于游戏结构的不同而大相径庭，不过一种通用办法是添加下面这行：
+
+::
 
         textbutton "Gallery" action ShowMenu("gallery")
 
@@ -192,16 +196,14 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
     前进至画廊的下一个图片。
 
-    **unlocked**
-
+    `unlocked`
       若为True，只使用已解锁的图片。
 
   .. method:: Previous(unlocked=False)
 
     后退至画廊的上一个图片。
 
-    **unlocked**
-
+    `unlocked`
       若为True，只使用已解锁的图片。
 
   .. method:: Return(self)
@@ -220,16 +222,14 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
     创建一个名为 *name* 的按钮。
 
-    **name**
-
+    `name`
       创建的按钮名称。
 
   .. method:: condition(expression)
 
     一个条件函数，expression为真时表示条件满足。
 
-    **expression**
-
+    `expression`
       一个Python表达式字符串。
 
   .. method:: display(*displayables)
@@ -240,20 +240,16 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
     返回一个文本字符串，表示名为 *name* 的按钮的已解锁图片数和图片总数。
 
-    **format**
-
+    `format`
       一个Python格式字符串，用于格式化数值。有三种可以被替换的值：
 
       **{seen}**
-
         已经看过的图片的数值。
 
       **{total}**
-
         按钮中图片总数。
 
       **{locked}**
-
         依然锁定的图片数量。
 
   .. method:: image(*displayables)
@@ -264,24 +260,19 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
     该函数创建一个按钮，显示与给定按钮名相关联的图像。
 
-    **name**
-
+    `name`
       需要创建的按钮名称。
 
-    **unlocked**
-
+    `unlocked`
       当按钮解锁时显示的可视组件。
 
-    **locked**
-
+    `locked`
       当按钮锁定时显示的可视组件。若为None，将使用画廊对象的locked_button字段(field)值。
 
-    **hover_border**
-
+    `hover_border`
       当按钮解锁并得到焦点时，覆盖在按钮上的可视组件。若为None，将使用画廊对象的hover_border字段(field)值。
 
-    **idle_border**
-
+    `idle_border`
       当按钮解锁未得到焦点是，覆盖在按钮上的可视组件。若为None，将使用画廊对象的idle_border字段(field)值。
 
     更多的关键词入参会成为所创建按钮对象的样式特性(sytle property)。
@@ -302,7 +293,6 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
     指定的图片名应该是字符串。
 
-
 .. _music-room:
 
 音乐空间
@@ -312,17 +302,19 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
 音乐空间通过MusicRoom类的实例进行管理。游戏中允许存在多个MusicRoom实例，允许存在多个音乐空间。创建一个音乐空间包含以下四个步骤：
 
-1.创建一个MusicRoom实例。MusicRoom构造器使用的参数控制音乐播放使用的通道(channel)，以及音乐的淡入淡出效果时长。
+1. 创建一个MusicRoom实例。MusicRoom构造器使用的参数控制音乐播放使用的通道(channel)，以及音乐的淡入淡出效果时长。
 
 2. 将音乐文件添加至实例。
 
 3. 创建一个使用MusicRoom实例的界面，界面中包含按钮、图片按钮和热站(hotspot)。界面中还包含能拾取音轨、进入下一个或上一个音轨、暂停或开始播放音乐的动作(action)。
 
-  需要注意，动作(action)用作某个MusicRoom实例的成员函数，所以如果MusicRoom实例名为mr，那么mr.Play("track1.ogg")就是播放动作的正确用法。
+   需要注意，动作(action)用作某个MusicRoom实例的成员函数，所以如果MusicRoom实例名为mr，那么mr.Play("track1.ogg")就是播放动作的正确用法。
 
 4. 将音乐空间界面添加到主菜单或者额外菜单。
 
-这是一个前三步的样例：::
+这是一个前三步的样例：
+
+::
 
     init python:
 
@@ -365,7 +357,9 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
         # 离开时恢复主菜单的音乐。
         on "replaced" action Play("music", "track1.ogg")
 
-步骤4会由于游戏结构的不同而大相径庭，不过一种通用办法是添加下面这行：::
+步骤4会由于游戏结构的不同而大相径庭，不过一种通用办法是添加下面这行：
+
+::
 
         textbutton "Music Room" action ShowMenu("music_room")
 
@@ -378,35 +372,28 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
   一个音乐空间类，包含一系列可由用户解锁的曲子，以及顺序播放音频列表的动作。
 
-  **channel**
-
+  `channel`
     音乐空间使用的音频通道。
 
-  **fadeout**
-
+  `fadeout`
     改变音轨时，渐出效果时长，单位为秒。
 
-  **fadein**
-
+  `fadein`
     改变音轨时，渐入效果时长，单位为秒。
 
-  **loop**
-
+  `loop`
     当播放列表到达结尾时，决定循环播放还是停止播放。
 
-  **single_track**
-
+  `single_track`
     若为True，每次只播放一条音轨。若 *loop* 为True，则循环播放这条音轨。否则在音轨结束时结束播放。
 
-  **shuffle**
-
+  `shuffle`
     若为True，所有音轨乱序播放。若为False，根据音轨加入到音乐空间的顺序播放。
 
-  **stop_action**
-
+  `stop_action`
     当音乐停止时执行的动作(action)。
 
-  *single_track* 和 *shuffle* 两项是冲突的，二者最多只有一项能设置为True。(设置 *single_track* 和 *shuffle* 的动作会强制要求)。
+  *single_track* 和 *shuffle* 两项是冲突的，二者最多只有一项能设置为True。(设置 *single_track* 和 *shuffle* 的动作会有这样的强制要求)。
 
   .. method:: Next(self)
 
@@ -464,12 +451,10 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
     将音乐文件 *filename* 添加到音乐空间。音乐空间中文件被添加的顺序就是音乐播放的默认顺序。
 
-    **always_unlocked**
-
+    `always_unlocked`
       若为True，音乐文件始终是解锁状态。这个设置允许音乐文件在游戏播放过之前，就可以在音乐空间中使用。
 
-    **action**
-
+    `action`
       这是一个动作或者动作列表。当文件播放时，这个动作或动作列表会被调用。
 
       例如，这些动作可以用于播放音乐文件时改变界面或者背景。
@@ -477,7 +462,6 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
   .. method:: is_unlocked(filename)
 
     如果 *filename* 已被解锁(或一直是解锁)则返回True，否则返回False。
-
 
 .. _replay:
 
@@ -498,33 +482,45 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 
 需要使用回放模式的优势，需要在场景开始添加一个文本标签(label)，在结尾添加一个renpy.end_replay的调用。界面不应该假设在普通模式和回放模式下图层(layer)或变量的状态不同。(在回放开头，标签会被一个黑屏界面唤起。)
 
-举例：::
+举例：
+
+::
 
   ###
 
-       "And finally, I met the wizard himself."
+       "最后，我终于见到了魔导士本尊。"
 
   label meaning_of_life:
 
        scene
 
-      "Mage" "What is the meaning of life, you say?"
+      "魔术师" "你问我，生命的意义？"
 
-      "Mage" "I've thought about it long and hard. A long time, I've
-              spent pondering that very thing."
+      "魔术师" "我曾经苦思冥想，并为获取这个问题的答案耗费了大量时光。"
 
-      "Mage" "And I'll say - the answer - the meaning of life
-              itself..."
+      "魔术师" "而现在我会这样回答这个问题——生命的意义是……"
 
-      "Mage" "Is forty-three."
+      "魔术师" "是43。"
 
       $ renpy.end_replay()
 
-      "Mage" "Something like that, anyway."
+      "魔术师" "总之就是类似的玩意儿。"
 
-这样定义的场景(scene)，就可以使用回放动作唤起回放了。::
+(译者注：这个梗比较冷僻，稍作解释。道格拉斯·亚当斯的小说《银河系漫游指南》中提到，42是“生命、宇宙以及任何事情的终极答案”。
+此后，42经常被用来表示致敬。援引维基百科上对 `42 <https://zh.wikipedia.org/wiki/42>`_ 的解释，几个最著名的致敬梗有：
 
-  textbutton "The meaning of life" action Replay("meaning_of_life")
+- 若在Google输入the answer to life, the universe, and everything，Google会直接回答42——而且还是用Google计算器算出来的。
+- 若在Wolfram Alpha中输入Answer to the Ultimate Question of Life, the Universe, and Everything，Wolfram Alpha也会回答42。
+- 若在Siri中问“What's the meaning of life?”，Siri也会回答42。
+- 在英雄联盟中召唤峡谷地图中使用汉默丁格能偶尔听到他说到“42~一个神秘的数字，某些东西与它有关~”
+
+此处魔术师回答“43”也是对此的恶搞。)
+
+这样定义的场景(scene)，就可以使用回放动作唤起回放了。
+
+::
+
+  textbutton "生命的意义" action Replay("meaning_of_life")
 
 回放模式有一个专用的存储变量：
 
@@ -542,20 +538,17 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 
   结束当前回放。
 
-  **confirm**
-
+  `confirm`
     若为True，结束回放前提示用户确认。
 
 .. function:: Replay(label, scope={}, locked=None)
 
   从 *label* 处开始回放的动作。
 
-  **scope**
-
+  `scope`
     一个字典，表示从变量名与变量值的映射关系。进入回放时，所有变量会设置该字典的值。
 
-  **locked**
-
+  `locked`
     若为True，该回放锁定。若为False，该回放解锁。若为None，如果游戏进度未进展到对应标签则锁定回放。
 
 .. function:: renpy.call_replay(label, scope={})

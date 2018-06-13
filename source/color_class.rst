@@ -11,7 +11,9 @@ Ren'Py有一个Color类，可以用于各色彩空间之间的转换，或者进
 * HLS - 色相(Hue)、亮度(Lightness)、饱和度(Saturation)
 * HSV - 色相(Hue)、饱和度(Saturation)、明度(Value)
 
-下面的例子中，不同的色彩空间的计算方式，表示了同一种亮绿色：::
+下面的例子中，不同的色彩空间的计算方式，表示了同一种亮绿色：
+
+::
 
     # 标准Ren'Py色彩。
     Color("#0f0")
@@ -32,24 +34,20 @@ Ren'Py有一个Color类，可以用于各色彩空间之间的转换，或者进
 
   创建一个Color对象时，至少需要提供一个 *color* 、 *hls* 、 *hsv* 或 *rgb* 入参。(如果每一项入参都是None，那么返回None。)
 
-  .. attribute:: color
-
+  `color`
     Ren'Py能理解的标准格式色彩之一。标准格式色彩包括：
 
     - 一个Color对象。
     - 一个(r, g, b)或(r, g, b, a)元组，每一项数值都位于0到255的闭区间。
     - 十六进制色彩字符串，格式为"#rgb"、"#rgba"、"#rrggbb"或"#rrggbbaa"。
 
-  .. attribute:: hls
-
+  `hls`
     HLS色彩空间的某个色彩。这是一个三元元组，每个元素的值位于0.0到1.0的闭区间。
 
-  .. attribute:: hsv
-
+  `hsv`
     HSV色彩空间的某个色彩。这是一个三元元组，每个元素的值位于0.0到1.0的闭区间。
 
-  .. attribute:: rgb
-
+  `rgb`
     RGB色彩空间的某个色彩。这是一个三元元组，每个元素的值位于0.0到1.0的闭区间。
 
   如果提供的色彩不包含alpha值，就需要使用 *alpha* 。 *alpha* 的值必须位于0.0到1.0的闭区间。
@@ -61,23 +59,23 @@ Ren'Py有一个Color类，可以用于各色彩空间之间的转换，或者进
   这样的色彩不能被直接传给Ren'Py的其他部分。
   (可以调用normalize方法将元素值限制在合适的范围内，并返回一个新的色彩。)
 
-  .. method:: hls
+  .. attribute:: hls
 
     将色彩以HLS色彩空间三元元组形式返回。每个元素的值位于0.0到1.0的闭区间。
 
-  .. method:: hsv
+  .. attribute:: hsv
 
     将色彩以HSV色彩空间三元元组形式返回。每个元素的值位于0.0到1.0的闭区间。
 
-  .. method:: rgb
+  .. attribute:: rgb
 
     将色彩以RGB色彩空间三元元组形式返回。每个元素的值位于0.0到1.0的闭区间。
 
-  .. method:: alpha
+  .. attribute:: alpha
 
     将色彩的alpha(透明度)值返回。alpha的值位于0.0到1.0的闭区间，0.0表示完全透明，1.0表示完全不透明。
 
-  .. method:: hexcode
+  .. attribute:: hexcode
 
     返回一个字符串，字符串为#rrggbbaa或#rrggbb格式的十六进制颜色代码。
 

@@ -1,12 +1,14 @@
 .. _modes:
 
 =====
-Modes
+模式
 =====
 
 在Ren'Py中，模式(mode)是一种描述交互类型的简练方法。当Ren'Py收到某个模式的报告，用户自定义的回调函数就可以运行。这些回调函数通过调整模式进行相应，可能会重新配置用户接口。例如，一个从ADV模式切换到NVL模式或进入菜单界面等，可能会触发一个转场(transition)。
 
 模式系统的目标是提供一个强效和扩展性的方式，检测和响应这些变化。
+
+.. _default-modes:
 
 默认模式
 =============
@@ -40,8 +42,7 @@ screen
     当使用 ``call screen`` 语句唤起某个界面时，Ren'Py进入的模式。
 
 imagemap
-    当使用
-    :func:`renpy.imagemap`唤起旧样式的imagemap时，Ren'Py进入的模式。
+    当使用 :func:`renpy.imagemap` 唤起旧样式的imagemap时，Ren'Py进入的模式。
 
 input
     当使用
@@ -57,6 +58,7 @@ input
 
   让Ren'Py进入某个模式，如果已经处于这个模式则保持。
 
+.. _mode-callbacks:
 
 模式回调函数
 ==============
@@ -69,9 +71,9 @@ mode
 old_modes
     一个字符串列表，表示系统之前曾进入过的所有模式，按时间从近到远排序。
 
-注意，当进入的模式就是现在处于的模式时，
-`old_modes` 的第一个元素会等于 `mode`。
+注意，当进入的模式就是现在处于的模式时， `old_modes` 的第一个元素会等于 `mode`。
 
+.. _example-mode-callbacks:
 
 样例模式回调函数
 ----------------------

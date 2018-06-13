@@ -1,3 +1,5 @@
+.. _other-functions-and-variables:
+
 =============================
 其他函数和配置变量
 =============================
@@ -10,20 +12,16 @@
 
   *below* 和 *above* 必须提供至少一项。
 
-  **layer**
-
+  `layer`
     表示添加的新图层名称的字符串。
 
-  **above**
-
+  `above`
     如果不是None，表示被新图层覆盖的图层的名称字符串。
 
-  **below**
-
+  `below`
     如果不是None，表示覆盖在新图层上的图层的名称字符串。
 
-  **menu_clear**
-
+  `menu_clear`
     若为True，进入游戏菜单上下文(context)时会清空这个图层，并在离开××××时恢复。
 
 .. function:: renpy.add_python_directory(path)
@@ -67,8 +65,7 @@
 
   强制自动存档。
 
-  **take_screenshot**
-
+  `take_screenshot`
     若为True，进行新的截屏。若为False，使用已存在的截屏。
 
 .. function:: renpy.force_full_redraw()
@@ -83,19 +80,18 @@
 
   让Ren'Py重启，将用户带会到主菜单。
 
-  **transition**
-
+  `transition`
     如果给定了转场，就运行转场；如果这项是None则不运行转场；如果这项是False，就用 :func:`config.end_game_transition` 。
 
 .. function:: renpy.get_adjustment(bar_value)
 
-  传入一个 :class::`BarValue` 对象 *bar_value* ， 返回 :func:`ui.adjustment()` 。adjustment对象定义了下列属性(attribute)：
+  传入一个 :class:`BarValue` 对象 *bar_value* ， 返回 :func:`ui.adjustment()` 。adjustment对象定义了下列属性(attribute)：
 
-  .. data:: value
+  .. attribute:: value
 
     条(bar)的当前值。
 
-  .. data:: range
+  .. attribute:: range
 
     条(bar)的当前值域。
 
@@ -119,8 +115,7 @@
 
   输出结果按从新到旧排序。
 
-  **age**
-
+  `age`
     如果不是None，只统计经过 *age* 秒之后加载的图像。
 
   在config.developer = True的情况下，才保存图像加载日志。
@@ -137,8 +132,7 @@
 
   返回当前屏幕的刷新率，这是一个fps浮点数。
 
-  **precision**
-
+  `precision`
     Ren'Py能获得的裸数据，fps向下取整。就是说，如果显示器运行在59.95fps，那么函数返回的就是59fps。
     precision参数进一步降低了实际显示的帧数，只能能pricision的整倍数。
 
@@ -149,15 +143,12 @@
   返回一个字典，表示Ren'Py当前使用的渲染器信息。自定中包含下列键(key)：
 
   ``"renderer"``
-
     ``"gl"`` 或 ``"sw"`` ，分别对应OpenGL和软件渲染。
 
   ``"resizable"``
-
     仅当窗口可重新调整尺寸的情况下为True。
 
   ``"additive"``
-
     仅当那个渲染器支持额外混合(blend)的情况下为True。
 
   另外，键值也可能存在特定渲染器。这个字典应该被认为是不能修改的。可视组件启动后(也就是初始化段落已经结束)，这个函数应该只被调用一次。
@@ -232,9 +223,8 @@
 
   munge式命名 *name* ，开头必须是双下划线“__”。
 
-  **filename**
-
-    The filename the name is munged into. If None, the name is munged into the filename containing the call to this function.
+  `filename`
+    需要使用munge处理的文件名。若为None，就使用调用此次munge的文件名。
 
 .. function:: renpy.not_infinite_loop(delay)
 
@@ -252,24 +242,19 @@
 
   让Ren'Py暂停。如果用户点击并结束了这个暂停，暂停超时或被跳过，这个函数会返回True。
 
-  **delay**
-
+  `delay`
     Ren'Py暂停的时间，单位为秒。
 
-  **music**
-
+  `music`
     出于兼容性考量而保留的参数。
 
-  **with_none**
-
+  `with_none`
     决定暂停的结尾是否执行一个“with None”分句。
 
-  **hard**
-
+  `hard`
     若为True，点击就不会打断暂停。谨慎使用，因为很难区分硬性暂停和程序卡死。
 
-  **checkpoint**
-
+  `checkpoint`
     若为True，会设置一个检查点(checkpoint)，用户可以回滚到这个语句。若为False，不会设置检查点(checkpoint)。若为None，仅当设置了 *delay* 后才会设置检查点(checkpoint)。
 
 .. function:: renpy.pop_call()
@@ -282,8 +267,7 @@
 
   使用给定的 *name* 将某个事件放入消息队列。 *name* 应该是在 :func:`config.keymap` 中列出的事件名称之一，或者是这些事件组成的列表。
 
-  **up**
-
+  `up`
     当事件开始阶段(例如，键盘按键被按下)时，这项应该是False。当事件结束(比如按键被松开)是，这项才会变成True。
 
   当调用这个函数时，事件会被同时放入消息队列。这个函数不能替换事件——替换会修改事件的顺序。(替换事件可以使用 :func:`config.keymap` 。)
@@ -294,12 +278,10 @@
 
   这个函数让Ren'Py完全退出。
 
-  **relaunch**
-
+  `relaunch`
     若为True，Ren'Py会在退出前运行自身的一个副本。
 
-  **status**
-
+  `status`
     Ren'Py返回给操作系统的状态代码。大体来说，0表示成功，负数表示失败。
 
 .. function:: renpy.quit_event()
@@ -333,7 +315,6 @@
   scry对象告知Ren'Py当前语句哪些部分未来必定会是True。目前的版本中，scry对象只有一个字段(field)：
 
   ``nvl_clear``
-
     如果在下一个交互动作之前会执行一个 ``nvl clear`` 则为True。
 
 .. function:: renpy.set_autoreload(autoreload)
@@ -344,8 +325,7 @@
 
   让鼠标指针跳到入参x和y指定的位置。如果设备没有鼠标指针，则没有效果。
 
-  **duration**
-
+  `duration`
     执行鼠标指针移动的时间，单位为秒。这段时间内，鼠标可能不响应用户操作。
 
 .. function:: renpy.set_physical_size(size)
@@ -374,12 +354,10 @@
 
   对字符串 *s* 应用多语言支持(translation)和新样式格式。
 
-  **scope**
-
+  `scope`
     若不是None，格式中使用的scope，添加到默认存储区。
 
-  **translate**
-
+  `translate`
     决定是否启用何种语言支持。
 
   返回多语言支持和格式的字符串。
@@ -388,12 +366,10 @@
 
   设置下次交互动作使用的转场(transition)。
 
-  **layer**
-
+  `layer`
     转场应用于这个参数表示的图层(layer)。若为None，转场应用于整个场景(scene)。
 
-  **always**
-
+  `always`
     若为False，函数遵循定义的转场环境设定设置。若为True，使用运行转场。
 
 .. function:: renpy.vibrate(duration)
@@ -404,16 +380,13 @@
 
   这个函数产生一个yes/no提示界面，并显示给定的提示信息。当用于选择了yes或者no之后，就隐藏界面。
 
-  **message**
-
+  `message`
     显示的提示消息。
 
-  **yes**
-
+  `yes`
     用户选择yes后运行的动作(action)。
 
-  **no**
-
+  `no`
     用户选择no后运行的动作(action)。
 
 Ren'Py版本相关
@@ -496,12 +469,10 @@ Ren'Py包含许多变量需要基于运行的平台进行设置。
   计算方式是，按照存储区的名称和Ren'Py实现中所有可达的内存。
   如果某个对象通过多个名称可达，就声明为最短可达路径。
 
-  **fraction**
-
+  `fraction`
     显示使用内存总数的比例。1.0会显示所有使用的内存，.9显示最高的90%。
 
-  **minimum**
-
+  `minimum`
     如果某个名称的内存使用小于 *minimum* 字长，就不会显示。
 
   由于通过这个函数会扫描所有Ren'Py使用的内存，所以执行完毕相当耗时。
@@ -531,17 +502,14 @@ renpy.random
 
 
 * ``renpy.random.random()``
-
 返回一个位于(0.0, 1.0)开区间的随机浮点数。
 
 
 * ``renpy.random.randint(a, b)``
-
 返回一个整数N，a <= N <= b。
 
 
 * ``renpy.random.choice(seq)``
-
 从非空序列 *seq* 随机返回一个元素。
 
 
@@ -557,5 +525,4 @@ renpy.random
     $ randfruit = renpy.random.choice(['apple', 'orange', 'plum'])
 
 * ``renpy.random.Random(seed=None)``
-
 返回一个新的随机数生成器对象。与主随机数生成器不同，新的对象使用指定的值作为种子。

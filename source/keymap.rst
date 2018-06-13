@@ -1,4 +1,4 @@
-.. _keymap:
+.. _customizing-the-keymap:
 
 定制按键映射
 ======================
@@ -36,13 +36,17 @@ repeat
 例如，快捷键“shift_alt_K_F5”，当shift和alt键一直按下时，按下F5可以匹配到。
 
 
-要修改快捷键和事件的绑定关系，就需要修改 :var:`config.keymap`。下面的脚本将“t”键添加到按键列表中，作用是dismiss某say语句，并从列表中移除了空格键。::
+要修改快捷键和事件的绑定关系，就需要修改 :var:`config.keymap`。下面的脚本将“t”键添加到按键列表中，作用是dismiss某say语句，并从列表中移除了空格键。
+
+::
 
     init:
         $ config.keymap['dismiss'].append('t')
         $ config.keymap['dismiss'].remove('K_SPACE')
 
-默认的按键映射放在renpy/common/00keymap.rpy文件中，下面是6.99版本的配置：::
+默认的按键映射放在renpy/common/00keymap.rpy文件中，下面是6.99版本的配置：
+
+::
 
     config.keymap = dict(
 
@@ -148,7 +152,9 @@ repeat
 
         )
 
-手柄的绑定工作会有一点不同。手柄绑定会将一个事件映射为一个或多个Ren'Py事件名。默认的手柄绑定设置如下：::
+手柄的绑定工作会有一点不同。手柄绑定会将一个事件映射为一个或多个Ren'Py事件名。默认的手柄绑定设置如下：
+
+::
 
     config.pad_bindings = {
         "pad_leftshoulder_press" : [ "rollback", ],

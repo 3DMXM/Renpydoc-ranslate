@@ -3,12 +3,14 @@
 多角色对话
 ===========================
 
-Ren'Py支持同时显示多个角色的对话。多角色对话使用每行对话结尾的multiple入参唤起。举例：::
+Ren'Py支持同时显示多个角色的对话。多角色对话使用每行对话结尾的multiple入参唤起。举例：
 
-    e "Ren'Py supports displaying multiple lines of dialogue simultaneously." (multiple=2)
-    l "About bloody time! I've been waiting for this for years." (multiple=2)
+::
 
-多角色对话会根据对话后面的 `multiple`入参数值决定将多个对话行合并。(如果我们设置multiple=3，就将三个对话块合并。)
+    e "Ren'Py现在支持并行显示多行对话了。" (multiple=2)
+    l "该死的！我等这个功能好多年了。" (multiple=2)
+
+多角色对话会根据对话后面的 `multiple` 入参数值决定将多个对话行合并。(如果我们设置multiple=3，就将三个对话块合并。)
 
 多角色对话的运行机制是，使用不同的样式多次显示say界面。每个say界面分别对应某一个角色的对话内容。
 
@@ -25,8 +27,7 @@ Ren'Py支持同时显示多个角色的对话。多角色对话使用每行对�
 
 总之，多人对话的运行机制是，使用不同可视组件系统的样式多次显示say界面。使用的样式会根据其对应的对话块(block)编号和对话块总数按顺序重命名。
 
-多角色对话使用的风格名格式是
-block`n`_multiple`m`_\`style`，其中  `n`是从1开始的对话块(block)编号， `m` 是同时显示的对话块总数。
+多角色对话使用的风格名格式是 block\ `n`\ _multiple\ `m`\ _\ `style` ，其中  `n` 是从1开始的对话块(block)编号， `m` 是同时显示的对话块总数。
 
 在上面的例子中，对话中每个块对应的窗口样式名如下：
 
@@ -47,14 +48,17 @@ block1_multiple2_say_window
 block2_multiple2_say_window
     类似的，这个样式可以用于第二个窗口的位置，比如xalign设置为1.0将窗口靠右对齐。
 
+.. _the-multiple-say-screen:
+
 多角色say界面
 -----------------------
 
 为了控制更多要素，还存在 multiple\_say 界面。当
-multiple\_say界面存在时，会代替普通的say界面。它多了第三个入参， `multiple`元组。元组的第一个元素是对话块(block)编号，第二个元素是界面的总数。
+multiple\_say界面存在时，会代替普通的say界面。它多了第三个入参， `multiple` 元组。元组的第一个元素是对话块(block)编号，第二个元素是界面的总数。
 
+.. _nvl-mode:
 
-NVL-Mode
+NVL模式
 --------
 
-默认情况下，NVL模式从上到下显示多角色文本块(block)。通过修改 :ref:`nvl界面 <nvl-screen>`可以定制化这个显示方式。NVL界面使用一个带多个可以组织和展现的入参对象列表。
+默认情况下，NVL模式从上到下显示多角色文本块(block)。通过修改 :ref:`nvl界面 <nvl-screen>` 可以定制化这个显示方式。NVL界面使用一个入参对象列表，实现界面元素的组织和展现。

@@ -1,3 +1,5 @@
+.. _text-input:
+
 ==========
 文本输入
 ==========
@@ -12,39 +14,35 @@ renpy.input函数定义如下：
 
   调用这个函数会弹出一个窗口，要求用户输入文本。函数返回用户输入的文本。
 
-  **prompt**
-
+  `prompt`
     向用户显示的提示字符串。
 
-  **default**
-
+  `default`
     允许用户编辑部分的初始化文本字符串。
 
-  **allow**
-
+  `allow`
     若非None，这是允许输入文本使用的字符列表。
 
-  **exclude**
-
+  `exclude`
     若非None，这是不允许输入文本使用的字符列表。
 
-  **length**
-
+  `length`
     若非None，这项必须是一个整数，给定了输入字符串的最大长度。
 
-  **pixel_width**
-
+  `pixel_width`
     若非None，输入被限制在给定的像素宽度。
 
-使用renpy.input通常还需要在后面处理输入结果，可以使用标准的Python字符串操作函数。例如，下面的脚本会询问用户使用的名字并移除开头和结尾的空白。如果输入的名字为空，会自动替换为一个默认的名字。最后向用户显示。 ::
+使用renpy.input通常还需要在后面处理输入结果，可以使用标准的Python字符串操作函数。例如，下面的脚本会询问用户使用的名字并移除开头和结尾的空白。如果输入的名字为空，会自动替换为一个默认的名字。最后向用户显示。
+
+::
 
     define pov = Character("[povname]")
 
     python:
-        povname = renpy.input("What is your name?")
+        povname = renpy.input("你的名字是什么？")
         povname = povname.strip()
 
         if not povname:
-             povname = "Pat Smith"
+             povname = "帕特·史密斯"
 
-    pov "My name is [povname]!"
+    pov "我的名字是 [povname]!"
