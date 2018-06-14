@@ -1,5 +1,9 @@
+.. _labels-control-flow:
+
 脚本标签(label)和主控流程
 =====================
+
+.. _label-statement:
 
 label语句
 ---------------
@@ -92,6 +96,8 @@ return语句会在调用栈中弹出最顶层的那条语句，并将主控流�
 
 若返回语句带有可选项表达式，表达式会被计算求值，并且结果会被存储在_return变量中。_return变量依赖于各种场景动态变化。
 
+.. _special-labels:
+
 特殊脚本标签(label)
 --------------
 
@@ -120,6 +126,8 @@ return语句会在调用栈中弹出最顶层的那条语句，并将主控流�
 
 ``after_warp``
     若该标签存在，则调用warp语句时，此标签至传送(warp)点前的语句都将被执行。详见 :ref:`传送至某行 <warping_to_a_line>`
+
+.. _labels-control-flow-functions:
 
 脚本标签(label)和主控流程函数
 -------------------------------
