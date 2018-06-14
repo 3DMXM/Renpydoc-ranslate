@@ -1,4 +1,6 @@
-Web更新器
+.. _web-updater:
+
+web更新器
 ===========
 
 Ren'Py包含一个更新器(updater)，可以从Ren'Py项目所在的网站上自动下载和安装更新。在可以用于让一个大型游戏保持更新。
@@ -16,11 +18,16 @@ Ren'Py更新器自动实施下列步骤：
 
 Ren'Py更新器在处理过程会显示一个更新界面，提示用户处理并允许用户退出更新。
 
+.. _server-requirements:
+
 服务器要求
 -------------------
 
+更新器要求创作者有自己的服务主机。用户需要可以通过URL直接下载升级文件，所以创作者的服务器必须支持HTTP请求。
+
 (这意味着需要为服务器付费。共享文件类型的网站并不支持这种更新。)
 
+.. _building-an-update:
 
 生成更新
 ------------------
@@ -46,6 +53,7 @@ updates.json
 
 创作者必须把所有这些文件都上传到web服务器的单一目录下。
 
+.. _functions:
 
 函数
 ---------
@@ -77,32 +85,26 @@ updates.json
 
   返回已安装DLC的包名列表。
 
-  **base**
-
+  `base`
     更新的基目录。默认为当前项目的基目录。
 
 .. function:: updater.update(url, base=None, force=False, public_key=None, simulate=None, add=[], restart=True)
 
   将这个Ren'Py游戏更新到最新版。
 
-  **url**
-
+  `url`
     update.json文件的URL地址。
 
-  **base**
-
+  `base`
     更新的基目录。默认为当前游戏的基目录。(这项通常会忽略。)
 
-  **force**
-
+  `force`
     就算版本号相同也强制更新。(用于测试。)
 
-  **public_key**
-
+  `public_key`
     检查更新签名的公钥PEM文件路径。(这项通常会忽略。)
 
-  **simulate**
-
+  `simulate`
     这项用于测试GUI，而不是真的实行更新。这项可能的值为：
 
     - None表示实行更新。
@@ -110,13 +112,13 @@ updates.json
     - “not_available”表示无可用更新时进行测试。
     - “error”表示测试更新报错。
 
-  **add**
-
+  `add`
     本次更新添加的包(package)列表。DLC必须要有这个列表。
 
-  **restart**
-
+  `restart`
     更新后重启游戏。
+
+.. _screen:
 
 界面
 ------

@@ -12,6 +12,8 @@ Ren'Py支持自动语音模式。在自动语音模式下使用一个语音合�
 
 当某个可视组件获得焦点时，Ren'Py会大声朗读出与那个可视组件关联的文本。如果没有可视组件获得焦点，Ren'Py会读出界面上无法获得焦点的文本内容。自动语音通过这种方式大体上覆盖了构成游戏的所有对话和文本。
 
+.. _speech-synthesis:
+
 语音合成
 ----------------
 
@@ -30,7 +32,9 @@ Android, iOS, Chrome OS
     在安卓、iOS和Chrome OS上不支持自动语音模式。
 
 默认声音可以在对应平台的基本设置中选择，使用
-:var:`config.tts_voice` 配置项。举例：::
+:var:`config.tts_voice` 配置项。举例：
+
+::
 
     init python:
 
@@ -43,6 +47,7 @@ Android, iOS, Chrome OS
 
 可用的声音与平台有关。
 
+.. _creator-concerns:
 
 创作者关注点
 ----------------
@@ -57,7 +62,9 @@ Alternative text
 
     转换文本会使用Ren'Py的字符串多语言支持机制进行翻译。转换文本的优先级高于从可视组件及其子组件剥离出的文本，不过从文本组件剥离出的问题可以使用“[text]”型字符串替换。其他文本都不允许使用字符串替换。
 
-    传入Character对象的 `who_alt` 和 `what_alt` 参数将alt样式特性分别设置为角色的名字文本和身体文本。举个例子，我们定义了一个角色使用斜体表示其内心想法，但通过自动语音显示表现其想法：::
+    传入Character对象的 `who_alt` 和 `what_alt` 参数将alt样式特性分别设置为角色的名字文本和身体文本。举个例子，我们定义了一个角色使用斜体表示其内心想法，但通过自动语音显示表现其想法：
+
+    ::
 
         define thought = Character(None, what_italic=True, what_alt="I think, [text]")
 
@@ -68,7 +75,9 @@ Descriptive Text
 
         一个类角色的对象，启动自动语音的情况下会念出旁白的文本。
 
-    举例：::
+    举例：
+    
+    ::
 
         e "Hang on, this is gonna be a bumpy ride!"
 

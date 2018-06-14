@@ -1,3 +1,5 @@
+.. _in-app-purchasing:
+
 =================
 程序内购
 =================
@@ -25,6 +27,7 @@ Google Play
 Amazon App Store
     亚马逊AppStore基于打包名称商家，不需要特殊配置。
 
+.. _iap-functions:
 
 IAP函数
 -------------
@@ -55,39 +58,34 @@ IAP函数
 
   使用程序内购系统注册一个商品。
 
-  **product**
-
+  `product`
     一个字符串，表示商品的高级(high-level)名称。这个字符串也会传入 :func:`iap.purchase()` 、 :func:`iap.Purchase()` 和 :func:`iap.has_purchased()` 函数，表示对应的商品。
 
-  **identifier**
-
+  `identifier`
     一个字符串，用于商品的内部标识。一旦用于表示某个商品，就不能再修改。这些字符串的格式类似于“com.domain.game.product”。
 
     如果为None，默认值为 *product* 。
 
-  **amazon**
-
+  `amazon`
     一个字符串，表示亚马逊AppStore的商品标识号。如果没有给定，默认值为 *identifier* 。
 
-  **google**
-
+  `google`
     一个字符串，表示Google Play商店的商品标识号。如果没有给定，默认值为 *identifier* 。
 
-  **ios**
-
+  `ios`
     一个字符串，表示苹果iOS版AppStore的商品标识号。如果没有给定，默认值为 *identifier* 。
 
-  **consumable**
-
+  `consumable`
     如果是消耗品内购则返回True。到目前为止，只有iOS平台支持消耗品内购。
 
 .. function:: iap.restore(interact=True)
 
   连接应用商店，并恢复(restore)所有丢失的内购。
 
-  **interact**
-
+  `interact`
     若为True，调用renpy.pause等待应用商店的响应。
+
+.. _iap-actions:
 
 IAP 动作
 -----------
@@ -96,8 +94,7 @@ IAP 动作
 
   这个动作尝试购买 *product* 。仅当 *product* 是可购买状态时(启用了应用商店并且没有购买过这个产品)，这个动作才是可用的。
 
-  **success**
-
+  `success`
     若非None，这是一个动作或者动作列表，当内购成功后执行这些动作。
 
 .. function:: iap.Restore()

@@ -1,8 +1,12 @@
+.. _ios:
+
 ===
 iOS
 ===
 
 Ren'Py支持运行在iPhone和iPad设备上的iOS应用。由于创建一个iOS应用要求苹果开发程序(比如Xcode IDE)，iOS应用只能在Mac电脑上创建。
+
+.. _required-language:
 
 语言要求
 =================
@@ -11,13 +15,16 @@ Ren'Py支持运行在iPhone和iPad设备上的iOS应用。由于创建一个iOS�
 
     这个程序包括一些证书下的自由软件认证，包括GNU Lesser General Public License。完整的软件列表参见 https://www.renpy.org/l/license/.
 
+.. _work-in-progress:
+
 半成品
 ================
 
-当前Ren'Py对iOS的支持还是个半成品。尽管已经可以用来在苹果的AppStore发布程序，默认的Ren'Py接口不包含苹果的指导，将来会修改。
+当前Ren'Py对iOS的支持还是个半成品。尽管已经可以用来向苹果的AppStore申请发布程序，默认的Ren'Py接口不遵循苹果的规范，将来会修改。
 
 如果你的游戏通过了苹果的AppStore认证流程，请告诉我们。
 
+.. _platform-differences:
 
 平台差异
 ====================
@@ -28,8 +35,9 @@ iOS与安卓类似，与Ren'Py支持的基于鼠标的平台不同。所有关�
 iOS不支持MultiPersistent。
 
 iOS支持的视频格式列表可以在
-`这里 <https://developer.apple.com/library/ios/documentation/Miscellaneous/Conceptual/iPhoneOSTechOverview/MediaLayer/MediaLayer.html#//apple_ref/doc/uid/TP40007898-CH9-SW6>`_找到。
+`这里 <https://developer.apple.com/library/ios/documentation/Miscellaneous/Conceptual/iPhoneOSTechOverview/MediaLayer/MediaLayer.html#//apple_ref/doc/uid/TP40007898-CH9-SW6>`_ 找到。
 
+.. _testing-and-emulation:
 
 测试和模拟
 =====================
@@ -44,11 +52,14 @@ Tablet
 
 这些模拟器可以用于快速测试项目，当然最好能在真实的硬件上做测试。模拟器不处理那些人为因素导致的事件，比如用户的“胖手指”。
 
+.. _packaging:
 
 Packaging
 =========
 
 为iOS打包Ren'Py游戏现在相比其他平台依然是件麻烦的事。我们假设创作者有一些创建iOS应用的经验，或者能遵守苹果的规则。
+
+.. _getting-started:
 
 起步
 ---------------
@@ -57,6 +68,8 @@ Packaging
 
 由苹果官方编写的 `App Distribution Quick Start <https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppStoreDistributionTutorial/Introduction/Introduction.html>`_
 指导，解释了如何配置上述内容。我们建议根据官方说明处理，甚至先打包一个模板应用，然后再打包Ren'Py游戏。
+
+.. _creating-the-xcode-project:
 
 创建Xcode项目
 --------------------------
@@ -67,21 +80,28 @@ Xcode的项目名会自动选用启动器中显示的项目名称。项目可以
 
 这种方式创建的Xcode项目与特定版本的Ren'Py关联。在升级Ren'Py后，你必须为游戏创建一个新的Xcode项目，并重复项目定制化工作。
 
+.. _building-the-project:
+
 建立项目
 --------------------
 
 在Ren'Py中创建项目之后，在启动器中选择“Launch Xcode”就能在Xcode中打开了。Xcode打开过的项目，可以生成并安装在iOS设备上。
+
+.. _updating-the-project:
 
 更新项目
 --------------------
 
 选择“Update Xcode Project”，会将你最新版本的Ren'Py项目复制到Xcode项目中。这只适合你的项目文件发生变化的情况，Ren'Py本身的更新并不适用。
 
+.. _customization:
 
 定制化
 =============
 
 大多数定制化都在Xcode项目中实现。例如，图标、启动图片和横竖屏选项等。
+
+.. launch-images:
 
 启动图片
 -------------

@@ -8,23 +8,18 @@ Ren'Py包含了对生成游戏分发版的支持。在启动器(laucher)选择�
 不需要额外设置，Ren'Py就可以生成下列类型的包(package)：
 
 PC: Windows and Linux
-
     一个运行在Windows x86、Linux x86和Linux x86_64平台的zip文件。
 
 Linux x86/x86_64
-
     一个运行在Linux x86和Linux x86_64平台的tar.bz2文件。
 
 Macintosh x86_64
-
     一个运行在使用Intel处理器Macintosh OS X系统的zip文件，文件中包含一个Macintosh可执行文件。游戏数据可以包含在可执行文件中，在用户看来只有一个文件。
 
 Windows x86
-
    一个运行在Windows x86平台的zip文件。
 
 Windows, Mac, and Linux for Markets
-
    包含软件市场(比如itch.io和Steam)必要信息的分发版。这个版本不用于直接运行(可能在Mac上根本无法启动)，而用于上传到app商店。
 
 .. warning::
@@ -36,7 +31,7 @@ Windows, Mac, and Linux for Markets
 基本配置
 -------------------
 
-通过在build命名空间中设置变量和调用函数，可以对生成过程进行配置。这些工作必须在init python语句块(block)中进行。
+通过在build命名空间中设置变量和调用函数，可以对生成过程进行配置。这些工作必须在 ``init python`` 语句块(block)中进行。
 
 有一些基本变量和函数在很多游戏中都会使用。
 
@@ -216,61 +211,52 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
 
   定义一个包(package)，这个包由打包工具生成。
 
-  **name**
-
+  `name`
     包(package)名称。
 
-  **format**
-
+  `format`
     包的格式。这是一个由空格分隔的字符串，由下列要素组成：
 
-    **zip**
-
+    zip
       zip文件。
 
-    **tar.bz2**
-
+    tar.bz2
       tar.bz2文件。
 
-    **directory**
-
+    directory
       包含文件的目录。
 
-    **dmg**
-
+    dmg
       包含文件的Macintosh平台DMG文件。
 
-    **app-zip**
-
+    app-zip
       包含Macintosh应用程序的zip文件。
 
-    **app-directory**
-
+    app-directory
       包含mac应用程序的目录。
 
-    **app-dmg**
-
+    app-dmg
       包含dmg文件的macintosh镜像。(仅限Mac平台。)
 
     空字符串则不生成任何格式的包(package)。(这个机制可以实现DLC需求。)
 
-  **file_lists**
+  `file_lists`
 
     包含在包(package)中的文件列表。
 
-  **description**
+  `description`
 
     生成包(package)的可选项描述。
 
-  **update**
+  `update`
 
     若为True并且生成了更新，就会为这个包(package)生成更新文件。
 
-  **dlc**
+  `dlc`
 
     若为True，会在独立的DLC模式下生成zip或tar.bz2文件，而不是update目录下生成。
 
-  **hidden**
+  `hidden`
 
     若为True，会在启动器(launcher)的包(package)列表中隐藏这个包。
 

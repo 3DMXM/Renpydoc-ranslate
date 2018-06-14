@@ -15,6 +15,7 @@ Ren'Py允许用户从启动器(launcher)加载一个文本编辑器编辑游戏�
 
 当Ren'Py的启动器运行时，它会扫描项目目录的子目录和Ren'Py目录以寻找格式为 `name`.edit.py的文件。 (例如，它会找到launcher/jEdit.edit.py和myeditor/MyEditor.edit.py。)带有给定 `name` 的最后一个编辑器，会作为启动器的一部分展现给创作者。 启动器也设置环境变量RENPY_EDIT_PY来选择文件，这样使用启动器启动的游戏也会使用选用的编辑器。
 
+.. _writing-an-edit-py-file:
 
 编写.edit.py文件
 ------------------------
@@ -41,4 +42,4 @@ edit.py文件应导入renpy.editor，Editor类应继承renpy.editor.Editor。额
 
     在编辑器中打开名为 `filename` 的文件。
 
-    如果 `line` 不是None，尝试将编辑游标定位到第 `line`行。
+    如果 `line` 不是None，尝试将编辑游标定位到第 `line` 行。

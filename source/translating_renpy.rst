@@ -1,9 +1,8 @@
-.. _translating-renpy:
+.. _translating-ren-py:
 
 ==================
 Ren'Py多语言支持
 ==================
-
 
 Ren'Py自身也能实现多语言支持。一个完整的多语言支持版本翻译了GUI、各种Ren'Py信息、新工程和启动器的文本，涵盖了绝大多数游戏运行和开发场景。到目前为止，有部分报错信息还不支持多语言。
 
@@ -16,6 +15,8 @@ Ren'Py自身也能实现多语言支持。一个完整的多语言支持版本�
 5. 选择“生成翻译文件”。
 
 需要更新某个翻译文件时也使用相同的流程。需要接入创建的翻译文件的话，返回到设置页面，在“语言”标签下选择刚才新建的语言。需要注意的是，默认情况下新建的翻译文件只是复制了一份英语的版本。
+
+.. _translation-files:
 
 翻译文件
 -----------------
@@ -55,17 +56,21 @@ script.rpym
 style.rpy
     默认情况下这个文件不存在，有需要时可以创建。它配置了启动器样式(style)，及生成游戏的默认字体。
 
+.. _changing-fonts:
 
 修改字体
 --------------
 
-Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不过经常会需要用到其他字体。编辑launcher/game/tl/language/style.rpy文件可以配置字体，比如添加字体：::
+Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不过经常会需要用到其他字体。编辑launcher/game/tl/language/style.rpy文件可以配置字体，比如添加字体：
+
+::
 
     init python:
         translate_font("language", "myfont.ttf")
 
 “language”是需要使用的语言类型(例如，“japannese”)，“myfont.ttf”是使用的字体(例如，“MTLc3m.ttf”)。字体文件应该放在launcher/game/tl/language目录，这样就可以被启动器找到。
 
+.. _changing-the-launcher-style:
 
 修改启动器样式
 ---------------------------
@@ -98,6 +103,7 @@ Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不�
         gui.FONT_SCALE = .9
         gui.REGULAR_BOLD = True
 
+.. _functions:
 
 函数
 ---------
@@ -106,11 +112,10 @@ Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不�
 
 .. function:: translate_font(language, font)
 
-    这个函数用于设置 `language`的字体。设置后的字体不仅用在启动器，也用于使用那种语言生成的游戏中。字体文件应该放在game/fonts目录中。
+    这个函数用于设置 `language` 的字体。设置后的字体不仅用在启动器，也用于使用那种语言生成的游戏中。字体文件应该放在game/fonts目录中。
 
     `font`
         一个字符串，表示字体文件名。
-
 
 .. function:: translate_define(language, define, value, help=None)
 
@@ -128,6 +133,8 @@ Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不�
     `comment`
         若不是None，会在define之前生成一个注释。仅当gui.rpy中不存在那个define的情况下，才会生成注释。不需要在开头使用“## ”，生成注释时会自动添加。
 
-    举例，下面的代码修改了对话文本的字号：::
+    举例，下面的代码修改了对话文本的字号：
+    
+    ::
 
         translate_define("martian", "gui.text_size", 12)

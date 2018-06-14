@@ -39,7 +39,7 @@
 
 新 :func:`Scroll` 动作可以使按钮改变视口的位置或条(bar)的值。
 
-:func:`Dissolve`、 :func:`ImageDissolve`和 :func:`AlphaDissolve`转场现在可以承认源可视组件的alpha通道，就像设置了 alpha=True参数一样。由于忽略alpha通道不再是最优，这种改变允许在更多地方使用相同的转场。
+:func:`Dissolve`、 :func:`ImageDissolve` 和 :func:`AlphaDissolve` 转场现在可以承认源可视组件的alpha通道，就像设置了 alpha=True参数一样。由于忽略alpha通道不再是最优，这种改变允许在更多地方使用相同的转场。
 
 自动图像定义现在可以在init level 0级别运行，而不是原来的init level必须大于999。这个改动允许 :func:`renpy.has_image` 函数能在初始化语句块(block)中使用。
 
@@ -58,7 +58,7 @@
 
 Ren'Py现在支持创建具有单个文件的.zip文件(例如.rpa文件)大于2GB。这需要使用Zip64标准，在某些平台上可能不支持解压缩这种文件，最需要注意的是Windows XP。
 
-新的 :func:`renpy.get_hidden_tags` 函数返回一组标签(tag)，包含隐藏属性，另一个 :func:`renpy.get_showing_tags`函数则返回一组排列好的标签(tag)。
+新的 :func:`renpy.get_hidden_tags` 函数返回一组标签(tag)，包含隐藏属性，另一个 :func:`renpy.get_showing_tags` 函数则返回一组排列好的标签(tag)。
 
 
 为了与ATL和其他动画保持一致，第二次显示视频精灵现在将重播视频。
@@ -81,7 +81,7 @@ Ren'Py 教程和The Question示例现已支持法语，感谢 Alexandre Tranchan
 
 在交互式指导器(interactive director)中使用默认语言(英语)时，偶尔会切换为俄语的问题已经修复。
 
-可视组件 :func:`Composite`、 :func:`Crop` 和 :func:`Tile`分别对应各自的新名称。
+可视组件 :func:`Composite`、 :func:`Crop` 和 :func:`Tile` 分别对应各自的新名称。
 
 接入控制台时，Ren'Py回滚位置不正确的问题已经修复。那个问题会导致控制台显示不正确的数据，不过仅限于控制台自身的数据。
 
@@ -99,7 +99,7 @@ Ren'Py 教程和The Question示例现已支持法语，感谢 Alexandre Tranchan
 可视组件 :func:`AlphaMask` 将其遮罩(mask)放入其子可视组件，与AlphaDissolve的处理方式相同。
 这样改动后，允许mask参数通过使用ATL或其他变换(transform)创建。
 
-几个过时的图像操纵器已被弃用，并从文档中删除。这些是已被 :func:`Transform`完全取代的图像操纵器。
+几个过时的图像操纵器已被弃用，并从文档中删除。这些是已被 :func:`Transform` 完全取代的图像操纵器。
 
 重命名了一些函数，删除了“Live”前缀。
 
@@ -118,7 +118,9 @@ Ren'Py 教程和The Question示例现已支持法语，感谢 Alexandre Tranchan
 这个问题出现在比较复杂的场景中，比如循环的转场(transition)或慢速文本(slow text)无效的时候。
 
 该版本可以使用选择的颜色显示最新的存档槽位，如果有需要使用的话。
-这个功能直接会应用在新创建的游戏中。旧工程可以在gui.rpy底部添加如下代码实现更新：::
+这个功能直接会应用在新创建的游戏中。旧工程可以在gui.rpy底部添加如下代码实现更新：
+
+::
 
     define gui.slot_button_text_selected_idle_color = gui.selected_color
     define gui.slot_button_text_selected_hover_color = gui.hover_color
@@ -223,11 +225,15 @@ Ren'Py在缓存图片和界面时，现在拒绝调用那些从磁盘读取文�
 
 :func:`ConditionSwitch` 和 :func:`ShowingSwitch` 可视组件有了一个新的“predict_all”参数。当这个参数为True时，预加载所有可视组件，而不仅仅是选中的那个。这个改动可以用于Ren'Py预加载某个精灵(sprite)的所有表情。
 
-:func:`renpy.start_predict` 和 :func:`renpy.stop_predict`函数现在是可以使用正则表达式通配符。例如：::
+:func:`renpy.start_predict` 和 :func:`renpy.stop_predict` 函数现在是可以使用正则表达式通配符。例如：
+
+::
 
     $ renpy.start_predict("eileen *")
 
-预加载所有开头为标签(tag)“eileen”的图像，出现如下语句：::
+预加载所有开头为标签(tag)“eileen”的图像，出现如下语句：
+
+::
 
     $ renpy.start_predict("* beach*")
 
@@ -279,7 +285,9 @@ Ren'Py 6.99.14
 当设备接通电源时，Ren'Py会尝试使用固定帧率绘制界面。当设备使用电池时，切换到5fps的帧率前将绘制几帧，确保显示缓存区完成界面的更新。
 
 Ren'Py有一些选项控制显示性能，使用shift+G能进入选项菜单。除了上面提到的GL性能变更之外，这个设计允许用户锁定帧率并接受画面撕裂。
-使用运行比较慢设备的用户可能会选择锁定30fps而不是变动的帧率。如果开发者觉得大多数用户都会使用性能慢的设备，可以使用默认语句：::
+使用运行比较慢设备的用户可能会选择锁定30fps而不是变动的帧率。如果开发者觉得大多数用户都会使用性能慢的设备，可以使用默认语句：
+
+::
 
     default preferences.gl_framerate = 30
 
@@ -307,7 +315,9 @@ Ren'Py的GC管理能减少或消除GC对大多数游戏的丢帧影响。不过�
 多角色对话
 ---------------------------
 
-现在Ren'Py包含一个新系统，允许多个角色在同一时间发言。通过在say语句结尾添加multiple入参可以实现这点。举例：::
+现在Ren'Py包含一个新系统，允许多个角色在同一时间发言。通过在say语句结尾添加multiple入参可以实现这点。举例：
+
+::
 
     e "Ren'Py now supports multiple character dialogue." (multiple=2)
     l "About time! I've been wanting this for years!" (multiple=2)
@@ -323,11 +333,15 @@ GUI环境设定
 
 Ren'Py提供了一套新的GUI环境设定系统，替换了原来的样式环境设定系统。新的系统允许从多个样式中引用变量并应用在新的GUI环境设定中。
 
-可以这样写脚本：::
+可以这样写脚本：
+
+::
 
     define gui.text_font = gui.preference("font", "DejaVuSans.ttf")
 
-加载环境设定，并使用下列脚本：::
+加载环境设定，并使用下列脚本：
+
+::
 
     vbox:
         style_prefix "radio"
@@ -342,7 +356,9 @@ Ren'Py提供了一套新的GUI环境设定系统，替换了原来的样式环�
 Tooltips
 --------
 
-Ren'Py中增加了一个新的tooltip系统，替换了原来存在tooltip。在之前的系统中，我们需要这样写：::
+Ren'Py中增加了一个新的tooltip系统，替换了原来存在tooltip。在之前的系统中，我们需要这样写：
+
+::
 
     default tt = Tooltip("No button selected.")
 
@@ -352,7 +368,9 @@ Ren'Py中增加了一个新的tooltip系统，替换了原来存在tooltip。在
 
     text tt.value
 
-现在可以这样写：::
+现在可以这样写：
+
+::
 
     textbutton "One.":
         action Return(1)

@@ -3,7 +3,7 @@
 NVL-模式 “The Question” 脚本
 ================================
 
-从Ren'Py分发版 "The Question" 游戏中继承，并用以下代码替换 ``script.rpy`` 文件中的代码，用 ``nvl_window.png``作为背景，图片在
+从Ren'Py分发版 "The Question" 游戏中继承，并用以下代码替换 ``script.rpy`` 文件中的代码，用 ``nvl_window.png`` 作为背景，图片在
 `这里 <http://www.renpy.org/w/images/8/8f/nvl_window.png>`_。
 
 ::
