@@ -323,8 +323,7 @@ Ren'Py的GC管理能减少或消除GC对大多数游戏的丢帧影响。不过�
     l "About time! I've been wanting this for years!" (multiple=2)
 
 由于显示多个角色的对话可以有好几种方式(并排？上下排列？一个还是两个文本框？)，Ren'Py尚不能提供现成的支持方案。
-请参考 :ref:`多角色对话 <Mmultiple-character-dialogue>`
-章节的内容，查看哪些样式需要创作者定义。
+请参考 :ref:`多角色对话 <multiple-character-dialogue>` 章节的内容，查看哪些样式需要创作者定义。
 
 .. _changelog-gui-preferences:
 

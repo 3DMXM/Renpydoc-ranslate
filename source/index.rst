@@ -178,11 +178,11 @@
    :maxdepth: 1
 
    changelog
-   Incompatible Changes
-   Distributor Notes
-   License
-   Credits
-   Ren'Py Development Sponsors
+   incompatible
+   distributor
+   license
+   credits
+   sponsors
 
 .. _indices:
 

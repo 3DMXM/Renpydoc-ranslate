@@ -1,4 +1,4 @@
-.. _special-screen-names:
+.. _screen-special:
 
 ====================
 特殊界面名称

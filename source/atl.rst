@@ -1,4 +1,4 @@
-.. _animation-and-transformation-language:
+.. _atl:
 
 =====================================
 动画和变换语言
@@ -36,7 +36,7 @@ transform语句必须在初始化时运行。如果在初始化语句块(block)�
        linear 2.0 yalign 1.0
        repeat
 
-.. _image-statement-with-atl-block:
+.. _atl-image-statement:
 
 带ATL语句块的image语句
 ------------------------------
@@ -528,7 +528,7 @@ easeout_quint       easeIn_quint
         def linear(t):
             return t
 
-.. _list-of-transform-properties:
+.. _transform-properties:
 
 transform特性列表
 ============================

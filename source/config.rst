@@ -59,7 +59,7 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
     这个配置项设置了默认值。默认值可以使用 ``window show`` 、 ``window hide`` 和 ``window auto`` 语句改变。详见
     :ref:`dialogue-window-management`。
 
-.. _transitions:
+.. _config-transitions:
 
 转场
 -----------
@@ -784,7 +784,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.log = None
 
-    若非None，这项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :ref:`menu <menu-statement>` 语句展示给用户的文本都会记录在这个文件中。
+    若非None，这项应该是一个文件名。通过 :ref:`say <dialogue#say-statement>` 或 :ref:`menu <menu-statement>` 语句展示给用户的文本都会记录在这个文件中。
 
 .. var:: config.missing_image_callback = None
 
@@ -808,8 +808,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.new_translate_order = True
 
-    启用新的style和translate语句命令，详见
-    :ref:`Ren'Py 6.99.11 <renpy-6.99.11>`。
+    启用新的style和translate语句命令，详见 :ref:`Ren'Py 6.99.11 <renpy-6.99.11>`。
 
 .. var:: config.new_substitutions = True
 
@@ -837,8 +836,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.play_channel = "audio"
 
-    被 :func:`renpy.play`、
-    :propref:`hover_sound` 和 :propref:`activate_sound` 使用的音频通道名称。
+    被 :func:`renpy.play` 、 :propref:`hover_sound` 和 :propref:`activate_sound` 使用的音频通道名称。
 
 .. var:: config.predict_statements = 10
 

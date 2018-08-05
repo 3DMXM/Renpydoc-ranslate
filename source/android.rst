@@ -38,7 +38,7 @@ Ren'Py支持运行安卓操作系统的设备，比如智能手机和平板电�
      控制安卓的媒体音量。
 
 
-.. _platform-differences:
+.. _android-platform-differences:
 
 平台差异
 ====================
@@ -216,7 +216,7 @@ android-presplash.jpg
 ouya-icon.png
     用在OUYA主机上的732×412图标。
 
-.. _google-play-expansion-apks:
+.. _expansion-apk:
 
 Google Play扩展APK
 ==========================

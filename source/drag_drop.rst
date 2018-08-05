@@ -120,7 +120,7 @@ Ren'Py含有一些拖放组件，这些组件允许使用鼠标在界面上任�
 
     移除该DragGroup中的子组件child。
 
-.. _examples:
+.. _drag-drop-examples:
 
 样例
 --------

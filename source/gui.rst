@@ -887,7 +887,7 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 
     对话内容文本的水平对齐方式。0.0为左对齐，0.5为居中，1.0为右对齐。
 
-.. _examples:
+.. _gui-examples:
 
 样例
 ^^^^^^^^
@@ -1265,7 +1265,7 @@ GUI整体替换
 
 关于GUI的更新信息，详见 :ref:`高级GUI <gui-advanced>` 章节。
 
-.. _incompatible-gui-changes:
+.. _gui-changes:
 
 不兼容的GUI变更
 ========================

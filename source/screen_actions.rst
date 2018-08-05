@@ -1,4 +1,4 @@
-.. _screen-actions-values-and-functions:
+.. _screen-actions:
 
 =====================================
 界面动作(action)、值(value)和函数
@@ -1055,13 +1055,13 @@ Tooltips
 
 当按钮处于指针悬停状态时，tooltip类会改变界面。
 
-.. function:: class Tooltip(default)
+.. class:: Tooltip(default)
 
   当鼠标指针悬停在某个区域上时，一个tooltip对象可以用于提示对应界面的功能。
 
   tooltip对象有一个 ``value`` 域，当tooltip对象被创建时会通过构造器传入 *default* 作为默认值。当通过tooltip创建的某个按钮动作被使用时，value域就会根据关联的动作改变对应值。
 
-  .. function:: Action(value)
+  .. method:: Action(value)
 
     将按钮的hovered特性对应的动作返回。当按钮处于指针悬停状态时，tooltip的value域会被设置为 *value* 。当按钮失去焦点时，tooltip的value域会恢复为默认值。
 

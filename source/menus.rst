@@ -1,4 +1,5 @@
-.. _in-game-menus:
+.. _menus:
+.. _menu-statement:
 
 =============
 游戏内菜单

@@ -1,4 +1,4 @@
-.. _customizing-the-keymap:
+.. _keymap:
 
 定制按键映射
 ======================

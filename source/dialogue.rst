@@ -113,7 +113,7 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
     该参数是一个字符串，给定了角色发言时进入的模式(mode)。详见 :ref:`模式(mode) <modes>` 章节。
 
   `callback`
-    角色发言时，若有事件(event)发生则会被调用的函数。详见 :ref:`角色(character)回调(callback) <character_callbacks>` 章节。
+    角色发言时，若有事件(event)发生则会被调用的函数。详见 :ref:`角色(character)回调(callback) <character-callbacks>` 章节。
 
   **点击继续** “点击继续”提示是在(一段内容)所有文本均已展示完的情况下，通常出现一次，提醒用户进入下一部分内容。
 
