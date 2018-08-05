@@ -483,7 +483,7 @@ Python变量不仅仅可以是简单的布尔值。变量也可以存储玩家�
 一旦你制作了一个游戏，在你发布它之前还有一些事情需要完成。
 
 **检查Ren'Py版本更新**
-    基线的新版Ren'Py通常会修复bug和添加新特性。发布前，你需要在启动器(launcher)中点击“更新”，更新到最新版本的Ren'Py。你也可以手动下载新版本并查看版本更新列表，以上工作可以使用这个页面`https://www.renpy.org/latest.html <https://www.renpy.org/latest.html>`_。
+    基线的新版Ren'Py通常会修复bug和添加新特性。发布前，你需要在启动器(launcher)中点击“更新”，更新到最新版本的Ren'Py。你也可以手动下载新版本并查看版本更新列表，以上工作可以使用这个页面 `https://www.renpy.org/latest.html <https://www.renpy.org/latest.html>`_。
 
     少数情况下，Ren'Py版本升级变更后会要求你修改原来的游戏脚本。 `https://www.renpy.org/doc/html/incompatible.html <https://www.renpy.org/doc/html/incompatible.html>`_ 页面列出了这些变更明细。
 
@@ -497,7 +497,7 @@ Python变量不仅仅可以是简单的布尔值。变量也可以存储玩家�
     lint代码检查工具不能替代完整的使用测试。在发布你的游戏之前，你有责任进行检查。可以考虑请求你的朋友们帮忙进行beta测试，测试者往往能发现你未能发现的问题。
 
 **发布**
-    一旦游戏完成并通过测试，你可以将生成的归档文件上传到网上，好让别人能找到它们。(如果你没有自己的网站，试试`https://itch.io <https://itch.io>`_ 该站点里有一大票视觉小说。) 恭喜，你已经完成了人生中的第一部视觉小说！
+    一旦游戏完成并通过测试，你可以将生成的归档文件上传到网上，好让别人能找到它们。(如果你没有自己的网站，试试 `https://itch.io <https://itch.io>`_ 该站点里有一大票视觉小说。) 恭喜，你已经完成了人生中的第一部视觉小说！
 
     还有几个地方可以发布游戏信息：
 
