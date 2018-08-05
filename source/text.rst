@@ -96,7 +96,7 @@ Ren'Py字符串的数值插入符合 :pep:`3101` 的字符串格式规范。 Ren
 
     g "见到你我很 [mood!t] 。"
 
-.. _styling-and-text-tags：
+.. _styling-and-text-tags:
 
 样式化和文本标签(tag)
 =====================

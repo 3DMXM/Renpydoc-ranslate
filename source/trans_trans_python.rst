@@ -6,7 +6,7 @@ Python中的变换(transform)和转场(transition)
 
 可以使用Python创建新的变换(transform)和转场(transition)，并应用在Ren'Py脚本中。
 
-.. _transforms:
+.. _python-transforms:
 
 变换(transform)
 ------------------
@@ -62,7 +62,7 @@ ATL变换在Python中等效于一个Transform对象。
 
         当变换特性(property)字段(field)在回调方法之外被更新时，这个方法会被调用，确保修改生效。
 
-.. _transitions:
+.. _python-transitions:
 
 转场(transitions)
 ----------------------

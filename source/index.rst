@@ -19,8 +19,8 @@
 .. toctree::
    :maxdepth: 3
  
-   quickstart_zh
-   gui_zh
+   quickstart
+   gui
 
 .. _the-ren-py-language:
 
@@ -30,16 +30,16 @@
 .. toctree::
    :maxdepth: 1
    
-   language_basics_zh
-   label_zh
-   dialogue_zh
-   displaying_images_zh
-   menus_zh
-   python_zh
-   conditional_zh
-   audio_zh
-   movie_zh
-   voice_zh
+   language_basics
+   label
+   dialogue
+   displaying_images
+   menus
+   python
+   conditional
+   audio
+   movie
+   voice
 
 .. _text-displayables-transforms-and-transitions:
 
@@ -49,13 +49,13 @@
 .. toctree::
    :maxdepth: 1
 
-   text_zh
-   translation_zh
-   displayables_zh
-   transforms_zh
-   transitions_zh
-   atl_zh
-   layeredimage_zh
+   text
+   translation
+   displayables
+   transforms
+   transitions
+   atl
+   layeredimage
 
 .. _customizing-ren-py:
 
@@ -65,15 +65,15 @@
 .. toctree::
    :maxdepth: 1
 
-   style_zh
-   style_properties_zh
-   screens_zh
-   screen_actions_zh
-   screen_special_zh
-   screen_optimization_zh
-   config_zh
-   preferences_zh
-   store_variables_zh
+   style
+   style_properties
+   screens
+   screen_actions
+   screen_special
+   screen_optimization
+   config
+   preferences
+   store_variables
 
 .. _tools:
 
@@ -83,8 +83,8 @@
 .. toctree::
    :maxdepth: 1
 
-   developer_tools_zh
-   director_zh
+   developer_tools
+   director
 
 .. _other-functionality:
 
@@ -94,16 +94,16 @@
 .. toctree::
    :maxdepth: 1
 
-   nvl_mode_zh
-   input_zh
-   side_image_zh
-   rooms_zh
-   drag_drop_zh
-   sprites_zh
-   keymap_zh
-   achievement_zh
-   history_zh
-   multiple_zh
+   nvl_mode
+   input
+   side_image
+   rooms
+   drag_drop
+   sprites
+   keymap
+   achievement
+   history
+   multiple
 
 .. _python-and-ren-py:
 
@@ -113,37 +113,37 @@
 .. toctree::
    :maxdepth: 1
 
-   statement_equivalents_zh
-   save_load_rollback_zh
-   persistent_zh
-   trans_trans_python_zh
-   gui_advanced_zh
-   screen_python_zh
-   modes_zh
-   udd_zh
-   cds_zh
-   custom_text_tags_zh
-   character_callbacks_zh
-   file_python_zh
-   color_class_zh
-   other_zh
+   statement_equivalents
+   save_load_rollback
+   persistent
+   trans_trans_python
+   gui_advanced
+   screen_python
+   modes
+   udd
+   cds
+   custom_text_tags
+   character_callbacks
+   file_python
+   color_class
+   other
 
 .. _building-updating-and-other-platforms:
 
-**生成、升级和其他平台**
+**生成、更新及其他平台**
 -----------------------------------------------------------
 
 .. toctree::
    :maxdepth: 1
 
-   build_zh
-   updater_zh
-   android_zh
-   chromeos_zh
-   ios_zh
-   iap_zh
-   gesture_zh
-   raspi_zh
+   build
+   updater
+   android
+   chromeos
+   ios
+   iap
+   gesture
+   raspi
 
 .. _end-user-documentation:
 
@@ -153,9 +153,9 @@
 .. toctree::
    :maxdepth: 1
 
-   problems_zh
-   environment_variables_zh
-   self_voicing_zh
+   problems
+   environment_variables
+   self_voicing
 
 .. _engine-developer-documentation:
 
@@ -165,19 +165,19 @@
 .. toctree::
    :maxdepth: 1
 
-   editor_zh
-   skins_zh
-   translating_renpy_zh
+   editor
+   skins
+   translating_renpy
 
 .. _changes-license-and-credits:
 
-**改动、许可和制作人员**
+**变更、许可和制作人员**
 ---------------------------------------------
 
 .. toctree::
    :maxdepth: 1
 
-   changelog_zh
+   changelog
    Incompatible Changes
    Distributor Notes
    License
@@ -189,15 +189,12 @@
 **索引**
 -----------
 
-.. toctree::
-   :maxdepth: 1
-
-   Style Property Index
-   Transform Property Index
-   Variable and Definition Index
-   Function and Class Index
-   Reserved Names Index
-   General Index
+* `样式特性(Style Property)索引 <std-style-property-index.html>`_
+* `变换特性(Transform Property)索引 <std-transform-property-index.html>`_
+* `变量(Variable)和定义索引 <std-var-index.html>`_
+* `函数(Function)和类(Class) 索引 <py-function-class-index.html>`_
+* `Reserved Names索引 <reserved.html>`_
+* `总索引 <genindex.html>`_
 
 .. _example-scripts:
 
@@ -207,13 +204,5 @@
 .. toctree::
    :maxdepth: 1
 
-   thequestion_zh
-   thequestion_nvl_zh
-
-
-**Indices** **and** **tables**
-------------------------------
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   thequestion
+   thequestion_nvl

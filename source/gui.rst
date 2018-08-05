@@ -777,7 +777,7 @@ gui/bar/right.png, gui/bar/top.png
 .. _skip-and-notify:
 
 跳过(skip)和通知(notify)
----------------
+------------------------------
 
 跳过(skip)和通知(notify)界面会同时在主Frame带着信息出现。他们共用frame背景图片：
 
@@ -869,7 +869,7 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 
     这些配置项控制包含名字框(namebox)frame的显示效果。
 
-.. _dialogue-ex:
+.. _dialogue-2:
 
 对话(dialogue)
 ^^^^^^^^^^^^^^^^^^
@@ -920,7 +920,7 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 
         应用以上定制化设置后的演示游戏。
 
-.. _history:
+.. _gui-history:
 
 历史(history)
 ------------------
@@ -1037,7 +1037,7 @@ Ren'Py并不默认使用NVL模式。调用NVL模式必须使用NVL模式角色�
 
         应用以上定制化配置后的样例游戏。
 
-.. _text:
+.. _gui-text:
 
 文本(Text)
 ------------
@@ -1129,7 +1129,7 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 
 更多高级定制化可以通过定制化screen.rpy文件实现，甚至可以把整个文件清空并填上你自己写的内容。这里有几处要点有助你起步。
 
-.. _styles:
+.. _gui-styles:
 
 样式(style)
 ------------

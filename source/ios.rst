@@ -6,7 +6,7 @@ iOS
 
 Ren'Py支持运行在iPhone和iPad设备上的iOS应用。由于创建一个iOS应用要求苹果开发程序(比如Xcode IDE)，iOS应用只能在Mac电脑上创建。
 
-.. _required-language:
+.. _ios-required-language:
 
 语言要求
 =================
@@ -24,7 +24,7 @@ Ren'Py支持运行在iPhone和iPad设备上的iOS应用。由于创建一个iOS�
 
 如果你的游戏通过了苹果的AppStore认证流程，请告诉我们。
 
-.. _platform-differences:
+.. _ios-platform-differences:
 
 平台差异
 ====================
@@ -37,7 +37,7 @@ iOS不支持MultiPersistent。
 iOS支持的视频格式列表可以在
 `这里 <https://developer.apple.com/library/ios/documentation/Miscellaneous/Conceptual/iPhoneOSTechOverview/MediaLayer/MediaLayer.html#//apple_ref/doc/uid/TP40007898-CH9-SW6>`_ 找到。
 
-.. _testing-and-emulation:
+.. _ios-testing-and-emulation:
 
 测试和模拟
 =====================

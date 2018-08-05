@@ -679,8 +679,7 @@ transform存在以下特性(property)：
     :type: boolean
     :default: None
 
-    若该值为True，可视组件及其子组件会使用近邻取样(nearest-neighbor)过滤绘制。若该值为False，可视组件及其子组件使用双线性(bilinear)过滤绘制。若该值为None，绘制方式从父组件继承，或者采用
-    :var:`config.nearest_neighbor`配置(默认值是false)。
+    若该值为True，可视组件及其子组件会使用近邻取样(nearest-neighbor)过滤绘制。若该值为False，可视组件及其子组件使用双线性(bilinear)过滤绘制。若该值为None，绘制方式从父组件继承，或者采用 :var:`config.nearest_neighbor` 配置(默认值是false)。
 
 .. transform-property:: alpha
 

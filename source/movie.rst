@@ -45,7 +45,7 @@ Ren'Py可以使用libav解码器(已内置)播放以下视频编码格式的影�
 
 在移动端平台，例如安卓和iOS，默认情况下配置项 :var:`config.hw_video` 设为True，此时会启用硬件视频解码。硬件视频解码效率更高，但具体支持的影片格式需要视具体平台而定。
 
-.. _movie-displayables-and-movie-sprites：
+.. _movie-displayables-and-movie-sprites:
 
 影片组件和影片精灵(sprite)
 ------------------------------------
@@ -97,7 +97,7 @@ Ren'Py可以使用libav解码器(已内置)播放以下视频编码格式的影�
 
 在同一个界面的同一时间可以显示多个影片组件或影片精灵(sprite)。受到系统性能限制，多个影片播放时使用相同的帧率。Ren'Py中没有定义过使用不同帧率播放影片的行为，很可能会导致很严重的掉帧。
 
-.. _python-functions:
+.. _movie-python-functions:
 
 python函数
 ----------------

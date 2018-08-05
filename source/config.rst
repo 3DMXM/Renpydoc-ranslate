@@ -784,8 +784,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.log = None
 
-    若非None，这项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :ref:`menu
-    <menu-statement>` 语句展示给用户的文本都会记录在这个文件中。
+    若非None，这项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :ref:`menu <menu-statement>` 语句展示给用户的文本都会记录在这个文件中。
 
 .. var:: config.missing_image_callback = None
 
@@ -818,8 +817,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.old_substitutions = False
 
-    若为True，Ren'Py会将应用旧形式(百分号)替换(substitution) :ref:`say <say-statement>` 和 :ref:`menu
-    <menu-statement>` 语句中显示的文本。
+    若为True，Ren'Py会将应用旧形式(百分号)替换(substitution) :ref:`say <say-statement>` 和 :ref:`menu <menu-statement>` 语句中显示的文本。
 
 .. var:: config.overlay_during_with = True
 
@@ -878,8 +876,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.say_menu_text_filter = None
 
-    若非None，这是一个函数，返回 :ref:`say <say-statement>` 和 :ref:`menu
-    <menu-statement>` 语句中的指定文本。这个函数用于返回新的(或者相同的)字符串替换原来的字符串。
+    若非None，这是一个函数，返回 :ref:`say <say-statement>` 和 :ref:`menu <menu-statement>` 语句中的指定文本。这个函数用于返回新的(或者相同的)字符串替换原来的字符串。
 
 .. var:: config.say_sustain_callbacks = ...
 

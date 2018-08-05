@@ -53,7 +53,7 @@ updates.json
 
 创作者必须把所有这些文件都上传到web服务器的单一目录下。
 
-.. _functions:
+.. _updater-functions:
 
 函数
 ---------

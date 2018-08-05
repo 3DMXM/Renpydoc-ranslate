@@ -22,7 +22,7 @@ Shift+O 控制台
 .. _shift-e-editor-support:
 
 Shift+E Editor 帮助与支持
-----------------------
+-----------------------------
 
 配置项 :var:`config.editor` 允许开发者使用“启动编辑器”组合键(默认是“shift+E”)时，运行指定的编辑器命令。
 
@@ -38,7 +38,7 @@ Shift+D 开发者菜单
 .. _shift-r-reloading:
 
 Shift+R 重新加载脚本
------------------
+----------------------
 
 当 :var:`config.developer` 为True时，使用组合键“shift+R”会保存当前游戏，重新加载游戏脚本，并重新加载游戏。这个操作通常会回到你使用“shift+R”之前未修改过的最近那条语句。
 

@@ -224,7 +224,7 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
 
       image bg tile = Tile("bg.png")
 
-.. _text-displayables:
+.. _gui-text-displayables:
 
 文本组件
 -----------------

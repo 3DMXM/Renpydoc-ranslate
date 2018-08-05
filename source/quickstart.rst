@@ -147,7 +147,7 @@ Ren'Py启动器(launcher)已经被翻译为多种语言。需要更改语言的�
 
 我们也已经使用角色对象代替了角色名字字符串。这会告诉Ren'Py使用我们定义的对应角色。
 
-.. _images:
+.. _quickstart-images:
 
 图像(image)
 -------------
@@ -239,7 +239,7 @@ image语句于初始化阶段就会运行，早于label标签开始以及其他�
 
 image语句也用于比较复杂的任务，但我们会在 `其他地方 <displaying-images>`_ 讨论这部分。
 
-.. _transitions:
+.. _quickstart-transitions:
 
 转场(transition)
 -----------------

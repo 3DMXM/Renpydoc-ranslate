@@ -276,7 +276,7 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
   如果使用了 *id* 和一个screen语句创建了界面组件(widget)，则将可视组件 *d* 声明为界面组件 *id* 。
 
 动作(action)
-=======
+=============
 
 界面语言创建的许多可视组件都使用动作(action)作为入参。一个动作(action)是以下三种情况之一：
 
@@ -351,7 +351,7 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
   *action* 表示sensitive时返回True，否则返回False。
 
 条值(barvalue)
-=========
+===============
 
 当创建一个bar、vbar或hotbar时，可以使用一个BarValue对象作为条(bar)的值特性(property)。调用BarValue对象的方法可以调整数值和样式。
 
@@ -387,7 +387,7 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
        :func:`AnimatedValue` 一样。为了实现这点，get_adjustment应该存储Adjustment对象，并周期性调用Adjustment的修改方法。
 
 输入值(inputvalue)
-==========
+====================
 
 当创建一项输入时，一个InputValue对象可以用作输入的
 `value` 特性(property)。调用InputValue对象的方法可以实现：获取和设置文本，判断输入是否可编辑，以及回车键按下后的处理。

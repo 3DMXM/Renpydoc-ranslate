@@ -71,7 +71,7 @@ while语句
 Ren'Py没有continue、break和for循环语句。使用jump语句分别跳转至while循环之前和之后的脚本标签(label)，可以替代continue和break语句的功能。在上面的第一个while循环样例中，演示了如果使用while循环代替for循环语句。
 
 
-.. _pass-statement:
+.. _conditional-pass-statement:
 
 pass语句
 --------------

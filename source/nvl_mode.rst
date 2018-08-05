@@ -7,7 +7,7 @@ NVL模式教程
 
 在这篇教程中，我们会解释如何使用Ren'Py制作NVL模式的游戏。教程假设你已经熟悉Ren'Py的基本功能，至少看过 :doc:`快速入门 <quickstart>` 内容。
 
-.. _getting-started:
+.. _nvl-mode-getting-started:
 
 入门
 ---------------
@@ -62,7 +62,7 @@ NVL模式的游戏一般在每段都有更多文本，这个样例只是个最�
 .. _menus:
 
 选项菜单
------
+----------
 
 ADV模式下，默认的菜单显示方式会占据整个界面。NVL模式下的菜单展现也有一个对应的变种，就是在当前NVL模式文本页面后面立刻显示菜单。
 
@@ -149,7 +149,9 @@ NVL模式角色可以使用定制，具有几种不同的外观。希望创作�
     define s = Character(None, kind=nvl, what_prefix="\"", what_suffix="\"",
                          what_color="#c8ffc8")
 
-5.  当然，一个完全没有定制化的NVL模式角色也可以直接使用，前提是你想要把握整体显示效果。(常用于旁白。) ::
+5.  当然，一个完全没有定制化的NVL模式角色也可以直接使用，前提是你想要把握整体显示效果。(常用于旁白。)
+
+::
 
     define s = Character(None, kind=nvl)
 
@@ -180,7 +182,7 @@ NVL模式角色可以使用定制，具有几种不同的外观。希望创作�
 
     若为True，NVL模式回滚时一次处理一整个页面。
 
-.. _python-functions:
+.. _nvl-mode-python-functions:
 
 Python 函数
 ----------------

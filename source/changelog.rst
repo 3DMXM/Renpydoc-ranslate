@@ -13,7 +13,7 @@
 
 6.0版和7.0版之间的变化，可以参看变更日志的其他部分，或者在Ren'Py的网站上查看更老版本的变更日志。这一层的内容是7.0跟6.99.14.3两个版本间的差异。
 
-.. _layered-images:
+.. _changelog-layered-images:
 
 层叠式图像
 --------------
@@ -23,7 +23,7 @@
 层叠式图像用为 :func:`composite`
 和 :func:`ConditionSwitch` 的一种替代方案。它使用的语言让定义合成图像更方便。而且Ren'Py可以根据被合适命名的文件，生成对应部分的定义。相比Ren'Py的其他功能，层叠式图像也更优秀。比如属性(attribute)可以预加载，而ConditionSwith却不行。层叠式图像还可以在交互式指导器(interactive director)中使用。
 
-.. _dict-transitions:
+.. _changelog-dict-transitions:
 
 字典转场
 ----------------
@@ -159,7 +159,7 @@ ATL的interpolation语句现在可以在多行的变换(transform)中同时执�
 
 新的 :var:`gui.button_image_extension` 配置项允许按钮(button)图片使用.webps文件。
 
-.. _self-voicing:
+.. _changelog-self-voicing:
 
 自动语音
 ------------
@@ -310,7 +310,7 @@ Ren'Py的GC管理能减少或消除GC对大多数游戏的丢帧影响。不过�
 
 此外当然还有很多性能方面的提升，实际效果都是提升了运行速度。这个版本还只是性能提升的第一战，新的性能分析框架允许Ren'Py开发者进一步提升性能。
 
-.. _multiple-character-dialogue:
+.. _changelog-multiple-character-dialogue:
 
 多角色对话
 ---------------------------
@@ -326,7 +326,7 @@ Ren'Py的GC管理能减少或消除GC对大多数游戏的丢帧影响。不过�
 请参考 :ref:`多角色对话 <Mmultiple-character-dialogue>`
 章节的内容，查看哪些样式需要创作者定义。
 
-.. _gui-preferences:
+.. _changelog-gui-preferences:
 
 GUI环境设定
 ----------------
@@ -351,7 +351,7 @@ Ren'Py提供了一套新的GUI环境设定系统，替换了原来的样式环�
 
 设置环境设定。详见 :ref:`GUI环境设定 <gui-preferences>`。
 
-.. _tooltips:
+.. _changelog-tooltips:
 
 Tooltips
 --------
@@ -414,7 +414,7 @@ Ren'Py现在解决了样式特性 :propref:`xpos` 和 :propref:`xalign`
 
 RAPT现在使用源代码和目标版本1.6来编译Java代码，这使得它可以构建在最新的JDK上。
 
-.. _fixes-3:
+.. _fixes-4:
 
 修复
 -----

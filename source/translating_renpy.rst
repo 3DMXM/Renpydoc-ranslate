@@ -103,7 +103,7 @@ Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不�
         gui.FONT_SCALE = .9
         gui.REGULAR_BOLD = True
 
-.. _functions:
+.. _translation-functions:
 
 函数
 ---------
