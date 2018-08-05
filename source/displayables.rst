@@ -134,7 +134,7 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
 
   Frame是一个可视组件，可以调整图像尺寸使其匹配某个可用区域，同时也保存其边界(border)的宽度和高度。Frame通常用于窗口(window)或按钮(button)的背景。
 
-  .. figure:: images/frame_example.png
+  .. figure:: frame_example.png
 
     使用框架(frame)将图像增大为原尺寸的两倍。
 
