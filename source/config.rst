@@ -784,7 +784,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.log = None
 
-    若非None，这项应该是一个文件名。通过 :ref:`say <dialogue#say-statement>` 或 :ref:`menu <menu-statement>` 语句展示给用户的文本都会记录在这个文件中。
+    若非None，这项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :ref:`menu <menu-statement>` 语句展示给用户的文本都会记录在这个文件中。
 
 .. var:: config.missing_image_callback = None
 

@@ -736,9 +736,9 @@ Textbutton
 textbutton还可以使用如下特性：
 
 * :ref:`通用特性 <common-properties>`
-* :ref:`位置样式特性 <position-style-propertie>`
+* :ref:`位置样式特性 <position-style-properties>`
 * :ref:`窗口样式特性 <window-style-properties>`
-* :ref:`按钮样式特性 <button-style-propertie>`
+* :ref:`按钮样式特性 <button-style-properties>`
 
 其不包含子组件。
 

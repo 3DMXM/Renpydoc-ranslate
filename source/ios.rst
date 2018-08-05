@@ -59,7 +59,7 @@ Packaging
 
 为iOS打包Ren'Py游戏现在相比其他平台依然是件麻烦的事。我们假设创作者有一些创建iOS应用的经验，或者能遵守苹果的规则。
 
-.. _getting-started:
+.. _ios-getting-started:
 
 起步
 ---------------
