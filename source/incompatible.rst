@@ -1,0 +1,332 @@
+﻿.. _incompatible-changes:
+
+不兼容的变更
+====================
+
+这里列出了脚本格式或者创作者开发环境变更后，需要调整的内容。我们旨在所有的变更都不会影响已存在的脚本内容。
+
+只需要注意，设置 :var:`config.script_version` 就恢复版本变更导致的许多变化，代价是无法使用新增特性。
+
+关于GUI方面的不兼容变更，详见 :ref:`gui-changes` 部分，只有重新生成GUI才会让这些变更生效。
+
+.. _incompatible-7.0:
+
+7.0
+---
+
+Ren'Py现在将自动图像(automatic images)的优先级定义为 init 0，而不是原来那样一个非常低的init级别。
+如果需要恢复到以前的情况，需要在游戏脚本中这样写：
+
+::
+
+    init -1:
+        define config.late_images_scan = True
+
+现在 :func:`Dissolve` ， :func:`ImageDissolve` 和 :func:`AlphaDissolve` 转场默认使用原可视组件的alpha通道值，就像指定了 ``alpha=True`` 。
+如果不使用这个特性，需要在配置中添加：
+
+::
+
+    define config.dissolve_force_alpha = False
+
+已经显示的某个影片精灵(movie sprite)再次使用show命令时，现在会重播该影片。
+如果不使用这个特性，需要在配置中添加：
+
+::
+
+    define config.replay_movie_sprites = False
+
+
+.. _incompatible-6.99-13:
+
+6.99.13
+-------
+
+超链接的字体大小继承邻近文本。禁用这个特性，需要在配置中添加：
+
+::
+
+    define config.hyperlink_inherit_size = False
+
+文本标签 {nw} 现在会等待语音和自动语音结束，然后实现文本消失的效果。
+如果想禁用这个特性，需要在配置中添加：
+
+::
+
+    define config.nw_voice = False
+
+现在ATL变换(transform)在遇到某个pause语句或者interpolation语句时，会显示至少一帧。
+如果游戏中不希望出现这种情况，而是显示为一些快速略过的帧，需要这样配置：
+
+::
+
+    define config.atl_one_frame = False
+
+现在某个语句内显示的图层(layer)，将保持变换(transform)的状态，就跟其他ATL变换一样。
+这个特性会导致一些行为表现的变化，例如，语句中多个图层显示的偏移量会保持一致。
+如果想禁用这个特性，需要在配置中添加：
+
+::
+
+    define config.keep_show_layer_state = False
+
+
+如果并非不兼容性变更导致， :func:`renpy.list_files` 会以标准顺序将变更排序。
+这会触发Ren'Py对存在歧义的行为进行定，并产生确定的唯一结果。
+例如，images目录下有多个同名文件，Ren'Py会随机选取其中之一。(在不同的系统上，选取的文件可能不同。)
+现在，Ren'Py运行时总是会选择同一个文件。
+
+.. _incompatible-6.99-12.3:
+
+6.99.12.3
+---------
+
+开发者模式下，Ren'Py不再搜索系统已安装的字体文件。
+如果游戏使用系统已安装的字体，字体文件应该被复制到game目录下。(但是请确保这个行为符合字体文件的使用许可。)
+
+.. _incompatible-6.99-11:
+
+6.99.11
+-------
+
+``style`` 和``translate`` 语句的执行顺序已经改变，详见文档 :ref:`the changelog <renpy-6.99.11>` 。
+如果不使用这个特性，需要在配置中添加：
+
+::
+
+    define config.new_translate_order = False
+
+注意，不使用这个变更会让新版本的GUI也无法生效。
+
+配置项 :var:`config.quit_action` 的默认值已经变更，改为“游戏中”上下文(context)时退出才会给提示。
+如果不使用这个特性，需要在配置中添加：
+
+::
+
+    define config.quit_action = ui.gamemenus("_quit_prompt")
+
+
+现在Ren'Py增大了按钮和窗口所允许的最大尺寸。
+如果不使用这个特性，需要在配置中添加：
+
+::
+
+    define config.enforce_window_max_size = False
+
+.. _incompatible-6.99-9:
+
+6.99.9
+------
+
+现在Ren'Py在名为“audio”的通道上播放接口音效，并且支持同时播放多个音效。
+该通道的设置未必与定制化的音效通道相同。audio通道可以通过调整配置项 :var:`config.auto_channels` 的值来改变。
+或者添加如下代码使用sound通道。
+
+::
+
+    define config.play_channel = "sound"
+
+.. _incompatible-6.99-2:
+
+6.99.2
+------
+
+现在Ren'Py会自动扫描图片目录(game目录下名为images的子目录)并搜索图片文件，并基于图片文件名自动定义图像(image)。
+如果不使用这个特性，需要在配置中添加：
+
+::
+
+    init python:
+        config.image_directory = None
+
+
+.. _incompatible-6.18:
+
+6.18
+----
+
+现在 ``show screen`` 和 ``call screen`` 语句将在界面预处理进程中计算使用的入参。
+如果计算结果对某个界面可能会产生副作用， ``show screen`` 和 ``call screen`` 后面就需要使用新增的 ``nopredict`` 分句，这样就不进行预处理。
+
+界面(screen)现在可以接受转场(transition)——转场效果可以让界面从旧的状态转变到新的状态。
+如果不使用这个特性，需要将配置项 :var:`config.transition_screens` 设置为false。
+
+同名tag的界面互相替换时，Ren'Py不在使用等式赋值方式转换界面状态。
+现在的方法是， :ref:`use语句 <sl-use>` 现在支持 ``id`` 特性，这个特性可以用于显式转换界面状态。
+
+.. _incompatible-6.16:
+
+6.16
+----
+
+如果需要使用原来的特性，需要将 `loop` 和 `single_track` 同时设置为true。
+
+.. _incompatible-6.15.7:
+
+6.15.7
+------
+
+Ren'Py在 :func:`Preference` 函数中加入了“auto-forward”，可用于控制自动前进模式。
+如果需要使用自动前进模式滑动条，就将配置将 :var:`config.default_afm_enable` 设置为None。
+
+.. _incompatible-6.14:
+
+6.14
+----
+
+以前的版本中，Ren'Py会将归档文件放入archived目录。当运行游戏或生成归档时，Ren'Py会自动搜索该目录。
+现在有了一键打包功能，就没有必要执行这步操作，所有原来在archived目录里的文件都应该移到game目录下。
+
+:func:`MoveTransition` 修改了接口。
+如果创作者不想使用重写代码，可以使用OldMoveTransition实现旧版本MoveTransition的功能。
+(新旧版本的变化，仅跟使用MoveTransition实现的效果有关。)
+
+:func:`Transform` 修改了特性，可以实现图片的非对称缩放和旋转。这与旧版的使用方法不同。
+
+
+.. _incompatible-6.13:
+
+6.13.8
+------
+
+旧式的字符串替换重新默认为启用状态。
+如果创作者写的代码(使用6.13和6.13.7之间的版本)，在say语句或menu语句中使用了 % ，可以直接替换为 %% ，或者添加如下代码：
+
+::
+
+    init python:
+        config.old_substitutions = False
+
+.. _incompatible-6.13:
+
+6.13
+----
+
+关于文本特性的许多变化会对游戏开发产生多种影响。
+最大的变化是，引入了新式的(方括号)文本替换，并淘汰了旧式的(使用百分号)文本替换方案。
+如果需要恢复旧式特性，需要使用以下配置：
+
+::
+
+    init python:
+        config.old_substitutions = True
+        config.new_substitutions = False
+
+将两项都设置为True后，就可以在同一个游戏里混用新式和旧式文本替换。
+
+Ren'Py还修改了默认的线性传送(line-wrapping)特性。新的特性不会再增加某个段落中的的行数，它可能会修改每行内单词。
+如果需要使用旧特性，可以添加如下代码：
+
+::
+
+    init python:
+        style.default.layout = "greedy"
+        style.default.language = "western"
+
+行间距为负数的bug已经修复。这个修复能导致语句块中显示文本高度会有一点缩进。
+如果需要使用旧版特性，使用如下配置：
+
+::
+
+    init python:
+        config.broken_line_spacing = True
+
+最后，新的文本代码可能会在显示慢速文本时需要手工调整，特别是在负值的行间距情况下。
+可以考虑调整 :propref:`line_overlap_split` 的值来修正。
+
+.. _incompatible-6.12.1:
+
+6.12.1
+------
+
+图像的名称，已经从静态名改为基于属性的命名方式。这个特性可能会导致原先唯一的图像名称变成同名图像。
+如果需要禁用基础属性的图像命名，将配置项 :var:`config.image_attributes` 设置为False。
+
+不显式提供一个变换(transform)或ATL语句块(block)的情况下显示某个图像，将保持那个图像前一个使用的变换(transform)。
+这意味着，某个移动中的图像将保持移动状态。如果需要使用旧的特性，可以将配置项 :var:`config.keep_running_transform` 设置为False。
+
+:func:`Character` 的 `image` 入参含义发生变化。
+旧版本的含义在基于界面环境下不能被支持。
+出于兼容性的考量，将配置项 :var:`config.new_character_image_argument` 设置为False可以使用恢复旧版的含义。
+
+.. _incompatible-6.12.0:
+
+6.12.0
+------
+
+:ref:`choice-screen` 和 ``nvl_choice`` 界面内的 `items` 参数定义已改变。
+``nvl_choice`` 界面不再作为 :ref:`nvl-screen` 的代替。
+
+为了允许预加载图像，可以在任意时刻唤起界面，除非预加载特性(property)的值是False。
+当预加载特性的值不为False时，从最初的显示开始，界面就不应该导致任何副作用。
+
+由于某些性能原因，Ren'Py现在忽略ImageReference的位置特性(property)。
+这意味着style.image_placement类型的位置特性都会被忽略。如果需要恢复旧版本的特性，将配置项 :var:`config.imagereference_respects_position` 设置为True。
+
+.. _incompatible-6.11.1:
+
+6.11.1
+------
+
+:func:`MoveTransition` 已修改为适应移动可视组件的xoffset和yoffset参数。
+用于移动的功能函数现在使用 `xoffset` 和 `yoffset` 作为入参。内建的移动功能函数使用这些参数可以正常运行。
+用户自定义功能函数需要升级，正确使用或者忽略这些新增入参。
+
+
+.. _incompatible-6.11.0:
+
+6.11.0
+------
+
+* 通过配置项 :var:`config.default_transform` 指定的变换(transform)用于初始化show和hide语句中图像的变换特性(property)。
+该变换的默认值将 :propref:`xpos` 和 :propref:`xanchor` 设置为0.5， :propref:`ypos` 和 :propref:`yanchor` 设置为1.0。
+
+  这个特性防止风格特性的默认值发生改变。在之前的版本中，风格特性未被初始化的情况下，默认值均为0.
+
+  在ATL变换中包含 :var:`reset` ，所有这些特性都可以被重新设置回0。因此，创作者可以停用默认变化，并恢复到老版本的特性，使用如下配置：
+
+  ::
+
+    init python:
+        style.image_placement.xpos = 0.5
+        style.image_placement.ypos = 1.0
+        style.image_placement.xanchor = 0.5
+        style.image_placement.yanchor = 1.0
+
+        config.default_transform = None
+
+* 如果某个变换没有定义全部的位置(position)特性，包括 :propref:`xpos`， :propref:`ypos`， :propref:`xanchor` 和 :propref:`yanchor` ，就会尝试从该变化的子组件或子特性中获取对应特性的值，前提是其子组件或子特性中定义了对应特性的值。
+
+  这个特性允许某个变换控制可视组件的水平运动，而另一个变换控制可视组件的垂直运动。不过这个特性与之前的不兼容。
+  可以修改配置项 :var:`config.transform_uses_child_position` 禁用新特性。
+
+  ::
+
+    init python:
+        config.transform_uses_child_position = False
+
+.. _incompatible-6.10.1:
+
+6.10.0
+------
+
+* 几个默认的位置名称(left，right，center，truecenter，offscreenleft和offscreenright)，现在已定义为ATL变换(transform)。
+这意味着在某个位置显示图像后，图像的位置会被记录。如果不需要使用这个特性，要重定义所有位置，添加如下代码：
+
+::
+
+    define left = Position(xalign=0.0)
+    define center = Position(xalign=0.5)
+    define truecenter = Position(xalign=0.5, yalign=0.5)
+    define right = Position(xalign=1.0)
+    define offscreenleft = Position(xpos=0.0, xanchor=1.0)
+    define offscreenright = Position(xpos=1.0, xanchor=0.0)
+
+.. _incompatible-6.9.2:
+
+6.9.2
+-----
+
+* 如果要将你的游戏从Ren'Py 6.9.2或更低版本迁移到高版本，将包含游戏的目录复制到工程目录中。
+创作者可以点击启动器中的“设置”、再进入“工程目录”，即可选中一个需要的工程。
+详见 `Ren'Py 6.9.2 发布说明 <http://www.renpy.org/wiki/renpy/releases/6.9.2>`_ 查看更低版本的迁移方法。
