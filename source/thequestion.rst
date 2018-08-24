@@ -1,10 +1,12 @@
-.. _thequestion:
+.. _script-of-the-question:
 
 “The Question”游戏脚本
 ======================
 
 这是“The Question”主脚本的rpy文件。如果需要“The Question”的完整代码，就在Ren'Py启动器中打开它，或者浏览
 https://github.com/renpy/renpy/tree/master/the_question 。
+
+(译者注：The Question是Ren'Py自带的demo。这里只翻译了脚本中的注释部分。)
 
 ::
 
