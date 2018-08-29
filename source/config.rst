@@ -217,6 +217,12 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     针对  :func:`ConditionSwitch`
     和 :func:`ShowingSwitch` 的predict_all入参默认值，决定是否所有可用的可视组件都显示。
 
+.. var:: config.context_callback = None
+
+    This is a callback that is called when Ren'Py enteres a new context,
+    such as a menu context.
+    当Ren'Py进入一个新上下文(context)时(比如某个菜单上下文)，调用的回调函数。
+
 .. var:: config.debug = False
 
     启用调试功能(大多数时候将文件丢失问题转成错误信息)。在发布版本中，这项应该是关闭的。

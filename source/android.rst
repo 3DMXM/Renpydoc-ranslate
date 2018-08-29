@@ -13,7 +13,11 @@ Ren'Py支持运行安卓操作系统的设备，比如智能手机和平板电�
 语言要求
 =================
 
-部分Ren'Py在安卓平台使用的库需要通过GNU Lesser/Library General Public License的认证。你会需要遵守Ren'Py生成版的认证规则。我们相信下列包含在你app描述里的语言能够满足需求，不过最好能找个律师确认一遍。
+部分Ren'Py在安卓平台使用的库需要通过GNU Lesser/Library General Public License的认证。创作者会需要遵守Ren'Py生成版的认证规则。我们相信下列包含在app描述里的语言能够满足需求，不过最好能找个律师确认一遍。(译者注：建议把中英文都写上。)
+
+    This program contains free software licensed under a number of licenses,
+    including the GNU Lesser General Public License. A complete list of
+    software is available at https://www.renpy.org/l/license/.
 
     这个程序包括一些证书下的自由软件认证，包括GNU Lesser General Public License。完整的软件列表参见 https://www.renpy.org/l/license/.
 
@@ -47,7 +51,7 @@ Ren'Py支持运行安卓操作系统的设备，比如智能手机和平板电�
 
 * 触屏被看作是有一个鼠标的设备。只不过，只有在用户点击屏幕时才会产生鼠标事件消息。
 
-* 播放视频只支持全屏模式，并且只能使用安卓设备支持的媒体格式。请阅
+* 播放视频只支持全屏模式，并且只能使用安卓设备支持的媒体格式。请参阅
   `这个页面 <http://developer.android.com/guide/appendix/media-formats.html>`_
   查看所有支持的视频格式列表。
 
@@ -84,6 +88,7 @@ Television / OUYA
 
 这些模拟器可以用于快速测试项目，当然最好能在真实的硬件上做测试。模拟器不处理那些人为因素导致的事件，比如用户的“胖手指”。
 
+.. highlight:: none
 
 .. _building-android-applications:
 
@@ -99,9 +104,9 @@ Ren'Py包含一些工具能帮助创作者以包(package)为中心进行安卓�
 
 2. 使用启动器(launcher)安装安卓SDK并创建密钥(key)。
 
-3. 使用启动器(launcher)进行安卓生成配置。
+3. 使用启动器进行安卓生成配置。
 
-4. 使用启动器(launcher)生成安卓应用程序。
+4. 使用启动器生成安卓应用程序。
 
 一旦你完成了这些步骤，就能得到一个可以运行的安卓包。当你修改了某个游戏的配置或者完整配置一个新游戏时，只需要执行步骤3；如果你要重新生成一个包，通常只需要执行步骤4。
 
@@ -196,25 +201,36 @@ RAPT会实时报告它正在做的工作。它还会将各类许可的警告信�
 图标和presplash图片
 =========================
 
-有多个特别的文件用于设置应用包(package)使用的图标和presplash图片。这些文件应该放在基目录中。
+Ren'Py使用游戏基目录中的两个文件生成app图标。
 
-android-icon.png
-    在安卓启动器中的app图标。这个图标会自动缩小到合适的尺寸，最大不超过144×144。
+android-icon_foreground.png
+    图标的前景层。这应该是一个带透明度的432×432像素图片。
 
-android-`density`-icon.png
-    若存在，这些图片用于不同屏幕密度(density)。这可以使得图标的像素完美(pixel-perfect)。可用屏幕密度和对应的icon尺寸如下：
+android-icon_background.png
+    图标的背景层。这应该是一个完全不透明的432×432像素图片。
 
-    * ldpi (36x36)
-    * mdpi (48x48)
-    * hdpi (72x72)
-    * xhdpi (96x96)
-    * xxhdpi (144x144)
+安卓的自适应图标机制是这样工作的，将两个图标放在至少132×132像素的区域中并中央对齐，然后将前景层盖在背景层上。
+有可能在这个区域之外的图像也会显示，但也可能会被遮挡住。最好在安全区域之外还预留一些出血位(bleeding)。
+当拖拽图标时，两个图层可能会保持相对位置有一点移动。
+
+关于自适应图标的更多信息，请查看：
+
+    https://medium.com/google-design/designing-adaptive-icons-515af294c783
+
+注意那里的1dp实际上对应屏幕上4个实际像素。
+
+当生成应用程序时，Ren'Py会将这些文件转换为不同设备的适用尺寸，并为那些支持自适应图标的设备生成静态图标。
+
+.. _presplash:
+
+预启动画面
+-----------
+
+预启动画面(presplash)是在Ren'Py完全加载之前显示的画面，比主启动界面(splashscreen)更早显示。
+在安卓设备上，预启动画面特别重要，尤其是Ren'Py首次运行时。
 
 android-presplash.jpg
-    当app在加载时使用的图像。它应该被单色边界包围。该边界扩展至填充满整个屏幕。
-
-ouya-icon.png
-    用在OUYA主机上的732×412图标。
+    当app加载时使用的图像。这个图片应该使用单色的边界(border)。边界会扩展并填充整个屏幕的剩余空间。
 
 .. _expansion-apk:
 

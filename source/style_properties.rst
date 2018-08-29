@@ -324,7 +324,7 @@
 
     若为True，默认情况，全真字体(truetype font)文本会使用抗锯齿渲染。
 
-.. style-property:: adjust_spacing boolean
+.. style-property:: adjust_spacing boolean or str
 
     若为True，Ren'Py会调整绘制分辨率下文本间隙以匹配虚拟分辨率下渲染的文本间隙，确保frame和其他容器类内的文本不会被改变。
 
@@ -762,6 +762,11 @@
 .. style-property:: box_wrap boolean
 
     若为True，当到达方块最后一行或列时会发生扭转(warp)。若为False，会在每一行的结尾扩展。
+
+.. style-property:: box_wrap_spacing int
+
+    当box_wrap为True时，box_wrap_spacing项用于指定被wrap的行或列的间距。
+    (行间距就是被warp的hbox在垂直方向空间，列间距就是被warp的vbox在水平方向的空间。)
 
 .. _grid-style-properties:
 

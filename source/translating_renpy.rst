@@ -95,7 +95,7 @@ Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不�
 
     启动器中应用于所有文本的缩放系数。
 
-一个translate python语句块常用语设置这些变量。例如，下面的脚本修改了Ren'Py的阿拉伯语字体。::
+一个 ``translate python`` 语句块常用于设置这些变量。例如，下面的脚本修改了Ren'Py的阿拉伯语字体。::
 
     translate arabic python:
         gui.REGULAR_FONT = "DejaVuSans.ttf"
