@@ -330,6 +330,9 @@
 
     若设置为False，文本不会改变字号，但确保在任何窗口大小下布局文本都有足够空间，这是创作者的职责。
 
+    当字符串设置为“horizontal”时，仅在水平方向调整文本。
+    当字符串设置为“vertical”时，仅在垂直方向调整文本。
+
     对大多数文本来说都是用默认值True，但在需要 ``input`` 输入的情况下使用False。
 
 .. style-property:: altruby_style style or None

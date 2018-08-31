@@ -57,7 +57,7 @@ Ren'Py支持运行安卓操作系统的设备，比如智能手机和平板电�
 
 * Ren'Py不能修改设备音量。不过，安卓的音量按键可以正常工作。
 
-* Ren'Py不能处理按钮(button)和imagemap的透明度。(这是由于某些设备的现实模式决定透明像素的支持，所导致的性能问题。)
+* Ren'Py不能处理按钮(button)和imagemap的透明度。(这是由于某些设备的显示模式决定透明像素的支持，所导致的性能问题。)
 
 除此之外，还有一些由于人为因素导致的差异。
 
@@ -124,20 +124,17 @@ RAPT需要使用这些工具，包括用于生成密钥(key)和签名包的工�
 
     http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
+需要下载的是版本为8的JDK。
+
 请注意，关注开发者的JDK与关注用户的JRE是不同的。而创作者需要JDK创建安卓包。
 
 
-**Android Device Drivers.**
-在Windows平台上，为了接入设备你可能要安装一个设备驱动，尽管这不是必需的。安卓设备驱动的链接如下：
+**安卓设备**
+创作者在开发时需要对设备进行配置。首先需要启用设备的开发者模式，并且为电脑配置安卓开发环境。如何设置电脑的说明可以查看下面的连接：
 
-    http://developer.android.com/sdk/oem-usb.html
+    https://developer.android.com/studio/run/device
 
-在Linux和OS X平台上，你就不需要设备驱动了。如果发现不能接入设备，请详细阅读：
-
-    http://developer.android.com/guide/developing/device.html#setting-up
-
-不过，主流版本的Linux和OS X平台都可以正常工作。
-
+也可以使用app的x86_64版本镜像，在安卓模拟器上运行程序(注意，模拟器不支持x86版本的镜像)。关于配置模拟器的内容超出了此文档的范围。
 
 .. _step-2-set-up-the-android-sdk-and-development-environment:
 
@@ -147,7 +144,6 @@ RAPT需要使用这些工具，包括用于生成密钥(key)和签名包的工�
 下一步是配置安卓SDK和你开发环境的部分。这步包括：
 
 * 检查JDK是否正确安装。
-* 安装Apache Ant。
 * 安装安卓SDK。
 * 使用安卓SDK安装合适的开发工具包。
 * 创建一个签名密钥，使用这个密钥给包签名。签名后的包就可以发布在应用市场上了。(android.keystore：这个文件生成在RAPT目录下。)
@@ -166,6 +162,7 @@ RAPT会实时报告它正在做的工作。它还会将各类许可的警告信�
 
    至少，你应该将android.keystore文件保存在一个安全的地方。你还应该将保存这个密钥的备份，因为没有这个密钥的话，你就不能上传生成的应用程序。
 
+如果你不想每次都下载SDK，可以创建一个名为“sdk.txt”的文本文件，文件里写上已安装SDK的所在路径。
 
 .. _step-3-configure-your-game:
 
@@ -183,23 +180,21 @@ RAPT会实时报告它正在做的工作。它还会将各类许可的警告信�
 
 最后，你可以生成应用包并安装了。将你的安卓设备连接到你的电脑，然后在Ren'Py启动器的安卓界面选择“生成应用包并安装”。(首次安装时，你的安卓设备可能会询问你是否允许你的电脑向安卓设备安装应用。)
 
-如果你需要将游戏的apk文件手工复制到安卓设备上的话，在Ren'Py启动器的安卓界面选择“生成应用包”。然后进入RAPT目录下的bin目录，将文件mygame-release.apk复制到安卓设备上。之后找到安卓的文件管理应用找到对应的apk文件，打开文件执行安装。
+如果你需要将游戏的apk文件手工移植到安卓设备上的话，在Ren'Py启动器的安卓界面选择“生成应用包”。然后进入RAPT目录下的bin目录，将选取合适的文件复制到安卓设备上。之后找到安卓的文件管理应用找到对应的apk文件，打开文件执行安装。
 
-.. _viewing-debug-output:
+Ren'Py中有两种模式供创作者选用，debug模式和release模式。Debug模式对测试很有用，并且可以很方便地使用Android Studio工具查看设备的日志和文件。Release模式用于生成最终上传到各应用商店的app版本。
 
-查看debug输出
-====================
-
-通过在终端上手工执行adb命令，可以找到debug输出。安装SDK之后，adb命令可以在 `rapt-dir`/android-sdk/platform-tools/adb目录下找到。(Windows平台下是adb.exe。)
-
-想要查看Ren'Py的输出，可以使用这个命令：
-
-    adb logcat -s python:*
+如果要在debug模式和release模式之间切换，需要卸载app。
 
 .. _icon-and-presplash-images:
 
 图标和presplash图片
 =========================
+
+.. _icon:
+
+图标
+------
 
 Ren'Py使用游戏基目录中的两个文件生成app图标。
 

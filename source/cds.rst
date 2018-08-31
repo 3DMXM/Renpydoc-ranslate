@@ -9,7 +9,7 @@
 
 创作者定义的语句不能在定义语句的文件中使用。
 
-创作者定义的语句使用renpy.register_statement函数注册。
+创作者定义的语句使用 :func:`renpy.register_statement` 函数注册。
 
 .. function:: renpy.register_statement(name, parse=None, lint=None, execute=None, predict=None, next=None, scry=None, block=False, init=False, translatable=False, execute_init=None, label=None, warp=None)
 
