@@ -44,6 +44,19 @@ Ren'Py运行要求的最低安卓版本号已经提升至安卓19(aka 4.4 KitKat
 在独白中还可以使用新的文本标签(tag)——{clear}。
 当{clear}标签单独占一行时，作用相当于 ``nvl clear`` 语句。详见 :ref:`NVL Monlologue Mode <nvl-monologue-mode>` 。
 
+.. _say-with-attribute-change:
+
+带属性的say语句变更
+-------------------------
+
+带属性的(attribute)的say语句中，如果对应标签(tag)的图像不存在，处理机制有所变化。
+以前，Ren'Py会使用名图像，并且最近带属性的say语句中的属性，以及显示那个属性对应的头像(side image)。
+
+现在，Ren'Py会根据提供的属性和已存在的属性决定显示的头像。这个特性使得带属性的say语句以同一个工作机制实现显示或不显示图像。
+当某个属性(attribute)对应的头像并非唯一时，Ren'Py会根据所有给定的属性，选用存在的属性中最有可能的图像作为头像。
+
+这项改动主要是为了方便使用层叠式图像(layered image)作为头像，这样只需要选用不同的图像属性(attribute)就可以改变头像。
+
 .. _updater_changes:
 
 更新器变更

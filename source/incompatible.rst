@@ -9,6 +9,18 @@
 
 关于GUI方面的不兼容变更，详见 :ref:`gui-changes` 部分，只有重新生成GUI才会让这些变更生效。
 
+.. _incompatible-7.1:
+
+7.1
+---
+
+当某个图像不正处于显示时，带属性(attribute)的say语句会决定一个头像(side image)，而不是使用之前某个给定的属性。
+如果要禁用这项特性，在配置中添加：
+
+::
+
+    define config.say_attributes_use_side_image = False
+
 .. _incompatible-7.0:
 
 7.0

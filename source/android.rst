@@ -222,7 +222,7 @@ android-icon_background.png
 -----------
 
 预启动画面(presplash)是在Ren'Py完全加载之前显示的画面，比主启动界面(splashscreen)更早显示。
-在安卓设备上，预启动画面特别重要，尤其是Ren'Py首次运行时。
+在安卓设备上，预启动画面特别重要，尤其是Ren'Py首次运行时需要较长时间解包运行使用的支持文件。
 
 android-presplash.jpg
     当app加载时使用的图像。这个图片应该使用单色的边界(border)。边界会扩展并填充整个屏幕的剩余空间。
