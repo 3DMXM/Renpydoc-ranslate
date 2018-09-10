@@ -16,7 +16,7 @@
 * Aleema
 * Alessio
 * Alexandre Tranchant
-* Andyl_kl
+* Andylkl
 * Apricotorange
 * Arowana-vx
 * Asfdfdfd
@@ -83,6 +83,7 @@
 * Kuroonehalf
 * Kyouryuukunn
 * Lapalissiano
+* Lee Yunseok
 * Lore
 * Maissara Moustafa
 * Marcel
@@ -92,6 +93,7 @@
 * Merumelu
 * mikey (ATP Projects)
 * Morgan Willcock
+* Moshibit
 * MrStalker
 * Mugenjohncel (Uncle Mugen)
 * Muhammad Nur Hidayat Yasuyoshi
@@ -105,6 +107,7 @@
 * Paul Morio
 * Pavel Langwell
 * Peter DeVita
+* Philat
 * Piroshki
 * Pratomo Asta Nugraha
 * Project Gardares
@@ -117,6 +120,7 @@
 * Rikxz
 * rivvil
 * Robert Penner
+* Saltome
 * Sapphi
 * Scout
 * Shiz

@@ -74,6 +74,8 @@ Ren'Py运行要求的最低安卓版本号已经提升至安卓19(aka 4.4 KitKat
 
 Ren'Py启动器(launcher)、模板游戏和The Question的脚本，已经由Muhammad Nur Hidayat Yasuyoshi翻译为马来语。
 
+韩文也已更新。
+
 现在RAPT使用的字符串也可以翻译为非英语的其他语言了。
 
 .. _7.1-other:
@@ -121,6 +123,8 @@ LayerdImageProxy现在可以使用内插字符串。
 
 开始游戏或者进入一个新的上下文(context)，比如一个菜单上下文时，会调用新增的配置项 :var:`config.context_callback` 。
 这个配置可以用于进入那个上下文时，停止语音和音效的播放。
+
+可视组件  :func:`Drag` 新增  `activated` 特性。这个特性是一个回调函数，当用户首次在某个可拖拽(drag)组件时被调用(在组件移动之前)。
 
 .. _renpy-7.0:
 
