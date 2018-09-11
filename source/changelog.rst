@@ -42,7 +42,7 @@ Ren'Py运行要求的最低安卓版本号已经提升至安卓19(aka 4.4 KitKat
 这将创建两端对话。详见 :ref:`monologue-mode` 。
 
 在独白中还可以使用新的文本标签(tag)——{clear}。
-当{clear}标签单独占一行时，作用相当于 ``nvl clear`` 语句。详见 :ref:`NVL Monlologue Mode <nvl-monologue-mode>` 。
+当{clear}标签单独占一行时，作用相当于 ``nvl clear`` 语句。详见 :ref:`NVL独白模式 <nvl-monologue-mode>` 。
 
 .. _say-with-attribute-change:
 
