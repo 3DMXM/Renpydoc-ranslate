@@ -196,7 +196,7 @@ Ren'Py在 :func:`Preference` 函数中加入了“auto-forward”，可用于控
 :func:`Transform` 修改了特性，可以实现图片的非对称缩放和旋转。这与旧版的使用方法不同。
 
 
-.. _incompatible-6.13:
+.. _incompatible-6.13.8:
 
 6.13.8
 ------
@@ -290,8 +290,7 @@ Ren'Py还修改了默认的线性传送(line-wrapping)特性。新的特性不�
 6.11.0
 ------
 
-* 通过配置项 :var:`config.default_transform` 指定的变换(transform)用于初始化show和hide语句中图像的变换特性(property)。
-该变换的默认值将 :propref:`xpos` 和 :propref:`xanchor` 设置为0.5， :propref:`ypos` 和 :propref:`yanchor` 设置为1.0。
+* 通过配置项 :var:`config.default_transform` 指定的变换(transform)用于初始化show和hide语句中图像的变换特性(property)。该变换的默认值将 :propref:`xpos` 和 :propref:`xanchor` 设置为0.5， :propref:`ypos` 和 :propref:`yanchor` 设置为1.0。
 
   这个特性防止风格特性的默认值发生改变。在之前的版本中，风格特性未被初始化的情况下，默认值均为0.
 
@@ -322,8 +321,7 @@ Ren'Py还修改了默认的线性传送(line-wrapping)特性。新的特性不�
 6.10.0
 ------
 
-* 几个默认的位置名称(left，right，center，truecenter，offscreenleft和offscreenright)，现在已定义为ATL变换(transform)。
-这意味着在某个位置显示图像后，图像的位置会被记录。如果不需要使用这个特性，要重定义所有位置，添加如下代码：
+* 几个默认的位置名称(left，right，center，truecenter，offscreenleft和offscreenright)，现在已定义为ATL变换(transform)。这意味着在某个位置显示图像后，图像的位置会被记录。如果不需要使用这个特性，要重定义所有位置，添加如下代码：
 
 ::
 
@@ -339,6 +337,5 @@ Ren'Py还修改了默认的线性传送(line-wrapping)特性。新的特性不�
 6.9.2
 -----
 
-* 如果要将你的游戏从Ren'Py 6.9.2或更低版本迁移到高版本，将包含游戏的目录复制到工程目录中。
-创作者可以点击启动器中的“设置”、再进入“工程目录”，即可选中一个需要的工程。
-详见 `Ren'Py 6.9.2 发布说明 <http://www.renpy.org/wiki/renpy/releases/6.9.2>`_ 查看更低版本的迁移方法。
+* 如果要将你的游戏从Ren'Py 6.9.2或更低版本迁移到高版本，将包含游戏的目录复制到工程目录中。创作者可以点击启动器中的“设置”、再进入“工程目录”，即可选中一个需要的工程。详见 `Ren'Py 6.9.2 发布说明 <http://www.renpy.org/wiki/renpy/releases/6.9.2>`_ 查看更低版本的迁移方法。
+

@@ -24,7 +24,7 @@ Ren'Py运行要求的最低安卓版本号已经提升至安卓19(aka 4.4 KitKat
 
 添加了x86_64结构，原有的x86已经删除。(某些x86设备可以通过二进制转义层运行arm平台版本。)
 
-.. _monologue-mode:
+.. _changelog-monologue-mode:
 
 独白模式
 --------------
