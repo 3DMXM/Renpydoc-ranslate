@@ -4,6 +4,90 @@
 完整变更日志
 ==============
 
+.. _renpy-7.1.1:
+
+
+历史记录方面的bug修复
+-----------------------
+
+这个版本解决了Ren'Py中“历史”界面的一个问题(issue)。这个问题的触发条件是，一行对话中出现不成对的方括号，比如：
+
+::
+
+    "I [[think] I'm having a problem."
+
+出现这种情况时，字符串“I [think] I'm having a problem.”会添加到历史记录中。如果Ren'Py中显示这段历史记录，并尝试内插 ``think`` 变量，就会挂掉。
+
+
+This is fixed by adding ``substitute False`` to the history screen. This
+is done to new projects, but for existing ones you'll need to make the fix
+yourself. Here's the new history screen
+新版本的修复办法是，在历史界面中添加了 ``substitute False`` 的情况。这个办法只对新建的项目有效。
+之前已经存在的老项目，创作者只能自己修复了。
+下面是一个新的历史界面定义：
+
+::
+
+    screen history():
+
+        tag menu
+
+        ## 因为历史界面可能很大，所以不预加载界面。
+        predict False
+
+        use game_menu(_("History"), scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0):
+
+            style_prefix "history"
+
+            for h in _history_list:
+
+                window:
+
+                    ## 如果history_height的值是None，就使用自适应布局。
+                    has fixed:
+                        yfit True
+
+                    if h.who:
+
+                        label h.who:
+                            style "history_name"
+                            substitute False
+
+                            ## 如果对应角色的文本颜色有单独设置，就获取设置的文本颜色。
+                            if "color" in h.who_args:
+                                text_color h.who_args["color"]
+
+                    $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
+                    text what substitute False
+
+            if not _history_list:
+                label _("The dialogue history is empty.")
+
+
+新的历史界面定义中包含一行 ``substitute False`` 。创作者可以在自定义的历史界面中添加这行，避免上面提到的程序卡死问题。
+
+.. _changelog-android-improvements:
+
+安卓版本的提升
+--------------------
+
+现在Ren'Py生成安卓版本app时分配的内存总量增大到1.5GB。为了确保创作者具有发布更大游戏的能力，请确认电脑上安装了64位版本的Java 8。
+
+Ren'Py明确要求安卓系统，将软键盘的“回车(enter)”键作为一次输入的结束。
+
+.. 7.1.1-fixes
+
+修复
+-----
+
+现在Ren'Py在安卓8(Oreo)以下版本中将剪裁和重新调整app图标(icon)的尺寸。
+
+现在Ren'Py的安卓发布工具能使用的内存大小，与谷歌套件中的默认值一致，都是1536MB。可以编辑rapt/project/gradle.properties文件修改内存的值。
+
+Ren'Py生成程序时必须的fribidi内嵌版本源代码已经包含在 -source 归档中。
+
+还有一些语音支撑方面的修复点，优化了对历史记录和语音回放功能的支持。
+
 .. _renpy-7.1:
 
 7.1
