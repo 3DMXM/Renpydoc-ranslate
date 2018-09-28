@@ -553,11 +553,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     若非None，这是一个字符串，表示自动语音模式下播放tts语音时使用的非默认声音。可用的选项跟运行的平台有关联，并且需要设置成特定平台对应特定语音的形式。(在多语言支持的情况下最好也修改这项。)
 
-.. var:: config.window_auto_hide = [ 'scene', 'call screen' ]
+.. var:: config.window_auto_hide = [ 'scene', 'call screen', 'menu' ]
 
     一个语句名称列表，列表内的语句会触发 ``window auto`` 隐藏空的对话窗口。
 
-.. var:: config.window_auto_show = [ 'say' ]
+.. var:: config.window_auto_show = [ 'say', 'menu-with-caption' ]
 
     一个语句名称列表，列表内的语句会触发 ``window auto`` 隐藏空的对话窗口。
 

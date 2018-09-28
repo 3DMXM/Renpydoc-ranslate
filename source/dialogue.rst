@@ -259,7 +259,7 @@ Ren'Py中包括几种语句，允许管理对话窗口。由于对话窗口在�
   window hide语句触发窗口隐藏。该语句接受一个可选入参，入参为transition，用于窗口隐藏的转场效果。如果transition参数为空，将使用定义在  :var:`config.window_hide_transition` 的值。
 
 ``window auto``
-  window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show` 中列出的语句——默认是say语句前，窗口会自动展现。在 :var:`config.window_auto_hide` 中列出的语句——默认是 ``scene`` 和 ``call screen`` 语句前，窗口会自动隐藏。(只有直接显式使用该语句才有效，而函数返回该语句内容相同的字符串不生效。)
+  window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show` 中列出的语句——默认是say语句前，窗口会自动展现。在 :var:`config.window_auto_hide` 中列出的语句——默认是 ``scene`` 和 ``call screen`` 以及带标题的 ``menu`` 语句前，窗口会自动隐藏。(只有直接显式使用该语句才有效，而函数返回该语句内容相同的字符串不生效。)
 
 ``window auto`` 语句分别使用 :var:`config.window_show_transition`
 和:var:`config.window_hide_transition` 作为显示和隐藏窗口的转场效果。 ``window auto`` 启用的自动化管理可以被 ``window show`` 或者 ``window hide`` 语句关闭。
