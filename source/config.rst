@@ -390,6 +390,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     图层名(以字符串形式)列表，列表中的图层在进入游戏菜单时会清空。
 
+.. var:: config.menu_include_disabled = False
+
+    设置了这个配置项后，可以使用if语句将某个分支选项(choice)禁用，效果类似禁用某个按钮(button)。
+
 .. var:: config.menu_window_subtitle = ""
 
     进入主菜单或游戏菜单时， :var:`_window_subtitle` （窗口标题）变量。

@@ -9,6 +9,22 @@
 
 关于GUI方面的不兼容变更，详见 :ref:`gui-changes` 部分，只有重新生成GUI才会让这些变更生效。
 
+.. _incompatible-7.1.1:
+
+7.1.1
+-----
+
+Ren'Py的window auto功能现在会自动判断对话或标题是否带menu语句，并会在合适的时机自动隐藏或显示对话窗口。
+启用这项特性需要使用“强制重新编译”。考虑到较老游戏的兼容性问题，这项特性可以通过如下配置关闭：
+
+::
+    define config.menu_showed_window = True
+    define config.window_auto_show = [ "say" ]
+    define config.window_auto_hide = [ "scene", "call screen" ]
+
+由于这并非严格意义上的不兼容变更，对于历史界面(screen)来说，推荐做一点修改。
+详见 :ref:`变更日志入口 <history-7.1.1>` 中如何更新游戏的部分。
+
 .. _incompatible-7.1:
 
 7.1

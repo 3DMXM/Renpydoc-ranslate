@@ -55,4 +55,4 @@ if分句包含关键词 ``if`` ，后面跟着一个python表达式。只有当�
         "向前看" if drank_tea:
             ...
 
-只有在“the drank_tea”变量为True时才显示第三个选项。
+只有在“the drank_tea”变量为True时才显示第三个选项。(不过，如果配置项 :var:`config.menu_include_disabled` 被设置为True的话，这个选项会显示为一个不可用的按钮。)

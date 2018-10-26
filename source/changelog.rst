@@ -4,8 +4,39 @@
 完整变更日志
 ==============
 
-.. _renpy-7.1.1:
+.. _renpy-7.1.2:
 
+7.1.2
+=====
+
+.. _7.1.2-improvements:
+
+功能提升
+------------
+
+Ren'Py的界面语言现在支持包含匿名的ATL变换(transform)。比如现在可以这样写：
+
+::
+
+    screen hello_title():
+        text "你好。":
+            at transform:
+                align (0.5, 0.5) alpha 0.0
+                linear 0.5 alpha 1.0
+
+新增的 :func:`SetLocalVariable` 和 :func:`ToggleLocalVariable` 动作函数，可以用来设置界面使用的变量。
+
+
+新增的 :var:`config.menu_include_disabled` 配置项，决定菜单是否应该包含可由if分句禁用的入口(entry)。
+
+.. _7.1.2-fixes
+
+修复
+-----
+
+修复了一个Windows平台的bug。这个bug仅在使用阿拉伯语和希伯来语时出现(译者注：就是说中文用户不用管，所以这也不按原文翻译了)。
+
+.. _history-7.1.1:
 
 历史记录方面的bug修复
 -----------------------
@@ -19,9 +50,6 @@
 出现这种情况时，字符串“I [think] I'm having a problem.”会添加到历史记录中。如果Ren'Py中显示这段历史记录，并尝试内插 ``think`` 变量，就会挂掉。
 
 
-This is fixed by adding ``substitute False`` to the history screen. This
-is done to new projects, but for existing ones you'll need to make the fix
-yourself. Here's the new history screen
 新版本的修复办法是，在历史界面中添加了 ``substitute False`` 的情况。这个办法只对新建的项目有效。
 之前已经存在的老项目，创作者只能自己修复了。
 下面是一个新的历史界面定义：
@@ -73,14 +101,35 @@ yourself. Here's the new history screen
 
 现在Ren'Py分配给安卓发布工具的内存总量增大到1.5GB，也就是谷歌套件中的默认值。为了确保创作者具有发布更大游戏的能力，请确认电脑上安装了64位版本的Java 8。
 
+Ren'Py明确要求安卓系统，将软键盘的“回车(enter)”键作为一次输入的结束。
+
+现在Ren'Py在安卓8(Oreo)以下版本中将剪裁和重新调整app图标(icon)的尺寸。
+
+Ren'Py生成x86_64版本的apk时，会使用一个不同的版本号数字。这样就可以同时让适配x86_64和armeabi-v7a处理器的发布包上传到Google Play或其他应用商店里，
+这样就不需要每次分别生成一个apk并手工修改名称。
+
+.. _7.1.1-other-improvements:
+
+其他提升
+---------
+
+现在Ren'Py会自己处理0字宽的字符绘制问题，防止不支持0字宽的字体依然会被绘制在屏幕上的情况出现。
+
+Ren'Py支持非断行空格和0字宽非断行空格字符，防止文本中的图像空间被挤占。
+
+Ren'Py支持 :func:`Character` 对象中 `ctc_position` 参数的一种新值“nestled-close”。
+使用该值可以防止“点击继续”型标志和其他行之间出现断行。
+
+(拖放组件中的)Drags类现在支持变换的点击事件。(桌面电脑的鼠标右键点击和触控平台的长按操作。)
+
+
 .. 7.1.1-fixes
 
 修复
 -----
 
-Ren'Py明确要求安卓系统，将软键盘的“回车(enter)”键作为一次输入的结束。
-
-现在Ren'Py在安卓8(Oreo)以下版本中将剪裁和重新调整app图标(icon)的尺寸。
+函数 :func:`SetVariable` 和 :func:`ToggleVariable` 入参类型已经扩展，可以接受命名空间加字段形式。
+所以现在可以使用类似``SetVariable("hero.strength", hero.strength + 1)`` 或 ``ToggleVariable("persistent.alternate_perspective")`` 这样的写法。
 
 对话窗口自动管理(使用 ``window auto`` 语句启用)是指，当游戏内菜单有关联的对话或标题时，会自动调整布局和尺寸。
 
@@ -447,7 +496,7 @@ Ren'Py在缓存图片和界面时，现在拒绝调用那些从磁盘读取文�
 
 现在F4键可以显示图像加载日志了。
 
-.. _other-improvements:
+.. _6.99.14.1-other-improvements:
 
 其他改进
 ------------------
