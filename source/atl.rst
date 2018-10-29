@@ -4,7 +4,7 @@
 动画和变换语言
 =====================================
 
-动画和变换语言(简称ATL)提供了一种高级方式实现可视组件的展示、界面定位、应用各种变换(比如旋转、alpha遮罩)等。ATL语言可以根据时间实现那些效果，也可以对事件类消息做出响应。
+动画和变换语言(简称ATL)提供了一种高级方式实现可视组件的展示、界面布置、应用各种变换(比如旋转、alpha遮罩)等。ATL语言可以根据时间变化实现那些效果，也可以对事件类消息做出响应。
 
 在Python中，与ATL变换等效的是 :func:`Transform`
 类组件。目前没有办法通过编程创建一个ATL变换效果。
@@ -21,15 +21,15 @@ ATL可以包含在Ren'Py脚本语句中。
 transform语句
 -------------------
 
-transform语句创建了一个变换(transform)效果，可以在某个at分句中使用。transform语句的语法如下：
+``transform`` 语句创建了一个变换(transform)效果，可以在某个at分句中使用。transform语句的语法如下：
 
 .. productionlist:: script
     atl_transform : "transform" `name` "(" `parameters` ")" ":"
                   :    `atl_block`
 
-transform语句必须在初始化时运行。如果在初始化语句块(block)之外发现transform语句，其会被自动放入一个初始化语句块中并设置其优先级为0。定义的transform需要一些参数，被调用时必须提供。
+transform语句必须在初始化时运行。如果在 ``init`` 语句块(block)之外发现transform语句，其会被自动放入一个 ``init`` 语句块中并设置其优先级为0。定义的transform可能需要一些参数，被调用时必须提供。
 
-`Name` 必须是一个Python标识符。使用ATL创建出的transform与 *name* 绑定。::
+`name` 必须是一个Python标识符。使用ATL创建出的transform与 *name* 绑定。::
 
    transform left_to_right:
        xalign 0.0
@@ -41,7 +41,7 @@ transform语句必须在初始化时运行。如果在初始化语句块(block)�
 带ATL语句块的image语句
 ------------------------------
 
-使用ATL的另一种方法是，在image语句中包含ATL语句块。这将某个图像与给定的transform绑定。由于没有办法向该transform传入参数，所以只在transform自身定义了某个动画的情况下才有用。带ATL语句块的image语句语法如下：
+使用ATL的另一种方法是，在 ``image`` 语句中包含ATL语句块。这将某个图像与给定的transform绑定。由于没有办法向该transform传入参数，所以只在transform自身定义了某个动画的情况下才有用。带ATL语句块的image语句语法如下：
 
 .. productionlist:: script
     atl_image : "image" `image_name` ":"
@@ -61,7 +61,7 @@ transform语句必须在初始化时运行。如果在初始化语句块(block)�
 带ATL语句块的scene和show语句
 ----------------------------------------
 
-最后一种使用ATL的方法是，包含在scene或者show语句中。这种方法可以通过ATL变换扭曲图像。
+最后一种使用ATL的方法是，包含在 ``scene`` 或者 ``show`` 语句中。这种方法可以通过ATL变换扭曲图像。
 
 .. productionlist:: script
     atl_scene : `stmt_scene` ":"
@@ -85,13 +85,13 @@ ATL语法和语义
 
 一个ATL语句块(block)由一个或多个逻辑行组成，使用相同的缩进量。每个ATL语句块中的逻辑行都必须包含一条或多条ATL语句。
 
-总共有两种ATL语句：简单ATL语句和复杂ATL语句。简单语句不使用ATL语句块。单条逻辑行就可能包含一条或多条ATL语句，使用英文逗号分隔。复杂语句会包含语句块(block)。复杂语句的第一行会以英文冒号(":")结尾：
+总共有两种ATL语句：简单ATL语句和复杂ATL语句。简单语句不使用ATL语句块。单条逻辑行就可能包含一条或多条ATL语句，使用英文逗号分隔。复杂语句会包含语句块(block)。复杂语句的第一行会以英文冒号( ``":"`` )结尾：
 
 默认情况下，语句块(block)里会从第一条语句开始顺序执行所有语句。当整个语句块达到结尾时执行就会被终止。time语句会改变这种执行逻辑，详见后面的段落。
 
 当语句块(block)中所有语句都终止时，语句块的执行也就被终止了。
 
-如果ATL语句需要某个表达式赋值，只能在transform初次加入场景列表时进行赋值。(比如使用show语句或者UI的函数时。)
+如果ATL语句需要某个表达式赋值，只能在transform初次加入场景列表时进行赋值。(比如使用 ``show`` 语句或者 ``ui`` 的函数时。)
 
 .. _atl-statements:
 
@@ -102,7 +102,7 @@ ATL语句
 
 .. _interpolation-statement:
 
-Interpolation语句
+interpolation语句
 -----------------------
 
 interpolation语句语句是ATL控制变换的主要方式。
@@ -123,14 +123,14 @@ interpolation语句的第一部分用于选择使用的time-warp函数。(即，
 
 interpolation语句可以包含一些其他分句。若出现了特性(property)和对应的值，在interpolation结尾，特性(property)就能获得那个值。该值的获得可以通过以下几种方式：
 
-* 如果那个值后面跟着一个或者两个竖线连接符(|)，就使用spline动作。整个interpolation开头的特性值就是起点，上文提到的特性值就是终点，连接符用于控制spline。
+* 如果那个值后面跟着一个或者两个节点，就使用样条(spline)运动。整个interpolation开头的特性值就是起点，上文提到的特性值就是终点，连接符用于控制样条(spline)。
+(译者注：在CAD和CG中，样条spline通常是指分段定义的多项式参数曲线。)
 
+* 如果interpolation语句包含一个“clockwise”或者“counterclockwise”分句，就使用圆周(circular)运动，后面会解释这点。
 
-* 如果interpolation语句包含一个“clockwise”或者“counterclockwise”分句，就是用circular动作，后面会解释这点。
+* 除了以上两种情况，根据完成度均分，并将对应的值interpolate插入到起点与终点之间。
 
-* 除了以上两种情况，对应的值会被interpolate插入到起点与终点之间，使用完成进度分数。
-
-如果出现的是简单表达式，其可以简化为一个变换(transform)，这个变换是一个最简单的interpolate语句，不包含warp、spline或者circular动作。变换(transform)中的各项特性(property)会同直接包含在interpolation语句中一般被处理。
+如果出现的是简单表达式，其可以简化为一个变换(transform)，这个变换是一个最简单的interpolate语句，不包含warp、spline或者circular动作。变换(transform)中的各项特性(property)会如同直接包含在interpolation语句中一般被处理。
 
 一些interpolation语句样例如下：
 
@@ -159,16 +159,16 @@ interpolation语句可以包含一些其他分句。若出现了特性(property)
          # 使用spline动作环绕界面移动。
          linear 2.0 align (0.5, 1.0) knot (0.0, .33) knot (1.0, .66)
 
-一种重要的特殊情况是暂停warper，pause后面只跟一个时间值，触发ATL执行暂停对应的时间。
+一种重要的特殊情况是暂停warper，pause后面只跟一个时间值，触发ATL暂停对应的时间。
 
 有些特性(property)可以使用多种类型的值。例如，xpos特性可以是int、float或者absolute类型。如果某个interpolation特性的新旧两个值是不同的数据类型，具体表现是未定义的。
 
 .. _time-statement:
 
-Time语句
+time语句
 --------------
 
-time语句是一种简单控制语句。其包含一个简单表达式，可以简化为一个给定的时间，单位为秒。这个给定的时间表示其所在语句块(block)的执行总时长。
+``time`` 语句是一种简单控制语句。其包含一个简单表达式，可以简化为一个给定的时间，单位为秒。这个给定的时间表示其所在语句块(block)的执行总时长。
 
 .. productionlist:: atl
     atl_time : "time" `simple_expression`
@@ -191,7 +191,7 @@ time语句也暗示了可以放在pause语句前面，就可以实现暂停无�
 
 .. _expression-statement:
 
-Expression语句
+expression语句
 --------------------
 
 expression语句是一种以简单表达式开头的简单语句。可能会带一个分句，是另一个简单表达式。
