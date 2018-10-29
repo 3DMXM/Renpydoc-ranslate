@@ -637,7 +637,7 @@ transform存在以下特性(property)：
     :type: float or None
     :default: None
 
-    若值为None，不会进行旋转。否则，图像会根据指定的角速度顺时针旋转。旋转可视组件会导致组件尺寸改变，以匹配下面会提到的rotate_pad配置。该函数还会触发xanchor和yanchor被重设为0.5。
+    若值为None，不会进行旋转。否则，图像会按指定的角度顺时针旋转。根据下面会提到的rotate_pad的配置值，旋转可视组件会导致组件尺寸改变。xanchor和yanchor不为0.5的情况下，旋转整个可视组件会让组件相对整个界面的坐标发生变化。
 
 .. transform-property:: rotate_pad
 
@@ -651,7 +651,7 @@ transform存在以下特性(property)：
    :type: boolean
    :default: False
 
-   若该值为True，锚点会定位在剪裁过的子组件上，当子组件变换时拉伸并旋转。该值通过锚点使子组件的旋转和拉伸变得高效。
+   若该值为True，锚点会定位在关联的子组件上，当子组件发生变换时拉伸并旋转。实际效果是，当子组件拉伸或旋转时，这项值可以指定子组件以指定的锚点拉伸或旋转。
 
 .. transform-property:: zoom
 
