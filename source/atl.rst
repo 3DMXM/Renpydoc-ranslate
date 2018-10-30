@@ -191,10 +191,10 @@ time语句也暗示了可以放在pause语句前面，就可以实现暂停无�
 
 .. _expression-statement:
 
-expression语句
+表达式语句
 --------------------
 
-expression语句是一种以简单表达式开头的简单语句。可能会带一个分句，是另一个简单表达式。
+表达式语句是一种以简单表达式开头的简单语句。可能会带一个分句，是另一个简单表达式。
 
 .. productionlist:: atl
     atl_expression :  `simple_expression` ("with" `simple_expression`)?
@@ -203,7 +203,7 @@ expression语句是一种以简单表达式开头的简单语句。可能会带�
 
 * 如果是一个变换(transform)，该变换会被执行。with分句会被忽略。
 
-* 如果是一个整数或者浮点数，会被当作暂停的时间值，单位为秒。
+* 如果是一个整数或者浮点数，会执行对应时间(单位为秒)的暂停。
 
 * 以上都不是的话，表达式会被看作一个可视组件。当分句执行时，该组件替换变换(transform)的子组件，使其可以用作动画。如果出现了with分句，第二个表达式会被认为一个转场(transition)，并应用于新旧可视组件的替换表现。
 
@@ -219,26 +219,26 @@ expression语句是一种以简单表达式开头的简单语句。可能会带�
          # 使用溶解效果显示logo_bw.png
          "logo_bw.png" with Dissolve(0.5, alpha=True)
 
-         # 运行move_right处的tranform.
+         # 运行名为move_right的tranform.
          move_right
 
 .. _pass-statement:
 
-Pass语句
+pass语句
 --------------
 
 .. productionlist:: atl
     atl_pass : "pass"
 
-pass语句是一个简单语句，不会触发任何事。pass语句可以用于分隔其他语句。比如出现两套choice语句的时候，如果不用pass语句，选项会混在一起。
+``pass`` 语句是一个简单语句，不会触发任何效果。pass语句可以用于分隔其他语句。比如出现两套choice语句的时候，如果不用pass语句，选项会混在一起。
 
 .. _repeat-statement:
 
-Repeat语句
+repeat语句
 ----------------
 
 
-repeat语句是一种简单语句，包含它的语句块(block)会从开头从新执行。如果repeat中出现了一个表达式，该表达式可以计算出一个整数。这个整数就是整个语句块(block)重复执行的次数。(“repeat 2”表示语句块最多会执行2次。)
+``repeat`` 语句是一种简单语句，包含它的语句块(block)会从开头重新执行。如果repeat中出现了一个表达式，该表达式可以计算出一个整数。这个整数就是整个语句块(block)重复执行的次数。(“repeat 2”表示语句块最多会执行2次。)
 
 .. productionlist:: atl
     atl_repeat : "repeat" (`simple_expression`)?
@@ -256,10 +256,10 @@ repeat语句必须是一个语句块(block)的最后一个语句：
 
 .. _block-statement:
 
-Block语句
+block语句
 ---------------
 
-block语句是一种复杂语句，包含了ATL语句块(block)。block语句用于圈定需要重复运行的语句。
+``block`` 语句是一种复杂语句，包含了ATL语句块(block)。block语句用于对需要重复运行的语句分组。
 
 .. productionlist:: atl
     atl_block_stmt : "block" ":"
@@ -278,10 +278,10 @@ block语句是一种复杂语句，包含了ATL语句块(block)。block语句用
 
 .. _choice-statement:
 
-Choice语句
+choice语句
 ----------------
 
-choice语句是一种复杂语句，其定义了一个所有可选项的集合。Ren'Py会选取集合中的某一个选项，执行与该选项相关的ATL语句块(block)，之后跳转到choice语句块结束处。
+``choice`` 语句是一种复杂语句，其定义了一个所有可选项的集合。Ren'Py会选取集合中的某一个选项，执行与该选项相关的ATL语句块(block)，之后跳转到choice语句块结束处。
 
 .. productionlist:: atl
    atl_choice : "choice" (`simple_expression`)? ":"
@@ -304,10 +304,10 @@ choice语句会将语句块(block)中连续出现的多个choice选项都放入�
 
 .. _parallel-statement:
 
-Parallel语句
+parallel语句
 ------------------
 
-parallel语句用于定义一个可以并行执行的ATL语句块的集。
+``parallel`` 语句用于定义一个可以并行执行的ATL语句块的集。
 
 .. productionlist:: atl
     atl_parallel : "parallel" ":"
@@ -333,30 +333,30 @@ parallel语句会将语句块(block)中连续出现的多个parallel项都放入
 
 .. _event-statement:
 
-Event语句
+event语句
 ---------------
 
-event语句是一个简单语句，其会使用给定的名称触发一个事件(event)。
+``event`` 语句是一个简单语句，其会使用给定的名称触发一个事件(event)。
 
 .. productionlist:: atl
     atl_event : "event" `name`
 
-当在某个语句块(block)中产生某个事件(event)时，语句块会检查是否存在对应事件名的处理器(handler)。如果处理器存在，主控流程会切换到对应的事件处理器。否则，事件会广播至所有事件处理器。
+当在某个语句块(block)运行过长中出现某个事件(event)时，语句块会检查自身是否存在对应事件名的处理器(handler)。如果处理器存在，主控流程会切换到对应的事件处理器。否则，事件会广播至所有事件处理器。
 
 .. _on-statement:
 
-On语句
+on语句
 ------------
 
-on语句是一种复杂语句，其定义事件处理器(handler)。on语句会将语句块(block)中连续出现的多个on项都放入一个事件集之中。on语句可以只处理某一个事件名，或者使用逗号分隔的事件名列表。
+``on`` 语句是一种复杂语句，其定义事件处理器(handler)。on语句会将语句块(block)中连续出现的多个on项都放入一个事件集之中。on语句可以只处理某一个事件名，或者使用逗号分隔的事件名列表。
 
 .. productionlist:: atl
    atl_on : "on" `name` [ "," `name` ] * ":"
           :      `atl_block`
 
-on语句用于处理各种事件(event)。当某个事件被处理后，其他的事件处理就会停止，并且会立即进入新事件的处理流程。当某个事件处理器没有新的待处理事件，就会产生 `default` 事件(已经处理 `default` 事件的情况除外)。
+on语句用于处理各种事件(event)。当某个事件被处理后，其他的事件处理就会停止，并且会立即进入新事件的处理流程。当某个事件处理器没有新的待处理事件，就会产生 ``default`` 事件(已经处理 ``default`` 事件的情况除外)。
 
-on语句的执行原生不存在终止。(但是其可以被time语句终止，或者内部封装的事件处理器。)
+on语句的执行不会自然终止。(但是其可以被time语句，或者关联的事件处理器终止。)
 
 ::
 
@@ -374,12 +374,12 @@ on语句的执行原生不存在终止。(但是其可以被time语句终止，�
 
 .. _contains-statement:
 
-Contains语句
+contains语句
 ------------------
 
-contains语句将可视组件安置在ATL的transform中。(作为transform的子组件。)总共有两类contains语句的变化。
+``contains`` 语句将可视组件安置在ATL的transform中。(作为transform的子组件。)总共有两类contains语句的变种。
 
-contains表达式变化使用某个表达式，将表达式设为transform的子组件。当希望ATL的transform容纳而不是引用另一个ATL的transform时，这个变化就会用到。
+contains表达式变种使用某个表达式，将表达式设为transform的子组件。当希望ATL的transform容纳而不是引用另一个ATL的transform时，这个变种就会有用。
 
 .. productionlist:: atl
     atl_contains : "contains" `expression`
@@ -408,7 +408,8 @@ contains语句块(block)允许我们定义一个ATL语句块(block)用作ATL tra
     atl_counts : "contains" ":"
          `atl_block`
 
-每个语句块都应该定义一个使用的可视组件，或者可能发生的错误。contains语句的执行是即时的，不会等待子组件的完成。contains语句在语法上的优点，是其允许入参很容易的传给它的子组件。
+每个语句块都应该定义一个使用的可视组件，或者可能发生的错误。contains语句的执行是即时的，不会等待子组件的完成。contains语句可以说是语法糖，使我们很容易将参数传给它的子组件。
+(译者注：语法糖(Syntactic Sugar)，也称作糖衣语法。由英国计算机科学家彼得·约翰·兰达(Peter J. Landin)发明。指计算机语言中添加的某种语法，对语言的功能并没有影响，能更方便程序员使用。通常来说使用语法糖能够增加程序的可读性，从而减少程序代码出错的机会。)
 
 ::
 
@@ -427,21 +428,21 @@ contains语句块(block)允许我们定义一个ATL语句块(block)用作ATL tra
 
 .. _function-statement:
 
-Function语句
+function语句
 ------------------
 
-function语句允许ATL使用Python函数控制ATL特性(property)。
+``function`` 语句允许ATL使用Python函数控制ATL特性(property)。
 
 .. productionlist:: atl
     atl_function : "function" `expression`
 
-这些函数与 :func:`Transform`:具有相同的识别标志。
+这些函数与 :func:`Transform` 具有相同的识别标志：
 
 * 第一个入参是一个transform对象。transform特性可以通过该对象进行设定。
 
-* 第二个入参是显示时间轴，表示函数开始执行经过的秒数。
+* 第二个入参是显示时间轴，表示函数开始执行到现在经过的秒数。
 
-* 第三个入参是动画时间轴，表示具有相同标签(tag)的某物在界面上已存在的秒数。
+* 第三个入参是动画时间轴，表示具有相同标签(tag)的某物在整个界面上已存在的秒数。
 
 * 如果函数返回一个数值，其会在数值对应的时间(秒)后再次被调用。(0秒表示尽可能快地调用该函数。)如果函数返回空值(None)，主控流程会跳到下一个ATL语句。
 
@@ -464,7 +465,7 @@ function语句允许ATL使用Python函数控制ATL特性(property)。
 
 .. _warpers:
 
-Warpers
+warpers
 =======
 
 warper是一类函数，其可以改变interpolation语句中定义的时间值。以下warper都是默认定义的。他们将时间t转换为t'，t和t'都是浮点数，t会将给定的时间值标准化为0.0到1.0。(如果该语句给定的原时长是0，那运行时t就是1.0。)t'的初始取值范围也是0.0到1.0，不过可以超出这个范围。
@@ -518,7 +519,7 @@ easeout_quart       easeIn_quart
 easeout_quint       easeIn_quint
 ===============     ===================
 
-我们可以在一个Python语句块中，使用renpy.atl_warper构造器定义新的warper函数。定义warper函数的文件需要放在使用那个函数的其他任何文件之前。定义的代码如下：
+我们可以在一个 ``python early`` 语句块中，使用 ``renpy.atl_warper`` 构造器定义新的warper函数。定义warper函数文件需要在使用那个函数的其他任何文件之前被处理。定义的代码如下：
 
 ::
 
@@ -528,58 +529,58 @@ easeout_quint       easeIn_quint
         def linear(t):
             return t
 
-.. _transform-properties:
+.. _list-of-transform-properties:
 
 transform特性列表
 ============================
 
 transform存在以下特性(property)：
 
-当给定的数据类型当作一个坐标时，其可能是一个整型、renpy.absolute类型或者浮点型。如果是一个浮点型，其可以用作某块区域(用作坐标)或者可视组件(用作锚点)的标准化比例。
+当给定的数据类型当作一个坐标时，其可能是一个整型、 ``renpy.absolute`` 类型或者浮点型。如果是一个浮点型，其可以用作某块区域(用作坐标 :propref:`pos` )或者可视组件(用作锚点 :propref:`anchor` )的比例数值。
 
-需要注意的是，并非所有特性都是相对独立的。例如，xalign和xpos都会更新某些深层的同一批数据。在parallel语句中，只有某个语句块(block)会调整水平坐标，而另一个语句会调整垂直坐标。(这些可能都是在同一个语句块中。)angle和radius特性同时设置水平和垂直坐标。
+需要注意的是，并非所有特性都是完全独立的。例如， :propref:`xalign` 和 :propref:`xpos` 都会更新同一批底层数据。在parallel语句中，只有一个语句块(block)能调整水平坐标，而另一个语句块只能调整垂直坐标。(这些可能都是在同一个语句块中。)angle和radius特性同时设置水平和垂直坐标。
 
 .. transform-property:: pos
 
     :type: (position, position)
     :default: (0, 0)
 
-    相对坐标，与整个区域左上角有关。
+    相对坐标，以整个区域左上角为原点。
 
 .. transform-property:: xpos
 
     :type: position
     :default: 0
 
-    水平坐标，与整个区域的左边有关。
+    水平坐标，以整个区域的左边为坐标零点。
 
 .. transform-property:: ypos
 
     :type: position
     :default: 0
 
-    垂直坐标，与整个区域的顶边有关。
+    垂直坐标，以整个区域的顶边为坐标零点。
 
 .. transform-property:: anchor
 
     :type: (position, position)
     :default: (0, 0)
 
-    锚点坐标，与可视组件的左上角有关。
+    锚点坐标，以可视组件左上角为原点。
 
 .. transform-property:: xanchor
 
     :type: position
     :default: 0
 
-    锚点的水平坐标，与可视组件的左边有关。
+    锚点的水平坐标，以可视组件左边为坐标零点。
 
 .. transform-property:: yanchor
 
     :type: position
     :default: 0
 
-    锚点的垂直位置，与可视组件的顶边有关。
+    锚点的垂直位置，以可视组件顶边为坐标零点。
 
 .. transform-property:: align
 
@@ -615,8 +616,6 @@ transform存在以下特性(property)：
     :default: 0.0
 
     可视组件在垂直方向偏离的像素数。向下偏离时是正数。
-
-
 
 .. transform-property:: xcenter
 
@@ -658,21 +657,21 @@ transform存在以下特性(property)：
     :type: float
     :default: 1.0
 
-    该值根据提供的因数对可视组件进行缩放。
+    该值根据系数对可视组件进行缩放。
 
 .. transform-property:: xzoom
 
     :type: float
     :default: 1.0
 
-    该值根据提供的因数对可视组件在水平方向进行缩放。负值可以让图像水平翻转(即与原图像互为左右镜像)。
+    该值根据系数对可视组件在水平方向进行缩放。负值可以让图像水平翻转(即与原图像互为左右镜像)。
 
 .. transform-property:: yzoom
 
    :type: float
    :default: 1.0
 
-   该值根据提供的因数对可视组件在垂直方向进行缩放。负值可以让图像垂直翻转(即与原图像互为上下镜像)。
+   该值根据系数对可视组件在垂直方向进行缩放。负值可以让图像垂直翻转(即与原图像互为上下镜像)。
 
 .. transform-property:: nearest
 
@@ -698,7 +697,7 @@ transform存在以下特性(property)：
 
     该值控制Ren'Py加性混合后的表现效果。该值为1.0时，Ren'Py使用ADD操作器(operator)绘制；该值为0.0时，Ren'Py使用OVER操作器(operator)绘制。
 
-    加性混合会分别作用域transform的每一个子组件。
+    加性混合会分别作用于transform的每一个子组件。
 
     完全的加性混合不会改变目标图像的alpha通道值，并且添加上去的图像可能不是可见的，前提是那些图像没有直接绘制在某个不透明的表面上。(某些复杂的操作，像 :func:`Flatten`， :func:`Frame` 和某些转场，使用加性混合可能会出现问题。)
 
@@ -715,33 +714,33 @@ transform存在以下特性(property)：
     :type: (position, position)
     :default: (0.0, 0.0)
 
-    若该值非None，则指定了极坐标中心点，与整个区域的左上角相关联。在position模式下，设置的中心点可用于圆周运动。
+    若该值非None，则指定了极坐标系的中心点坐标值，以整个区域的左上角为原点。在position模式下，设置的中心点可用于圆周运动。
 
 .. transform-property:: alignaround
 
     :type: (float, float)
     :default: (0.0, 0.0)
 
-    若该值非None，则指定了极坐标中心点，与整个区域的左上角相关联。在align模式下，设置的中心点可用于圆周运动。
+    若该值非None，则指定了极坐标系的中心点坐标值，以整个区域的左上角为原点。在align模式下，设置的中心点可用于圆周运动。
 
 .. transform-property:: angle
 
     :type: float
 
-    获取极坐标系中某个组件的角度。极坐标中心未设置的情况下不能获取。
+    获取极坐标系中角度的值。极坐标中心未设置的情况下不能获取。
 
 .. transform-property:: radius
 
     :type: position
 
-    获取极坐标系中某个组件的半径。极坐标中心未设置的情况下不能获取。
+    获取极坐标系中半径的值。极坐标中心未设置的情况下不能获取。
 
 .. transform-property:: crop
 
     :type: None or (int, int, int, int) or (float, float, float, float)
     :default: None
 
-    若该值非None，会使用给定的矩形剪裁可视组件。指定的矩形是一个(x, y, width, height)形式的元组。如果crop_relative为True并且元组内元素的值是浮点数(float)，width和height用作分数，与原图像的宽和高分别相乘输出结果。否则，那些值代表像素数。
+    若该值非None，会使用给定的矩形剪裁可视组件。指定的矩形是一个(x, y, width, height)形式的元组。如果 ``crop_relative`` 为True并且元组内元素的值是浮点数(float)，width和height用作比例值，与原图像的宽和高分别相乘输出结果。否则，数值代表像素数。
 
 .. transform-property:: crop_relative
 
@@ -769,7 +768,7 @@ transform存在以下特性(property)：
     :type: None or (int, int)
     :default: None
 
-    若该值非None，将可视组件拉伸至给定的尺寸。
+    若该值非None，将可视组件伸缩至给定的尺寸。
 
 .. transform-property:: maxsize
 
