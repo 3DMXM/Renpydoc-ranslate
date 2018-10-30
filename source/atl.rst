@@ -841,7 +841,7 @@ transform存在以下特性(property)：
 圆周运动
 ===============
 
-当某个interpolation语句汇总包含关键词 ``clockwise`` 或 ``counterclockwise`` ，这个语句就会触发圆周运动。Ren'Py会比较起始坐标点并找出极坐标中心。Ren'Py接着会计算运动角度。如果还出现了circles分句，Ren'Py会确保提供合适数量的圆。
+当某个interpolation语句汇总包含关键词 ``clockwise`` 或 ``counterclockwise`` ，这个语句就会触发圆周运动。Ren'Py会比较起始坐标点并找出极坐标中心。Ren'Py接着会计算运动角度。如果还出现了circles分句，Ren'Py会确保旋转对应的圈数。
 
 Ren'Py会合理运用angle和radius特性，触发圆周运动。如果transform处于align模式，设置angle和radius同时也会设置align特性。否则，就会设置pos特性。
 
@@ -853,16 +853,16 @@ Ren'Py会合理运用angle和radius特性，触发圆周运动。如果transform
 下列事件是自动触发的：
 
 ``start``
-    一种伪事件，进入on语句时触发，前提是没有更高优先级的事件出现。
+    一种伪事件，进入 ``on`` 语句时触发，前提是没有更高优先级的事件出现。
 
 ``show``
-    使用show或者scene语句显示transform时触发，并且给定标签(tag)的不存在对应图像。
+    使用 ``show`` 或者 ``scene`` 语句显示transform，并且给定标签(tag)没有对应已显示的图像时触发。
 
 ``replace``
-    使用show语句中的transform根据给定标签(tag)替换某个图像时触发。
+    使用 ``show`` 语句中的transform根据给定标签(tag)替换某个图像时触发。
 
 ``hide``
-    使用hide语句或等效的python语句中的transform时触发。
+    使用 ``hide`` 语句或等效的python语句中的transform时触发。
 
     需要注意的是，transform被scene语句清除，或者退出其所在的上下文(比如退出游戏菜单)时，hide事件是不会触发的。
 
@@ -870,7 +870,7 @@ Ren'Py会合理运用angle和radius特性，触发圆周运动。如果transform
     transform被另一个transform替换时触发。原transform的图像实际上并不会隐藏或移除，直到整个ATL语句块(block)执行完。
 
 ``update``
-    目前正在显示的界面发生更新或者被另一个界面替换时触发。随着这种情况很罕见却确实会出现，比如游戏加载资源时或者风格或者语言切换时。
+    目前正在显示的界面发生更新，并且不是被另一个界面替换的情况时触发。随着这种情况很罕见却确实会出现，比如游戏加载资源时或者风格或者语言切换时。
 
 ``hover``, ``idle``, ``selected_hover``, ``selected_idle``
    当包含此transform的按钮或者被此transform包含的按钮，出现对应的状态名称时触发。
