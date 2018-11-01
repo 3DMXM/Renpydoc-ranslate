@@ -348,6 +348,7 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 * 根据设置的RENPY_LANGUAGE环境变量。
 * 根据设置的 :var:`config.language` 。
 * 使用之前游戏中选择的语言选项。
+* 游戏第一次运行，并且 :var:`config.enable_language_autodetect` 的值是True时，Ren'Py会尝试使用 :var:`config.locale_to_language_function` 自动检测语言。
 * 游戏第一次运行时，使用 :var:`config.default_language` 。(默认使用None语言。)
 * 以上情况都未配置，使用None语言。
 

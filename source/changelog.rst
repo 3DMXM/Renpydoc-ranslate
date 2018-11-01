@@ -29,6 +29,20 @@ Ren'Py的界面语言现在支持包含匿名的ATL变换(transform)。比如现
 
 新增的 :var:`config.menu_include_disabled` 配置项，决定菜单是否应该包含可由if分句禁用的入口(entry)。
 
+.. _7.1.2-translations
+
+多语言支持
+------------
+
+Ren'Py now has the ability to automatically detect the locale of the user's
+system, and use it to set the language. Please see
+:var:`config.enable_language_autodetect` and the :ref:`Translation <translation>`
+documentation for how this works.
+现在Ren'Py能够自动检测使用者系统中的地区，并设置相应的语言。
+详见 :var:`config.enable_language_autodetect` 和 :ref:`多语言支持 <translation>` 部分文档。
+
+The German translation has been updated.
+
 .. _7.1.2-fixes
 
 修复
@@ -36,7 +50,19 @@ Ren'Py的界面语言现在支持包含匿名的ATL变换(transform)。比如现
 
 修复了一个Windows平台的bug。这个bug仅在使用阿拉伯语和希伯来语时出现(译者注：就是说中文用户不用管，所以这也不按原文翻译了)。
 
+如果读取某个图像(image)时，发现完全匹配图像名的图像不存在，但相同前缀(prefix)的图像存在时，现在Ren'Py会报一个错误(error)。在这次修改之前，如果图像eileen happy而要显示eileen happy unknown时，那个unknown属性(attribute)会被忽略。
+
+Lint工具功能提升，能够处理带属性(attribute)的非同名图像，比如层叠式图像(layerd image)。
+
+Ren'Py会生成适合手机显示的选项菜单图像。
+
+
 .. _history-7.1.1:
+
+7.1.1
+======
+
+.. _history-fixes-7.1.1:
 
 历史记录方面的bug修复
 -----------------------
@@ -129,7 +155,7 @@ Ren'Py支持 :func:`Character` 对象中 `ctc_position` 参数的一种新值“
 -----
 
 函数 :func:`SetVariable` 和 :func:`ToggleVariable` 入参类型已经扩展，可以接受命名空间加字段形式。
-所以现在可以使用类似``SetVariable("hero.strength", hero.strength + 1)`` 或 ``ToggleVariable("persistent.alternate_perspective")`` 这样的写法。
+所以现在可以使用类似 ``SetVariable("hero.strength", hero.strength + 1)`` 或 ``ToggleVariable("persistent.alternate_perspective")`` 这样的写法。
 
 对话窗口自动管理(使用 ``window auto`` 语句启用)是指，当游戏内菜单有关联的对话或标题时，会自动调整布局和尺寸。
 

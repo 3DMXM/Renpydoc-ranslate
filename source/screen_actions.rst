@@ -104,6 +104,15 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
   将某个对象的字段(field)设置为给定的值。 *object* 是目标对象， *field* 是待设置的域的名称的字符串， *value* 是需要设置成的值。
 
+.. function:: SetLocalVariable(name, value)
+
+  将指定的变量 `name` 设置为当前本地上下文中的值 `value`。
+
+  只有在某个界面(screen)被另一个场景(scene)使用的情况，才会用到该函数。其提供了一种方法，可以设置界面使用变量的值。
+  在其他需要修改变量值的情况下，推荐使用 :func:`SetScreenVariable()` ，那可以缓存更多的界面数据。
+
+  该函数能赋值的变量仅限当前上下文中创建——其他地方创建的变量不能通过该函数进行设置和传递。
+
 .. function:: SetScreenVariable(name, value)
 
   将与当前界面关联的变量 *name* 值设置为 *value* 。
@@ -131,6 +140,22 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
   `false_value`
     如果非None，这就是我们使用的False值。
+
+.. function:: ToggleLocalVariable(name, true_value=None, false_value=None)
+
+  切换当前本地上下文中 `name` 的值。
+
+  只有在某个界面(screen)被另一个场景(scene)使用的情况，才会用到该函数。其提供了一种方法，可以设置界面使用变量的值。
+  在其他需要修改变量值的情况下，推荐使用 :func:`ToggleScreenVariable()` ，那可以缓存更多的界面数据。
+
+  该函数能赋值的变量仅限当前上下文中创建——其他地方创建的变量不能通过该函数进行设置和传递。
+
+  `true_value`
+    如果非None，这就是我们使用的True值。
+
+  `false_value`
+    如果非None，这就是我们使用的False值。
+
 
 .. function:: ToggleScreenVariable(name, true_value=None, false_value=None)
 

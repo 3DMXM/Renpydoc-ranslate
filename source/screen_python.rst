@@ -200,9 +200,9 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
 
 有几个UI函数没有对应的界面语言语句，因为他们对应界面语言中没有的概念。
 
-.. function:: adjustment(range=1, value=0, step=None, page=None, changed=None, adjustable=None, ranged=None)
+.. function:: ui.adjustment(range=1, value=0, step=None, page=None, changed=None, adjustable=None, ranged=None)
 
-  Adjustment对象表示可以通过某个条(bar)或视口(viewport)调整的值。Adjustment对象包括值的信息，值的范围，以及修改这个对象使用的最小步长和最大页面(page)。
+  adjustment对象表示可以通过某个条(bar)或视口(viewport)调整的值。Adjustment对象包括值的信息，值的范围，以及修改这个对象使用的最小步长和最大页面(page)。
 
   下列参数分别对应Adjustment对象的字段(field)或者特性(property)。
 

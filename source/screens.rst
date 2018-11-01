@@ -1,4 +1,4 @@
-.. _screens:
+.. _screens-and-screen-language:
 
 ===========================
 界面和界面语言
@@ -70,7 +70,7 @@
 screen语句
 ----------------
 
-`screen` 语句在Ren'Py脚本语言中用于定义一个新的界面。其使用界面语言通用语法。
+``screen`` 语句在Ren'Py脚本语言中用于定义一个新的界面。其使用界面语言通用语法。
 
 screen语句使用一个参数，即界面名。界面名不是一个简单表达式，可以使用以下特性：
 
@@ -120,7 +120,22 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 所有用户接口语句使用下列通用特性：
 
 `at`
-    一个transform或者transform的列表，用于wrap可视组件。show、hide、replace和replaced external事件消息会传入transform，前提是transform是被直接添加到界面上的。
+    一个transform、transform的列表或者匿名transform(未定义直接在at中使用的transform)。
+
+    ::
+
+        transform hello_t:
+            align (0.7, 0.5) alpha 0.0
+            linear 0.5 alpha 1.0
+
+        screen hello_title():
+            text "Hello." at hello_t
+            text "Hello.":
+                at transform:
+                    align (0.2, 0.5) alpha 0.0
+                    linear 0.5 alpha 1.0
+
+    可用于wrap可视组件。show、hide、replace和replaced external事件消息会传入transform，前提是transform是被直接添加到界面上的。
 
     例如，如果某个vbox在某transform中被wrap，并直接添加到界面上，事件消息就会传给那个transform。但如果某个按键文本是添加到vbox再被加入transform中被warp，那么第二层的transform就不会接收到事件消息。
 
@@ -130,7 +145,7 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 `id`
     用户接口语句的标识号。当某个界面显示时，特性值可以通过给定的标识符提供给可视组件。某些界面会根据创建的标识号请求某个可视组件。
 
-    默认情况下，这个id是自动生成的。
+    默认情况下，这个 ``id`` 是自动生成的。
 
 `style`
     应用于可视组件的样式名。其可能是一个字符串名，也可能是一个样式对象。该样式指定样式特性的默认值。
@@ -143,7 +158,7 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
     样式名由样式前缀、下划线和样式后缀组成。样式后缀通过样式后缀
     `style_suffix` 或可视组件决定。
 
-    例如，如果某个vbox有一个样式前缀 ``"pref"`` ，这个vbox的样式名就是 ``"pref_vbox"``. 。除非设置了某个指定的样式或者样式前缀，vbox内的按钮会用样式
+    例如，如果某个vbox有一个样式前缀 ``"pref"`` ，这个vbox的样式名就是 ``"pref_vbox"`` 。除非设置了某个指定的样式或者样式前缀，vbox内的按钮会用样式
     ``"pref_button"``。
 
     如果样式不存在的话，使用这种方式接入的样式会被自动创建。将前缀设置为 ``None`` 会将可视组件及其子组件的所有前缀都移除。
@@ -168,10 +183,10 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 
 .. _sl-add:
 
-Add
+add
 ---
 
-在界面上添加一个图像或其他的可视组件。添加时可以选择使用 :ref:`transform特性列表 <transform-properties>`。如果至少使用了一项transform特性，用于wrap图像的transform就会被创建，特性值会赋予这个transform。
+在界面上添加一个图像或其他的可视组件。添加时可以选择使用 :ref:`transform特性列表 <list-of-transform-properties>`。如果至少使用了一项 :class:`Transform` 特性，用于wrap图像的transform就会被创建，特性值会赋予这个transform。
 
 如果可视组件为None，那不会有任何东西添加到界面上。
 
@@ -185,8 +200,8 @@ add语句不使用任何子组件。
 
 .. _sl-bar:
 
-Bar
----
+bar
+--------
 
 创建一个原本水平的条(bar)，可用于查看和调整数据。其使用以下特性：
 
@@ -229,10 +244,10 @@ Bar
 
 .. _sl-button:
 
-Button
-------
+按钮(button)
+-------------
 
-创建界面的一块区域，可以通过点击激活并运行一个动作。按钮(button)不使用参数，可以使用下列特性。
+创建界面的一块区域，可以通过点击激活并运行一个动作。按钮(button)不接受参数，可以使用下列特性。
 
 `action`
     当按键激活时会执行的动作。按钮被点击时会被激活，用户也可以使用其他方法选中按钮并按下键盘“Enter”键。在 `sensitive`
@@ -259,7 +274,7 @@ Button
 `alternate_keysym`
     给定了一个 :ref:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的可选变换动作。
 
-It also takes:
+它还可以使用下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -271,7 +286,7 @@ It also takes:
 
 .. _sl-fixed:
 
-Fixed
+fixed
 -----
 
 fixed创建了一块用于添加子组件的区域。默认情况下，固定布局(fixed)会扩展并填充整个可用区域，但 :propref:`xmaximum`
@@ -279,7 +294,7 @@ fixed创建了一块用于添加子组件的区域。默认情况下，固定布
 
 子组件们使用自身的位置样式特性实现布局。如果没有合适的设置位置，它们可能会重叠。
 
-fixed语句不使用参数，后面跟以下特性：
+fixed语句不接受参数，后面跟以下特性：
 
 * :ref:`通用特性  <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -300,8 +315,8 @@ fix使用多个子组件，它们会被添加到固定布局中。
 
 .. _sl-frame:
 
-Frame
------
+框架(frame)
+------------
 
 框架(frame)是窗口，该窗口包含一个背景，可用于显示用户接口元素，例如按钮、条(bar)和文本。其使用下列特性：
 
@@ -328,7 +343,7 @@ frame使用一个子组件。如果0个、两个或者更多子组件被应用�
 
 .. _sl-grid:
 
-Grid
+grid
 ----
 
 grid在一个网格系统中显示其子组件。每个子组件都会分配相同的区域大小，这个区域大小可以容纳最大的子组件。
@@ -361,10 +376,10 @@ grid中必须给定“行数×列数”的子组件。如果给出其他数量�
 
 .. _sl-hbox:
 
-Hbox
+hbox
 ----
 
-hbox的各个子组件会边靠着边显示，都在一个不可见的水平方块(box)内。其不使用参数，后面跟以下特性：
+hbox的各个子组件会边靠着边显示，都在一个不可见的水平方块(box)内。其不接受参数，后面跟以下特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -382,10 +397,10 @@ UI可视组件的子组件会被添加到方框(box)中。
 
 .. _sl-imagebutton:
 
-图片按钮
------------
+图片按钮(imagebutton)
+----------------------
 
-创建一个包含图像的按钮，当指针悬停在按钮上时，图像状态会发生改变。其不使用参数，使用下列特性：
+创建一个包含图像的按钮，当指针悬停在按钮上时，图像状态会发生改变。其不接受参数，使用下列特性：
 
 `auto`
     按钮使用图片自动定义。这个特性是个包含 %s 的字符串。如果某个图片特性是省略的，%s会被替换为对应特性名称，并使用对应值作为对应特性的默认值。
@@ -435,7 +450,7 @@ UI可视组件的子组件会被添加到方框(box)中。
 `alternate_keysym`
     给定了一个 :ref:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的变换动作。
 
-它还可以使用系列特性：
+它还可以使用下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -456,12 +471,12 @@ UI可视组件的子组件会被添加到方框(box)中。
 
 .. _sl-input:
 
-Input
------
+输入框(input)
+--------------
 
 创建一个文本输入区域，允许用户输入文本。当用户按下回车键，输入的文本会通过交互动作返回。(如果界面是通过 ``call screen`` 唤起的，输入结果会存放在 ``_return`` 变量中。)
 
-input语句不使用参数，可以跟下列特性：
+input语句不接受参数，可以跟下列特性：
 
 `value`
     此次输入使用的 :ref:`input value <input-values>` 对象。输入值对象决定了以下情况的默认处理方式：默认值从哪里获取，文本改变时会发生什么，用户输入回车后会发生什么，以及文本是否可编辑。
@@ -513,8 +528,8 @@ input语句不使用参数，可以跟下列特性：
 
 .. _sl-key:
 
-Key
----
+key语句
+---------
 
 key语句创建一个键盘按键绑定，可以通过按键运行某个动作。key语句的应用场景比较宽泛，可以支持手柄和鼠标事件。
 
@@ -535,8 +550,8 @@ key不包含子组件。
 
 .. _sl-label:
 
-Label
------
+脚本标签(label)
+----------------
 
 使用脚本标签(label)样式创建一个窗口(window)，并且将文本内容放置在窗口内。这种联合体用于在某个框架(frame)中将某些元素标签化。
 
@@ -569,7 +584,7 @@ label语句不包含任何子组件。
 
 .. _sl-null:
 
-Null
+null
 ----
 
 null语句在界面中插入了一块空的区域。其可以用于物体分隔开。null语句不包含参数，可以使用下列特性：
@@ -598,10 +613,10 @@ null语句不包含子组件：
 .. _mousearea:
 .. _sl-mousearea:
 
-Mousearea
+mousearea
 ---------
 
-mousearea是界面上划出一块区域，用于检测鼠标的进入或离开。与按钮(button)不同的是，鼠标区域不能获得焦点，所以在按钮内部可以存在一块鼠标区域。mousearea语句不使用参数，可以使用下列特性：
+mousearea是界面上划出一块区域，用于检测鼠标的进入或离开。与按钮(button)不同的是，鼠标区域不能获得焦点，所以在按钮内部可以存在一块鼠标区域。mousearea语句不接受参数，可以使用下列特性：
 
 `hovered`
     当鼠标进入鼠标区域时运行的动作。
@@ -645,7 +660,7 @@ mousearea语句不含子组件。
 
 .. _sl-side:
 
-Side
+side
 ----
 
 side语句把可视组件放置在一个网格的角落或者中间。其使用一个字符串型参数，字符串内包含空格样式的位置信息列表，用于配置子组件。列表中的每个元素都应该是下列字符串之一：
@@ -680,7 +695,7 @@ side语句还可以使用如下特性：
 
 .. _sl-text:
 
-Text
+text
 ----
 
 text语句会显示文本。其使用一个参数，就是用于显示的文本内容。其也使用下列特性：
@@ -698,7 +713,7 @@ text语句没有子组件。
 
 .. _sl-textbutton:
 
-Textbutton
+textbutton
 ----------
 
 创建一个包含脚本标签(label)的按钮。按钮使用一个参数，即按钮内显示的文本内容。其可以使用下列特性：
@@ -752,7 +767,7 @@ textbutton还可以使用如下特性：
 
 .. _sl-timer:
 
-Timer
+timer
 -----
 
 timer语句会创建一个计时器，当预订的时间结束后运行某个动作。其使用一个固定位置参数，给出计时的时间值，单位为秒。timer语句使用下列特性：
@@ -776,7 +791,7 @@ timer不包含子组件。
 
 .. _sl-transform:
 
-Transform
+transform
 ---------
 
 将一个transform应用于其子组件。transform没有参数，可以使用下列特性：
@@ -789,7 +804,7 @@ transform下有一个子组件。
 
 .. _sl-vbar:
 
-Vbar
+vbar
 ----
 
 等效于原生垂直的 `bar`_ 。 使用特性与条 `bar` 一样。
@@ -807,10 +822,10 @@ Vbar
 
 .. _sl-vbox:
 
-Vbox
+vbox
 ----
 
-纵向排列子组件的不可是垂直方框(box)。vbox不使用参数，可以使用下列特性：
+纵向排列子组件的不可是垂直方框(box)。vbox不接受参数，可以使用下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -828,14 +843,15 @@ UI可视组件作为子组件添加到vbox：
 
 .. _sl-viewport:
 
-Viewport
+viewport
 --------
 
-视口是界面中的某块区域，可以使用鼠标滚轮或者滚动条进行滚动。视口可以用于显示某些比界面更大的东西。其使用以下特性：
+视口(viewport)是界面中的某块区域，可以使用鼠标滚轮或者滚动条进行滚动。视口可以用于显示某些比界面更大的东西。其使用以下特性：
 
 `child_size`
     待渲染子组件的尺寸，是一个 (`xsize`,
     `ysize`) 形式的元组。该值通常是省略的，子组件可以自己计算尺寸。如果所有组件的尺寸特性都为空，则使用子组件的尺寸信息。
+
 `mousewheel`
     该值可以是下列之一：
 
@@ -849,8 +865,10 @@ Viewport
         垂直滚动视口，只有使用change操作才能触发视口移动。如果change为空，鼠标滚轮时间会传给其他用户接口。(例如，如果给定change的值，并在viewport语句之前放了  ``key "viewport_wheeldown" action Return()`` ，当视口滚动到底部时就会触发界面返回。)
     "horizontal-change"
         与change模式一同使用，决定水平滚动的情况。
+
 `draggable`
     若为True，鼠标拖动就能滚动视口。
+
 `edgescroll`
     当鼠标到达视口边缘时，控制滚动动作。若该值非空，应该是一个2元或者3元的元组。
 
@@ -862,19 +880,25 @@ Viewport
 
 `xadjustment`
     :func:`ui.adjustment` 对象，用作视口x轴的调整。当该特性省略时，就会创建一个新的adjustment对象。
+
 `yadjustment`
     :func:`ui.adjustment` 对象，用作视口y轴的调整。当该特性省略时，就会创建一个新的adjustment对象。
+
 `xinitial`
     视口初始水平偏移量。其可以是一个整数，表示像素数；也可以是一个浮点数，表示一个可能的偏移比例。
+
 `yinitial`
     视口初始垂直偏移量。其可以是一个整数，表示像素数；也可以是一个浮点数，表示一个可能的偏移比例。
+
 `scrollbars`
     若不为None，滚动条会添加到视口上。scrollbar会创建一个单边布局(layout)，并把视口放在单边的中间。如果 `scrollbars` 的值是 "horizontal"，就在视口上创建一个水平的滚动条。如果 `scrollbars`
     的值是 "vertical"，就在视口上创建一个垂直的滚动条。如果 `scrollbars` 的值是 "both"，水平和垂直滚动条都会被创建。
 
     若 `scrollbars` 不为None，视口会使用前缀为 "side_". 的特性。这些特性会传给创建的单边布局(layout)。
+
 `arrowkeys`
     若为True，视口可以使用上下左右方向键进行滚动。这种情况下方向键的作用优先于方向键的其他功能。当视口到达限制时，方向键会改变焦点。
+
 `pagekeys`
     若为True，视口可以使用翻页键向上和向下滚动。这会让翻页键原本的功能失效。原本的功能是回滚和前进。
 
@@ -904,7 +928,7 @@ Viewport
 
 .. _sl-vpgrid:
 
-Vpgrid
+vpgrid
 ------
 
 vpgrid(viewport grid)将视口与网格(grid)结合为单个的可视组件。vpgrid(像grid一般)包含多个子组件，并且经过优化使得视口内只有可以显示的子组件才会被渲染。
@@ -943,8 +967,7 @@ vpgrid使用下列特性：
 
             scrollbars "vertical"
 
-            # Since we have scrollbars, we have to position the side, rather
-            # than the vpgrid proper.
+            # 由于我们有scrollbar，所以我们必须设置“边”的位置，而不需要设置vpgrid。
             side_xalign 0.5
 
             for i in range(1, 100):
@@ -957,7 +980,7 @@ vpgrid使用下列特性：
 
 .. _sl-window:
 
-Window
+window
 ------
 
 window是个包含背景的窗口，用于显示游戏内对话。其使用下列特性：
@@ -1009,10 +1032,10 @@ imagemap语句
 
 .. _sl-imagemap:
 
-Imagemap
+imagemap
 --------
 
-imagemap语句用于指定一个imagemap。其不使用参数，后面跟下列特性：
+imagemap语句用于指定一个imagemap。其不接受参数，后面跟下列特性：
 
 `auto`
     自动定义imagemap使用的图像。图像名是一个字符串，包含“%s”。如果文件存在，且某个图像特性是省略的，“%s”会使用对应特性名替换，其值作为特性的默认值。
@@ -1058,7 +1081,7 @@ imagemap会创建一个固定位置布局，允许任意子组件被添加到那
 
 .. _sl-hotspot:
 
-Hotspot
+hotspot
 -------
 
 hotspot是由imagemap内一部分图像组成的按钮。其使用一个参数，一个(x, y, width, height)形式的元组，给定了imagemap内组成按钮的区域。其也使用下列特性：
@@ -1098,7 +1121,7 @@ hotspot可以被赋予 ``alt`` 样式特性，允许Ren'Py的自动语音特性�
 
 .. _sl-hotbar:
 
-Hotbar
+hotbar
 ------
 
 hotbar是由imagemap内一部分图像组成的条(bar)。其使用一个参数，一个(x, y, width, height)形式的元组，给定了imagemap内组成条(bar)的区域。其也使用下列特性：
@@ -1122,6 +1145,7 @@ hotbar没有子组件。
 
 hotbar可以被赋予 ``alt`` 样式特性，允许Ren'Py的自动语音特性能工作。
 
+.. _sl-advanced-displayables:
 
 高级可视组件
 =====================
@@ -1140,7 +1164,7 @@ hotbar可以被赋予 ``alt`` 样式特性，允许Ren'Py的自动语音特性�
 
 .. _sl-has:
 
-Has 语句
+has语句
 =============
 
 has语句允许你指定一个容器用于容纳单个子组件，而不使用固定网格(fixed)。has语句只能用在语句内部包含一个子组件的情况。关键词 ``has`` 后面(同一个逻辑行)会接另一个语句，那个语句会创建一个包含多个子组件的容器型可视组件。
@@ -1171,6 +1195,7 @@ has语句可以使用下列语句创建的容器：
             bar value Preference("music volume")
             bar value Preference("voice volume")
 
+.. _sl-control-statements:
 
 控制语句
 ==================
@@ -1179,10 +1204,10 @@ has语句可以使用下列语句创建的容器：
 
 .. _sl-default:
 
-Default
+default
 -------
 
-default语句在第一个界面设置某个变量的默认值。:func:`SetScreenVariable`
+``default`` 语句在第一个界面设置某个变量的默认值。:func:`SetScreenVariable`
 
 某个变量不会作为该界面的入参或者需要我们使用use语句继承自某个界面的情况下，default语句设置变量的默认值。
 
@@ -1201,10 +1226,10 @@ default语句在第一个界面设置某个变量的默认值。:func:`SetScreen
 
 .. _sl-for:
 
-For
+for
 ---
 
-for语句类似于Python中的for语句，差别在于这里的for语句不支持else分句。for语句支持使用数组型表达式，效果与使用变量一样。
+``for`` 语句类似于Python中的 ``for`` 语句，差别在于这里的for语句不支持 ``else`` 分句。for语句支持使用数组型表达式，效果与使用变量一样。
 
 ::
 
@@ -1226,16 +1251,16 @@ for语句支持index子句：
             for i, numeral index numeral in enumerate(numerals):
                 textbutton numeral action Return(i + 1)
 
-如果有index子句，应该包含返回一个可排列且可比较的值的表达式，对列表中的每一行都是唯一的。
+如果有 ``index`` 分句，应该包含返回一个可排列且可比较的值的表达式，对列表中的每一行都是唯一的。
 Ren'Py 使用这个值来确保变换和其他状态与正确的迭代相关联。 如果在元素添加到正在迭代的列表中或从中删除元素时看到奇怪的表现，则可能需要使用index子句。
 
 
 .. _sl-if:
 
-If
+if
 --
 
-界面语言if语句与Python/Ren'Py的if语句相同。支持if、elif和else分句。
+界面语言 ``if`` 语句与Python/Ren'Py的 ``if`` 语句相同。其支持 ``if``、``elif`` 和 ``else`` 分句。
 
 ::
 
@@ -1247,10 +1272,10 @@ If
 
 .. _sl-on:
 
-On
+on
 --
 
-on语句允许某个事件消息发生时，界面执行某个动作。其使用一个参数，即事件消息名的字符串。事件名包括：
+``on`` 语句允许某个事件消息发生时，界面执行某个动作。其使用一个参数，即事件消息名的字符串。事件名包括：
 
 * ``"show"``
 * ``"hide"``
@@ -1275,10 +1300,10 @@ on语句使用 一个action特性，给定了事件发生时运行的动作。
 
 .. _sl-use:
 
-Use
+use
 ---
 
-use语句允许一个界面包含另一个界面。其使用待use的界面名作为参数，也可以使用圆括号内的一个参数列表。
+``use`` 语句允许一个界面包含另一个界面。其使用待use的界面名作为参数，也可以使用圆括号内的一个参数列表。
 
 如果被use语句使用的界面包含参数，入参声明后时会初始化为参数的值。另外，当前界面传入的参数，会更新相同关键词参数的值。
 
@@ -1358,12 +1383,12 @@ use语句也可以包含一个界面语言的语句块(block)，语句块中可�
 
     screen test:
         use movable_frame((0, 0)):
-            text "You can drag me."
+            text "你可以拖拽我。"
 
         use movable_frame((0, 100)):
             vbox:
-                text "You can drag me too."
-                textbutton "Got it!" action Return(True)
+                text "你也可以拖拽我。"
+                textbutton "搞定！" action Return(True)
 
 use和transclude结构是
 :ref:`创作者定义的界面语言语句 <creator-defined-sl>` 的基础。
@@ -1395,20 +1420,22 @@ Python
 showif语句
 ================
 
-showif语句含有一个条件判断。只有当条件为True时，其子组件会显示；条件为False时，子组件隐藏。当showif的子组件含有transform时，其会向子组件提供ATL事件，用于管理子组件的显示和隐藏。Ren'Py也可以据此实现显示和隐藏的序列化。
+``showif`` 语句含有一个条件判断。只有当条件为True时，其子组件会显示；条件为False时，子组件隐藏。当showif的子组件含有transform时，其会向子组件提供ATL事件，用于管理子组件的显示和隐藏。Ren'Py也可以据此实现显示和隐藏的序列化。
 
-多个showif语句可以组成一个showif/elif/else结构体，类似于一个if语句。 **与if语句不通的地方在于，showif执行其下所有的语句块(block)，包括Python语句，尽管某些条件结果是False。** 这是由于showif语句需要先创建子组件然后再隐藏子组件。
+多个showif语句可以组成一个 ``showif`` / ``elif`` / ``else`` 结构体，类似于一个if语句。 **与if语句不同之处在于，showif执行其下所有的语句块(block)，包括Python语句，尽管某些条件结果是False。** 这是由于showif语句需要先创建子组件然后再隐藏子组件。
 
 showif语句会向其子组件传送三种事件消息：
 
 ``appear``
     若条件判断为True，首先显示界面时，会传送并立刻显示子组件。
+
 ``show``
     当条件判断由False变为True时，会传送给子组件。
+
 ``hide``
     当条件判断由True变为False时，会传送给子组件。
 
-基于这些需求，当if的主条件判断为True时elif语句的条件判断分句总是为False，而else分句只有当所有主要条件判断都为False时才会为True。
+基于这些需求，当if的主条件判断为True时 ``elif`` 语句的条件判断分句总是为False，而else分句只有当所有主要条件判断都为False时才会为True。
 
 举例：
 
@@ -1449,7 +1476,7 @@ showif语句会向其子组件传送三种事件消息：
 
 .. _screen-statements:
 
-Screen语句
+screen语句
 =================
 
 除了screen语句，还有三种Ren'Py脚本语言语句可以唤起界面。
@@ -1458,16 +1485,16 @@ Screen语句
 
 .. _show-screen:
 
-Show Screen
+show screen
 -----------
 
-show screen语句会触发某个界面的显示。其使用一个界面名作为参数，后面还有一个可选的参数列表。如果参数列表出现，这些参数用作初始化界面作用域(scope)内的变量。
+``show screen`` 语句会触发某个界面的显示。其使用一个界面名作为参数，后面还有一个可选的参数列表。如果参数列表出现，这些参数用作初始化界面作用域(scope)内的变量。
 
 show screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面前缀出现。当界面含有前缀时，传入界面的入参会被计算。请确保作为界面入参的表达式不会引起不希望出现的副作用。
 
 .. warning::
 
-    如果计算入参表达式会引发界面的副作用，你的游戏可能会有不希望出现的动作。
+    如果计算入参表达式会引发界面的副作用，你的游戏可能会出现不希望出现的情况。
 
 使用这种方式的界面会一直显示，除非有明确的语句隐藏界面。这个设计可以用作界面的互相覆盖。
 
@@ -1481,10 +1508,10 @@ show screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面
 
 .. _hide-screen:
 
-Hide Screen
+hide screen
 -----------
 
-hide screen语句用于隐藏当前正在显示的界面。如果指定的界面并没有显示，不会发生任何事
+``hide screen`` 语句用于隐藏当前正在显示的界面。如果指定的界面并没有显示，不会发生任何事
 
 ::
 
@@ -1493,12 +1520,12 @@ hide screen语句用于隐藏当前正在显示的界面。如果指定的界面
 
 .. _call-screen:
 
-Call Screen
+call screen
 -----------
 
-call screen语句会显示一个界面，在当前互动动作之后会隐藏这个界面。如果界面会返回一个值，返回值会放在 `_return` 中。
+``call screen`` 语句会显示一个界面，在当前互动动作之后会隐藏这个界面。如果界面会返回一个值，返回值会放在 ``_return`` 中。
 
-这可以用来显示一个imagemap。imagemap可以使用 :func:`Return` 动作将一个值放入 `_return` 变量，或者使用 :func:`Jump` 动作跳转到某个脚本标签(label)。
+这可以用来显示一个imagemap。imagemap可以使用 :func:`Return` 动作将一个值放入 ``_return`` 变量，或者使用 :func:`Jump` 动作跳转到某个脚本标签(label)。
 
 call screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面前缀出现。当界面含有前缀时，传入界面的入参会被计算。请确保作为界面入参的表达式不会引起不希望出现的副作用。
 
@@ -1506,7 +1533,7 @@ call screen语句使用一个可选的 ``with`` 关键词，后面跟一个转�
 
 .. warning::
 
-    如果评估屏幕上的参数会导致副作用发生，您的游戏可能会出现意想不到的行为。
+    如果评估屏幕上的参数会导致副作用发生，你的游戏可能会出现不希望出现的情况。
 
 ::
 
@@ -1525,7 +1552,7 @@ call screen语句使用一个可选的 ``with`` 关键词，后面跟一个转�
 
 Ren'Py可以同时运行在两种平台上：一种是传统的键鼠设备平台，比如Windows系统、Mac系统和Linux PC版；另一种是新的触控设备平台，比如基于安卓系统的智能手机和平板。界面变种允许一个游戏根据不同的硬件信息提供不同版本的界面。
 
-Ren'Py通过顺序搜索 :var:`config.variants` 中的variant项来选择使用何种界面。会使用找到第一个variant。
+Ren'Py通过顺序搜索 :var:`config.variants` 中的variant项来选择使用何种界面，并使用找到第一个variant。
 
 如果环境变量 RENPY_VARIANT存在，config.variants就会使用RENPY_VARIANT中用空格分隔的各项值进行初始化。将RENPY_VARIANT设置为针对安卓设备的
 ``"medium tablet touch"`` 或 ``"small phone touch"`` ，就可以在PC端调测了。
@@ -1572,7 +1599,7 @@ Ren'Py通过顺序搜索 :var:`config.variants` 中的variant项来选择使用�
    Windows、Mac OS X和Linux平台。PC表示会有键鼠设备，允许鼠标悬停(hover)状态和精确点击。
 
 ``None``
-   这项总是存在。
+   默认定义。
 
 定义一个界面变种的样例如下：
 

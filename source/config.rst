@@ -290,6 +290,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     这项的默认用法是，叙述者角色显示一个空白行不使用互动行为。
 
+.. var:: config.enable_language_autodetect = False
+
+    若为True，Ren'Py会尝试根据玩家系统的地区信息自动决定使用的语言。若自动检测并设置成功，这种语言后续将作为默认的语言。
+
 .. var:: config.enter_sound = None
 
     若非None，这是进入游戏菜单播放的音效文件。
