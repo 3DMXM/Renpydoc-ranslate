@@ -123,8 +123,7 @@ interpolation语句的第一部分用于选择使用的time-warp函数。(即，
 
 interpolation语句可以包含一些其他分句。若出现了特性(property)和对应的值，在interpolation结尾，特性(property)就能获得那个值。该值的获得可以通过以下几种方式：
 
-* 如果那个值后面跟着一个或者两个节点，就使用样条(spline)运动。整个interpolation开头的特性值就是起点，上文提到的特性值就是终点，连接符用于控制样条(spline)。
-(译者注：在CAD和CG中，样条spline通常是指分段定义的多项式参数曲线。)
+* 如果那个值后面跟着一个或者两个节点，就使用样条(spline)运动。整个interpolation开头的特性值就是起点，上文提到的特性值就是终点，连接符用于控制样条(spline)。(译者注：在CAD和CG中，样条spline通常是指分段定义的多项式参数曲线。)
 
 * 如果interpolation语句包含一个“clockwise”或者“counterclockwise”分句，就使用圆周(circular)运动，后面会解释这点。
 
@@ -529,7 +528,7 @@ easeout_quint       easeIn_quint
         def linear(t):
             return t
 
-.. _list-of-transform-properties:
+.. _transform-properties:
 
 transform特性列表
 ============================

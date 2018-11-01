@@ -29,7 +29,7 @@ Ren'Py的界面语言现在支持包含匿名的ATL变换(transform)。比如现
 
 新增的 :var:`config.menu_include_disabled` 配置项，决定菜单是否应该包含可由if分句禁用的入口(entry)。
 
-.. _7.1.2-translations
+.. _7.1.2-translations:
 
 多语言支持
 ------------
@@ -43,7 +43,7 @@ documentation for how this works.
 
 The German translation has been updated.
 
-.. _7.1.2-fixes
+.. _7.1.2-fixes:
 
 修复
 -----

@@ -1,4 +1,4 @@
-.. _screens-and-screen-language:
+.. _screens:
 
 ===========================
 界面和界面语言
