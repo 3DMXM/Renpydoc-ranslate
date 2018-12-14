@@ -186,7 +186,7 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 add
 ---
 
-在界面上添加一个图像或其他的可视组件。添加时可以选择使用 :ref:`transform特性列表 <list-of-transform-properties>`。如果至少使用了一项 :class:`Transform` 特性，用于wrap图像的transform就会被创建，特性值会赋予这个transform。
+在界面上添加一个图像或其他的可视组件。添加时可以选择使用 :ref:`transform特性列表 <transform-properties>`。如果至少使用了一项 :class:`Transform` 特性，用于wrap图像的transform就会被创建，特性值会赋予这个transform。
 
 如果可视组件为None，那不会有任何东西添加到界面上。
 

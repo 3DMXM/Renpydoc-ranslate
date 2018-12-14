@@ -34,14 +34,10 @@ Ren'Py的界面语言现在支持包含匿名的ATL变换(transform)。比如现
 多语言支持
 ------------
 
-Ren'Py now has the ability to automatically detect the locale of the user's
-system, and use it to set the language. Please see
-:var:`config.enable_language_autodetect` and the :ref:`Translation <translation>`
-documentation for how this works.
 现在Ren'Py能够自动检测使用者系统中的地区，并设置相应的语言。
 详见 :var:`config.enable_language_autodetect` 和 :ref:`多语言支持 <translation>` 部分文档。
 
-The German translation has been updated.
+德语部分更新。
 
 .. _7.1.2-fixes:
 
