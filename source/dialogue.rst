@@ -96,12 +96,12 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
   **改变角色显示名** 该可选项用于控制显示角色名。
 
   `dynamic`
-    该参数若为真(true)，角色名应是一个包含python表达式的字符串。该字符串会在每行对话执行前先演算，将演算结果用作角色名。
+    该参数若为True，角色名 `name` 应是一个包含python表达式的字符串。该字符串会在每行对话执行前先演算，将演算结果用作角色名。
 
   **互动控制** 这些可选项在“对话展示、发生互动、模式输入”情况下控制显示效果。
 
   `condition`
-    若给定，该参数应是一个包含python表达式的字符串。若表达式结果为假(false)，对话不会发生，即say语句不会执行。
+    若给定，该参数应是一个包含python表达式的字符串。若表达式结果为False，对话不会发生，即say语句不会执行。
 
   `interact`
     若该值为True，默认情况下无论对话何时被展现，都会发生一项互动。若该值为False，则互动不会发生，而一些额外元素可以被添加到界面上。
@@ -124,7 +124,7 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
     当文本显示被{p}或{w}标签(tag)暂停时，用作“点击继续”提示的一个可视组件。
 
   `ctc_timedpause`
-    当文本显示被{p=}或{w=}标签(tag)暂停时，用作“点击继续”提示的一个可视组件。当该值为None时，会使用ctc_pause的值作为默认值。若你想要使用ctc_pause而不是ctc_timedpause，请使用 ``Null()`` 。
+    当文本显示被{p=}或{w=}标签(tag)暂停时，用作“点击继续”提示的一个可视组件。当该值为None时，会使用 `ctc_pause` 的值作为默认值。若你想要使用 `ctc_pause` 而不是 `ctc_timedpause` ，请使用 ``Null()`` 。
 
   `ctc_position`
     该参数控制“点击继续”提示的位置。若值为 ``"nestled"`` ，该提示会作为目前展示文本的一部分出现，在最后一个字符显示后立即出现相应提示。若值为 ``"fixed"`` ，提示会被直接添加到界面上，其在界面上的位置由位置风格属性控制。
@@ -261,8 +261,7 @@ Ren'Py中包括几种语句，允许管理对话窗口。由于对话窗口在�
 ``window auto``
   window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show` 中列出的语句——默认是say语句前，窗口会自动展现。在 :var:`config.window_auto_hide` 中列出的语句——默认是 ``scene`` 和 ``call screen`` 以及带标题的 ``menu`` 语句前，窗口会自动隐藏。(只有直接显式使用该语句才有效，而函数返回该语句内容相同的字符串不生效。)
 
-``window auto`` 语句分别使用 :var:`config.window_show_transition`
-和:var:`config.window_hide_transition` 作为显示和隐藏窗口的转场效果。 ``window auto`` 启用的自动化管理可以被 ``window show`` 或者 ``window hide`` 语句关闭。
+``window auto`` 语句分别使用 :var:`config.window_show_transition` 和 :var:`config.window_hide_transition` 作为显示和隐藏窗口的转场效果。 ``window auto`` 启用的自动化管理可以被 ``window show`` 或者 ``window hide`` 语句关闭。
 
 举例：
 

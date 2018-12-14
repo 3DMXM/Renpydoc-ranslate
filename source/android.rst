@@ -90,7 +90,7 @@ Television / OUYA
 
 .. highlight:: none
 
-.. _building-android-applications:
+.. _android-building:
 
 生成安卓应用程序
 =============================

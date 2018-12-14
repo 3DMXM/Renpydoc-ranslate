@@ -16,14 +16,13 @@
 * Aleema
 * Alessio
 * Alexandre Tranchant
-* Andylkl
+* Andy_kl
 * Apricotorange
 * Arowana-vx
 * Asfdfdfd
 * Auro-Cyanide
 * Baekansi
 * Bbs3223474
-* Beuc
 * BlackDragonHunt/Mangagamer
 * Bryan Tsang
 * Carl
@@ -136,6 +135,7 @@
 * Winter Wolves
 * Xavi-Mat
 * Xela
+* Zedraxlo
 * Zhangning
 * Zigmut
 
