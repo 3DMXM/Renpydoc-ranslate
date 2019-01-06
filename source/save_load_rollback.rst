@@ -188,7 +188,8 @@ Ren'Py使用Python的pickle系统保存游戏状态。这个模块可以保存�
   将游戏状态保存至某个存档槽。
 
   `filename`
-    一个表示存档槽名称的字符串。Despite the variable name, this corresponds only loosely to filenames.
+    一个表示存档槽名称的字符串。
+    这是个变量名，不要求与存档文件名严格对应。
 
   `extra_info`
     会保存在存档文件中的一个额外字符串。通常就是 :func:`save_name` 的值。

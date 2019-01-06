@@ -21,7 +21,7 @@ Ren'Py有一些存储区配置项，控制存储区的功能。存储区配置�
 
     这项配置的是一个界面名，当进入游戏菜单而没有指定界面时，就会显示这个界面。(例如，右键点击、按下Esc键、不带入参调用 :func:`ShowMenu` 等。)若为None，则禁止进入游戏菜单。
 
-    在splashscreeen启动阶段，这项会设置为None。知道splashscreen结束后会恢复为原来的值。
+    在splashscreeen启动阶段，这项会设置为None。直到splashscreen结束后会恢复为原来的值。
 
 .. var:: _history = True
 
