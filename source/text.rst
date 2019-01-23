@@ -83,7 +83,7 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
 ::
 
-    g "Don't pull a fast one on me, [playername!q]."
+    g "你别想忽悠我， [playername!q] ！"
 
 !t转换标记会转换或计算内插字符串的值：
 
@@ -612,7 +612,7 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 文本组件
 =================
 
-文本也可以用作一个 :ref:`displayable <displayables>`，这意味着你可以在文本上应用各种表单格式(transform)，可以当作一个图片显示并在界面上移动它的位置。
+文本也可以用作一个 :ref:`displayable <displayables>`，这意味着你可以在文本上应用各种变换(transform)，可以当作一个图片显示并在界面上移动它的位置。
 
 .. function:: renpy.ParameterizedText(style='default', `properties)
 
