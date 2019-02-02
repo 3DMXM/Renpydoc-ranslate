@@ -1,11 +1,11 @@
 .. _interactive-director:
 
-交互式指导器(interactive director)
+交互式编导器(interactive director)
 =====================================
 
-交互式指导器(interactive director)是一个工具，允许你在Ren'Py中直接编辑游戏脚本，并能直接预览编辑的结果。指导器(director)并不意味着可能完全代替文本编辑器。我们依然需要文本编辑器来撰写视觉小说的对话、选项和逻辑。
+交互式编导器(interactive director)是一个工具，允许你在Ren'Py中直接编辑游戏脚本，并能直接预览编辑的结果。编导器(director)并不意味着可能完全代替文本编辑器。我们依然需要文本编辑器来撰写视觉小说的对话、选项和逻辑。
 
-指导器(director)意在帮助你完成游戏脚本，比如添加：
+编导器(director)意在帮助你完成游戏脚本，比如添加：
 
 * image(say、show、hide)语句。
 * transition(with)语句。
@@ -13,12 +13,12 @@
 
 .. _using-the-director:
 
-使用指导器(director)
+使用编导器(director)
 ---------------------
 
-你可以在游戏开始后按下键盘的D键(不带shift)接入指导器(director)。如果这是你在某个会话中首次接入指导器，Ren'Py会重新加载整个游戏以确保可能会被编辑的数据无误。
+你可以在游戏开始后按下键盘的D键(不带shift)接入编导器(director)。如果这是你在某个会话中首次接入编导器，Ren'Py会重新加载整个游戏以确保可能会被编辑的数据无误。
 
-你会看到的第一个指导器界面是一个当前行之前运行过的行的列表。点击指导器窗口之外的部分让脚本继续前进或者回滚。点击各行之间的加号“+”能够添加一行，或者点击每行之前的 ✎ 符号能编辑对应的行。
+你会看到的第一个编导器界面是一个当前行之前运行过的行的列表。点击编导器窗口之外的部分让脚本继续前进或者回滚。点击各行之间的加号“+”能够添加一行，或者点击每行之前的 ✎ 符号能编辑对应的行。
 
 编辑某一行时，可以选择语句类型，以及何时的参数。选择“添加”添加新行，“更改”修改已存在的某行，“取消”取消编辑，“移除”移除存在的某行。
 
@@ -29,7 +29,7 @@
 配置项
 ---------
 
-在命名空间 ``director`` 定义了一些配置项，用于控制交互式指导器(interactive director)的功能。这些配置项可以使用define语句设置，或者使用Python语句修改。
+在命名空间 ``director`` 定义了一些配置项，用于控制交互式编导器(interactive director)的功能。这些配置项可以使用define语句设置，或者使用Python语句修改。
 
 .. _scene-show-and-hide:
 
@@ -89,7 +89,7 @@ Access
 
 .. var:: director.button = True
 
-    若为True，指导器(director)会显示一个带按钮的界面，用于接入指导器窗口。若为False，游戏提供自身的接入方式，通过执行可用的director.Start动作。
+    若为True，编导器(director)会显示一个带按钮的界面，用于接入编导器窗口。若为False，游戏提供自身的接入方式，通过执行可用的director.Start动作。
 
 .. _line-spacing:
 
@@ -98,15 +98,15 @@ Access
 
 .. var:: director.spacing = 1
 
-    指导器(director)行(包括scene、show、hide、with、play、queue和voice)，与非指导器行之间的间隔。间隔应该是0行或者1行，更大的间隔可能不会起效。
+    编导器(director)行(包括scene、show、hide、with、play、queue和voice)，与非编导器行之间的间隔。间隔应该是0行或者1行，更大的间隔可能不会起效。
 
 .. var:: director.director_spacing = 0
 
-    连续两个指导器行的间隔。
+    连续两个编导器行的间隔。
 
 .. var:: director.other_spacing = 0
 
-    两虚两个非指导器行的间隔。
+    两虚两个非编导器行的间隔。
 
 .. _viewport:
 
@@ -115,7 +115,7 @@ Access
 
 .. var:: director.viewport_height = 280
 
-    指导器使用的可滚动视点的最大高度。
+    编导器使用的可滚动视点的最大高度。
 
 .. _audio-filename-functions:
 
