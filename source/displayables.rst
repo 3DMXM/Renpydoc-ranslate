@@ -309,7 +309,7 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
   `predict_all`
     若为True，当显示可视组件时，所有可能的可视组件都会提前缓存。若为False，只加载当前条件表达式的可视组件。若为None，使用 :func:`config.conditionswitch_predict_all` 的配置。
 
-  ShowingSwitch的一个用途是，根据角色感情更改角色周围的图像。例如：
+  ShowingSwitch的一个用途是，根据角色感情更改角色边栏头像。例如：
 
   ::
 
@@ -480,7 +480,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
 .. function:: im.Grayscale(im, **properties)
 
-  该图像操纵器创建了一个 *im* 的灰度版本(即不带色彩饱和度为0)。
+  该图像操纵器创建了一个 *im* 的灰度版本(即色彩饱和度为0)。
 
 .. function:: im.Scale(im, width, height, bilinear=True, **properties)
 

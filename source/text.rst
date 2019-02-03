@@ -645,7 +645,7 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
     决定文本是否缓慢显示，即在界面上逐个显示出每个字符。若为None，缓慢文本模式取决于slow_cps样式特性。否则，是否启用缓慢文本模式由此处参数slow决定。
 
   `scope`
-    若不为None，该值应该是一个字典型数值，提供了额外的视角(scope)供文本内插(interpolation)的使用。
+    若不为None，该值应该是一个字典型数值，提供了额外的作用域(scope)供文本内插(interpolation)的使用。
 
   `substitute`
     若该值为真(true)，则应用文本内插(interpolation)。若该值为假(false)，不应用文本内插。若该值为None，由config.new_substitutions控制文本内插表现。
@@ -664,6 +664,22 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
   `deny`
     禁止通过的标签的集。如果某个标签不在该列表中，将会保留在字符串中。
+
+.. function:: renpy.transform_text(s, function)
+
+  转换字符串s，但保留s的文本标签和内插文本不变。
+
+  `function`
+    一个转换函数，将文本进行转换并返回转换后的文本。
+
+  ::
+
+      init python:
+          def upper(s):
+              return s.upper()
+
+      # 译者注，官方文档原文有误，运行会报语法错误。此处为正确语法。
+      $ upper = renpy.transform_text("{b}Not Upper{/b}", upper)
 
 .. _slow-text-concerns:
 
