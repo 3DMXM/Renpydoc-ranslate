@@ -106,16 +106,16 @@ Access
 
 .. var:: director.other_spacing = 0
 
-    两虚两个非编导器行的间隔。
+    连续两个非编导器行的间隔。
 
 .. _viewport:
 
-视点
+视口
 ^^^^^^^^
 
 .. var:: director.viewport_height = 280
 
-    编导器使用的可滚动视点的最大高度。
+    编导器使用的可滚动视口的最大高度。
 
 .. _audio-filename-functions:
 
