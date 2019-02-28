@@ -56,3 +56,62 @@ if分句包含关键词 ``if`` ，后面跟着一个python表达式。只有当�
             ...
 
 只有在“the drank_tea”变量为True时才显示第三个选项。(不过，如果配置项 :var:`config.menu_include_disabled` 被设置为True的话，这个选项会显示为一个不可用的按钮。)
+
+.. _menu-set:
+
+菜单集(menu set)
+----------------
+
+menu语句后面可以使用一个set从句。set从句单独占一行。
+当menu后面存在set从句时，只有菜单集(menuset)中没有的选项标题才会单独显示。
+当某个选项被选中后，对应标题就可以添加到菜单集中。
+
+如果整个菜单中没有任何一个可用的选项，就直接进入menu语句后面的脚本。
+
+基于某些历史原因，菜单集可以是一个set对象或者一个列表。
+
+::
+    default menuset = set()
+
+    menu chapter_1_places:
+
+        set menuset
+        "我该去哪里呢？"
+
+        "去上课。":
+            jump go_to_class
+
+        "去酒吧。":
+            jump go_to_bar
+
+        "去监狱。":
+            jump go_to_jail
+
+    menu chapter_1_after_places:
+
+        "这个周二真特么操蛋！"
+
+.. _menu-arguments:
+
+菜单入参
+--------------
+
+可以将入参传给整个菜单，或者菜单内的某些选项。若要将入参传给菜单，可以直接添加在menu语句中。
+按顺序传入自定义的入参，使用逗号分隔。若要将入参传给某个菜单选项，在 ``if`` 关键词或者冒号前面加入参内容。
+
+::
+
+    menu ("jfk", screen="airport"):
+
+        "伊利诺伊州，芝加哥" (200):
+            jump chicago_trip
+
+        "德克萨斯州，达拉斯" (150, sale=True):
+            jump dallas_trip
+
+        "阿肯色州，温泉城" (300) if secret_unlocked:
+            jump hot_springs_trip
+
+除了 `screen` 入参选择对应界面，`nvl` 入参选择 :ref:`NVL模式菜单 <nvl-mode-menu>`，其他传入菜单的入参会应用在界面上。
+传给菜单选项的入参会应用在菜单界面的所有元素。
+详见 :ref:`选项界面 <choice-screen>` 和 :var:`config.menu_arguments_callback`。

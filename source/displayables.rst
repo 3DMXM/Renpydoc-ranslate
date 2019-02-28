@@ -421,24 +421,15 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
   需要注意，该函数与 :func:`AlphaMask()` 使用不同的入参，AlphaMask()使用的是mask参数的alpha通道值。
 
-.. function:: im.Composite(size, *args, **properties)
+.. function:: im.Blur(im, xrad, yrad=None, **properties)
 
-  (译者注：官方文档已删除这个函数。)
+  可以将图像 `im` 模糊化的图像操纵器。使用 `xrad` 和可选的 `yrad` 表示模糊区域的椭圆中心区域。
 
-  这个图像管理器函数将多个图像合成为一张图像并输出。
-
-  *size* 参数是一个(width, height)元组，给定了混合后的图像尺寸。
-
-  其余的固定位置参数是一组两项入参的形式。每组的第一项参数是(x, y)元组形式的坐标，第二项参数是某个图像操纵器。那个图像操纵器提供的图像会在指定的坐标位置做图像混合处理。
+  如果 `yrad` 的值是None，就与 `xrad` 的值相同，也就意味着中心区域是个圆形。
 
   ::
 
-      image girl clothed happy = im.Composite(
-          (300, 600),
-          (0, 0), "girl_body.png",
-          (0, 0), "girl_clothes.png",
-          (100, 100), "girl_happy.png"
-          )
+      image logo blurred = im.Blur("logo.png", 1.5)
 
 .. function:: im.Crop(im, rect)
 

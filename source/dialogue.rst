@@ -151,10 +151,10 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
 .. _say-with-image-attributes:
 
-带有图片属性(attribute)的say语句
+带有图像属性(attribute)的say语句
 ----------------------------------
 
-当一个角色与一个图像标签(tab)关联，包含对应角色的say语句将在角色名和第二个字符串之间就可以插入图片属性(attribute)。
+当一个角色与一个图像标签(tab)关联，包含对应角色的say语句将在角色名和第二个字符串之间就可以插入图像属性(attribute)。
 
 在这中情况下，如果带有给定标签(tag)的某个图片需要显示，Ren'Py会定位一条包含角色标签(tag)和属性(attribute)的show命令。如果图片未显示，Ren'Py会保存属性(attribute)并用于头像，但依然不会显示图片。
 
@@ -181,6 +181,46 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
         show eileen happy
         e "不过这都是过去的事了。"
+
+如果在图像属性前面加一个 ``@`` 符号，图像属性的改变将是临时性的，在执行完这行对话脚本后会恢复成上一个图像属性。
+
+举例：
+
+::
+
+    define e = Character("艾琳", image="eileen")
+
+    label start:
+
+        show eileen mad
+        e "我对你有点失望。"
+
+        e @ happy "虽然还挺有趣的。"
+
+        e "不过别想我帮你从这档子破事里抽身。"
+
+等效于：
+
+::
+
+    define e = Character("艾琳")
+
+    label start:
+
+        show eileen mad
+        e "我对你有点失望。"
+
+        show eileen happy
+        e "虽然还挺有趣的。"
+
+        show eileen mad
+        e "不过别想我帮你从这档子破事里抽身。"
+
+两种语法可以混用，在 ``@`` 符号之前表示永久改变，符号后面表示临时改变一次。
+
+::
+
+    e happy @ vhappy "真的！一切都改变了。"
 
 使用这个方式，若需要在图片改变时触发一个转场(transition)效果的话，将config.say_attribute_transition设置为一种转场(transition)即可。
 

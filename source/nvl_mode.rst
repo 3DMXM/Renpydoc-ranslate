@@ -80,10 +80,10 @@ NVL的独白模式
     页面清空了！
     """
 
-.. _nvl-menus:
+.. _nvl-mode-menu:
 
-选项菜单
-----------
+NVL模式菜单
+-------------
 
 ADV模式下，默认的菜单显示方式会占据整个界面。NVL模式下的菜单展现也有一个对应的变种，就是在当前NVL模式文本页面后面立刻显示菜单。
 
@@ -94,6 +94,18 @@ ADV模式下，默认的菜单显示方式会占据整个界面。NVL模式下�
     define menu = nvl_menu
 
 在选项菜单的某项被选择之后，菜单会消失，所以通常会在菜单之后使用一条“nvl clear”语句或者某些提示语。
+
+:ref:`菜单入参 <menu-arguments>` 也可以用于接入NVL模式菜单。只要把入参 `nvl` 的值设置为True。
+在一个游戏中混用NVL模式与ADV模式时，这个功能非常有用。
+
+::
+
+    menu (nvl=True):
+        "我偏好NVL模式。":
+            pass
+
+        "我更喜欢ADV模式。":
+            pass
 
 .. _showing-and-hiding-the-nvl-mode-window:
 

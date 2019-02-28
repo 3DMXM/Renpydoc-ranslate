@@ -265,8 +265,7 @@ Notify
 
         text _("Skipping")
 
-.. _ctc-click-to-continue:
-
+.. _ctc-screen:
 
 CTC(点击继续)
 -----------------------

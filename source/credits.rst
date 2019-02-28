@@ -1,14 +1,13 @@
-﻿.. _credits:
-
-===========
+=========
 制作人员
-===========
+=========
 
 这份制作人员名单文件并不完整。其并不包含那些为Ren'Py提供测试、提交bug报告以及提升建议的朋友们。
 
 甚至那些贡献了代码、文档和翻译的人，也只记录最近几年的情况，某些人的名字可能在我的日志中丢失了。
 如果你发现了这样的情况，请接受我的歉意，并发送邮件给 bishoujo.us 的 pytom。
 我会在未来的版本中修复丢失的部分。
+
 
 
 * Absinthe
@@ -45,13 +44,15 @@
 * Duanemoody
 * Edward Betts
 * Edwin
+* Eevee (Lexy Munroe)
 * Eliza Velasquez
 * Emmanuel Marty
 * Emmeken
 * Enerccio
 * Eniko
-* Eevee (Lexy Munroe)
+* Eric Ahn
 * Evilantishad0w
+* Felix Lampe
 * Franck_v
 * Gas
 * George Economidis
@@ -78,6 +79,7 @@
 * Kevin Turner
 * Kinsman
 * Koichi "vbkaisetsu" Akabe
+* Konstantin Mozheyko
 * Konstantin Nikolayev
 * Kuroonehalf
 * Kyouryuukunn
@@ -85,6 +87,7 @@
 * Lee Yunseok
 * Lore
 * Maissara Moustafa
+* Mal Graty
 * Marcel
 * Markus Koschany
 * Max le Fou
@@ -122,10 +125,14 @@
 * Saltome
 * Sapphi
 * Scout
+* Sergey Musiyenko
+* Shayne Officer
+* Shehriyar Qureshi
 * Shiz
 * SleepKirby
 * Spiky Caterpillar
 * Susnux
+* Sylvain Beucler
 * Thuong Nguyen Huu
 * Tlm-2501
 * Tmrwiz

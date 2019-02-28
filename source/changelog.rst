@@ -4,6 +4,120 @@
 完整变更日志
 ==============
 
+.. _renpy-7.2:
+.. _renpy-7.1.4:
+
+7.2
+===
+
+.. _menu-arguments-7-2:
+
+菜单入参(menu arguments)
+-------------------------
+
+Ren'Py现在已支持 :ref:`菜单入参(menu arguments) <menu-arguments>`。
+入参可以传给整个菜单，或者菜单内的某些选项，语法如下：
+
+::
+
+    menu ("jfk", screen="airport"):
+
+        "伊利诺伊州，芝加哥" (200):
+            jump chicago_trip
+
+        "德克萨斯州，达拉斯" (150, sale=True):
+            jump dallas_trip
+
+        "阿肯色州，温泉城" (300) if secret_unlocked:
+            jump hot_springs_trip
+
+
+除了 `screen` 入参选择对应界面，`nvl` 入参选择NVL模式菜单，其他传入菜单的入参会应用在界面上。传给菜单选项的入参会应用在菜单界面的所有元素。
+
+.. _temporaty-say-attributes:
+
+临时性say语句
+--------------
+
+Ren'Py现在支持临时性say语句。用法与普通say语句相同，可与普通say语句混用。
+临时性say语句中的设置的各类属性(attribute)，在语句执行完后将恢复为上一条语句的状态。
+比如下面这段脚本：
+
+::
+
+    show eileen happy
+
+    e "我很开心。"
+
+    e @ vhappy "我真的很开心！"
+
+    e "我还是很开心。"
+
+对话中的第一行和最后一行，Eillen将使用happy表情。对话的第二行中，Eileen将使用vhappy表情。
+
+.. _changes-7-2:
+
+变更
+-------
+
+新增 ``window auto show`` 和 ``window auto hide`` 语句，可以在显式展示和隐藏对话窗口后，保持 :ref:`自动对话窗口管理 <dialogue-window-management>` 有效。
+
+:func:`Preference`(“display”，“window”)` 现在可以避免创建比整个界面更大的窗口。
+在 :func:`gui.init` 中配置的窗口最大尺寸就是上限。
+
+:ref:`创作者定义的语句 <cds>` 新增了几个语法分析器方法，可以处理入参、图像命名的组件、文本标签(label)和使用特定分隔符的Python代码。
+
+:func:`renpy.force_autosave` 函数新增一个入参，可以防止自动存档未完成的情况下再次强制自动存档。
+
+:ref:`点击继续界面 <ctc-screen>` 新增一些参数。
+
+放置文本型对象时， :propref:`yanchor` 特性(property)的值可以是 renpy.BASELINE。设置为该值时，锚点就会设置为文本第一行的底线(baseline)。
+
+新增的图像操纵器(image manipulator) :func:`im.Blur` 可以模糊图像。感谢大佬Mal Graty的贡献。
+
+
+层叠式图像(layeredimage)组支持 ``multiple`` 特性(property)，允许在同一个组内同时使用多个图像属性(attribute)。
+这是个很实用的功能，可以让一组自动定义的函数应用在很多不冲突的图像上。
+
+(有多个显示设备时)当鼠标切换到不同的桌面时，Ren'Py会保持全屏。在重新最大化窗口的加载过程中不再会出现抖动现象。
+
+:var:`config.allow_duplicate_labels` 配置项可以定义或设置一段init python代码，然后允许游戏内出现重复的脚本标签(label)。
+
+可视组件 :func:`Movie` 可以设定循环或不循环，并在停止循环播放后显示关联的静态图像。
+还可以在影片播放之前显示某个指定的图像。
+
+.. _android-changes-7.2:
+
+安卓平台变更
+---------------
+
+安卓SDK的下载更新。修复工具无法下载的问题。
+
+针对键盘制定了一个显式动作函数，确保回车键(enter)正常。
+
+当使用sideload模式安装在亚马逊的设备时，Ren'Py使用亚马逊的支付API，可以使用“双商店”APK进行支付系统测试。
+
+Ren'Py现在可以使用公共游戏目录(/mnt/sdcard/Android/`package`/files/game)，前提是在游戏中定义好使用的目录。
+
+.. _fixes-7-2:
+
+修复
+------
+
+使用dissolve效果时界面底部会出现一条不透明的黑色或灰色线，这个bug已经被修复。
+
+对imagefont字体的支持问题已修复。
+
+从启动器导航菜单创建新文件的功能已经可以运行。
+
+菜单集功能再次有效。
+
+当 :func:`Function` 和其他动作函数被传入不兼容的数据类型时，Ren'Py不会挂死。
+
+某个情况下前向滚动失败的问题已修复。
+
+MacOS上Steam消息无法正确显示的问题已修复。
+
 .. _renpy-7.1.3:
 
 7.1.3
@@ -35,6 +149,19 @@ Ren'Py的界面语言现在支持包含匿名的ATL变换(transform)。比如现
 
 
 新增的 :var:`config.menu_include_disabled` 配置项，决定菜单是否应该包含可由if分句禁用的入口(entry)。
+
+在安卓模拟器模式中可以使用Shift类组合键(比如Shift+I和Shift+R)。
+
+在文本标签(tag)需要一个值却没有提供的情况下，Ren'Py提升了报错信息。
+
+新增的 :var:`_version` 配置项标识游戏在创建时的版本号。这个值仅仅存储创建时定义的版本号。后续是否更新取决于创作者的需求。
+
+可视组件 :func:`Movie` 添加一个新的模式，让同一个文件内的色彩数据和alpha mask数据按边对齐。
+这个模式防止main影片与mask影片出现不同步的问题。
+
+:func:`FilePageNext` 和 :func:`FilePagePrevious` 函数可以通过入参控制，是否可以将玩家带入自动或快速存档页。
+
+新增的 :var:`config.skip_sounds` 配置项决定Ren'Py是否跳过非循环播放的音频文件。
 
 .. _7.1.2-translations:
 
@@ -130,7 +257,7 @@ Ren'Py会生成适合手机显示的选项菜单图像。
 
 现在Ren'Py分配给安卓发布工具的内存总量增大到1.5GB，也就是谷歌套件中的默认值。为了确保创作者具有发布更大游戏的能力，请确认电脑上安装了64位版本的Java 8。
 
-Ren'Py明确要求安卓系统，将软键盘的“回车(enter)”键作为一次输入的结束。
+Ren'Py明确要求安卓系统，将软键盘的“回车(Enter)”键作为一次输入的结束。
 
 现在Ren'Py在安卓8(Oreo)以下版本中将剪裁和重新调整app图标(icon)的尺寸。
 
@@ -314,7 +441,7 @@ LayerdImageProxy现在可以使用内插字符串。
 
 :ref:`字典转场 <dict-transitions>` 可以使用with语句和某些其他函数将转场应用于一个或多个图层。Ren'Py不会在使用这些转场时暂停。字典转场使精灵进行转场的时候也同时显示对话成为可能。
 
-.. _changes-1:
+.. _changes-7-0:
 
 变更
 -------
@@ -375,7 +502,7 @@ Ren'Py 教程和The Question示例现已支持法语，感谢 Alexandre Tranchan
 6.99.14.3
 =========
 
-.. _changes-2:
+.. _changes-6-99-14-3:
 
 变更
 -------
@@ -663,7 +790,7 @@ Ren'Py中增加了一个新的tooltip系统，替换了原来存在tooltip。在
 
 这个系统意在节省代码和让界面具有更高的可读性。 详见 :ref:`tooltips` 章节。
 
-.. _changes-3:
+.. _changes-6-99-14:
 
 变更
 -------

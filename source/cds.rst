@@ -1,4 +1,4 @@
-.. _creator-defined-statements:
+.. _cds:
 
 创作者定义的语句
 ==========================

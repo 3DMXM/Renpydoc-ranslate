@@ -498,6 +498,9 @@ input语句不接受参数，可以跟下列特性：
 `exclude`
     包含不允许输入字符的字符串。(默认情况下为空“{}”。)
 
+`allow_copypaste`
+    若为True，可以在这个输入栏中启用复制粘贴功能。(默认禁用。)
+
 `prefix`
     一个不可变的字符串，自动添加在用户输入前面。
 
@@ -1355,6 +1358,34 @@ use语句可能使用一个特性， ``id``，可能出现在参数列表之后�
         pause
         return
 
+Instead of the name of the screen, the keyword ``expression`` can be
+given, followed by an expression giving the name of the screen to use.
+If parameters are required, the ``pass`` keyword must be given to separate
+them from the expression.
+除了直接使用界面的名称，还可以使用关键词 ``expression`` 然后接一个表达式描述使用的界面名称。
+如果需要传入参数，必须使用 ``pass`` 关键词分割在表达式内分割参数。
+
+::
+
+    screen ed(num):
+        text "Ed"
+        text "Captain"
+
+    screen kelly(num):
+        text "Kelly"
+        text "First Officer"
+
+    screen bortus(num):
+        text "Bortus"
+        text "Second Officer"
+
+    screen crew():
+        hbox:
+            for i, member in enumerate(party):
+                vbox:
+                    use member.screen pass (i+1)
+
+
 .. _use-and-transclude:
 
 use和transclude语句
@@ -1506,15 +1537,25 @@ show screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面
     if rare_case:
         show rare_screen nopredict
 
+``show screen`` 语句可以使用with分句，语法与 ``show`` 语句相同。
+
+::
+
+    show screen clock_screen with dissolve
+
+
 .. _hide-screen:
 
 hide screen
 -----------
 
-``hide screen`` 语句用于隐藏当前正在显示的界面。如果指定的界面并没有显示，不会发生任何事
+``hide screen`` 语句用于隐藏当前正在显示的界面。如果指定的界面并没有显示，不会发生任何事。
+如果带有 ``with`` 分句，则与show语句的语法相同。
 
 ::
 
+    hide screen rare_screen
+    hide screen clock_screen with dissolve
     hide screen overlay_screen
     hide screen clock
 

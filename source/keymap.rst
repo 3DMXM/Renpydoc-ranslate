@@ -104,6 +104,8 @@ repeat
         input_delete = [ 'K_DELETE', 'repeat_K_DELETE' ],
         input_home = [ 'K_HOME' ],
         input_end = [ 'K_END' ],
+        input_copy = [ 'ctrl_K_INSERT', 'ctrl_K_c' ],
+        input_paste = [ 'shift_K_INSERT', 'ctrl_K_v' ],
 
         # 视口。
         viewport_leftarrow = [ 'K_LEFT', 'repeat_K_LEFT' ],

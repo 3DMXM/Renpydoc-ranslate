@@ -44,6 +44,8 @@ Ren'Py可以使用libav解码器(已内置)播放以下视频编码格式的影�
         $ renpy.movie_cutscene("On_Your_Mark.webm")
 
 在移动端平台，例如安卓和iOS，默认情况下配置项 :var:`config.hw_video` 设为True，此时会启用硬件视频解码。硬件视频解码效率更高，但具体支持的影片格式需要视具体平台而定。
+这里可以查看 `安卓支持的媒体格式 <https://developer.android.com/guide/topics/media/media-formats>`_。
+一个快速测试的办法是，直接把视频文件复制到手机上，然后使用默认的视频播放器看看能否播放。
 
 .. _movie-displayables-and-movie-sprites:
 
