@@ -139,7 +139,7 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
     使用框架(frame)将图像增大为原尺寸的两倍。
 
   `image`
-    一个可以被框架(frame)调整尺寸的图像操纵器。
+    一个可以被框架(frame)调整尺寸的图像处理器。
 
   `left`
     左边框的边界(border)尺寸。此入参也可以是一个 :func:`Border()` 对象，这种情况下其他几个参数也都被这个Border对象一块代替。
@@ -161,44 +161,6 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
       # 文本窗口过小时重新调整背景尺寸
       init python:
           style.window.background = Frame("frame.png", 10, 10)
-
-.. function:: LiveComposite(size, *args, **properties)
-
-  (译者注：6.99.14.3版本后已经删除。)
-
-  创建一个由其他可视组件合成，尺寸为 *size* 的可视组件。 *size* 是一个“宽度-高度”元组。
-
-  其余的固定位置入参用于在LiveComposite里放置图片。其余的固定位置入参应该是一组两个的形式。每组第一个成员是一个(x, y)形式的元组，每组第二个成员是在那个位置上发生混合的一个可视组件。
-
-  各种可视组件从后往前逐步合成。
-
-  ::
-
-      image eileen composite = LiveComposite(
-          (300, 600),
-          (0, 0), "body.png",
-          (0, 0), "clothes.png",
-          (50, 50), "expression.png")
-
-.. function:: LiveCrop(rect, child, **properties)
-
-  (译者注：6.99.14.3版本后已经删除。)
-
-  其会把 *child* 修剪为一个矩形。 *rect* 是几个(x, y, width, height)形式的元组。
-
-  ::
-
-      image eileen cropped = LiveCrop((0, 0, 300, 300), "eileen happy")
-
-.. function:: LiveTile(child, style='tile', **properties)
-
-  (译者注：6.99.14.3版本后已经删除。)
-
-  将 *child* 码放(tile)至该可视组件所有可用区域。
-
-  ::
-
-      image bg tile = LiveTile("bg.png")
 
 .. function:: Null(width=0, height=0, **properties)
 
@@ -404,18 +366,18 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
 .. _image-manipulators:
 
-图像操纵器
+图像处理器
 ------------------
 
-图像操纵器本身是一个可视组件。它会接受一个图像或者另一个图像操纵器对象，对原有对象进行某些处理。图像操纵器只接受图像或其他图像操纵器作为输入。
+图像处理器本身是一个可视组件。它会接受一个图像或者另一个图像处理器对象，对原有对象进行某些处理。图像处理器只接受图像或其他图像处理器作为输入。
 
-任何能放可视组件的地方也可以放图像操纵器，但反过来不一定可行。 :func:`Image` 对象是一种图像操纵器，所以任何需要使用图像操纵器的地方都可以使用image对象。
+任何能放可视组件的地方也可以放图像处理器，但反过来不一定可行。 :func:`Image` 对象是一种图像处理器，所以任何需要使用图像处理器的地方都可以使用image对象。
 
-除了下列的少数例外，图像操纵器的使用已经过时。过去文档中的一些图像操纵器不应该再使用，因为它们存在继承的问题。在很多情况下，:func:`Transform` 使用更加通用的方法提供了相似的功能，还修复了原来的问题。
+除了下列的少数例外，图像处理器的使用已经过时。过去文档中的一些图像处理器不应该再使用，因为它们存在继承的问题。在很多情况下，:func:`Transform` 使用更加通用的方法提供了相似的功能，还修复了原来的问题。
 
 .. function:: im.AlphaMask(base, mask, **properties)
 
-  使用两个图像操纵器 *base* 和 *mask* 作为入参，创建一个图像操纵器。其使用 *mask* 的红色通道值替换了 *base* 的alpha通道值。
+  使用两个图像处理器 *base* 和 *mask* 作为入参，创建一个图像处理器。其使用 *mask* 的红色通道值替换了 *base* 的alpha通道值。
 
   该函数用于向某个图像提供alpha通道值，来源是另一个图像。比如某个jpeg图片提供色彩数据，使用另一个jpeg图片提供alpha值。在某些情况下，两张jpeg图片的文件大小可能比一张png图文文件还要小。
 
@@ -423,7 +385,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
 .. function:: im.Blur(im, xrad, yrad=None, **properties)
 
-  可以将图像 `im` 模糊化的图像操纵器。使用 `xrad` 和可选的 `yrad` 表示模糊区域的椭圆中心区域。
+  可以将图像 `im` 模糊化的图像处理器。使用 `xrad` 和可选的 `yrad` 表示模糊区域的椭圆中心区域。
 
   如果 `yrad` 的值是None，就与 `xrad` 的值相同，也就意味着中心区域是个圆形。
 
@@ -433,7 +395,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
 .. function:: im.Crop(im, rect)
 
-  该图像操纵器实现了图像剪裁功能。对原图像 *im* ，剪裁其在 *rect* 范围内的图像。 *rect* 参数是一个(x, y, width, height)形式的元组。
+  该图像处理器实现了图像剪裁功能。对原图像 *im* ，剪裁其在 *rect* 范围内的图像。 *rect* 参数是一个(x, y, width, height)形式的元组。
 
   ::
 
@@ -441,7 +403,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
 .. function:: im.Data(data, filename, **properties)
 
-  这个图像操纵器从二进制文件加载图像。
+  这个图像处理器从二进制文件加载图像。
 
   `data`
 
@@ -453,7 +415,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
 .. function:: im.FactorScale(im, width, height=None, bilinear=True, **properties)
 
-  该图像操纵器实现图像(或图像操纵器) *im* 的按比例缩放。缩放后的图像宽高比不变。如果 *height* 入参为空，默认与 *width* 值相同。
+  该图像处理器实现图像(或图像处理器) *im* 的按比例缩放。缩放后的图像宽高比不变。如果 *height* 入参为空，默认与 *width* 值相同。
 
   如果 *bilinear* 为True，缩放时使用双线性插值算法。否则，缩放时使用最近邻插值算法。
 
@@ -463,7 +425,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
 .. function:: im.Flip(im, horizontal=False, vertical=False, **properties)
 
-  该图像操纵器实现图像(或图像操纵器) *im* 在垂直或水平方向的晃动。 *vertical* 和 *horizontal* 参数控制具体的晃动方向。
+  该图像处理器实现图像(或图像处理器) *im* 在垂直或水平方向的晃动。 *vertical* 和 *horizontal* 参数控制具体的晃动方向。
 
   ::
 
@@ -471,23 +433,11 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
 .. function:: im.Grayscale(im, **properties)
 
-  该图像操纵器创建了一个 *im* 的灰度版本(即色彩饱和度为0)。
-
-.. function:: im.Scale(im, width, height, bilinear=True, **properties)
-
-  (译者注：官方文档已删除这个函数。)
-
-  该图像操纵器直接把 *im* 的宽度和高度缩放至 *width* 和 *height* 的值。
-
-  如果 *bilinear* 为True，缩放时使用双线性插值算法。否则，缩放时使用最近邻插值算法。
-
-  ::
-
-      image logo scale = im.Scale("logo.png", 100, 150)
+  该图像处理器创建了一个 *im* 的灰度版本(即色彩饱和度为0)。
 
 .. function:: im.Sepia(im, **properties)
 
-  该图像操纵器创建了一个 *im* 的旧化版本(即老照片样式)。
+  该图像处理器创建了一个 *im* 的旧化版本(即老照片样式)。
 
 .. function:: im.Tile(im, size=None, **properties)
 
@@ -501,7 +451,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 im.MatrixColor
 --------------
 
-im.MatrixColor图像操纵器是使用一个矩阵控制图像色彩变换的图像操纵器。使用的矩阵可以是一个im.matrix对象，使用一个支持矩阵乘法的5×5矩阵进行编码，通过一系列函数返回编码结果。im.matrix对象可以多重相乘并同时生效。例如：
+im.MatrixColor图像处理器是使用一个矩阵控制图像色彩变换的图像处理器。使用的矩阵可以是一个im.matrix对象，使用一个支持矩阵乘法的5×5矩阵进行编码，通过一系列函数返回编码结果。im.matrix对象可以多重相乘并同时生效。例如：
 
 ::
 
