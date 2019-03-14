@@ -223,6 +223,7 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
     e happy @ vhappy "真的！一切都改变了。"
 
 使用这个方式，若需要在图片改变时触发一个转场(transition)效果的话，将config.say_attribute_transition设置为一种转场(transition)即可。
+若要设置更多控制项，可以使用 :var:`config.say_attribute_transition_callback` 。
 
 .. _example-characters:
 

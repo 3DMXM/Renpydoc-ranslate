@@ -126,6 +126,24 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 
     若非None，用image属性(attribute)的say语句改变图像时使用的转场效果。
 
+.. var:: config.say_attribute_transition_callback = ...
+
+    这里可以配置一个函数，返回一个应用的转场和转场使用的图层。
+
+    该函数有两个入参，一个是图像标签(image tag)，另一个 `mode` 参数可以是下列值之一：
+
+    * “permanet”，永久修改属性(attribute)，当前say语句开始一直生效。
+    * “temporary”，临时修改属性(attribute)，仅对当前say语句生效，之后保存修改过的临时属性。
+    * “restore”，使用保存的临时属性。
+
+    返回值是一个2元的元组，包含下列内容：
+
+    * 使用的转场(transition)，如果不使用转场则发挥None。
+    * 转场所在的图层名，应该是一个字符串或者None。大多数情况下都是None。
+
+    默认应用返回值为(config.say_attribute_transition, config.say_attribute_transition_layer)。
+
+
 .. var:: config.say_attribute_transition_layer = None
 
     若非None，这必须是给定图层(layer)名的字符串。(大多数情况都是“master”。)say属性(attribute)会应用于命名的那个图层，且Ren'Py不会暂停等待转场效果发生。在对话显示时，这也会对属性(attribute)中的转场生效。
