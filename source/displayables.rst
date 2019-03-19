@@ -425,7 +425,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
 .. function:: im.Flip(im, horizontal=False, vertical=False, **properties)
 
-  该图像处理器实现图像(或图像处理器) *im* 在垂直或水平方向的晃动。 *vertical* 和 *horizontal* 参数控制具体的晃动方向。
+  该图像处理器实现图像(或图像处理器) *im* 在垂直或水平方向的翻转。 *vertical* 和 *horizontal* 参数控制具体的翻转方向。
 
   ::
 
