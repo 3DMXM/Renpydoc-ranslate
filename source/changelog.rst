@@ -4,6 +4,61 @@
 完整变更日志
 ==============
 
+.. _renpy-7.2.1:
+
+7.2.1
+=====
+
+.. _ios-improvements:
+
+iOS版提升
+----------------
+
+
+现在Ren'Py生成iOS版工程时，会设置iOS应用的版本字段。
+
+从此版本起，Ren'Py将搜索ios-icon.png和ios-launchimage.png文件，使用合适的尺寸用作iOS版本的图标和启动图像。
+
+.. _other-improvements:
+
+其他提升
+-------------------
+
+当读档后立刻使用回滚，:func:`renpy.in_rollback` 函数将返回True。可以使用下面的脚本：
+
+::
+    python:
+        if not renpy.in_rollback():
+            renpy.run(ShowMenu('save'))
+
+实现在初始化阶段就显示存档菜单，而不用等到读档或回滚。
+
+新增配置项 :var:`config.say_attribute_transition_callback` ，可以选择say语句的基础转场效果。
+
+新增环境变量 ``RENPY_SEARCHPATH`` ，可以覆盖启动参数 :var:`config.searchpath`。
+
+.. _fixes-7-2-1:
+
+修复
+-----
+
+Ren'Py自身代码经过一轮审核，确保运算符 == 和 != 匹配，无论 == 是否被重定义过。
+
+使用 ``add`` 语句在界面中添加变换(transform)时可能出现的问题，已经得到修复。
+
+``extend`` 语句处理入参的机制发生改变，确保较新的入参优先级高于 ``extend`` 之前的say语句中的入参。
+
+当前版本Ren'Py在判断动态图像(dynamic image)是否相等时会考虑作用域。这个改动也修复了界面中某些动态图像不更新的问题。
+
+macOS上 :var:`config.save_dump` 的值为True时导致崩溃的问题已经修复。
+
+:var:`config.profile` 的值为True时导致崩溃的问题已经修复。
+
+安卓平台显示数字键盘时，Ren'Py明确要求文本(而不是邮箱地址、密码和电话号码等)输入。
+
+某些menu语句导致前向滚动无法运行的问题已经修复。
+
+.. _renpy-7.2.0:
 .. _renpy-7.2:
 .. _renpy-7.1.4:
 

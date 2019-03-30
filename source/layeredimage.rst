@@ -11,7 +11,7 @@
 (此处的图层跟Ren'Py中其他地方的“图层”不太一样，更类似于Photoshop或者GIMP等绘图程序中图层的概念。)
 图层可以无条件显示，也可以通过图像属性(attribute)或者实时计算的条件表达式选择是否显示。
 
-为了让定义层叠式图像更加方便，Ren'Py提供了layeredimage语句。以layeredimage开头的语句表示，允许传作者使用特定域的语言定义一个层叠式图像。
+为了让定义层叠式图像更加方便，Ren'Py提供了 ``layeredimage`` 语句。以layeredimage开头的语句表示，允许传作者使用特定域的语言定义一个层叠式图像。
 还有 :func:`LayeredImage` 对象，虽然它不是一般的图像(image)对象，但可以使用image语句声明，也可以和一般图像一样使用。
 
 .. _defining-layered-images:
@@ -73,20 +73,21 @@
 
 这段脚本有点长，不过它很规整易读。下面我们将展示如何简化这段脚本。
 
-首先，layeredimage语句以精灵(sprite)的名字开头。这条语句属于Ren'Py脚本语言，运行在初始化阶段。
+首先， ``layeredimage`` 语句以精灵(sprite)的名字开头。这条语句属于Ren'Py脚本语言，运行在初始化阶段。
 
-层叠式图像的语句块(block)可能包含always、group和if语句。group语句可以包含属性(attribute)。always和if语句必须带可视组件(displayable)，而同个组内的attribute语句可以任何选择带一个。
+层叠式图像的语句块(block)可能包含always、group和if语句。 ``group`` 语句可以包含属性(attribute)。
+``always`` 和 ``if`` 语句必须带可视组件(displayable)，而同个组内的attribute语句可以任何选择带一个。
 以上所有语句都可以带特性(property)。
 
-always语句定义的图层(layer)总是显示，就像是精灵(sprite)的背景。
+``always`` 语句定义的图层(layer)总是显示，就像是精灵(sprite)的背景。
 
-group语句引入一组属性(attribute)，同一时间内只显示某一项属性(attribute)。
+``group`` 语句引入一组属性(attribute)，同一时间内只显示某一项属性(attribute)。
 所以层叠式图像其实只显示角色的一套服装、一对眼睛、一对眉毛和一张嘴。指定的属性组特性(property)会传入对应的attribute，并让属性组自动定义各个属性。
 
-attribute语句引入的图层，是仅在图像需要对应属性(attribute)时才会显示。例如，“augustina_outfit_dress”仅在出现“dress”属性时才会显示。
-如果使用了关键词default，在没有其他有冲突的属性出现时，就会默认显示的属性；在这个样例中，只要不使用“wink”属性，就显示“augustina_eyes_open”属性的图像。
+``attribute`` 语句引入的图层，是仅在图像需要对应属性(attribute)时才会显示。例如，“augustina_outfit_dress”仅在出现“dress”属性时才会显示。
+如果使用了关键词 ``default`` ，在没有其他有冲突的属性出现时，就会默认显示的属性；在这个样例中，只要不使用“wink”属性，就显示“augustina_eyes_open”属性的图像。
 
-最后，if语句添加了一个图层，该图层使用一条Python语句在不同的可视组件间选择显示的对象。Python语句总是重新计算，并显示第一个满足条件表达式为True的图像。
+最后， ``if`` 语句添加了一个图层，该图层使用一条Python语句在不同的可视组件间选择显示的对象。Python语句总是重新计算，并显示第一个满足条件表达式为True的图像。
 
 特性(property)由特性名称和一个简单表达式构成，可以传给每一个图层。一些特性(property)会改变某些语句的功能。
 如果含有某一个或多个 :ref:`变换特性 <transform-properties>` 会创建一个 :func:`Transform` 对象并wrap出显示结果。
@@ -180,7 +181,7 @@ group和attribute语句在某个层叠式图像中可以出现多次，所有指
 
 还可以更进一步，让一个组内自动定义属性(attribute)。在定义组时使用关键词auto，就能让这个组自动搜索正则表达式匹配到的图像，并在属性不存在的情况下自动定义组内图像属性。
 
-与属性(attribute)一样，特性(property)也可以放在组的第一行并省略语句块。always语句中的可视组件和特性(property)也可以采用同样的方式。
+与 ``attribute`` 一样，特性(property)也可以放在组的第一行并省略语句块。always语句中的可视组件和特性(property)也可以采用同样的方式。
 
 样例的最终格式如下：
 
@@ -209,15 +210,16 @@ group和attribute语句在某个层叠式图像中可以出现多次，所有指
 
 
 这是定义同样的图像时，最精简的方法。当每个组中需要添加更多属性(attribute)时，自动定义功能节省的时间更多。
-
 如果我们不需要默认属性，还可以减少几行脚本。那样，每个组都只需要一行。
+
+在 ``always`` 和 ``if`` 语句中不能省略可视组件的名称，所以在这些地方使用的图像名称需要尽可能简短。合理的图片命名可以很轻松地定义出成千上万种图层的组合方式。
 
 .. _statement-reference:
 
-语句参考
+语句特点
 -------------------
 
-需要注意，当层叠式图像首次定义时，if语句中的所有条件表达式都在初始化阶段就会被计算。
+需要注意，当层叠式图像首次定义时， ``if`` 语句中的所有条件表达式都在初始化阶段就会被计算。
 
 .. _layeredimage:
 
@@ -277,11 +279,14 @@ attribute语句使用下列特性(property)：
 Group语句
 ^^^^^^^^^^
 
-``group`` 语句将一些转换后的图层(layer)组成一个组。一个组(group)中不能包含不同的属性(attribute)。(不过一个组中可以包含同样的属性两次。)
+``group`` 语句将一些转换后的图层(layer)组成一个组。一个组(group)中不能包含不同的属性(attribute)。
+(不过一个组中可以包含同样的属性两次。使用关键词 ``multiple`` 能解除这个限制。)
 
-group语句使用一个名称(name)。该名称并不常用，但可以用于生成组内属性的默认名称。
+``group`` 语句使用一个名称(name)。该名称并不常用，但可以用于生成组内属性的默认名称。
 
-这个名称后面可能跟着关键词 *auto* 。如果在组内的任意属性后面的确存在auto，Ren'Py会扫描自己的图像列表以匹配组的正则表达式(详见下面内容)。找到的所有图像，如果匹配不到已定义的属性，就会自动在组内添加属性，就像使用attribute语句定义属性一样。
+这个名称后面可能跟着关键词 ``auto`` 。如果在组内的任意属性后面的确存在auto，Ren'Py会扫描自己的图像列表以匹配组的正则表达式(详见下面内容)。找到的所有图像，如果匹配不到已定义的属性，就会自动在组内添加属性，就像使用attribute语句定义属性一样。
+
+后面还可以跟关键词 ``multiple`` 。出现时，可以同时选中某个组的多个成员。这个功能可以用于某个自动定义多个属性的组，而各个属性是很多图像公用的。但是与关键词 ``default`` 定义的属性会有冲突。
 
 特性(property)可以定义在组的第一行，后面带一个语句块，包含特性(property)和属性(attribute)。
 
@@ -337,7 +342,7 @@ If语句
 ``if`` 语句(或者更完整的if-elif-else语句)允许创作者设置一个或多个条件表达式。这些条件表达式会运行时进行计算。
 每个条件表达式与某个图层(layer)关联，第一个结果为True的条件表达式对应的图像会被显示。如果没有条件表达式为True，else语句对应的图像就会显示。
 
-一个稍微复杂的if语句样例如下：
+一个稍微复杂的 ``if`` 语句样例如下：
 
 ::
 
@@ -366,14 +371,14 @@ If语句
 `at`
     应用于图层的一个变换(transform)或变换的列表。
 
-当 ``layeredimage`` 语句运行时，if语句就会转换为 :func:`ConditionSwitch()` 。
+当 ``layeredimage`` 语句运行时， ``if`` 语句就会转换为 :func:`ConditionSwitch()` 。
 
 .. var: layeredimage.predict_all = None
 
     Sets the value of `predict_all` for the ConditionSwitches produced
     by layered image if statements.
 
-predict_all不为True时，应该避免修改if语句的条件表达式。因为层叠式图像要么显示要么即将显示，修改if语句条件表达式会导致没有预加载的图像就被使用。
+``predict_all`` 不为True时，应该避免修改if语句的条件表达式。因为层叠式图像要么显示要么即将显示，修改if语句条件表达式会导致没有预加载的图像就被使用。
 这种设计主要用于很少变化的角色自定义选项。
 
 .. _poses:
@@ -427,7 +432,7 @@ Ren'Py读取图像并加载到RAM之前会进行优化，将所有图像剪裁�
 Python
 ------
 
-当然， ``layeredimage`` 语句有一个Python等效语句。group语句则没有——group可以传入 :func:`Attribute()` 和auto功能可以使用 :func:`renpy.list_images()` 来实现。
+当然， ``layeredimage`` 语句有一个Python等效语句。group语句则没有——group应用 ``attribute`` 的值，而auto功能可以通过 :func:`renpy.list_images()` 来实现。
 
 .. function:: Attribute(group, attribute, image=None, default=False, **kwargs)
 
@@ -518,7 +523,7 @@ Python
     层叠式图像不是可视组件(displayable)，能使用的范围比可视组件小。这是因为很多地方需要提供一个图像名(通常包含image属性)。
     比如，层叠式图像可以使用scene和show语句显示，也可以通过图像名字符串当作一个可视组件使用。
 
-    layeredimage.format_function函数用作将属性(attribute)和可视组件格式化为图片文件。创作者可以查看这个函数的结构和使用的入参，在需要的情况下可以使用自己的 *format_function* 函数替换它。
+    :func:`layeredimage.format_function` 函数用作将属性(attribute)和可视组件格式化为图片文件。创作者可以查看这个函数的结构和使用的入参，在需要的情况下可以使用自己的 *format_function* 函数替换它。
 
     .. function:: layeredimage.format_function(what, name, group, variant, attribute, image, image_format, **kwargs)
 
@@ -560,7 +565,7 @@ Python
 
 有时候，为了在多个地方使用同一个层叠式图像，需要给层叠式图像生成一个代理对象(proxy)。这样设计的原因之一是，各处可能使用同一个精灵(sprite)的不同图像尺寸；另一个原因则是，可以使用层叠式图像作为对话框头像(side image)。
 
-LayeredImagePorxy对象实现了这个功能，为层叠式图像创建出可以在各处使用的副本。
+:func:`LayeredImagePorxy` 对象实现了这个功能，为层叠式图像创建出可以在各处使用的副本。
 
 举例：
 
