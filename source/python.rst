@@ -5,6 +5,7 @@ Python语句
 
 Ren'Py使用Python程序语言编写，并且支持在Ren'Py脚本中包含Python语句。对Python的支持可以用在很多方面，从立一个flag到创建新的可视组件等。本节内容主要涵盖Ren'Py脚本如何通过各种python语句直接调用Python的方法。
 
+Ren'Py现在支持Python 2.7。不过我们还是强烈推荐写可以同时在Python2和Python3两个版本正常运行的Python语句。
 
 .. _python-statement:
 

@@ -741,6 +741,8 @@ transform存在以下特性(property)：
 
     若该值非None，会使用给定的矩形剪裁可视组件。指定的矩形是一个(x, y, width, height)形式的元组。如果 ``crop_relative`` 为True并且元组内元素的值是浮点数(float)，width和height用作比例值，与原图像的宽和高分别相乘输出结果。否则，数值代表像素数。
 
+    如果各种corner特性与crop特性同时出现，crop的优先级高于各种corner特性。
+
 .. transform-property:: crop_relative
 
     :type: boolean
@@ -753,14 +755,14 @@ transform存在以下特性(property)：
     :type: None or (int, int)
     :default: None
 
-    若该值非None，给定了剪裁框的左上角坐标。该项的优先级高于crop。
+    若该值非None，给定了剪裁框的左上角坐标。crop优先级高于该项。
 
 .. transform-property:: corner2
 
     :type: None or (int, int)
     :default: None
 
-    若该值非None，给定了剪裁框的右下角坐标。该项的优先级高于crop。
+    若该值非None，给定了剪裁框的右下角坐标。crop优先级高于该项。
 
 .. transform-property:: size
 

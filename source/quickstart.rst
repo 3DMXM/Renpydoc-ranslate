@@ -456,6 +456,7 @@ menu语句能够给玩家提供一个分支选项::
         jump marry
 
 以美元标志符“$”开头那行文本会被识别为Python语句。assignment(赋值)语句将这里的“book”判定为一个变量而不是一个值。Ren'Py已经支持一些其他包含Python代码的办法，例如多行的Python语句。我们将在本手册的其他章节讨论这点。
+Ren'Py现在支持Python 2.7。不过我们还是强烈推荐写可以同时在Python2和Python3两个版本正常运行的Python语句。
 
 需要检查flag(标识)时，请使用if语句::
 

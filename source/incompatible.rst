@@ -9,6 +9,13 @@
 
 关于GUI方面的不兼容变更，详见 :ref:`gui-changes` 部分，只有重新生成GUI才会让这些变更生效。
 
+.. _incompatible-7.2.2:
+
+7.2.2
+-----
+
+:var:`config.say_attribute_transition_callback` 配置项已变更，接受一个新的入参，表示显示的图像。
+
 .. _incompatible-7.1.1:
 
 7.1.1

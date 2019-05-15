@@ -4,6 +4,26 @@
 完整变更日志
 ==============
 
+.. _renpy-7.2.2:
+
+7.2.2
+=====
+
+在此版本中，Ren'Py新增了一个辅助菜单，打开方式为按键盘“a”键。
+该菜单面向玩家开放，让玩家可以覆盖游戏字体，修改文本大小和启用自动语音。
+
+在此版本中，Ren'Py将允许覆盖公共game目录(/mnt/sdcard/Android/`package`/files/game)内容。
+该功能出现在7.2.0版本的功能列表中，但当时还无法正常运行。
+
+在此版本中，Ren'Py支持say语句中的临时图像属性(attribute)，应用于多语言支持(translation)。
+
+上传到itch.io时，Ren'Py会自动下载butler模块。这表示现在上传时不需要安装独立的Itch应用程序，而之前的版本是需要的。
+
+各种条(bar)值对象，包括 :func:`DictValue` ，:func:`FieldValue` ， :func:`VariableValue` 和 :func:`ScreenVariableValue`
+都可以使用新增的 `action` 参数。该参数对应一个在值发生改变时，执行的某个动作函数(action)。
+
+回滚系统优化，减少了GC数量。
+
 .. _renpy-7.2.1:
 
 7.2.1
