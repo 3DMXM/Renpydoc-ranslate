@@ -6,11 +6,15 @@
 
 Ren'Py支持定义你自己的文本标签(tag)。文本标签系统可以操作文本和定义的标签，包括添加和移除文本或其他文本标签。
 
-:var:`config.custom_text_tags` 字典中，通过声明一个文本标签函数的入口(entry)，可以创建定制文本标签。
+可以在 :var:`config.custom_text_tags` 或 :var:`config.self_closing_custom_tags` 字典中，通过声明一个文本标签函数的入口(entry)，创建定制文本标签。
 
 .. var:: config.custom_text_tags
 
     将文本标签名映射到文本标签函数。
+
+.. var:: config.self_closing_custom_text_tags
+
+    将文本标签名映射到自闭合文本标签函数，而文本标签内部不含有其他文本。
 
 一个文本标签函数有3个入参：标签(tag)自身，标签使用的参数，以及一个内容元组的列表。例如：下面这段文本：::
 
@@ -40,6 +44,8 @@ Ren'Py支持定义你自己的文本标签(tag)。文本标签系统可以操作
 
 **renpy.TEXT_PARAGRAPH**
   这表示两段文本之间的断行。第二部分未定义(但必须存在)。
+
+自闭合文本标签函数类似，差别在于没有第三个入参。
 
 .. _caveats:
 
@@ -91,3 +97,15 @@ Ren'Py支持定义你自己的文本标签(tag)。文本标签系统可以操作
         config.custom_text_tags["rot13"] = rot13_tag
 
     "Rot0. {rot13}Rot13. {rot13}Rot26. {/rot13}Rot13. {/rot13}Rot0."
+
+文本标签 ``bang`` 的功能是在文本中插入一个指定图像，并且不需要对应的闭合标签。
+
+::
+
+    init python:
+        def bang_tag(tag, argument):
+            return [ ( renpy.TEXT_TAG, "size=40"), (renpy.TEXT_TEXT, "!"), (renpy.TEXT_TAG, "/size") ]
+
+        config.self_closing_custom_text_tags["bang"] = bang_tag
+
+    "This is awesome{bang}"

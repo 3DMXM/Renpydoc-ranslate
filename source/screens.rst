@@ -143,7 +143,7 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 
     例如，如果某个vbox在某transform中被wrap，并直接添加到界面上，事件消息就会传给那个transform。但如果某个按键文本是添加到vbox再被加入transform中被warp，那么第二层的transform就不会接收到事件消息。
 
-`default`
+`default_focus`
     如果出现了该特性，并且值为True，默认情况下该可视组件会得到焦点。只有一个可视组件可以拥有该特性。
 
 `id`
@@ -181,8 +181,22 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 `tooltip`
     声明某个可视组件的工具提示框。当可视组件获得焦点时，该特性值会启用
     :func:`GetTooltip` 函数。详见 :ref:`tooltips` 章节。
+    传入工具提示框的对象必须支持相等性(equality)。如果不支持比较相等，可能会导致无限死循环。
 
-许多用户接口语句使用样式特性类或者transform特性。这些特性可以使用相关联的样式前缀，前缀决定了特性被应用的时机。例如，如果带有hover_size特性，就会设置文本在鼠标悬停状态时的文本字号。
+`arguments`
+    一个元组或列表，包含传入可视组件的额外固定位置入参。
+
+`properties`
+    一个字典，包含传入可视组件的额外特性。
+
+许多用户接口语句使用样式特性类或者transform特性。这些特性可以使用相关联的样式前缀，前缀决定了特性被应用的时机。例如，如果带有 ``hover_size`` 特性，就会设置文本在鼠标悬停状态时的文本字号。
+
+User interface statements take an ``as`` clause, which takes a variable
+name, without any quotes. The displayable that the statement creates is
+assigned to the variable. (An example can be found in :ref:`the drag and drop
+documentation <as-example>`.)
+UI语句可以使用 ``as`` 分句，后面带一个变量名，不需要引号。
+语句创建的可视组件对象将声明为变量。(在这里可以找到一个样例 :ref:`拖拽组件 <as-example>`.)
 
 
 .. _sl-add:
@@ -502,7 +516,7 @@ input语句不接受参数，可以跟下列特性：
 `exclude`
     包含不允许输入字符的字符串。(默认情况下为空“{}”。)
 
-`allow_copypaste`
+`copypaste`
     若为True，可以在这个输入栏中启用复制粘贴功能。(默认禁用。)
 
 `prefix`
@@ -689,6 +703,9 @@ side语句还可以使用如下特性：
 
 当渲染时，先渲染四角，然后是四边，最后是中间。四角和四边在渲染阶段的初始可用区域是0，所以有必要提供一个最小尺寸(使用
 :propref:`xminimum` 或 :propref:`yminimum`)，以确保渲染成功。
+
+添加子组件的顺序(或者使用入参的子字符串顺序)控制显示顺序，最后添加的显示在最上层。
+可以通过配置项 :var:`config.keep_side_render_order` 禁用。
 
 使用各子组件时分别占据网格单元列表中的一个位置，所以网格单元应与子组件数量相同。
 
@@ -1362,10 +1379,6 @@ use语句可能使用一个特性， ``id``，可能出现在参数列表之后�
         pause
         return
 
-Instead of the name of the screen, the keyword ``expression`` can be
-given, followed by an expression giving the name of the screen to use.
-If parameters are required, the ``pass`` keyword must be given to separate
-them from the expression.
 除了直接使用界面的名称，还可以使用关键词 ``expression`` 然后接一个表达式描述使用的界面名称。
 如果需要传入参数，必须使用 ``pass`` 关键词分割在表达式内分割参数。
 
@@ -1457,6 +1470,8 @@ showif语句
 
 ``showif`` 语句含有一个条件判断。只有当条件为True时，其子组件会显示；条件为False时，子组件隐藏。当showif的子组件含有transform时，其会向子组件提供ATL事件，用于管理子组件的显示和隐藏。Ren'Py也可以据此实现显示和隐藏的序列化。
 
+``showif`` 语句将它的子组件装进一个可视组件并管理显示和隐藏过程。
+
 多个showif语句可以组成一个 ``showif`` / ``elif`` / ``else`` 结构体，类似于一个if语句。 **与if语句不同之处在于，showif执行其下所有的语句块(block)，包括Python语句，尽管某些条件结果是False。** 这是由于showif语句需要先创建子组件然后再隐藏子组件。
 
 showif语句会向其子组件传送三种事件消息：
@@ -1523,7 +1538,8 @@ screen语句
 show screen
 -----------
 
-``show screen`` 语句会触发某个界面的显示。其使用一个界面名作为参数，后面还有一个可选的参数列表。如果参数列表出现，这些参数用作初始化界面作用域(scope)内的变量。
+``show screen`` 语句会触发某个界面的显示。其使用一个界面名作为参数，后面还有一个可选的Pythone入参列表。如果入参列表出现，这些参数用作初始化界面作用域(scope)内的变量。
+还有几个特殊关键词会传入 :func:`show_screen` 和 :func:`call_screen` 函数。
 
 show screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面预加载。当界面预加载时，传入界面的入参会被计算。请确保作为界面入参的表达式不会引起不希望出现的副作用。
 
@@ -1638,11 +1654,14 @@ Ren'Py通过顺序搜索 :var:`config.variants` 中的variant项来选择使用�
    iOS设备，像iPad(表示同时为 ``"tablet"`` 和 ``"medium"``)和iPhone(表示同时为 ``"phone"`` 和 ``"small"``)。
 
 ``"mobile"``
-   手机平台，比如安卓和iOS手机。
+   手机平台，比如安卓、iOS手机和手机web浏览器。
 
 ``"pc"``
    Windows、Mac OS X和Linux平台。PC表示会有键鼠设备，允许鼠标悬停(hover)状态和精确点击。
 
+``"web"``
+   在web浏览器上运行。
+ 
 ``None``
    默认定义。
 

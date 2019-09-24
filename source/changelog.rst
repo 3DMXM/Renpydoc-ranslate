@@ -4,6 +4,130 @@
 完整变更日志
 ==============
 
+.. _renpy-7.3.0:
+
+7.3.0
+=====
+
+Renpyweb
+--------
+
+由于Sylvain Beucler的贡献，当前版本Ren'Py可以生成HTML网页平台版本。所有支持WebAssembly的主流web浏览器都可以运行HTML版的Ren'Py项目。
+HTML网页版会下载整个游戏再运行，所以适合做一些小型项目或大型项目的演示版本。
+Web版目前标记为beta测试版，web平台本身存在很多问题(最明显的就是单一线程)，所以加载较大图片时会导致音频卡顿。
+所以，在其他平台运行良好的Ren'Py项目，在web端运行可能运行很糟糕。
+我们将随着Web浏览器一起改进，目标是最终移除beta标志。
+在Ren'Py启动器点击“Web”按钮就可以生成一个工程的Web版本。当前版本的启动器还附带一个小型Web服务器，配合Web浏览器就能进行测试。
+
+.. _cds-7-3-0:
+
+创作者定义语句(CDS)
+--------------------------
+
+Ren'Py中的创作者自定义语句(creator-defined statement)和使用这些语句的Lexer对象，在多处进行了扩展并提升了功能。
+相关语法如下：
+
+* 现在可以要求Lexer对象将某一行代码作为一条Ren'Py语句或一个Ren'Py的语句块处理。
+
+* 可以要求Lexer捕获错误，便于将报错范围限定在创作者定义语句(CDS)内，而不是整个CDS。
+
+:func:`renpy.register_statement` 函数有新的入参，对应新功能。
+
+* 在预加载语句中使用 `predict_all` 和 `predict_next` 两个入参，可以控制预加载所有后续所有语句，亦或每次只预加载下一条可用语句。
+
+
+* 新增的 `post_execute` 入参可以让我们指定下个语句(通常是CDS语句后面那句)运行时执行某个函数。
+  当语句运行并执行内部的语句块时，还可以使用一个表达式，执行某些工作然后退出时执行清理。
+  (举个例子，某个脚本标签接到一个消息事件并执行后，跳转回原来的调用点。)
+
+* 新增的 `post_label` 入参可以让我们指定一个脚本标签名，并在CDS执行完跳转到对应的脚本标签，功能类似调用 ``from`` 语句。
+
+当前版本Ren'Py会将CDS语句的处理结果缓存在 .rpyc 文件中。这样设计可以运行更加复杂的语法，执行效率也会提升。
+同时这也意味着，如果修改CDS处理函数时，可能需要执行强制重新编译。
+
+.. _screen-language-improvements-7-3-0:
+
+界面语言提升
+----------------------------
+
+当前版本可以引用界面语言可视组件的语句中应用 ``as`` 分句。
+在拖拽组件中这点非常实用，可以让界面捕获到拖拽对象并需要时调用对应方法。
+
+``on`` 语句可以使用支持一个事件消息列表。
+
+界面(screen)新增了 `sensitive` 特性。这个特性决定该界面是否可以发生互动。
+
+在界面语言中，如果某个Python语句后面带有不正常的特性名时，当前版本的Ren'Py会生成一个错误。(虽然很少见，但这往往是一个语法错误。)
+
+.. _text-improvement-7-3-0:
+
+文本提升
+-----------------
+
+当前版本Ren'Py支持自闭合的自定义文本标签(tag)，这是不需要成对闭合标签的 :ref:`自定义文本标签 <custom-text-tags>` 。
+
+当前版本Ren'Py支持三种新的表示，可以用于格式化文本：
+
+* "[varname!u]" 强制文本大写。
+* "[varname!l]" 强制文本小写。
+* "[varname!c]" 强制首字母大写。
+
+.. _android-ios-improvements-7-3-0:
+
+安卓和iOS提升
+----------------------------
+
+当前版本Ren'Py会在支持的设备上使用Framebuffer对象。因此，安卓和iOS设备上运行时配置项 :propref:`focus_mask` 会生效。
+
+当前版本Ren'Py将为安卓生成64位的arm二进制文件。这是Google Play商店将在今年晚些时候执行的强制要求。
+
+安卓上文本输入的功能再次重写，修复了用户卡输入的问题。
+Completion was eliminated, as it was the source
+of the problems. While languages that require input methods will need
+a larger rewrite to function, Ren'Py should now properly handle all direct
+input keyboards.
+
+.. _translations-7-3-0:
+
+多语言支持
+------------
+
+Ren'Py启动器和样例工程已由Arda Güler翻译为土耳其语。
+
+Ren'Py教程工程已由Moshibit翻译为西班牙语。
+
+法语、韩语、俄语和西班牙语均有更新。
+
+.. _other-improvements-7-3-0:
+
+其他提升
+------------------
+
+``side`` 可视组件的子组件渲染顺序调整，将根据在控制字符串中的顺序进行渲染。
+
+``say`` 语句、 ``menu`` 语句和 ``renpy.call_screen`` 语句新增入参 `_mode` ，可以用来指定语句执行时的运行 :ref:`模式 <modes>` 。
+
+函数 :func:`renpy.show_screen` 和 :func:`renpy.call_screen` 可以使用入参zorder。
+
+当前版本Ren'Py播放单声道音频文件时，音量将与双声道音频文件一致，而不再是音量减半。
+
+新增的 :func:`config.load_failed_label` 将指定一个脚本标签(label)，当Ren'Py读取存档失败时自动跳转。因为在读档失败时不能定位到当前语句。
+
+这个新函数可以实现游戏的自动恢复机制。
+
+新增配置项 :var:`config.notify` ，可以拦截系统通知消息并使用自己定义的内容。
+
+:var:`config.say_attribute_transition_callback` 的接口已做兼容处理，同时接受新旧两种标签。
+
+.. _fixes-7-3-0:
+
+修复
+-----
+
+Ren'Py丢失某些字符的问题，特别是阿拉伯语中设置为强调色部分，已经修复。
+
+内部使用的OpenDyslexic字体文件已变更，解决直接复制游戏可能出现的问题。
+
 .. _renpy-7.2.2:
 
 7.2.2
@@ -140,7 +264,7 @@ Ren'Py现在支持临时性say语句。用法与普通say语句相同，可与�
 :func:`Preference`(“display”，“window”)` 现在可以避免创建比整个界面更大的窗口。
 在 :func:`gui.init` 中配置的窗口最大尺寸就是上限。
 
-:ref:`创作者定义的语句 <cds>` 新增了几个语法分析器方法，可以处理入参、图像命名的组件、文本标签(label)和使用特定分隔符的Python代码。
+:ref:`创作者定义的语句 <cds>` 新增了几个语法分析器方法，可以处理入参、图像命名的组件、脚本标签(label)和使用特定分隔符的Python代码。
 
 :func:`renpy.force_autosave` 函数新增一个入参，可以防止自动存档未完成的情况下再次强制自动存档。
 
