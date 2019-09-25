@@ -443,9 +443,13 @@ Ren'Py包含许多变量需要基于运行的平台进行设置。
 
     在iOS平台运行时为True。
 
+.. var:: renpy.emscripten
+
+    在浏览器内运行时为True。
+
 .. var:: renpy.mobile
 
-    在安卓或iOS平台运行时为True。
+    在安卓、iOS平台或浏览器运行时为True。
 
 只有在实际设备运行而非模拟器上运行时，才会设置这些配置项。 这些配置项对平台敏感的Python是有用的。对显示布局(layout)的问题，详见 :ref:`界面变种 <screen-variants>`.
 
@@ -511,6 +515,9 @@ renpy.random
 
   从非空序列 *seq* 随机返回一个元素。
 
+* ``renpy.random.shuffle(seq)``
+
+  打乱序列 `seq` 中元素的顺序。该函数不会返回列表，而是直接修改原列表。
 
 与标准的Python随机数生成器不同，这个对象可以与回滚兼容，无论回滚多少次都生成相同的随机数。所以可以使用这个对象代替标准Python随机模块。
 

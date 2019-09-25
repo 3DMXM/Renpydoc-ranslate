@@ -17,11 +17,13 @@
 * Alexandre Tranchant
 * Andy_kl
 * Apricotorange
+* Arda Güler
 * Arowana-vx
 * Asfdfdfd
 * Auro-Cyanide
 * Baekansi
 * Bbs3223474
+* Ben Wright
 * BlackDragonHunt/Mangagamer
 * Bryan Tsang
 * Carl
@@ -40,6 +42,7 @@
 * Derik
 * Diapolo10
 * Doomfest
+* Donghyeok Tak
 * DragoonHP
 * Duanemoody
 * Edward Betts
@@ -54,6 +57,7 @@
 * Evilantishad0w
 * Felix Lampe
 * Franck_v
+* Frédéric Chapoton
 * Gas
 * George Economidis
 * Giuseppe Bertone
@@ -72,12 +76,14 @@
 * Jake Staines
 * James Broadhead
 * James Pearson Hughes
+* Jan Beich
 * Javimat
 * Joshua Fehler
 * Kalawore
 * Kathryn
 * Kevin Turner
 * Kinsman
+* Kobaltcore
 * Koichi "vbkaisetsu" Akabe
 * Konstantin Mozheyko
 * Konstantin Nikolayev
@@ -92,6 +98,7 @@
 * Markus Koschany
 * Max le Fou
 * Maxwell Paul Brickner
+* Meithal
 * Merumelu
 * mikey (ATP Projects)
 * Morgan Willcock
@@ -110,11 +117,14 @@
 * Pavel Langwell
 * Peter DeVita
 * Philat
+* Pionere
 * Piroshki
 * Pratomo Asta Nugraha
 * Project Gardares
+* Psunbury
 * Rastagong
 * RangHo Lee
+* Remix
 * Ren
 * Renoa
 * Ria-kon
@@ -122,6 +132,7 @@
 * Rikxz
 * rivvil
 * Robert Penner
+* Roope Herpiö
 * Saltome
 * Sapphi
 * Scout

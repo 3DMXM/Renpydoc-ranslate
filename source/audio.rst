@@ -150,6 +150,17 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 
     play music sunflower
 
+Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
+该目录下直接支持的几种音频音频，会被去掉文件扩展名(当前包括.wav、.mp2、.mp3、.ogg和.opus)，剩下的文件名强制转为小写字母，并放入audio命名空间。
+
+需要注意，文件名会放入audio命名空间并不表示就会播放。如果需要播放一个名为“opening_song.ogg”文件，需要写：
+
+::
+
+    play music opening_song
+
+某些文件名无法使用这种方式，因为这些文件名不符合Python变量命名规范。例如，“my song.mp3”、“8track.opus”和“this-is-a-song.ogg”就有这种情况。
+
 .. _functions:
 
 相关函数

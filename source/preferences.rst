@@ -18,6 +18,12 @@
 
     若为True，自动前进模式在遇到点击事件消息会保持。若为False，点击会终止自动前进模式。等效于“auto-forward after click”环境设定设置。
 
+.. var:: preferences.afm_enable = False
+
+    若为True，自动前进移动启用。否则禁用。
+    等效于“auto-forward”环境设定。
+    
+
 .. var:: preferences.afm_time = 15
 
     自动前进模式的等待时间。这个值越大，等待时间越长。由于文本分段等消耗，转为时钟时间(wall time)的机制比较复杂。等效于“auto-forward”环境设定。

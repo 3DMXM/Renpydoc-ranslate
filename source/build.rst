@@ -32,6 +32,7 @@ Windows, Mac, and Linux for Markets
 -------------------
 
 通过在build命名空间中设置变量和调用函数，可以对生成过程进行配置。这些工作必须在 ``init python`` 语句块(block)中进行。
+这些配置项默认都设置在 ``options.rpy`` 中。
 
 有一些基本变量和函数在很多游戏中都会使用。
 

@@ -71,7 +71,7 @@ Alternative text
 Descriptive Text
     描述文本是通过旁白显示(或表述)的文本内容。如果禁用自动语音则文本不显示。自动语音文本使用变量 ``sv`` ，与角色的定义过程类似。
 
-    .. var:: sv = ...
+    .. var:: alt = ...
 
         一个类角色的对象，启动自动语音的情况下会念出旁白的文本。
 
@@ -81,10 +81,16 @@ Descriptive Text
 
         e "Hang on, this is gonna be a bumpy ride!"
 
-        sv "And then the sun exploded..."
+        alt "And then the sun exploded..."
 
         # 一个复杂而且亦可赛艇的特写场景。
         show event sun_exploding
         pause 10
+
+    有一个配置项变量控制描述文本：
+
+    .. var:: config.descriptive_text_character = None
+
+        若不是None，该项应该是一个字符对象，用于显示描述文本。
 
 使用快捷键shift+alt+V可以启用自动语音的debug模式。debug模式下会显示界面中会播放语音的文本，用于开发需求。

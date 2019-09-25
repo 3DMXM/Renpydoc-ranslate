@@ -130,11 +130,13 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 
     这里可以配置一个函数，返回一个应用的转场和转场使用的图层。
 
-    该函数有两个入参，一个是图像标签(image tag)，另一个 `mode` 参数可以是下列值之一：
+    该函数有四个入参：图像标签(image tag)， `mode` 参数，含有前置转场标签的 `set` ，以及包含后置转场标签的 `set` 。
+    `mode` 参数的值为下列之一：
 
     * “permanet”，永久修改属性(attribute)，当前say语句开始一直生效。
     * “temporary”，临时修改属性(attribute)，仅对当前say语句生效，之后保存修改过的临时属性。
-    * “restore”，使用保存的临时属性。
+    * “both”，永久和临时修改属性(attribute)同时生效。(针对部分属性需要在当前say语句之后继续生效，而部分属性需要恢复的情况。)
+    * “restore”，临时属性(attribute)失效，恢复之前的值。。
 
     返回值是一个2元的元组，包含下列内容：
 
@@ -239,6 +241,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     当Ren'Py进入一个新上下文(context)时(比如某个菜单上下文)，调用的回调函数。
 
+.. var:: config.context_copy_remove_screens = [ 'notify' ]
+
+    该项是一个界面列表。当回滚或保存时导致上下文(context)复制时，将移除列表中的所有界面。
+
 .. var:: config.debug = False
 
     启用调试功能(大多数时候将文件丢失问题转成错误信息)。在发布版本中，这项应该是关闭的。
@@ -277,6 +283,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     若设置为True，启用开发者模式。开发者模式下能使用shift+D进入开发者菜单，使用shift+R重新加载脚本，以及各种不支持终端用户的功能特性。
 
     该项可以是True、False或“auto”。若设置为“auto”，Ren'Py会检查整个游戏是否已经构建打包，并设置合适的config.developer值。
+
+.. var:: config.disable_input = False
+
+    该项为True时， :func:`renpy.input` 函数立即终止，并返回其 `default` 参数。
 
 .. var:: config.displayable_prefix = { }
 
@@ -400,6 +410,21 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     若非None，这项应是一个字符串，指定了多语言支持框架下的默认语言。
 
+.. var:: config.load_failed_label = None
+
+    如果配置为一个字符串，表示一个脚本标签(label)。脚本修改过多导致Ren'Py无法恢复产生读档失败的情况下，将跳转到该脚本标签。
+    在执行读档前，Ren'Py将主控流程切换为最后执行语句开头，并清空调用栈。
+
+    也可以配置为一个函数。该函数没有入参，返回值需要是一个脚本标签(label)。
+
+.. var:: config.locale_to_language_function = ...
+
+    该函数基于用户所在地区(locale)决定游戏使用的语言。
+
+    函数有两个入参，分别为地区(locale)的ISO编码和行政区(region)的ISO编码。
+    
+    返回值是一个字符串，对应支持的语言名称，或者返回None表示使用默认语言。
+
 .. var:: config.main_menu = [ ... ]
 
     不使用界面的情况下，默认的主菜单。详见主菜单和游戏菜单章节。
@@ -466,7 +491,14 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.nearest_neighbor = False
 
-    默认使用近邻过滤，支持像素化和弄瞎钛合金狗眼。
+    默认使用近邻过滤，支持像素化和柔化。
+
+.. var:: config.notify = ...
+
+    :func:`renpy.notify` 和 :func:`Notify` 函数会调用该配置项，入参为 `message` ，效果为显示通知消息。
+    默认配置为 :func:`renpy.display_notify` 。
+    该配置还可以让创作者拦截通知。
+    
 
 .. var:: config.optimize_texture_bounds = False
 
@@ -735,11 +767,13 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     Ren'Py允许用会回滚的最大步数。这项设置为0则完全不允许回滚。我们不推荐这样做，因为回滚是用户错误使用跳过功能后，回看之前文本的有效途径。
 
-.. var:: config.help = "README.html"
+.. var:: config.help = None
 
     在主菜单和游戏菜单，或者按下f1，或者在命令行界面输入“?”，都会调用配置的帮助页面文件。
 
-    若为None，帮助系统会禁用，不会显示在菜单中。如果在脚本中有一个help脚本标签(label)，调用标签时会使用另一个新的上下文(context)。这允许创作者定义自己的游戏内帮助界面。否则的话，help文本标签(label)会关联一个在基础目录中的文件，能够在web浏览器中打开。
+    若为None，帮助系统会禁用，不会显示在菜单中。如果在脚本中有一个help脚本标签(label)，调用标签时会使用另一个新的上下文(context)。
+    这允许创作者定义自己的游戏内帮助界面。否则的话，help文本标签(label)会关联一个在基础目录中的文件，能够在web浏览器中打开。
+    如果文件不存在，则请求帮助的操作会被忽略。
 
 .. var:: config.hide = renpy.hide
 
@@ -753,6 +787,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     `auto` 特性(property)扩展为可视组件。这个函数使用auto特性(property)值和使用的图像，以及下列状态之一：“insensitive”、“idle”、“hover”、“selected_idle”、“selected_hover”、“ground”。函数返回一个可视组件对象或None。
 
     默认的使用方法是使用图像格式化 `auto` 特性，并检查得到的文件名是否存在。
+
+.. var:: config.keep_side_render_order = True
+
+    若为True，Side位置的子串顺序将决定子组件的渲染顺序。
 
 .. var:: config.imagemap_cache = True
 
@@ -1056,6 +1094,6 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     当Ren'Py到达一个稳定状态时，触发GC的对象净数。(稳定状态是指界面更新第四帧之后)
 
-.. var:: gc_print_unreachable = False
+.. var:: config.gc_print_unreachable = False
 
     若为True，Ren'Py会在控制台和日志中打印出触发GC的对象信息。

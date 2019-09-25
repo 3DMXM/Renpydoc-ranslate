@@ -49,6 +49,9 @@ Ren'Py受一些环境变量的影响。在不同版本的Ren'Py中，这些环�
 ``RENPY_SCREENSHOT_PATTERN``
     用于创建截屏文件名的正则表达式。它应该含有一个%d的替换。例如，这项设为“screenshot%04d.jpg”就能让Ren'Py将截屏保存为jpg文件，而不是常用的png文件。
 
+``RENPY_SEARCHPATH``
+    设置这项后，使用双斜杠 (\:\:) 分割的额外路径列表将会被添加到 :var:`config.searchpath` 。
+
 ``RENPY_SIMPLE_EXCEPTIONS``
     设置这项后，禁用Ren'Py的图形异常处理。
 

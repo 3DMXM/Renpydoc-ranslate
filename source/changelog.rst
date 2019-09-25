@@ -111,7 +111,7 @@ Ren'Py教程工程已由Moshibit翻译为西班牙语。
 
 当前版本Ren'Py播放单声道音频文件时，音量将与双声道音频文件一致，而不再是音量减半。
 
-新增的 :func:`config.load_failed_label` 将指定一个脚本标签(label)，当Ren'Py读取存档失败时自动跳转。因为在读档失败时不能定位到当前语句。
+新增的 :var:`config.load_failed_label` 将指定一个脚本标签(label)，当Ren'Py读取存档失败时自动跳转。因为在读档失败时不能定位到当前语句。
 
 这个新函数可以实现游戏的自动恢复机制。
 

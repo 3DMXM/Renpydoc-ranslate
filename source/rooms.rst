@@ -48,6 +48,10 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
         # 步骤2，在画廊中添加按钮和图像。
 
+        # 一个图像一直解锁状态的按钮。
+        g.button("title")
+        g.image("title")
+
         # 添加一个包含自动解锁图像的按钮。
         g.button("dawn")
         g.image("dawn1")
@@ -137,6 +141,7 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
             add g.make_button("dark mary", "gal-dark_mary.png", xalign=0.5, yalign=0.5)
             add g.make_button("dawn mary", "gal-dawn_mary.png", xalign=0.5, yalign=0.5)
+            add g.make_button("title", "title.png", xalign=0.5, yalign=0.5)
 
             # 用于响应后返回主菜单的界面。
             # 也能用于导航到其他画廊界面。

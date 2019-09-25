@@ -573,6 +573,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 ==========
 
 条(bar)值与条(bar)一同使用，设置条(bar)的值，且允许条(bar)调整某个潜在特性。可以通过创建 :class:`BarValue` 类的子类创建一个新的条值。
+所有的BarValue类都有关键词 `step` ，也可以接受关键词 `force_step` ，具体情况详见 :func:`ui.adjustment` 。
 
 .. function:: AnimatedValue(value=0.0, range=1.0, delay=1.0, old_value=None)
 

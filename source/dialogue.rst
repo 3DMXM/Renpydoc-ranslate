@@ -341,6 +341,8 @@ Ren'Py中包括几种语句，允许管理对话窗口。由于对话窗口在�
 
 传入say语句的参数首先会被 var:`config.say_arguments_callback` 回调函数处理，前提是入参不是None。若有回调函数无法处理的参数，将会被传给角色(character)，因为这些参数会被看作定义角色所需。上面的样例会将对话显示为绿色。
 
+特殊关键词 `_mode` 和 `_with_node` 将在本次互动中覆盖原设置的字符。
+
 .. _monologue-mode:
 
 独白模式

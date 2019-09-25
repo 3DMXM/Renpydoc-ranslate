@@ -211,3 +211,24 @@ Ren'Py含有一些拖放组件，这些组件允许使用鼠标在界面上任�
 
 更复杂的系统需要使用更重要的编程技巧才能搞定。 `Ren'Py cardgame framework <http://www.renpy.org/wiki/renpy/Frameworks#Cardgame>`_
 是一个在复杂系统如何使用拖放功能和制作卡牌游戏两方面都很有用的例子。
+
+.. _as-example:
+
+使用 ``as`` 分句可以将一个拖拽组件绑定到变量，这样就可以直接调用组件的各类方法。
+
+::
+
+    screen snap():
+
+        drag:
+            as carmen
+            draggable True
+            xpos 100 ypos 100
+            frame:
+                style "empty"
+                background "carmen.png"
+                xysize (100, 100)
+
+                vbox:
+                    textbutton "London" action Function(carmen.snap, 450, 140, 1.0)
+                    textbutton "Paris" action Function(carmen.snap, 500, 280, 1.0)
