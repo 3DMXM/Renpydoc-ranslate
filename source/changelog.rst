@@ -4,6 +4,109 @@
 完整变更日志
 ==============
 
+.. _renpy-7.3.3
+
+7.3.3
+=====
+
+.. _audio-7-3-3:
+
+audio
+-----
+
+当前版本Ren'Py新增 ``audio`` 目录，在 :ref:`audio命名空间 <audio-namespace>` 中自动根据文件名定义音频名。
+如果有个音频文件 ``game/audio/overture.ogg`` ，可以在脚本中直接播放：
+
+::
+
+    play music overture
+
+新增类 :func:`AudioData` ，可以让创作者在Ren'Py中直接使用压缩音频数据，而不再需要使用其他程序预处理。
+为实现这个功能，Ren'Py引入了Python的wave和sunau模块。
+
+
+单声道音频文件混音的一个问题已经修复。该问题可能会导致很多WAV文件无法播放。
+(我们始终不推荐使用WAV文件。)
+
+.. _playform-7-3-3:
+
+平台
+--------
+
+鉴于苹果公司的条款要求，Mac版的Ren'Py重建为一个未签名的二进制程序。现在需要按住ctrl并点击renpy.app程序，然后选择“打开”才能启动Ren'Py。
+
+对安卓的版本要求降低为Android 19(Android 4.4 KitKat)。
+
+Ren'Py的web端口有一些变更：
+
+* :ref:`Screen variants <screen-variants>` 可以检测配置和进行设置。
+* 全屏功能提升，尽管用户可能需要点击对应选项才能启用全屏。
+* 关闭web页面的动作可以被检测到，并保存持久化数据。
+* 原先默认生成的‘game.zip’文件名可以修改。在index.html文件中的‘DEFAULT_GAME_FILENAME’配置项控制该项。
+* 针对移动设备的HTTP请求(原生+renpyweb)：详见 https://github.com/renpy/renpyweb/blob/master/utils/asyncrequest.rpy
+* 启用Python的web端口用作测试WebSocket，可以使用Python的‘socket’模块监测端口。
+* HTTP缓存控制功能，允许游戏更平滑更新。
+* 引入pygame.draw模块，支持Canvas绘图板。
+* 提升WebGL兼容性。
+
+.. _other-changes-7-3-3:
+
+其他变更
+-------------
+
+在进行重写GL项目时，我们发现在7.3.0版的性能下降问题，原因在于framebuffer对象的切换。
+修改了FBO的使用方法后，Ren'Py性能得到了提升。
+
+:func:`renpy.input` 函数可以接收界面的名称，用于用户输入的提示语。
+
+使用界面语言创建的列表、字典和集合可以正确解析。这可以让更多可视组件可以解析为常数，提升界面性能。
+
+回滚时隐藏通知界面。
+
+NVL模式界面默认显示对话窗口，防止 ``windows show`` 语句已生效导致的问题。
+
+在一个多段语句(比如对话中的菜单)中，当使用 `from_current` 将 :ref:`Call` 设置为True 时，主控流程将恢复为多端语句的第一段(这样才能显示对话内容)。
+
+更多函数使用图像标签(tag)的默认图层。
+
+新增 :func:`renpy.is_init_phase` 函数。
+
+当对话内容是menu语句的一部分时，自动语音功能也可以生效。
+
+移除对GLES1的支持。(多年没用的东西了。)
+
+:func:`SelectedIf` 和 :func:`SensitiveIf` 动作(action)可以支持将其他动作作为入参。
+
+很多条值(BarValue)可以使用一个 `force_step` 入参，强制将某个条(bar)的值调整为最接近的某个档位(step)值。
+
+:func:`Frame` 支持tile入参是一个整数字符串，该整数表示frame中tile图像的重复次数。
+
+.. _translationw-7-3-3:
+
+多语言支持
+------------
+
+韩语和西班牙语更新。
+
+.. _renpy-7.3.2
+
+7.3.2
+=====
+
+.. _fixes-7-3-2:
+
+修复
+-----
+
+在上个版本中的平台变量后退问题已修复。
+
+.. _translations-7-3-1:
+
+多语言支持
+------------
+
+更新西班牙语的支持。
+
 .. _renpy-7.3.1:
 
 7.3.1
