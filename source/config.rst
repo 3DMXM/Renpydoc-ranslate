@@ -222,7 +222,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     自动存档使用的槽位编号。
 
-.. var:: config.cache_surfaces = True
+.. var:: config.cache_surfaces = False
 
     若为True，图像的底层数据存储在RAM中，允许图像操作器(manipulator)使用时不需要从磁盘加载。若为False，数据会从缓存中删除，但会在显存中存为一份纹理(texture)，降低RAM使用。
 
