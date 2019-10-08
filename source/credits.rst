@@ -15,6 +15,7 @@
 * Aleema
 * Alessio
 * Alexandre Tranchant
+* Alisha Taylor
 * Andy_kl
 * Apricotorange
 * Arda Güler
