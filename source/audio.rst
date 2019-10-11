@@ -166,6 +166,16 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
 相关函数
 ---------
 
+.. function:: AudioData(data, filename)
+
+  该类会指向一个byte编码对象，包含音频数据。该对象可以传入音频播放系统。包含的音频数据应该是Ren'Py支持的格式(例如RIFF、WAV格式)。
+
+  `data`
+    包含音频文件数据的byte编码对象。
+
+  `filename`
+    与音频数据相关的复合文件名。它可以表示音频数据格式，也可以用做报错信息。
+
 .. function:: renpy.play(filename, channel=None, **kwargs)
 
   播放一个音效。如果channel为None，默认值为config.play_channel。该函数用在各种样式(style)定义，鼠标悬停声(hover_sound)和激活声(activate_sound)。
@@ -200,35 +210,35 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
 
   该函数会立即停止入参channel上正在播放的声音，解散音频队列，并开始播放入参filenames指定的文件。
 
-  **filenames**
+  `filenames`
 
     该值可以是单个文件，也可以是待播放的文件列表。
 
-  **channel**
+  `channel`
 
     播放声音使用的通道。
 
-  **loop**
+  `loop`
 
     若该值为True，音轨会循环播放，前提是其已经是播放队列最后一个音频。
 
-  **fadeout**
+  `fadeout`
 
     若不为空，这是一个淡出效果的持续时间，单位为秒。否则，淡出时间使用config.fade_music的值。
 
-  **synchro_start**
+  `synchro_start`
 
     Ren'Py会确保所有synchro_start标志为True的通道，能够在几乎同一时间一齐开始播放音频。当我们需要两个音频文件相互同步时，synchro_start就应该被设置为True。
 
-  **fadein**
+  `fadein`
 
     音频开始淡入效果持续时间，单位为秒，在循环播放时仅对第一遍播放有效。
 
-  **tight**
+  `tight`
 
     若该值为True，淡出效果将作用至同一个队列中后面的声音。若为空，当loop为True时tight也为True，否则为False。
 
-  **if_changed**
+  `if_changed`
 
     若该值为True，当前真在播放的音频不会被立刻停止/淡出，而会继续播放。
 
@@ -238,27 +248,27 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
 
   该函数将文件名为filenames的文件加入指定通道channel的播放队列。
 
-  **filenames**
+  `filenames`
 
     该值可以是单个文件，也可以是待播放的文件列表。
 
-  **channel**
+  `channel`
 
     播放声音使用的通道。
 
-  **loop**
+  `loop`
 
     若该值为True，音轨会循环播放，前提是其已经是播放队列最后一个音频。
 
-  **clear_queue**
+  `clear_queue`
 
     若为True，当前播放文件结束后，播放队列中原有文件将被清空。若为False，新增文件会被加在原有队列结尾。无论实际哪种情况，如果当前没有任何音频正在播放，新队列中的音频都会立刻被播放。
 
-  **fadein**
+  `fadein`
 
     音频开始淡入效果持续时间，单位为秒，在循环播放时仅对第一遍播放有效。
 
-  **tight**
+  `tight`
 
     若该值为True，淡出效果将作用至同一个队列中后面的声音。若为空，当loop为True时tight也为True，否则为False。
 
@@ -268,35 +278,35 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
 
   该函数用于注册新的名为入参name的音频通道。之后就可以使用play或queue语句在name通道上播放音频了。
 
-  **mixer**
+  `mixer`
 
     混合器(mixer)使用的通道名。默认情况下，Ren'Py能识别“music”、“sfx”和“voice”混合器。使用其他名称也是可行的，不过可能要修改个性化界面。
 
-  **loop**
+  `loop`
 
     若为True，在新注册通道上的音频默认循环播放。
 
-  **stop_on_mute**
+  `stop_on_mute`
 
     若为True，当新注册通道被静音(mute)时，通道上所有音频都会停止播放。
 
-  **tight**
+  `tight`
 
     若为True，即使有淡出效果，依然可以循环播放。若要实现音效、音乐的无缝连接，就应该把这项设为True。若使用音乐的淡出效果则设置为False。
 
-  **file_prefix**
+  `file_prefix`
 
     在该通道上播放的所有声音文件都会添加的文件名前缀。
 
-  **file_suffix**
+  `file_suffix`
 
     在该通道上播放的所有声音文件都会添加的文件名后缀。
 
-  **buffer_queue**
+  `buffer_queue`
 
     我们是否应缓存一两个文件或者一个文件队列？如果通道是播放音频的话应该设置为True，如果播放视频的话应该设置为False。
 
-  **movie**
+  `movie`
 
     若值为True，该通道会被设为播放视频。
 
@@ -304,15 +314,15 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
 
   设置该通道的声像(pan)。
 
-  **pan**
+  `pan`
 
     控制音频的音源位置的一个值，位于-1至1的闭区间内。若该值为-1，所有音频使用左声道。若该值为0，左右声道均衡发声。若该值为1，所有音频使用右声道。
 
-  **delay**
+  `delay`
 
     为了形成声像使用的延迟时间。
 
-  **channel**
+  `channel`
 
     应用声像的通道名。可以是音乐或音效通道。通常使用通道7，也就是默认的音乐通道。
 
@@ -331,15 +341,15 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
   设置通道的音量volume。对于控制多个通道的混合器(mixer)，该值表示混合器的一个音量分量。
   Sets the volume of this channel, as a fraction of the volume of the mixer controlling the channel.
 
-  **volume**
+  `volume`
 
     该值位于0.0至1.0的闭合区间。对于控制多个通道的混合器(mixer)，该值表示混合器的一个音量分量。
 
-  **delay**
+  `delay`
 
     该值代表一个时间量，用于新旧音量值切换/平滑过渡时的时延，单位为秒。该值会保存在存档中，并接受回滚操作。
 
-  **channel**
+  `channel`
 
     需要设置的通道名。
 
@@ -349,11 +359,11 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
 
   该函数将最后组建的待播放文件列表设置为None。
 
-  **channel**
+  `channel`
 
     需要停止播放的通道名。
 
-  **fadeout**
+  `fadeout`
 
     若不为None，包含一个淡出效果时间，单位为秒。否则淡出时间取决于config.fade_music。
 

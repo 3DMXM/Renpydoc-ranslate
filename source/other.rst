@@ -189,6 +189,10 @@
 
   这个函数创建一个守护线程(daemon thread)，当Ren'Py关闭后这个线程也会自动停止。
 
+.. function:: renpy.is_init_phase()
+
+  当Ren'Py正在执行init代码时返回True，其他情况返回False.
+
 .. function:: renpy.is_seen(ever=True)
 
   如果用户已经看过当前的行，则返回True。
