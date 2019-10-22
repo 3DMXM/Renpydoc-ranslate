@@ -652,7 +652,7 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
     若不为None，该值应该是一个字典型数值，提供了额外的作用域(scope)供文本内插(interpolation)的使用。
 
   `substitute`
-    若该值为真(true)，则应用文本内插(interpolation)。若该值为假(false)，不应用文本内插。若该值为None，由config.new_substitutions控制文本内插表现。
+    若该值为True，则应用文本内插(interpolation)。若该值为False，不应用文本内插。若该值为None，由config.new_substitutions控制文本内插表现。
 
 .. _text-utility-functions:
 

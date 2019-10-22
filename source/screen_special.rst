@@ -78,6 +78,16 @@ Choice
 
         整个游戏流程中该选项至少被选择过一次，则为True。
 
+    .. attribute:: args
+
+        一个元组，包含所以传入菜单选项的固定位置入参。
+
+    .. attribute:: kwargs
+
+        一个字典，包含所有传入菜单选项的关键词参数。
+
+另外，传入menu语句的所有入参都在调用对应界面时才真正执行传参。
+
 ::
 
     screen choice(items):
