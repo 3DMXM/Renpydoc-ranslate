@@ -735,6 +735,16 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     一个图层(layer)名的列表，当进入一个新的上下文(context)时，会清除列表上所有图层的图像。
 
+.. var:: config.exception_handler = None
+
+    如果不是None，该项应该是一个函数，并带有3个入参：
+
+    * 一个字符串，表示记录traceback的缩略文本，仅包含创作者编写的文件。
+    * traceback完整文本，同事包含传作者编写和Ren'Py的文件。
+    * 包含traceback方法的文件路径。
+
+    该函数也可以调用 :func:`renpy.jump` 将主控流程切换至其他文本标签(label)。
+
 .. var:: config.fade_music = 0.0
 
     这是一个单位为秒的时间值，表示在一个新的音轨开始前，旧音轨渐出的时间。这个值应该比较短，这样旧音乐不会播放过久。

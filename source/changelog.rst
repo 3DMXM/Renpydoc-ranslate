@@ -4,6 +4,29 @@
 完整变更日志
 ==============
 
+.. _renpy-7.3.5:
+
+7.3.5
+=====
+
+.. _fixes-7.3.5:
+
+修复
+-----
+
+电脑平台的presplash界面重写，防止该界面下鼠标点击无响应的问题。
+
+iOS端口更新，Ren'Py中新增一些新的模块(module)，可以编译iOS的app。
+
+.. _other-changes-7.3.5:
+
+其他变更
+-------------
+
+``audio`` 目录，也就是由 :ref:`audio namespace <audio-namespace>` 定义的音频目录，可以在启动器(launcher)中有快捷链接。同时，新建项目时会自动创建audio目录。
+
+新增的配置项 :var:`config.exception_handler` 可以配置为某个应用程序，接替Ren'Py自带异常处理系统的所有工作。
+
 .. _renpy-7.3.4:
 
 7.3.4

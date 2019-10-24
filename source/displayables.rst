@@ -218,7 +218,6 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
   这里使用的条件表达式不应该有明显的副作用。
 
   `predict_all`
-
     若为True，当显示可视组件时，所有可能的可视组件都会提前缓存。若为False，只加载当前条件表达式的可视组件。若为None，使用 :func:`config.conditionswitch_predict_all` 的配置。
 
   ::
