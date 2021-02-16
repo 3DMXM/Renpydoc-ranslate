@@ -7,6 +7,10 @@
 
   http://www.renpy.org/
 
+繁體中文的文件請參考這裡：
+
+  https://www.renpy.cn/doc-tw/
+
 日本語のドキュメントは以下にあります:
 
   http://ja.renpy.org/doc/html/
