@@ -245,6 +245,14 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     该项是一个界面列表。当回滚或保存时导致上下文(context)复制时，将移除列表中的所有界面。
 
+.. var:: config.context_fadein_music = 0
+
+    环境发生变化时，Ren'Py播放音乐淡入的时间值，单位为秒。(通常是指游戏加载的情况)
+
+.. var:: config.context_fadeout_music = 0
+
+    环境发生变化时，Ren'Py播放音乐淡出的时间值，单位为秒。(通常是指游戏加载的情况)
+
 .. var:: config.debug = False
 
     启用调试功能(大多数时候将文件丢失问题转成错误信息)。在发布版本中，这项应该是关闭的。
@@ -873,6 +881,18 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.log = None
 
     若非None，这项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :ref:`menu <menu-statement>` 语句展示给用户的文本都会记录在这个文件中。
+
+.. var:: config.mipmap_dissolves = False
+
+    :func:`Dissolve`，:func:`ImageDissolve`，:func:`AlphaDissolve` 和 :func:`AlphaMask` 的mipmap入参默认值。
+
+.. var:: config.mipmap_movies = False
+
+    :func:`Movie` 的mipmap入参默认值。
+
+.. var:: config.mipmap_text = False
+
+    :func:`Text` 的mipmap入参默认值, 包括在screen语句中使用的文本。
 
 .. var:: config.missing_image_callback = None
 

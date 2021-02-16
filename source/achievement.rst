@@ -68,3 +68,9 @@
 .. var:: achievement.steam_position = None
 
     若值不是None，该配置项设置steam弹出通知的位置。该值必须是一个字符串，可使用的内容包括“top left”，“top right”，“bottom left”和“bottom right”。
+
+.. var:: config.steam_appid = None
+
+    若非None，该项应是Steam appid。Ren'Py会在启动时自动设置此appid。需要使用define语句设置该项。
+
+        define config.steam_appid = 12345

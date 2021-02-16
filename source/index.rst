@@ -55,6 +55,7 @@ Ren'Py语言
    transforms
    transitions
    atl
+   matrixcolor
    layeredimage
 
 .. _customizing-ren-py:
@@ -104,6 +105,8 @@ Ren'Py语言
    achievement
    history
    multiple
+   splashscreen_presplash
+   live2d
 
 .. _python-and-ren-py:
 
@@ -126,6 +129,8 @@ Python和Ren'Py
    character_callbacks
    file_python
    color_class
+   matrix
+   model
    other
 
 .. _building-updating-and-other-platforms:

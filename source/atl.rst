@@ -632,7 +632,7 @@ transform存在以下特性(property)：
 
 .. transform-property:: rotate
 
-    :type: float or None
+    :type: float 或 None
     :default: None
 
     若值为None，不会进行旋转。否则，图像会按指定的角度顺时针旋转。根据下面会提到的rotate_pad的配置值，旋转可视组件会导致组件尺寸改变。xanchor和yanchor不为0.5的情况下，旋转整个可视组件会让组件相对整个界面的坐标发生变化。
@@ -736,7 +736,7 @@ transform存在以下特性(property)：
 
 .. transform-property:: crop
 
-    :type: None or (int, int, int, int) or (float, float, float, float)
+    :type: None 或 (int, int, int, int) 或 (float, float, float, float)
     :default: None
 
     若该值非None，会使用给定的矩形剪裁可视组件。指定的矩形是一个(x, y, width, height)形式的元组。如果 ``crop_relative`` 为True并且元组内元素的值是浮点数(float)，width和height用作比例值，与原图像的宽和高分别相乘输出结果。否则，数值代表像素数。
@@ -752,28 +752,71 @@ transform存在以下特性(property)：
 
 .. transform-property:: corner1
 
-    :type: None or (int, int)
+    :type: None 或 (int, int)
     :default: None
 
     若该值非None，给定了剪裁框的左上角坐标。crop优先级高于该项。
 
 .. transform-property:: corner2
 
-    :type: None or (int, int)
+    :type: None 或 (int, int)
     :default: None
 
     若该值非None，给定了剪裁框的右下角坐标。crop优先级高于该项。
 
 .. transform-property:: size
 
-    :type: None or (int, int)
+    :type: None 或 (int, int)
     :default: None
 
     若该值非None，将可视组件伸缩至给定的尺寸。
 
+.. transform-property:: xsize
+
+    :type: None 或 int
+    :default: None
+
+    若该值非None，可是组件会按照给定的宽度缩放。
+
+    该值受到 :tpref:`fit` 影响。
+
+.. transform-property:: ysize
+
+    :type: None 或 int
+    :default: None
+
+    若该值非None，可是组件会按照给定的高度缩放。
+
+    该值受到 :tpref:`fit` 影响。
+
+.. transform-property:: fit
+
+    :type: None 或 string
+    :default: None
+
+    若该值非None，会按下面表格的方式调整尺寸。表格中的“维度”视 ``xsize`` 和 ``ysize`` 不为空的情况而定。
+   
+
+    .. list-table::
+       :widths: 15 85
+       :header-rows: 1
+
+       * - 值
+         - 描述
+       * - ``contain``
+         - 在不超过任何维度尺寸的原则下近可能大。保持宽高比。
+       * - ``cover``
+         - 在不超过任何维持尺寸的原则下尽可能小。保持宽高比。
+       * - None 或 ``fill``
+         - 将可视组件拉伸/挤压，以匹配各维度指定大小。 
+       * - ``scale-down``
+         - 类似 ``contain``，但不会增加可视组件的尺寸。
+       * - ``scale-up``
+         - 类似 ``cover``，但不会增加可视组件的尺寸。
+
 .. transform-property:: maxsize
 
-    :type: None or (int, int)
+    :type: None 或 (int, int)
     :default: None
 
     若该值非None，可以使可视组件在box当中以合适的尺寸放大或缩小显示，同时保持横纵比。（请注意，这意味着长或宽其中一个尺寸可能小于此box的尺寸。）
@@ -801,14 +844,14 @@ transform存在以下特性(property)：
 
 .. transform-property:: xpan
 
-    :type: None or float
+    :type: None 或 float
     :default: None
 
     若该值非None，其被解释为某个360度全景图中的经度。图像中央是0度，图像左端和右端分别是-180度和180度。
 
 .. transform-property:: ypan
 
-    :type: None or float
+    :type: None 或 float
     :default: None
 
     若该值非None，其被解释为某个360度全景图中的纬度。图像中央是0度，图像顶部和底部分别是-180度和180度。
@@ -827,15 +870,32 @@ transform存在以下特性(property)：
 
     图像垂直方向使用tile方式码放图像的次数。(如果给定了ypan的值则忽略本项。)
 
+.. transform-property:: matrixcolor
+
+    :type: None 或 矩阵 或 MatrixColor对象
+    :default: None
+
+    若该值非None，该特性值用于将此变换下的所有子对象上色。详见 :ref:`matrixcolor` 。
+
+.. transform-property:: blur
+
+    :type: None 或 float
+    :default: None
+
+    使用 `blur` 像素数模糊图像的子对象， `blur` 数值不超过可视组件的边长。
+    Ren'Py不同版本的模糊细节可能存在差异。模糊的结果可能看起来不太自然，尤其是模糊数值发生修改的情况下。
+
 这些特性按照以下顺序应用：
 
 #. tile
+#. mesh, blur
 #. crop, corner1, corner2
 #. size, maxsize
 #. zoom, xzoom, yzoom
 #. pan
 #. rotate
 #. position properties
+#. matrixcolor
 
 .. _circular-motion:
 

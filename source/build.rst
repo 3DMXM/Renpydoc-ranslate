@@ -298,9 +298,9 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
 
 下列配置变量提供了对生成过程的更多控制项：
 
-.. var:: build.exclude_empty_directories = True
+.. var:: build.allow_integrated_gpu = True
 
-    若为True，空目录(包括文件归档后残留的空目录)会从生成的包(package)中移除。若为False，则会包含空目录。
+    在同时包含集成显卡和独立显卡的平台上，允许Ren'Py运行在集成显卡上。目前，这个功能仅在Mac OS X上支持。
 
 .. var:: build.destination = "{directory_name}-dists"
 
@@ -317,9 +317,19 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
     ``{version}``
         build.version的值。
 
-.. var:: build.allow_integrated_gpu = True
+.. var:: build.change_icon_i686 = True
 
-    在同时包含集成显卡和独立显卡的平台上，允许Ren'Py运行在集成显卡上。目前，这个功能仅在Mac OS X上支持。
+    若为True并且 icon.ico 文件存在，32位Windows可执行程序的图标可以被修改。
+    若为False，图标不能修改。将该值设置为False可以防止某些杀毒软件对游戏文件更改导致的问题。
+
+.. var:: build.exclude_empty_directories = True
+
+    若为True，空目录(包括文件归档后残留的空目录)会从生成的包(package)中移除。若为False，则会包含空目录。
+
+.. var:: build.include_i686 = True
+
+    If true, files necessary to run on 32-bit x86 processors will be included
+    in the Linux and Mac builds. If False, these files will not be included.
 
 .. var:: build.include_old_themes = True
 
@@ -332,3 +342,7 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
     配置了这项后，就允许Ren'Py启动器将项目上传感到itch.io。这项应该设置为在itch上注册的项目名。(例如，“renpytom/the-question”。)
 
     一旦设置了这项，你可以点击“生成分发版”，然后选择“上传到itch.io”，将生成的版本上传。
+
+.. var:: build.mac_info_plist = { }
+
+    该配置项是一个字典型数据，键和值都是字符串。用于添加或覆盖mac中的Info.plist文件。

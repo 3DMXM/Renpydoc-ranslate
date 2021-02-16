@@ -102,7 +102,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. function:: SetField(object, field, value)
 
-  将某个对象的字段(field)设置为给定的值。 *object* 是目标对象， *field* 是待设置的域的名称的字符串， *value* 是需要设置成的值。
+  将某个对象的字段(field)设置为给定的值。 *object* 是目标对象， *field* 是待设置的字段名称的字符串， *value* 是需要设置成的值。
 
 .. function:: SetLocalVariable(name, value)
 
@@ -631,13 +631,13 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
     调整的对象。
 
   `field`
-    域(filed)名称的字符串。
+    字段(filed)名称的字符串。
 
   `range`
     可调整的范围。
 
   `max_is_zero`
-    若为True，当键对应的值为0时，条(bar)值范围会调整为从1到0，所有其他值都会被降低到1。同样的，当条(bar)被设置成最大值时，域(filed)的值将设置为0。
+    若为True，当键对应的值为0时，条(bar)值范围会调整为从1到0，所有其他值都会被降低到1。同样的，当条(bar)被设置成最大值时，字段(filed)的值将设置为0。
 
     这偏向于某些内部使用。
 
@@ -747,7 +747,7 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
   一个更新某个对象上字段(field)值的输入值。
 
   `field`
-    域(filed)名称的字符串。
+    字段(filed)名称的字符串。
 
   `default`
     若为True，输入默认是可以被编辑的。
@@ -1085,11 +1085,11 @@ Tooltips
 
   当鼠标指针悬停在某个区域上时，一个tooltip对象可以用于提示对应界面的功能。
 
-  tooltip对象有一个 ``value`` 域，当tooltip对象被创建时会通过构造器传入 *default* 作为默认值。当通过tooltip创建的某个按钮动作被使用时，value域就会根据关联的动作改变对应值。
+  tooltip对象有一个 ``value`` 字段，当tooltip对象被创建时会通过构造器传入 *default* 作为默认值。当通过tooltip创建的某个按钮动作被使用时，value字段就会根据关联的动作改变对应值。
 
   .. method:: Action(value)
 
-    将按钮的hovered特性对应的动作返回。当按钮处于指针悬停状态时，tooltip的value域会被设置为 *value* 。当按钮失去焦点时，tooltip的value域会恢复为默认值。
+    将按钮的hovered特性对应的动作返回。当按钮处于指针悬停状态时，tooltip的value字段会被设置为 *value* 。当按钮失去焦点时，tooltip的value字段会恢复为默认值。
 
 在某个界面使用tooltip时，常用做法是在default语句中创建tooltip对象。tooltip的值和动作的方法可以在界面中使用。使用时可以按任何顺序——在动作执行前就可以使用tooltip的值。
 

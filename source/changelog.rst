@@ -4,6 +4,448 @@
 完整变更日志
 ==============
 
+.. _renpy-7.4.3:
+
+7.4.3
+=====
+
+.. _7-4-3-features:
+
+新增特性
+--------
+
+新增的 :func:`renpy.get_zorder_list` 和 :func:`renpy.change_zorder` 函数允许图像或界面显示中设置zorder的值。
+
+.. _7-4-3-old-features:
+
+旧特性
+--------
+
+在Ren'Py 7.4中引入的 :var:`default_mouse` 配置项允许不修改 :var:`config.mouse` 的情况下实现修改鼠标光标。但实时修改该配置项的方法不存在。
+
+
+.. _renpy-7.4.2:
+
+7.4.2
+=====
+
+.. _7-4-2-fixed-and-changes:
+
+修复与变更
+-----------------
+
+新增的配置项 :var:`config.context_fadeout_music` 和 :var:`config.context_fadein_music`
+可以实现游戏加载或其他运行环境变化时的音乐淡入淡出效果。
+
+Ren'Py根据文件扩展名(.motion3.json 和 .exp3.json)搜索Live2D动作和表情文件，而不再使用目录名称。
+
+新增的 :var:`build.include_i686` 配置项判断32位版本的Ren'Py是否打包生成。不包含32位版本的程序不仅可以减少下载数据，还能避免某些杀毒软件的过度反应。
+
+新增的 :var:`build.change_icon_i686` 配置项将阻止i686版本的图标变更。这个改动可以避免杀毒软件的错误检测。
+
+当游戏运行时，Ren'Py不再禁用屏幕保护或系统休眠功能。
+
+maxOS上一个全屏禁用调整窗口大小后无法恢复窗口的问题，已经修复。
+
+树梅派上播放webp图片导致死机的问题已经修复。
+
+此版本修复了生成发布过程中会丢失文件的一个错误：
+
+* say.vbs文件丢失，在Windows平台的自动语音功能无法正常工作。
+* 用于支持ANGLE的一些文件丢失，导致DirectX渲染时无法正常工作。
+
+.. _7.4.2-android:
+
+安卓
+-------
+
+在三星的设备上发现一个问题，是启用放大快捷键时，可能游戏会无法响应。
+我正在出补丁修复，但不想因此延后这个版本的更新。
+
+macOS上的JVM检测机制很健壮，不太会被浏览器插件拒绝。
+
+当前版本Ren'Py推荐使用AdoptOpenJDK作为JVM的基础。
+
+
+.. _renpy-7.4.1:
+
+7.4.1
+=====
+
+.. _7-4-1-pause-statement-changes:
+
+pause语句变更
+--------------
+
+``pause`` 语句的无法变更，正确用法为：
+
+::
+    pause 1.0
+
+等效于：
+
+::
+
+    $ renpy.pause(1.0)
+
+不再是：
+
+::
+
+    with Pause(1.0)
+
+这表示需要真正暂停的功能特性都可以用pause语句实现。
+
+modal型界面不再阻挡 ``pause`` 或 :func:`renpy.pause()` 的暂停效果。
+这表示pause语句可以对显示在其上层的界面也有效果。
+
+.. _7-4-1-say-statement-id-clause:
+
+say语句带id的从句
+-----------------------
+
+say语句可以增加一种 ``id`` 从句，允许创作者指定原say语句id。
+这用在需要多语言支持的项目有用，比如原版语言中修复了一个拼写错误，不再需要更新所有其他语言文件。
+
+
+使用该功能特性是，只要在say语句后面添加 ``id``，并拼上语句的id号。
+
+::
+
+    e "This used to have a typo." id start_61b861a2
+
+.. _7-4-1-live2d:
+
+Live2D
+------
+
+Live2D添加了一个 `default_fade` 参数，可以修改动作和表情开始与结束时的默认平滑过渡时间。
+
+一个Live2D的明显元组错误已经修复。
+
+.. _7-4-1-controller-blocklist:
+
+控制器黑名单
+--------------------
+
+The Nintendo Switch Pro Controller, when connected to a computer by
+USB, requires an initialization sequence to be sent to cause it to
+act as a Joystick, and not return incorrect data.
+任天堂Switch Pro手柄使用USB连接上电脑后，会申请一个初始序列号之后才能作为游戏设备使用。
+
+Ren'Py 7.4.0版本尝试发送这个序列号，但这样做需要直接接入USB总线，在某些电脑上可能会导致死机或长时间暂停。
+我们认为，这种做法很容易导致Ren'Py的其他兼容问题。
+
+结果是，我们把任天堂Switch Pro手柄加入了控制器黑名单中，不能在Ren'Py中使用。
+
+.. _7-4-1-macos:
+
+macOS
+-----
+
+现在macOS的最低支持版本是10.10(Yosemite).
+Ren'Py 7.4无法在这个版本号运行，所以这是对该版本支持的恢复。
+
+macOS 11.0(Big Sur)上无法选择项目目录的问题已经修复。
+
+Pyobjus已经内置在macOS版本Ren'Py中。这个库可以使用Cocoa的API。
+
+.. _7-4-1-android:
+
+安卓
+-------
+
+有一些报告发现，Ren'Py 7.4.1预发布版本在某些老旧的安卓设备上无法正常工作，比如三星Galaxy S5。
+我们正尝试着一个设备复现此类问题，必要的时候再发布一个新版本。
+
+.. _7-4-1-translation:
+
+多语言支持
+------------
+
+更新了西班牙语。
+
+.. _7-4-1-other-fixes:
+
+其他修复
+-----------
+
+某些支持SSE3的电脑使用Ren'Py播放某些分辨率视频时导致的死机问题已经修复。
+
+跟之前版本的Ren'Py一样，视频播放时可以利用CPU多核进行解码。
+
+Windows平台不使用100%DPI时，Ren'Py窗口变大的问题已经修复。
+
+选用不支持的渲染器时，Ren'Py不再会给性能告警，比如要求GL2渲染器时使用GL或者ALGLE渲染器的情况。
+
+某些情况下say语句中属性(attribute)无法生效的问题已经修复。
+
+非默认UTF-8编码文件的电脑，使用MultiPersistent保存文件不生效的问题已经修复。
+
+``rpy python 3`` 标识混合编译的性能提升。
+
+三重引号字符串(比如用在gui.about里的)使用出错的问题已经修复。
+
+重新加载时，Ren'Py将重新检测自身所在路径。
+
+Ren'Py会根据渲染器动态加载所有功能，并在不生效的情况下尝试其他渲染器。
+
+某个语句后加载的计时器(timer)，会在回滚后精确复位。如果计时已经结束，即使游戏回滚到计时器生成之前的地方，依然会保持计时结束状态。
+
+Ren'Py允许游戏运行时截屏。
+
+动态变量在回滚后无法维持动态的问题已经修复。
+
+给定尺寸后，hbox和vbox可视组件会以Ren'Py 7.4相同方式放置所有子组件。
+
+新增的 :propref:`mipmap` 样式特性可以用在 :func:`Dissolve`，:func:`ImageDissolve` 和 :func:`AlphaDissolve` 转场效果中，
+以及 :func:`AlphaMask`，:func:`Movie` 和 :func:`Text` 可视组件中，还有所有文本。
+该特性控制以上提及内容生成的纹理是否生成mipmap。不生成mipmap可以提升速度较慢电脑的渲染性能，缺点是缩小图片时会有显示瑕疵。
+没有指定值的情况下，该特性分别根据配置项 :var:`config.mipmap_dissolves`，:var:`config.mipmap_movies` 和 :var:`config.mipmap_text` 取值。
+
+自动语音配置项的版本切换功能体验提升。
+
+Lint检查工具再次由于多语言问题爆了。
+
+
+.. _renpy-7.4.0:
+
+7.4
+====
+
+
+.. _model-based-renderer:
+
+基于模型的渲染器(renderer)
+---------------------------
+
+新版本包含一个全新的“基于模型的渲染器(model-based renderer)”，主要处理将文本和图片绘制到显示器上，作为Ren'Py 6.10时添加的原生OpenGL渲染器的补充(实际是替换)。
+该渲染器能够更好利用当前主流GPU(无论集显还是独显)提升性能和效果。
+该渲染器支持的设备包括，支持OpenGL 2.2、DirectX 9.0c或11的电脑，支持OpenGL ES 3的移动设备和嵌入式系统。
+
+基于模型的渲染器最大的改变在于，Ren'Py将不再受限于在二维平面上绘制矩形图像，Ren'Py可以将图像转为三维空间内的三角形网格(mesh)。
+已经存在和使用的矩形精灵对象(sprite)也将使用同样的显示方式，Ren'Py将其转换为非矩形的网格，实际上就是全三维的几何体(geometry)。
+
+除了网格几何体，基于模型的渲染器还支持着色器(shader)，除了Ren'Py自带的着色器，还允许创作者在游戏中自定义着色器。
+着色器(shader)是指运行在GPU上的小段程序，用来处理几何体与像素数据，以此实现各种类型的图像效果。
+
+基于模型的渲染器实现了更快的纹理(texture)加载系统，把一些系统消耗加大的纹理加载和alpha遮罩(premultiplication)工作，从CPU转到GPU处理。
+
+基于模型的渲染器还会为加载进GPU的纹理创建mipmap。mipmap是指纹理的一系列分割采样后的缩微版本，存储在GPU中。通过创建和使用mipmp，现版本Ren'Py将图片尺寸缩小到原来的50%，且不产生混频失真(aliasing artifact)。
+该功能在4K显示器使用1080P或更低分辨率时能有明显效果。
+
+在当前版本中，基于模型的渲染器是可选的配置项，通过变量 :var:`config.gl2` 控制是否使用。当我们对新渲染器基类足够经验之后，可能会作为为类Ren'Py的默认渲染器。
+
+.. _renpy-7.4.0-live2d:
+
+Live2D
+------
+
+基于模型的渲染器带来的新特性之一，就是支持使用Live2D技术支持的精灵图像(sprite)。
+Ren'Py要求创作者自行下载Live2D Cubism的包，同时创作者在发行游戏前需要同意Live2D技术的使用条款。
+
+Ren'Py支持Live2D模型的显示，可以任意改变模型的表情并将多个动作组合成队列(queue)。该功能集成在Ren'Py的图像属性(image attribute)中。
+当图像属性改变时，Ren'Py还支持动作切换的渐变(fade)效果。
+
+.. _matrixcolor-and-blur:
+
+matrixcolor和blur
+-----------------
+
+基于模型的渲染器带来了变换(transform)方面的新功能，比如matrixcolor和blur。
+
+当前版本的变换(包括ATL中的变换)新增了一个 :tpref:`matrixcolor` 特性(property)。
+该特性是一个矩阵(matrix)或实时创建矩阵的对象，用于对变换的子组件进行染色。
+
+之前版本的Ren'Py中包含名为 func:`im.MatrixColor` 的图像处理器，而新的matrixcolor特性的性能更好。
+图像处理器往往需要几分之一秒进行运算，在实时演算中显得太慢，并且尽显对单一图像处理。新的变换特性速度很快，可以用在需要演算的每一帧，并且可以应用在所有可视组件。
+现在可以使用变换的matrixcolor用于某个图层(layer)，将整个图层染色——不再需要单独的纯色图就可以将游戏画面改为老旧照片的棕黄色(sepia)或者黑白两色。
+
+图像处理器中的MatrixColor跟新增的matrixcolor特性有些许差别，新增的matrixcolor使用4×4矩阵并对alpha通道预乘(premultiply)，所以它使用的矩阵与图像控制器不同。
+此外，使用新的matrixcolor特性时需要使用一些新的 :ref:`ColorMatrix <colormatrix>` 对象。
+
+另一个新增的变换特性是  :tpref:`blur` ，可以根据给定的像素数对可视组件的子组件模糊处理。
+
+.. _python-2-python-3-compatibility-mode:
+
+Python2/Python3兼容模式
+------------------------
+
+因为Ren'Py还不完全在Python3环境内支持，该版本的Ren'Py包含了一些功能特性允许创作者的脚本同时在Python2和Python3环境下运行。
+
+首先，Ren'Py现在使用 `未来计划 <https://python-future.org/>`_ 提供标准库的兼容性。
+目前可以在模块(module)已经改名的情况下使用import引用Python3的模块。
+
+某个开头为 ``rpy python 3`` 的.rpyc 文件将会以Python3兼容模式编译。该特性导致了两项变化：
+
+* Ren'Py编译文件时将尝试匹配Python3语法规则，包括除法规则的改变。在Python3中，``1/2`` 等于0.5而不是0。
+  由于这项改变会影响可视组件的位置，写成 ``1//2`` 可以保持原来的语法规则。
+* Ren'Py会改变字典(dict)类型的行为表现，直接在 .rpy 文件中调用 ``items``、 ``keys`` 和 ``values`` 方法时，
+  将返回视图(view)类型，而不是原来的列表(list)类型。这项改变匹配Python3中对应方法的语法规则，但在面对数据保存或回滚时，
+  必须将返回结果显式转化为列表类型再使用。
+
+.. _upgraded-libraries-and-platform-support:
+
+升级了库与平台支持
+--------------------
+
+Ren'Py 7.4的生成系统(build system)统一为redone，不再使用多系统单独生成的方式(除了webasm)。
+此次生成系统的变更同时将所有Ren'Py用到的库都升级为更新的版本。
+
+因此，Ren'Py官方支持的平台列表有明显变化。这里是最新的支持列表：
+
+.. list-table::
+    :header-rows: 1
+
+    * - 平台
+      - CPU
+      - 备注
+    * - Linux
+      - x86_64
+      - 最低版本要求Ubuntu 16.04
+    * - Linux
+      - i686
+      - 最低版本要求Ubuntu 16.04
+    * - Linux
+      - i686
+      - 最低版本要求Ubuntu 16.04
+    * - Linux
+      - armv7l
+      - 使用Raspian Buster的树梅派
+    * - Windows
+      - x86_64
+      - 64位或更新版本的Windows Vista。
+    * - Windows
+      - i686
+      - 最低版本要求Windows Vista.
+    * - macOS
+      - x86_64
+      - macOS 10.10+
+    * - Android
+      - armv7a
+      - Android 4.4 KitKat
+    * - Android
+      - arm64
+      - Android 5.0 Lollipop
+    * - Android
+      - x86_64
+      - Android 5.0 Lollipop
+    * - iOS
+      - arm64
+      - 所有64位iOS设备，iOS 11.0+
+    * - iOS
+      - x86_64
+      - 所有64位iOS模拟器，iOS 11.0+
+    * - Web
+      - webasm
+      - 主流web浏览器
+
+最大的新增平台是64位版本Windows，这意味着Ren'Py可以在所有主流64位桌面和移动平台运行。
+如果需要的话，新增的 :var:`renpy.bits` 配置项可用于确认运行平台是32位还是64位(例如，将 :var:`config.image_cache_size_mb` 设置为合适的值)。
+
+当前版本不再支持32位使用armv71处理器的iOS设备。这些设备甚至不再被苹果支持，并且也不支持Ren'Py要求的OpenGL ES版本。
+
+.. _renpy-7-4-0-web:
+
+Web
+---
+
+多亏了新的编译技术，现在Ren'Py在浏览器上的运行速度显著提升了。
+
+为web平台构建的游戏可以在游戏运行时从服务器下载图像和音频文件。
+当图像或音频预加载时，游戏就会开始下载。这项技术可以减少游戏开始运行前的初始化时间和内存占用。
+
+在触屏设备的web浏览器上运行游戏时，Ren'Py会显示一个触控键盘，弥补WebAssembly游戏键盘输入方面的缺陷。
+
+加载过程中可以使用WebP格式显示splash界面，包括带动画的WebP。
+
+提供了更多Python模块(module)，使Python环境更贴近原生的Ren'Py端口。
+
+提升了对iOS浏览器的支持。
+
+.. _renpy-7-4-0-steam:
+
+Steam
+------
+
+可以在Ren'Py启动器安装Steam平台的支持。方法是启动器中选择在“设置”->“安装库”->“安装Steam支持包”。
+
+新增的配置项 :var:`config.steam_appid` 会为创作者自动创建名为 steam_appid.txt 的文件。
+在项目中应用时，需要使用 ``define`` 语句赋值或在python early 语句块中赋值。
+
+.. _renpy-7-4-0-translations:
+
+多语言支持
+----------
+
+简体中文、日语和汉语的多语言支持更新，现在使用了统一的字体(译者注：SourceHanSans，也就是思源黑体)。
+
+教程项目中新增了简体中文，由Neoteus提供。
+
+(译者：我不吐槽这事……)
+
+.. _renpy-7-4-0-depreciations-and-removals:
+
+折损和移除
+----------
+
+如上面所说，Ren'Py不再支持Windows XP。
+
+如上面所说，Ren'Py不再支持32位iOS设备。
+
+Ren'Py内移除了下载Editra文本编辑器的选项。
+Editra编辑器已经超过5年未更新，并且原始发布网站已经关闭。
+
+基于软件的渲染器没有完全移除，而是做了精简，并且在游戏运行时不再作为可选项。原因是防止基于GPU的渲染器在实际游戏中显示错误而导致玩家认为游戏有问题。
+
+.. _renpy-7-4-0-miscellaneous:
+
+其他杂项
+---------
+
+对游戏控制器的支持提升。手柄控制器可以实现连发效果。Ren'Py使用的库重新编译以支持更多主流游戏控制设备。
+
+Ren'Py在安卓和iOS设备上使用软件解码播放视频影片(movie)，这意味着相同的视频文件可以在全平台播放。
+
+定义了鼠标光标配置项 :var:`config.mouse` ，使用SDL2的色彩光标API，能用利用硬件加速功能并降低了鼠标移动延迟。
+
+现在 ``define`` 语句可以用于设置字典中的一个key值。
+::
+
+    # Ren'Py项目起源于2004年。
+    define age["eileen"] = 2021 - 2004
+
+``define`` 语句可以使用 += 和 \|= 运算符，并用于对应的运算。
+
+::
+
+    define config.keymap['dismiss'] = [ 'K_KP_PLUS' ]
+
+    # 这里假设 endings 是一个集合。
+    define endings |= { "best" }
+
+现在 ``play`` 和 ``queue`` 后面使用新增的 ``volume`` 分句，可以在播放音频文件的任意时候，指定某个音频通道的音量。
+
+变换(transform)中新增的 :tpref:`fit` 特性提供了不同以往的图像填充方式，可以决定图像是否保持长宽比进行填充。
+举例来说，图像可以缩放为给定尺寸，或者完全覆盖不缩放。
+
+应用 :tpref:`xpan` 和 :tpref:`ypan` 特性的可视组件不再会被增大为原尺寸的两倍，便于与其他变换特性组合使用。
+
+:func:`renpy.input` 函数可以使用正则表达式判断输入内容是否被允许。
+
+Grid网格可以使用 :propref:`margin` 特性，用于指定整个网格的外延空白区域以及视口(viewport)的内部空白。
+
+Ren'Py支持一种 {alt} 文本标签(text tag)。带有这种标签的文本会在自动语音模式下念出来，但不会显示在屏幕上。
+另一种相反效果的文本标签是 {noalt} 。
+
+启动器窗口可以调整尺寸。“设置”选项中新增了一个按钮，用于重置启动器窗口大小。
+
+新增配置项 :var:`build.mac_info_plist` 便于定制化mac版的app。
+
+Ren'Py内置了 `requests <https://requests.readthedocs.io/en/master/>`_ 库，联网功能更方便。
+
+按下键盘的PAUSE键直接进入游戏菜单(game menu)。
+
 .. _renpy-7.3.5:
 
 7.3.5

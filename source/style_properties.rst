@@ -315,6 +315,13 @@
 
     但这个特性并不适用于所有的可视组件和布局(layout)。
 
+.. style-property:: mipmap boolean 或 None
+
+    该特性控制可视组件创建的纹理是否使用mipmap。该特性只适用于某些可视组件，包括 :func:`Text`，:func:`Movie` 和 dissolve。
+
+    若非None，默认值从配置项 :var:`config.mipmap_text`，:var:`config.mipmap_movies` 和
+    :var:`config.mipmap_dissolves` 获取。
+
 .. _text-style-properties:
 
 文本样式特性
@@ -813,3 +820,39 @@
 .. style-property:: order_reverse boolean
 
     若为False，也就是默认值，方框内元素会从前往后绘制，第一个元素下面是第二个元素。若为True，顺序会倒过来，第一个元素会在方框最底层。
+
+.. _margin-style-properties:
+
+边距样式特性
+--------------
+
+边距(margin)样式特性用于增加某些可视组件周围的透明空间。可用于：window、frame、button、grid和vpgrid。
+
+.. style-property:: left_margin int
+
+    可视组件左边距，单位为像素。
+
+.. style-property:: right_margin int
+
+    可视组件右边距，单位为像素。
+
+.. style-property:: xmargin int
+
+    等效于，将左边距和右边距设置为相同的值。
+
+.. style-property:: top_margin int
+
+    可视组件上边距，单位为像素。
+
+.. style-property:: bottom_margin int
+
+    可视组件下边距，单位为像素。
+
+.. style-property:: ymargin int
+
+    等效于，将上边距和下边距设置为相同的值。
+
+.. style-property:: margin tuple
+
+    该值可以是一个2元元组，分别设置xmargin和ymargin。
+    该值也可以是一个4元元组，分别设置left_margin、top_margin、right_margin和bottom_margin。
