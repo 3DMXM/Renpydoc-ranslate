@@ -37,7 +37,7 @@ Ren'Py可以使用libav解码器(已内置)播放以下视频编码格式的影�
 全屏播放影片
 -----------------
 
-全屏播放影片最简单有效的办法是，使用 :var:`renpy.movie_cutscene` 函数。该函数会全屏播放影片直到影片结尾。用户也可以点击直接跳过播放。
+全屏播放影片最简单有效的办法是，使用 :func:`renpy.movie_cutscene` 函数。该函数会全屏播放影片直到影片结尾。用户也可以点击直接跳过播放。
 
 ::
 
@@ -108,77 +108,65 @@ python函数
 
 .. function:: renpy.movie_cutscene(filename, delay=None, loops=0, stop_music=True)
 
-  该函数播放一个MPEG-1格式的过场。用户可以使用点击跳过该过场。顶层元素overlay和底层元素underlay在过场中依然显示。
+    该函数播放一个MPEG-1格式的过场。用户可以使用点击跳过该过场。顶层元素overlay和底层元素underlay在过场中依然显示。
 
-  **filename**
+    `filename`
+        含有MPEG-1影片的文件名。
 
-    含有MPEG-1影片的文件名。
+    `delay`
+        过场结束前等待(用户交互行为)的时间，单位为秒。通常就是影片长度，以秒计。若该值为None，delay值会被自动计算，使用循环总次数(即入参loop+1)乘以影片总时长。若该值为-1，则会一直等待用户点击。
 
-  **delay**
+    `loops`
+        该值表示，除了首次播放之外，额外循环播放的次数。若值为-1表示始终循环播放。
 
-    过场结束前等待(用户交互行为)的时间，单位为秒。通常就是影片长度，以秒计。若该值为None，delay值会被自动计算，使用循环总次数(即入参loop+1)乘以影片总时长。若该值为-1，则会一直等待用户点击。
-
-  **loops**
-
-    该值表示，除了首次播放之外，额外循环播放的次数。若值为-1表示始终循环播放。
-
-  若影片播放被用户停止则返回True，若在delay定义的预计时间内由于其他原因中断播放则返回False。
+    若影片播放被用户停止则返回True，若在delay定义的预计时间内由于其他原因中断播放则返回False。
 
 .. function:: Movie(fps=24, size=None, channel='movie', play=None, mask=None, mask_channel=None, image=None, play_callback=None, **properties)
 
-  该函数创建了一个可视组件用于显示当前影片。
+    该函数创建了一个可视组件用于显示当前影片。
 
-  **fps**
+    `fps`
+        指定影片的播放帧率。(该值通常可以省略。播放时指定的帧率会后向匹配，即高帧率视频可以指定更低帧率播放。影片文件的原始帧率会被自动检测到。)
 
-    指定影片的播放帧率。(该值通常可以省略。播放时指定的帧率会后向匹配，即高帧率视频可以指定更低帧率播放。影片文件的原始帧率会被自动检测到。)
+    `size`
+        该值有两种情况：指定一个包含指定影片宽度和高度的元组，或空值(None)自适应影片原尺寸。(如果这里设置为空值(None)，可视组件在不播放影片时的值就是(0, 0)。)
 
-  **size**
+    `channel`
+        与播放影片相关联的音频通道名。当某个影片在该通道上播放时，就会在对应的影片组件上显示。若未指定该值，并且入参play提供了播放文件名的情况下，会自动选择可用的通道名。
 
-    该值有两种情况：指定一个包含指定影片宽度和高度的元组，或空值(None)自适应影片原尺寸。(如果这里设置为空值(None)，可视组件在不播放影片时的值就是(0, 0)。)
+    `play`
+        若给定入参play，其应该是某个影片文件的路径。显示影片时，入参channel通道上的影片文件将会自动播放。当影片被隐藏时，影片文件会自动停止播放。
 
-  **channel**
+    `mask`
+        若给定入参mask，其应是某个影片文件的路径，而这个影片用作可视组件的alpha通道。影片被显示时，在mask_channel通道上的影片文件将会自动播放。当影片被隐藏时，影片文件会自动停止播放。
 
-    与播放影片相关联的音频通道名。当某个影片在该通道上播放时，就会在对应的影片组件上显示。若未指定该值，并且入参play提供了播放文件名的情况下，会自动选择可用的通道名。
+    `mask_channel`
+        alpha遮罩视频播放使用的通道。若未给定，默认会在入参channel后面加上 ``_mask`` 后缀，注册一个新的通道。(例如，若入参channel名为“sprite”，那么自动生成的mask_channel值就是“sprite_mask”。)
 
-  **play**
+    `image`
+        若入参play给定，但文件可能并不存在或不能播放的情况下，则会显示入参image给定的图片文件。(例如，这个功能可以用于创建一个精简的移动版本，其不包含影片精灵。)当用户遇到系统负荷过重时，也能在特性中选择降低为显示图片而不是播放影片。
 
-    若给定入参play，其应该是某个影片文件的路径。显示影片时，入参channel通道上的影片文件将会自动播放。当影片被隐藏时，影片文件会自动停止播放。
+    `play_callback`
+        若不是None，这个函数用于启动影片的播放。(函数的工作可能是将一个转场加入到各个sprite之间。)调用函数时使用下列入参：
 
-  **mask**
+        `old`
+            旧的Movie对象，如果没有播放影片则为None。
 
-    若给定入参mask，其应是某个影片文件的路径，而这个影片用作可视组件的alpha通道。影片被显示时，在mask_channel通道上的影片文件将会自动播放。当影片被隐藏时，影片文件会自动停止播放。
+        `new`
+            新的Movie对象。
 
-  **mask_channel**
+        Movie对象中包含的播放参数分别对应 ``channel`` 、 ``mask`` 和 ``mask_channel`` 字段(field)的入参。
 
-    alpha遮罩视频播放使用的通道。若未给定，默认会在入参channel后面加上 ``_mask`` 后缀，注册一个新的通道。(例如，若入参channel名为“sprite”，那么自动生成的mask_channel值就是“sprite_mask”。)
+        如果想要使用 :func:`renpy.music.play()` 在指定的通道启动影片播放的话，带上synchro_start=True。最小化实现代码如下：
 
-  **image**
+        ::
 
-    若入参play给定，但文件可能并不存在或不能播放的情况下，则会显示入参image给定的图片文件。(例如，这个功能可以用于创建一个精简的移动版本，其不包含影片精灵。)当用户遇到系统负荷过重时，也能在特性中选择降低为显示图片而不是播放影片。
+            def play_callback(old, new):
 
-  `play_callback`
+                renpy.music.play(new._play, channel=new.channel, loop=True, synchro_start=True)
 
-    若不是None，这个函数用于启动影片的播放。(函数的工作可能是将一个转场加入到各个sprite之间。)调用函数时使用下列入参：
+                if new.mask:
+                    renpy.music.play(new.mask, channel=new.mask_channel, loop=True, synchro_start=True)
 
-    **old**
-
-      旧的Movie对象，如果没有播放影片则为None。
-
-    **new**
-
-      新的Movie对象。
-
-    Movie对象中包含的播放参数分别对应 ``channel`` 、 ``mask`` 和 ``mask_channel`` 字段(field)的入参。
-
-    如果想要使用 :func:`renpy.music.play()` 在指定的通道启动影片播放的话，带上synchro_start=True。最小化实现代码如下：
-
-    ::
-
-        def play_callback(old, new):
-
-            renpy.music.play(new._play, channel=new.channel, loop=True, synchro_start=True)
-
-            if new.mask:
-                renpy.music.play(new.mask, channel=new.mask_channel, loop=True, synchro_start=True)
-
-  影片组件在不播放影片时是完全透明的。
+    `loop`
+        若为False，不会循环播放影片。如果 `image` 已定义，影片播放结束后将显示对应图片。否则，影片播放结束后将变成透明画面。

@@ -187,12 +187,14 @@
     例如：
 
     ::
+
         $ renpy.set_tag_attributes("lucy mad")
         $ renpy.say(l, "I'm rather cross.")
 
     和
 
     ::
+
         l mad "I'm rather cross."
 
     是等效的。

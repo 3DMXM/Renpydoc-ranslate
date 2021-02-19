@@ -473,90 +473,87 @@ Ren'Py支持定义定制化界面语言语句。创作者定义的界面语言�
 
 .. class:: renpy.register_sl_displayable(name, displayable, style, nchildren=0, scope=False, replaces=False, default_keywords={})
 
-  注册一个界面语言语句，用于创建一个可视组件。
+    注册一个界面语言语句，用于创建一个可视组件。
 
-  `name`
-    注册的界面语言语句名称，一个包含自定义Ren'Py关键词的字符串。这个关键词用于标识进入了新的语句。
+    `name`
+        注册的界面语言语句名称，一个包含自定义Ren'Py关键词的字符串。这个关键词用于标识进入了新的语句。
 
-  `displayable`
-    这是一个函数，被调用后返回一个可视组件对象。所有固定位置入参、特性(property)和样式特性都可以作为入参传入这个函数。其他关键词入参请看后面部分。
+    `displayable`
+        这是一个函数，被调用后返回一个可视组件对象。所有固定位置入参、特性(property)和样式特性都可以作为入参传入这个函数。其他关键词入参请看后面部分。
 
-    这个函数的返回值必须是一个可视组件。如果它返回了多个可视组件，最外层可视组件的“_main”属性(attribute)应该被设置成那个“主”可视组件——子组件添加在“主”组件上。
+        这个函数的返回值必须是一个可视组件。如果它返回了多个可视组件，最外层可视组件的“_main”属性(attribute)应该被设置成那个“主”可视组件——子组件添加在“主”组件上。
 
-  `style`
-    可视组件样式的基础名称。如果风格特性(property)没有指定，这项会添加风格前缀。处理后的样式名会以 ``style`` 关键词传入可视组件的处理函数。
+    `style`
+        可视组件样式的基础名称。如果风格特性(property)没有指定，这项会添加风格前缀。处理后的样式名会以 ``style`` 关键词传入可视组件的处理函数。
 
-  `nchildren`
-    可视组件的子组件数量。可能是：
+    `nchildren`
+        可视组件的子组件数量。可能是：
 
-    **0**
+        **0**
+            没有子组件。
 
-      没有子组件。
+        **1**
+            有1个子组件。如果多于1个，则所有子组件放在一个固定布局(Fixed)中。
 
-    **1**
+        **"many"**
+            有多个子组件。
 
-      有1个子组件。如果多于1个，则所有子组件放在一个固定布局(Fixed)中。
+    下列入参应该使用作为关键词入参传入：
 
-    **"many"**
+    `replaces`
+        若为True，且需要该可视组件替换之前的可视组件，就把新的可视组件作为参数传入。
 
-      有多个子组件。
+    `default_keywords`
+        可视组件的关键词入参默认集合。
 
-  下列入参应该使用作为关键词入参传入：
+    返回一个对象，并可以通过调用下列方法为这个对象添加固定位置入参和特性(property)。每个方法都会返回调用方法的对象自身，并允许方法链接起来用。
 
-  `replaces`
-    若为True，且需要该可视组件替换之前的可视组件，就把新的可视组件作为参数传入。
+    .. method:: add_positional(name)
 
-  `default_keywords`
-    可视组件的关键词入参默认集合。
+        添加一个名为 *name* 的固定位置入参。
 
-  返回一个对象，并可以通过调用下列方法为这个对象添加固定位置入参和特性(property)。每个方法都会返回调用方法的对象自身，并允许方法链接起来用。
+    .. method:: add_property(name)
 
-  .. method:: add_positional(name)
+        添加一个名为 *name* 的特性(property)。特性会作为关键词入参传入。
 
-    添加一个名为 *name* 的固定位置入参。
+    .. method:: add_style_property(name)
 
-  .. method:: add_property(name)
+        添加一个特性的族(family)，以 *name* 结尾，沿用样式特性的前缀。例如，调用时使用("size")，这个方法就定了size、idle_size、hover_size等。
 
-    添加一个名为 *name* 的特性(property)。特性会作为关键词入参传入。
+    .. method:: add_prefix_style_property(prefix, name)
 
-  .. method:: add_style_property(name)
+        添加一个特性的族(family)，名字由 *prefix* (样式特性前缀)和 *name* 构成。例如，调用时使用了前缀 *text_* 和名称 *size* ，这个方法就创建了text_size、text_idle_size、text_hover_size等。
 
-    添加一个特性的族(family)，以 *name* 结尾，沿用样式特性的前缀。例如，调用时使用("size")，这个方法就定了size、idle_size、hover_size等。
+    .. method:: add_property_group(group, prefix='')
 
-  .. method:: add_prefix_style_property(prefix, name)
+        添加一组特性，前缀为 *prefix* 。 *group* 可能是下列字符串之一：
 
-    添加一个特性的族(family)，名字由 *prefix* (样式特性前缀)和 *name* 构成。例如，调用时使用了前缀 *text_* 和名称 *size* ，这个方法就创建了text_size、text_idle_size、text_hover_size等。
+        - "bar"
+        - "box"
+        - "button"
+        - "position"
+        - "text"
+        - "window"
 
-  .. method:: add_property_group(group, prefix='')
-
-    添加一组特性，前缀为 *prefix* 。 *group* 可能是下列字符串之一：
-
-    - "bar"
-    - "box"
-    - "button"
-    - "position"
-    - "text"
-    - "window"
-
-    这些分别对应 :ref:`样式特性 <style-properties>` 中的各个组。组名也可以是"ui"，添加的就是 :ref:`通用UI特性 <common-properties>` 。
+        这些分别对应 :ref:`样式特性 <style-properties>` 中的各个组。组名也可以是"ui"，添加的就是 :ref:`通用UI特性 <common-properties>` 。
 
 .. class:: renpy.register_sl_statement(name, positional=0, children='many', screen=None)
 
-  使用Ren'Py注册一个定制化界面语言语句。
+    使用Ren'Py注册一个定制化界面语言语句。
 
-  `name`
-    这项必须是一个word型数据。它是定制化界面语言语句的名称。
+    `name`
+        这项必须是一个word型数据。它是定制化界面语言语句的名称。
 
-  `positional`
-    语句使用的固定位置参数的个数。
+    `positional`
+        语句使用的固定位置参数的个数。
 
-  `children`
-    界面使用的子组件。如果没有指定，默认为 *name* 。
+    `children`
+        界面使用的子组件。如果没有指定，默认为 *name* 。
 
-  `screen`
-    使用的界面名。如果没有指定，默认是 *name* 。
+    `screen`
+        使用的界面名。如果没有指定，默认是 *name* 。
 
-  返回的对象可以被添加固定位置入参和特性(property)。这个对象有一个与 :func:`renpy.register_sl_displayable` 返回对象相同的“.add_”方法。
+    返回的对象可以被添加固定位置入参和特性(property)。这个对象有一个与 :func:`renpy.register_sl_displayable` 返回对象相同的“.add_”方法。
 
 做一个创作者定义界面语言语句的例子，这里是 ``titledwindow`` 语句的实现。首先，在早期加载的文件——像名为“01custom.rpy”就加载足够早——中 ``python early`` 语句块中注册定制化语句。注册的脚本如下：
 

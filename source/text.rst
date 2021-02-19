@@ -506,108 +506,107 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
 
 .. function:: renpy.register_bmfont(name=None, size=None, bold=False, italics=False, underline=False, filename=None)
 
-  该函数注册了一个给定明细的BMFont(位图字体)。请注意，字号、粗体、斜体和下划线入参只是询问性质的(用于特性匹配)，并不会改变字体的实际效果。
+    该函数注册了一个给定明细的BMFont(位图字体)。请注意，字号、粗体、斜体和下划线入参只是询问性质的(用于特性匹配)，并不会改变字体的实际效果。
 
-  请查看 `BMFont首页 <http://www.angelcode.com/products/bmfont/>`_ 可以找到创建BMFonts的工具。Ren'Py需要filename参数是BMFont文本格式的，其描述了一个32比特字体的信息。alpha通道应该包含字体信息，而红绿蓝颜色通道应该被设置为1。图形文件、字偶距和其他控制信息都可以从BMFont文件中读取。
+    请查看 `BMFont首页 <http://www.angelcode.com/products/bmfont/>`_ 可以找到创建BMFonts的工具。Ren'Py需要filename参数是BMFont文本格式的，其描述了一个32比特字体的信息。alpha通道应该包含字体信息，而红绿蓝颜色通道应该被设置为1。图形文件、字偶距和其他控制信息都可以从BMFont文件中读取。
 
-  我们推荐你创建的BMFont中包含拉丁字母和主要的标点符号，并确保在Ren'Py的接口上可以正确渲染。
+    我们推荐你创建的BMFont中包含拉丁字母和主要的标点符号，并确保在Ren'Py的接口上可以正确渲染。
 
-  `name`
-    一个字符串，注册的字体名称。
+    `name`
+        一个字符串，注册的字体名称。
 
-  `size`
-    一个整数，注册字体的字号。
+    `size`
+        一个整数，注册字体的字号。
 
-  `bold`
-    一个布尔值，标识注册字体是否为粗体。
+    `bold`
+        一个布尔值，标识注册字体是否为粗体。
 
-  `italics`
-    一个布尔值，标识注册字体是否为斜体。
+    `italics`
+        一个布尔值，标识注册字体是否为斜体。
 
-  `underline`
-    可以忽略的参数。
+    `underline`
+        可以忽略的参数。
 
-  `filename`
-
-    包含BMFont控制信息的文件。
+    `filename`
+        包含BMFont控制信息的文件。
 
 .. function:: renpy.register_mudgefont(name=None, size=None, bold=False, italics=False, underline=False, filename=None, xml=None, spacewidth=10, default_kern=0, kerns={})
 
-  该函数注册了一个给定明细的MudgeFont。请注意，字号、粗体、斜体和下划线入参只是询问性质的(用于特性匹配)，并不会改变字体的实际效果。
+    该函数注册了一个给定明细的MudgeFont。请注意，字号、粗体、斜体和下划线入参只是询问性质的(用于特性匹配)，并不会改变字体的实际效果。
 
-  请查看 `MudgeFont首页 <http://www.larryhastings.com/programming/mudgefont/>`_ 可以找到创建BMFonts的工具。Ren'Py假设MudgeFont的xml文件中的字符带都unicode字符数值，并会忽略所有负值。
+    请查看 `MudgeFont首页 <http://www.larryhastings.com/programming/mudgefont/>`_ 可以找到创建BMFonts的工具。Ren'Py假设MudgeFont的xml文件中的字符带都unicode字符数值，并会忽略所有负值。
 
-  `name`
-    一个字符串，注册的字体名称。
+    `name`
+        一个字符串，注册的字体名称。
 
-  `size`
-    一个整数，注册字体的字号。
+    `size`
+        一个整数，注册字体的字号。
 
-  `bold`
-    一个布尔值，标识注册字体是否为粗体。
+    `bold`
+        一个布尔值，标识注册字体是否为粗体。
 
-  `italics`
-    一个布尔值，标识注册字体是否为斜体。
+    `italics`
+        一个布尔值，标识注册字体是否为斜体。
 
-  `underline`
-    可以忽略的参数。
+    `underline`
+        可以忽略的参数。
 
-  `filename`
-    一个字符串，表示包含MudgeFont图形的文件。该图形通常是一个TGA文件，也可能是一个PNG或者其他Ren'Py支持的图片格式。
+    `filename`
+        一个字符串，表示包含MudgeFont图形的文件。该图形通常是一个TGA文件，也可能是一个PNG或者其他Ren'Py支持的图片格式。
 
-  `xml`
-    包含MudgeFont工具生成信息的xml文件。
+    `xml`
+        包含MudgeFont工具生成信息的xml文件。
 
-  `spacewidth`
-    表示空格字符的宽度的整数，单位是像素。
+    `spacewidth`
+        表示空格字符的宽度的整数，单位是像素。
 
-  `default_kern`
-    字符间距的默认值，单位是像素。
+    `default_kern`
+        字符间距的默认值，单位是像素。
 
-  `kerns`
-    两字型字符串中字符间距的值。
+    `kerns`
+        两字型字符串中字符间距的值。
 
 .. function:: renpy.register_sfont(name=None, size=None, bold=False, italics=False, underline=False, filename=None, spacewidth=10, default_kern=0, kerns={}, charset=u'!"#$%&'()*+, -./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~')
 
-  该函数注册了一个给定明细的SFont。请注意，字号、粗体、斜体和下划线入参只是询问性质的(用于特性匹配)，并不会改变字体的实际效果。
+    该函数注册了一个给定明细的SFont。请注意，字号、粗体、斜体和下划线入参只是询问性质的(用于特性匹配)，并不会改变字体的实际效果。
 
-  `关于SFont的更多详情 <http://www.linux-games.com/sfont/>`_ 。
+    `关于SFont的更多详情 <http://www.linux-games.com/sfont/>`_ 。
 
-  `name`
-    一个字符串，注册的字体名称。
+    `name`
+        一个字符串，注册的字体名称。
 
-  `size`
-    一个整数，注册字体的字号。
+    `size`
+        一个整数，注册字体的字号。
 
-  `bold`
-    一个布尔值，标识注册字体是否为粗体。
+    `bold`
+        一个布尔值，标识注册字体是否为粗体。
 
-  `italics`
-    一个布尔值，标识注册字体是否为斜体。
+    `italics`
+        一个布尔值，标识注册字体是否为斜体。
 
-  `underline`
-    可以忽略的参数。
+    `underline`
+        可以忽略的参数。
 
-  `filename`
-    一个字符串，包含SFont图形的文件名。
+    `filename`
+        一个字符串，包含SFont图形的文件名。
 
-  `spacewidth`
-    表示空格字符的宽度的整数，单位是像素。
+    `spacewidth`
+        表示空格字符的宽度的整数，单位是像素。
 
-  `default_kern`
-    字符间距的默认值，单位是像素。
+    `default_kern`
+        字符间距的默认值，单位是像素。
 
-  `kerns`
-    两字型字符串中字符间距的值。
+    `kerns`
+        两字型字符串中字符间距的值。
 
-  `charset`
-    字体的字符集。这是一个字符串，可以按照字符串中包含的字符顺序在图像文件中找到对应的字符。more的SFont字符集如下：
+    `charset`
+        字体的字符集。这是一个字符串，可以按照字符串中包含的字符顺序在图像文件中找到对应的字符。more的SFont字符集如下：
 
-    ::
+        ::
 
-        ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ?
-        @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _
-        ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~
+            ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ?
+            @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ] ^ _
+            ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~
 
 由于BMFont是Ren'Py支持的所有三种图形文字中完成度最高的，所以我们推荐新建项目使用BMFont。一个BMFont的使用样例如下：
 
@@ -643,21 +642,21 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
 .. class:: FontGroup()
 
-  可以将一组字体当作一种字体使用。
+    可以将一组字体当作一种字体使用。
 
-  .. method:: add(font, start, end)
+    .. method:: add(font, start, end)
 
-    说明字体中字符的unicode范围。
+        说明字体中字符的unicode范围。
 
-    `start`
-      unicode范围起点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
+        `start`
+            unicode范围起点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
 
-    `end`
-      unicode范围终点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
+        `end`
+            unicode范围终点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
 
-    当多个 ``.add()`` 调用中包含同一个字符时，使用第一个包含这个字符的add方法中的字体。
+        当多个 ``.add()`` 调用中包含同一个字符时，使用第一个包含这个字符的add方法中的字体。
 
-    这个方法会返回FontGroup对象，所以能多个 ``.add()`` 串联使用。
+        这个方法会返回FontGroup对象，所以能多个 ``.add()`` 串联使用。
 
 .. _text-displayables:
 
@@ -668,39 +667,39 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
 .. function:: renpy.ParameterizedText(style='default', `properties)
 
-  该函数创建一个可视组件对象，可以带一个字符串做为入参，根据入参字符串生成的对象能当作图像显示。常用作预定义的 ``文本`` 图片的一部分。
+    该函数创建一个可视组件对象，可以带一个字符串做为入参，根据入参字符串生成的对象能当作图像显示。常用作预定义的 ``文本`` 图片的一部分。
 
-  举例，我们可以这样写：
+    举例，我们可以这样写：
 
-  ::
+    ::
 
-      show text "Hello, World" at truecenter
-      with dissolve
-      pause 1
-      hide text
-      with dissolve
+        show text "Hello, World" at truecenter
+        with dissolve
+        pause 1
+        hide text
+        with dissolve
 
-  你可以使用ParameterizedText函数，采用不同的样式特性，直接定义出一些类似的图片。举例，我们可以这样写：
+    你可以使用ParameterizedText函数，采用不同的样式特性，直接定义出一些类似的图片。举例，我们可以这样写：
 
-  ::
+    ::
 
-      image top_text = ParameterizedText(xalign=0.5, yalign=0.0)
+        image top_text = ParameterizedText(xalign=0.5, yalign=0.0)
 
 .. function:: Text(text, slow=None, scope=None, substitute=None, slow_done=None, **properties)
 
-  创建一个可视组件，在界面上显示文本。
+    创建一个可视组件，在界面上显示文本。
 
-  `text`
-    在界面上显示的文本内容。该参数可以是一个字符串，或者一个字符串和可视组件的列表。
+    `text`
+        在界面上显示的文本内容。该参数可以是一个字符串，或者一个字符串和可视组件的列表。
 
-  `slow`
-    决定文本是否缓慢显示，即在界面上逐个显示出每个字符。若为None，缓慢文本模式取决于slow_cps样式特性。否则，是否启用缓慢文本模式由此处参数slow决定。
+    `slow`
+        决定文本是否缓慢显示，即在界面上逐个显示出每个字符。若为None，缓慢文本模式取决于slow_cps样式特性。否则，是否启用缓慢文本模式由此处参数slow决定。
 
-  `scope`
-    若不为None，该值应该是一个字典型数值，提供了额外的作用域(scope)供文本内插(interpolation)的使用。
+    `scope`
+        若不为None，该值应该是一个字典型数值，提供了额外的作用域(scope)供文本内插(interpolation)的使用。
 
-  `substitute`
-    若该值为True，则应用文本内插(interpolation)。若该值为False，不应用文本内插。若该值为None，由config.new_substitutions控制文本内插表现。
+    `substitute`
+        若该值为True，则应用文本内插(interpolation)。若该值为False，不应用文本内插。若该值为None，由config.new_substitutions控制文本内插表现。
 
 .. _text-utility-functions:
 
@@ -709,29 +708,28 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
 .. function:: renpy.filter_text_tags(s, allow=None, deny=None)
 
-  返回入参s的一个拷贝，其是文本标签过滤后的结果。allow和deny关键词参数至少需要给出1个。
+    返回入参s的一个拷贝，其是文本标签过滤后的结果。allow和deny关键词参数至少需要给出1个。
 
-  `allow`
-    允许通过的标签的集。如果某个标签不在该列表中，将会被移除。
+    `allow`
+        允许通过的标签的集。如果某个标签不在该列表中，将会被移除。
 
-  `deny`
-    禁止通过的标签的集。如果某个标签不在该列表中，将会保留在字符串中。
+    `deny`
+        禁止通过的标签的集。如果某个标签不在该列表中，将会保留在字符串中。
 
 .. function:: renpy.transform_text(s, function)
 
-  转换字符串s，但保留s的文本标签和内插文本不变。
+    转换字符串s，但保留s的文本标签和内插文本不变。
 
-  `function`
-    一个转换函数，将文本进行转换并返回转换后的文本。
+    `function`
+        一个转换函数，将文本进行转换并返回转换后的文本。
 
-  ::
+    ::
 
-      init python:
-          def upper(s):
-              return s.upper()
+        init python:
+            def upper(s):
+                return s.upper()
 
-      # 译者注，官方文档原文有误，运行会报语法错误。此处为正确语法。
-      $ upper = renpy.transform_text("{b}Not Upper{/b}", upper)
+        $ upper_string = renpy.transform_text("{b}Not Upper{/b}", upper)
 
 .. _slow-text-concerns:
 

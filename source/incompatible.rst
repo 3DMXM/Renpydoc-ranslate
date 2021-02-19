@@ -8,6 +8,7 @@
 只需要注意，设置 :var:`config.script_version` 就恢复版本变更导致的许多变化，代价是无法使用新增特性。
 
 关于GUI方面的不兼容变更，详见 :ref:`gui-changes` 部分，只有重新生成GUI才会让这些变更生效。
+
 .. _incompatible-7.4:
 
 7.4

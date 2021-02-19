@@ -63,8 +63,6 @@
 
 控制成就的配置项包括：
 
-::
-
 .. var:: achievement.steam_position = None
 
     若值不是None，该配置项设置steam弹出通知的位置。该值必须是一个字符串，可使用的内容包括“top left”，“top right”，“bottom left”和“bottom right”。

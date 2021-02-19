@@ -34,25 +34,25 @@ Ren'Py内置了一个语音标签(tag)系统，使得针对某个选定的角色
 
 ::
 
-  define e = Character("艾琳", voice_tag="eileen")
-  define l = Character("露西", voice_tag="lucy")
+    define e = Character("艾琳", voice_tag="eileen")
+    define l = Character("露西", voice_tag="lucy")
 
-  screen voice_toggle:
-      vbox:
-          textbutton "艾琳静音" action ToggleVoiceMute("eileen")
-          textbutton "露西静音" action ToggleVoiceMute("lucy")
+    screen voice_toggle:
+        vbox:
+            textbutton "艾琳静音" action ToggleVoiceMute("eileen")
+            textbutton "露西静音" action ToggleVoiceMute("lucy")
 
-  label start:
-      show screen voice_toggle
+    label start:
+        show screen voice_toggle
 
-      voice "e01.ogg"
-      e "你可以开关一个角色的语音。"
+        voice "e01.ogg"
+        e "你可以开关一个角色的语音。"
 
-      voice "l01.ogg"
-      l "耶！我现在终于可以让你闭嘴了！"
+        voice "l01.ogg"
+        l "耶！我现在终于可以让你闭嘴了！"
 
-      voice "l02.ogg"
-      l "等下……也就是说我也被静音了！真的假的？"
+        voice "l02.ogg"
+        l "等下……也就是说我也被静音了！真的假的？"
 
 .. _automatic-voice:
 
@@ -82,51 +82,49 @@ Ren'Py提供了自动匹配语音文件并播放的功能，不用在每行对�
 
 .. function:: _get_voice_info()
 
-  返回目前say语句对应正在播放语音的有关信息。只有当say语句执行时，该函数才能被调用。
+    返回目前say语句对应正在播放语音的有关信息。只有当say语句执行时，该函数才能被调用。
 
-  返回对象具有以下几个字段(field)：
+    返回对象具有以下几个字段(field)：
 
-  .. attribute:: VoiceInfo.filename
+    .. attribute:: VoiceInfo.filename
 
-    正在播放语音的文件名，如果没有任何文件在播放则返回None。
+        正在播放语音的文件名，如果没有任何文件在播放则返回None。
 
-  .. attribute:: VoiceInfo.auto_filename
+    .. attribute:: VoiceInfo.auto_filename
 
-    Ren'Py意图使用自动语音搜索的文件名，如果未找到则返回None。
+        Ren'Py意图使用自动语音搜索的文件名，如果未找到则返回None。
 
-  .. attribute:: VoiceInfo.tag
+    .. attribute:: VoiceInfo.tag
 
-    目前发言角色(character)的voice_tag参数。
+        目前发言角色(character)的voice_tag参数。
 
-  .. attribute:: VoiceInfo.sustain
+    .. attribute:: VoiceInfo.sustain
 
-    该值为False时，用户互动行为会中断语音播放。改值为True时，一次用户互动行为后语音会持续播放。
+        该值为False时，用户互动行为会中断语音播放。改值为True时，一次用户互动行为后语音会持续播放。
 
 .. function:: voice(filename, tag=None)
 
-  播放voice通道上名为filename的文件。等效于voice语句。
+    播放voice通道上名为filename的文件。等效于voice语句。
 
-  **filename**
+    `filename`
+        想要播放的语音文件名。函数会使用 :func:`config.voice_filename_format` 拼装成将用播放的文件名。
 
-    想要播放的语音文件名。函数会使用 :func:`config.voice_filename_format` 拼装成将用播放的文件名。
+    `tag`
+        若该入参非空，其值应该是一个字符串，给定了需要播放的语音标签(tag)。若该入参为None，将使用默认值，即触发下一次互动行为前角色的voice_tag。
 
-  **tag**
-
-    若该入参非空，其值应该是一个字符串，给定了需要播放的语音标签(tag)。若该入参为None，将使用默认值，即触发下一次互动行为前角色的voice_tag。
-
-    语音标签(tag)用于指定发言角色，并允许用户针对某个角色的语音进行静音或取消静音。
+        语音标签(tag)用于指定发言角色，并允许用户针对某个角色的语音进行静音或取消静音。
 
 .. function:: voice_can_replay()
 
-  若当前语音允许回放则返回True。
+    若当前语音允许回放则返回True。
 
 .. function:: voice_replay()
 
-  若当前语音允许回放，则回放该语音。
+    若当前语音允许回放，则回放该语音。
 
 .. function:: voice_sustain(ignored=u'', **kwargs)
 
-  等效于voice sustain语句。
+    等效于voice sustain语句。
 
 .. _voice-actions:
 
@@ -135,30 +133,28 @@ Voice Actions
 
 .. function:: PlayCharacterVoice(voice_tag, sample, selected=False)
 
-  在voice通道上播放sample语音文件，并将其视为由带有 *voice_tag* 的某个角色所说。
+    在voice通道上播放sample语音文件，并将其视为由带有 *voice_tag* 的某个角色所说。
 
-  **sample**
+    `sample`
+        语音文件完整路径。不会对该文件的做任何语音相关的处理。
 
-    语音文件完整路径。不会对该文件的做任何语音相关的处理。
-
-  **selected**
-
-    若该值为True，当sample文件正在播放，调用该行为(action)函数的按钮会被标记为“被选中(selected)”。
+    `selected`
+        若该值为True，当sample文件正在播放，调用该行为(action)函数的按钮会被标记为“被选中(selected)”。
 
 .. function:: SetCharacterVolume(voice_tag, volume=None)
 
-  该动作允许每个角色的语音音量都可以调整。若 *volume* 值为None，将返回 *voice_tag* 对应的音量值。否则的话， *voice_tag* 对应的音量值会被设置为 *volume* 。
+    该动作允许每个角色的语音音量都可以调整。若 *volume* 值为None，将返回 *voice_tag* 对应的音量值。否则的话， *voice_tag* 对应的音量值会被设置为 *volume* 。
 
-  *volume* 是一个介于0.0至1.0之间的值，在包含 *voice* 通道的混合器(mixer)音量中则是一个分量。
+    *volume* 是一个介于0.0至1.0之间的值，在包含 *voice* 通道的混合器(mixer)音量中则是一个分量。
 
 .. function:: SetVoiceMute(voice_tag, mute)
 
-  若 *mute* 值为True，带有给定语音标签 *voice_tag* 的所有语音会被静音。若 *mute* 值为False，取消语音标签 *voice_tag* 所有语音的静音。
+    若 *mute* 值为True，带有给定语音标签 *voice_tag* 的所有语音会被静音。若 *mute* 值为False，取消语音标签 *voice_tag* 所有语音的静音。
 
 .. function:: ToggleVoiceMute(voice_tag, invert=False)
 
-  切换 *voice_tag* 的静音状态。This is selected if the given voice tag is muted, unless *invert* is true, in which case it's selected if the voice is unmuted.
+    切换 *voice_tag* 的静音状态。This is selected if the given voice tag is muted, unless *invert* is true, in which case it's selected if the voice is unmuted.
 
 .. function:: VoiceReplay(*args, **kwargs)
 
-  回放最近一次播放的语音。
+    回放最近一次播放的语音。

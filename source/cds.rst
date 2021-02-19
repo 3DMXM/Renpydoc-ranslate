@@ -16,77 +16,71 @@ Ren'Py并不知道该函数的功能和执行机制，所以Ren'Py不会执行�
 创作者定义的语句使用 :func:`renpy.register_statement` 函数注册。
 
 .. function:: renpy.register_statement(name, parse=None, lint=None, execute=None, predict=None, next=None, scry=None, block=False, init=False, translatable=False, execute_init=None, init_priority=0, label=None, warp=None, translation_strings=None, force_begin_rollback=False, post_execute=None, post_label=None, predict_all=True, predict_next=None)
-  这个函数注册了一条创作者定义的语句。
 
-  `name`
-    一个空格分隔的名称列表作为语句的开头，或者空字符串定义一个新的默认语句(默认语句会替换say语句)。
+    这个函数注册了一条创作者定义的语句。
 
-  `block`
-    当这项是False时，语句后面没有语句块(block)。当这项是True时，语句后面需要有语句块(block)，但是最终取决于语法分析器(lexer)如何处理。如果这项是字符串“script”，语句块(block)被认为包含一个或多个Ren'Py脚本语言语句。
+    `name`
+        一个空格分隔的名称列表作为语句的开头，或者空字符串定义一个新的默认语句(默认语句会替换say语句)。
 
-  `parse`
-    这是函数使用的Lexer对象。这个函数应该处理处理语句并返回一个对系那个。返回的对象作为一个参数传给所有其他函数。后面的入参都是Lexer对象的方法：
+    `block`
+        当这项是False时，语句后面没有语句块(block)。当这项是True时，语句后面需要有语句块(block)，但是最终取决于语法分析器(lexer)如何处理。如果这项是字符串“script”，语句块(block)被认为包含一个或多个Ren'Py脚本语言语句。
 
-  `lint`
-    调用这个函数检查语句。入参只有一个，即 *parse* 返回的对象。它调用renpy.error报错。
+    `parse`
+        这是函数使用的Lexer对象。这个函数应该处理处理语句并返回一个对系那个。返回的对象作为一个参数传给所有其他函数。后面的入参都是Lexer对象的方法：
 
-  `execute`
-    当语句执行时，调用这个函数。入参只有一个，即 *parse* 返回的对象。
+    `lint`
+        调用这个函数检查语句。入参只有一个，即 *parse* 返回的对象。它调用renpy.error报错。
 
-  `execute_init`
-    在初始化阶段调用的函数，运行在优先级priority 0级别。
+    `execute`
+        当语句执行时，调用这个函数。入参只有一个，即 *parse* 返回的对象。
 
-  `predict`
-    预加载语句使用的图像时调用的函数。入参只有一个，即 *parse* 返回的对象。它会返回一个语句使用的可视组件列表。
+    `execute_init`
+        在初始化阶段调用的函数，运行在优先级priority 0级别。
 
-  `next`
-    判断下一个语句时调用的函数。
+    `predict`
+        预加载语句使用的图像时调用的函数。入参只有一个，即 *parse* 返回的对象。它会返回一个语句使用的可视组件列表。
 
-    如果 *block* 的值不是字符串“script”，这个函数的入参只有一个，即 *parse* 返回的对象。如果 *block* 的值是字符串“script”，就会多一个入参，即语句块(block)第一条语句名对应的对象。
+    `next`
+        判断下一个语句时调用的函数。
 
-    这个函数应该返回一个字符串，表示跳转的脚本标签(label)名，第二个入参将主控流程切换到标签对应的语句块；这个函数也可以返回None，表示继续执行下一条语句。
+        如果 *block* 的值不是字符串“script”，这个函数的入参只有一个，即 *parse* 返回的对象。如果 *block* 的值是字符串“script”，就会多一个入参，即语句块(block)第一条语句名对应的对象。
 
-  `label`
-    调用这个函数决定使用语句的脚本标签(label)名。如果函数返回的是字符串，字符串对应的语句标签可以被call或jump。
+        这个函数应该返回一个字符串，表示跳转的脚本标签(label)名，第二个入参将主控流程切换到标签对应的语句块；这个函数也可以返回None，表示继续执行下一条语句。
 
-  `warp`
-    调用这个函数决定在warp时是否执行这个语句。如果函数存在并返回True，warp时就运行这个函数，否则在warp时不执行语句。
+    `label`
+        调用这个函数决定使用语句的脚本标签(label)名。如果函数返回的是字符串，字符串对应的语句标签可以被call或jump。
 
-  `scry`
-    Ren'Py内部使用。
+    `warp`
+        调用这个函数决定在warp时是否执行这个语句。如果函数存在并返回True，warp时就运行这个函数，否则在warp时不执行语句。
 
-  `init`
-    如果这个语句应该在初始化阶段运行，这项就是True。(如果语句没有在某个init语句块中，会被自动放置到init 0语句块里。)这项会调用execute函数，还有execute_init函数。
+    `scry`
+        Ren'Py内部使用。
 
-  `init_priority`
+    `init`
+        如果这个语句应该在初始化阶段运行，这项就是True。(如果语句没有在某个init语句块中，会被自动放置到init 0语句块里。)这项会调用execute函数，还有execute_init函数。
 
-    一个整数，决定init语句块中初始化时的优先级。
+    `init_priority`
+        一个整数，决定init语句块中初始化时的优先级。
 
-  `translation_strings`
+    `translation_strings`
+        当所在代码块被执行时，调用的一个函数。返回值是一个字符串列表，并后续在需要多语言支持的地方使用。
 
-    当所在代码块被执行时，调用的一个函数。返回值是一个字符串列表，并后续在需要多语言支持的地方使用。
+    `force_begin_rollback`
+        对于想要触发快速跳过功能的语句，类似 ``menu`` 和 ``call screen`` 语句，该项应设置为True。
 
-  `force_begin_rollback`
+    `post_execute`
+        本条语句执行完，下一条语句执行前，将执行这个参数的函数。(添加post_execute函数将修改RPYC文件，因此需要强制重新编译。)
 
-    对于想要触发快速跳过功能的语句，类似 ``menu`` 和 ``call screen`` 语句，该项应设置为True。
+    `post_label`
+        调用此处的函数，决定执行完上一个语句后跳转的脚本标签(label)。如果该函数返回一个字符串，就表示需要跳转的脚本标签名，可以像其他标签一样正常调用或者跳转。该功能可以用于创建一个唯一返回节点。
 
-  `post_execute`
+    `predict_all`
+        若该项为True，词条语句之后的所有语句和分支语句都将预加载。
 
-    本条语句执行完，下一条语句执行前，将执行这个参数的函数。(添加post_execute函数将修改RPYC文件，因此需要强制重新编译。)
+    `predict_next`
+        该项是一个脚本标签(label)，在本条语句执行后将运行对应脚本标签内的语句。
 
-  `post_label`
-
-   调用此处的函数，决定执行完上一个语句后跳转的脚本标签(label)。如果该函数返回一个字符串，就表示需要跳转的脚本标签名，可以像其他标签一样正常调用或者跳转。该功能可以用于创建一个唯一返回节点。
-
-  `predict_all`
-
-   若该项为True，词条语句之后的所有语句和分支语句都将预加载。
-
-  `predict_next`
-
-   该项是一个脚本标签(label)，在本条语句执行后将运行对应脚本标签内的语句。
-
-   本条语句后面的语句运行后调用该项实现后续语句的预加载，需要的返回值是一个脚本标签(label)列表或者SubParse对象。当 *predict_all* 为True时，该项不会被调用。
+        本条语句后面的语句运行后调用该项实现后续语句的预加载，需要的返回值是一个脚本标签(label)列表或者SubParse对象。当 *predict_all* 为True时，该项不会被调用。
 
 
 parse方法使用一个Lexer对象：
@@ -228,7 +222,6 @@ parse方法使用一个Lexer对象：
                 return { "child" : child }
 
         `empty`
-
             若为True，允许处理空的代码块。
             (空代码块等于一条 ``pass`` 语句。)
             若为False，空代码块将触发报错。
@@ -262,43 +255,37 @@ lint功能函数
 
 .. function:: renpy.check_text_tags(s)
 
-  检查文本标签 `s` 的正确性。如果存在错误则返回错误字符串，没有错误则返回None。
+    检查文本标签 `s` 的正确性。如果存在错误则返回错误字符串，没有错误则返回None。
 
 .. function:: renpy.error(msg)
 
-  将字符串 *msg* 作为错误信息报给使用者。通常作为parse或lint错误记录日志，其他情况会抛出异常。
+    将字符串 *msg* 作为错误信息报给使用者。通常作为parse或lint错误记录日志，其他情况会抛出异常。
 
 .. function:: renpy.try_compile(where, expr, additional=None)
 
-  尝试编译一个表达式，如果失败则将错误写入lint.txt文件。
+    尝试编译一个表达式，如果失败则将错误写入lint.txt文件。
 
-  `where`
+    `where`
+        一个字符串，表示表达式位置。常见的错误信息格式为“Could not evaluate *expr* in *where*”。
 
-    一个字符串，表示表达式位置。常见的错误信息格式为“Could not evaluate *expr* in *where*”。
+    `expr`
+        尝试编译的表达式。
 
-  `expr`
-
-    尝试编译的表达式。
-
-  `additional`
-
-    添加到错误消息中的额外信息。
+    `additional`
+        添加到错误消息中的额外信息。
 
 .. function:: renpy.try_eval(where, expr, additional=None)
 
-  尝试计算一个表达式，如果失败则将错误写入lint.txt文件。
+    尝试计算一个表达式，如果失败则将错误写入lint.txt文件。
 
-  `where`
+    `where`
+        一个字符串，表示表达式位置。常见的错误信息格式为“Could not evaluate *expr* in *where*”。
 
-    一个字符串，表示表达式位置。常见的错误信息格式为“Could not evaluate *expr* in *where*”。
+    `expr`
+        尝试编译的表达式。
 
-  `expr`
-
-    尝试编译的表达式。
-
-  `additional`
-
-    添加到错误消息中的额外信息。
+    `additional`
+        添加到错误消息中的额外信息。
 
 .. _example:
 

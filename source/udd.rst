@@ -282,56 +282,53 @@ renpy.Render
 
 .. function:: renpy.displayable(d, scope=None)
 
-  这个函数使用入参 *d* ，*d* 可能是一个可视组件对象或字符串。如果是一个字符串，使用常用的规则将其转换为一个可视组件。
+    这个函数使用入参 *d* ，*d* 可能是一个可视组件对象或字符串。如果是一个字符串，使用常用的规则将其转换为一个可视组件。
 
 .. function:: renpy.end_interaction(value)
 
-  若 *value* 不是None，立刻结束当前交互动作，并让交互动作返回 *value* 。若 *value* 是None，不做任何事。
+    若 *value* 不是None，立刻结束当前交互动作，并让交互动作返回 *value* 。若 *value* 是None，不做任何事。
 
-  在创作者定义的可视组件内部的渲染器和事件消息处理方法中可以调用这个函数。
+    在创作者定义的可视组件内部的渲染器和事件消息处理方法中可以调用这个函数。
 
 .. function:: renpy.load_image(im) link
 
-  使用图像缓存加载图像操作器(manipulator) *im* ，返回一个纹理(texture)。
+    使用图像缓存加载图像操作器(manipulator) *im* ，返回一个纹理(texture)。
 
 .. function:: renpy.load_surface(im)
 
-  使用图像缓存加载图像操作器(manipulator) *im* ，返回一个pygame Surface对象。
+    使用图像缓存加载图像操作器(manipulator) *im* ，返回一个pygame Surface对象。
 
 .. function:: renpy.map_event(ev, keysym)
 
-  如果pygame事件 *ev* 匹配 *keysym* 就返回True。
+    如果pygame事件 *ev* 匹配 *keysym* 就返回True。
 
-  `keysym`
+    `keysym`
 
-    下列情况之一：
+        下列情况之一：
 
-    - 在 :func:`config.keymap` 中配置的键盘绑定名称。
-    - 在 :ref:`定制化快捷键 <keymap>` 章节中描述的keysym对象。
-    - 包含一个或多个keysym的列表。
+        - 在 :func:`config.keymap` 中配置的键盘绑定名称。
+        - 在 :ref:`定制化快捷键 <keymap>` 章节中描述的keysym对象。
+        - 包含一个或多个keysym的列表。
 
 .. function:: renpy.render(d, width, height, st, at)
 
-  渲染一个可视组件，并返回一个renpy.Render对象。
+    渲染一个可视组件，并返回一个renpy.Render对象。
 
-  `d`
+    `d`
+        待渲染的可视组件。
 
-    待渲染的可视组件。
+    `width, height`
+        可视组件渲染区域的宽度和高度。
 
-  `width, height`
+    `st, at`
+        显示和动画时间轴。
 
-    可视组件渲染区域的宽度和高度。
-
-  `st, at`
-
-    显示和动画时间轴。
-
-  这个对象返回的渲染器可以缓存，一旦恢复一次后就不该再修改渲染器。
+    这个对象返回的渲染器可以缓存，一旦恢复一次后就不该再修改渲染器。
 
 .. function:: renpy.timeout(seconds)
 
-  经过 *seconds* 秒后生成一个事件消息。这个函数确保了创作者定义可视组件的事件处理方法被调用到。
+    经过 *seconds* 秒后生成一个事件消息。这个函数确保了创作者定义可视组件的事件处理方法被调用到。
 
 .. function:: renpy.redraw(d, when)
 
-  经过 *when* 秒之后重新绘制可视组件 *d* 。
+    经过 *when* 秒之后重新绘制可视组件 *d* 。

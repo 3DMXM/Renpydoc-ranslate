@@ -61,29 +61,24 @@ Ren'Py使用“字段对齐”的形式进行分析，最终使用各字段中�
 
 .. function:: renpy.register_persistent(field, func)
 
-  注册一个函数，用于合并磁盘上的持久化字段(field)值和当前持久化对象的值。
+    注册一个函数，用于合并磁盘上的持久化字段(field)值和当前持久化对象的值。
 
-  `field`
+    `field`
+        持久化对象的字段(field)名。
 
-    持久化对象的字段(field)名。
+    `func`
+        该函数使用 *old* 、 *new* 和 *current* 三个参数。
 
-  `func`
+        ``old``
+            旧对象域的值。
 
-    该函数使用 *old* 、 *new* 和 *current* 三个参数。
+        `new`
+            新对象域的值。
 
-    **old**
+        `current`
+            当前持久化对象域的值。这个参数用于域引用的对象标识符无法改变的情况。
 
-      旧对象域的值。
-
-    **new**
-
-      新对象域的值。
-
-    **current**
-
-      当前持久化对象域的值。这个参数用于域引用的对象标识符无法改变的情况。
-
-    该函数需要返回持久化对象域的新值。
+        该函数需要返回持久化对象域的新值。
 
 .. function:: renpy.save_persistent()
 
