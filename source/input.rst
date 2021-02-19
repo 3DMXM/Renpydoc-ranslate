@@ -39,7 +39,7 @@ renpy.input函数定义如下：
     define pov = Character("[povname]")
 
     python:
-        povname = renpy.input("你的名字是什么？")
+        povname = renpy.input("你的名字是什么？", length=32)
         povname = povname.strip()
 
         if not povname:

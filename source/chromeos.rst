@@ -3,30 +3,52 @@
 Chrome OS/Chrome浏览器
 ==========================
 
-Ren'Py支持在Chrome OS运行以及在Chrome浏览器中作为一个应用程序运行。这包括了在Chrome的安卓运行时(ARC)环境下运行Ren'Py安卓应用的能力。
+共有两种方式在Chrome OS运行Ren'Py。
 
+.. android-on-chrome-os:
 
-将一个Ren'Py的应用移植到Chrome上，需要经过下列步骤：
+安卓上的Chrome OS
+--------------------
 
-1. 从Chrome网络商店下载ARC插件：
-   https://chrome.google.com/webstore/detail/arc-welder/emfinbmielocnlhgmfkkmkngdoccbadn
+在Chrome OS上运行游戏的最简单方式，是把游戏打包成安卓的应用程序，详见 :ref:`安卓 <android>` 。
+Ren'Py在设计之初就考虑了安卓与Chrome OS同步支持。
 
-2. 打包游戏的安卓版本，详见 :ref:`安卓文档 <android>`.
+这个模式只支持运行游戏，而不是开发游戏。
 
-3. 从Chrome的应用菜单启动ARC Welder。
+.. _linux-on-chrome-os:
 
-4. 找到包含你app程序的.apk文件。
+Linux上的Chrome OS
+------------------
 
-5. 选择下列可选项。
+Ren'Py游戏和SDK也能安装在Chromebook上。这个功能可以让创作者在Chromebook上开发Ren'Py游戏。
 
-   * Orientation: Landscape
-   * Form factor: Tablet
-   * Resize: Disabled
-   * Clipboard access: unchecked
+安装流程如下:
 
-   调整尺寸(resize)目前无法工作，最好将这项禁用。
+1. 安装Chromebook版的Linux，详见 https://support.google.com/chromebook/answer/9145439?hl=zh-Hans
 
+2. 启用Crosstini GPU支持。在浏览器中输入 chrome://flags/#crostini-gpu-support ，找到对应选项并修改。
 
-6. 选择“Test”。游戏就会在Chrome浏览器里加载和运行了。
+3. 重启Chromebook。
 
-7. 选择“Download Zip”。Chrome会生成一个zip文件，适用于上传到Chrome网络商店。
+4. 更新Linux。打开一个终端并运行：
+
+::
+
+    sudo apt update
+    sudo apt dist-upgrade
+
+5. 再次重启Chromebook。
+
+安装Ren'Py时，打开一个终端并运行:
+::
+
+    wget https://www.renpy.org/dl/7.4.0/renpy-7.4.0-sdk.tar.bz2
+    tar xaf renpy-7.4.0-sdk.tar.bz2
+
+运行Ren'Py时，打开一个终端并运行：
+::
+
+    cd ~/ab/renpy-7.4.0-sdk
+    ./renpy.sh
+
+注意，多个版本的Ren'Py SDK可以共存，运行时注意不同版本的不同路径。

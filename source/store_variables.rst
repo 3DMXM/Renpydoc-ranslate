@@ -9,9 +9,17 @@ Ren'Py有一些存储区配置项，控制存储区的功能。存储区配置�
 
     这是一个ADV模式的模板角色，也是调用 :func:`Character` 时产生的默认角色类型。
 
+.. var:: _autosave = True
+
+    该项设置为False可以禁用自动保存。
+
 .. var:: _confirm_quit = True
 
     这项决定了退出游戏时是否需要确认。在splashscreeen上这个值是False，在主菜单则会被忽略。
+
+.. var:: default_mouse
+
+    该项默认不做定义。如果定义该项，并且 :var:`config.mouse` 有设置过，而且游戏启动后在 config.mouse 中没有找到对应的图片资源，该项将作为鼠标光标图片的默认值。
 
 .. var:: _dismiss_pause = True
 

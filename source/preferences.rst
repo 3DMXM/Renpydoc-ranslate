@@ -36,6 +36,13 @@
 
     在移动平台上，触摸或点击窗口边栏就能触发回滚。该项可以设置为“left”、“right”或者“disable”。等效于移动平台上“rollback side”特性。
 
+.. var:: preferences.language = None
+
+    游戏运行时供玩家选择的语言。
+    该值为None表示默认语言，也可以是字符串，表示支持的其他语言。
+
+    该项用于设置默认语言类型，也可以读取该值后决定当前使用语言。动作 :func:`Language` 可用于修改语言类型。
+
 .. var:: preferences.emphasize_audio = False
 
     若为True，Ren'Py会通过降低 :var:`config.emphasize_audio_channels`
@@ -94,6 +101,14 @@
 .. var:: preferences.wait_voice = True
 
     若为True，自动前进模式会等待语音文件或自动语音播放之后再进入下一句。若为False，则不等待。等效于环境设定的“wait for voice”。
+
+.. var:: preferences.system_cursor = False
+
+    If True, the system cursor is forced to be used, ignoring the
+    :var:`config.mouse` value. If False, it will not. The equivalent of the
+    "system cursor" preference.
+    若为True，强制使用系统鼠标光标，忽略 :var:`config.mouse` 的值。
+    若为False，则不执行这种操作。等效于“system cursor”设置。
 
 .. _audio-channel-defaults:
 

@@ -37,7 +37,7 @@ Ren'Py支持持久化数据，保存游戏中与某个特定时间点无关的�
 
 有些时候Ren'Py需要合并源自两处的持久化数据。例如，Ren'Py可能需要合并来自USB驱动器和本地设备两个地方的持久化数据。
 
-Ren'Py使用“域到域”的形式进行分析，使用每个域中最后更新的值进行比较。在某些情况下，这不是我们需要的行为。这时，可以使用 :func:`renpy.register_persistent()` 函数。
+Ren'Py使用“字段对齐”的形式进行分析，最终使用各字段中更新事件更晚的值。在某些情况下，这不是我们需要的行为。这时，可以使用 :func:`renpy.register_persistent()` 函数。
 
 例如，如果我们有一个已经看过的结局的集合(set)，我们合并数据时就希望取一个合集。
 
@@ -98,13 +98,15 @@ Ren'Py使用“域到域”的形式进行分析，使用每个域中最后更�
 
 需要使用多元持久化数据，必须在初始化语句块(init block)中创建一个MultiPersisten对象。用户可以更新这个对象，并调用其save方法保存至磁盘。未定义的字段(field)默认值为None。为了确保这个对象可以能再次正确加载，我们不建议声明用户自定义类型数据对象。
 
-.. class:: MultiPersistent(key)
+.. class:: MultiPersistent(key, save_on_quit=False)
 
     创建一个新的MultiPersistent对象。这个类的构造函数应该只能在初始化语句块(init block)中调用，并根据给定的key创建一个新的MultiPersistent对象。
 
     `key`
         用于接入多元持久化数据的key。使用相同key的游戏可以接入同一个多元持久化数据。
 
+    `save_on_quit`
+        若为True，Ren'Py进程结束时自动保存该对象。
 
     .. method:: save()
 

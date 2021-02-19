@@ -27,25 +27,29 @@ Ren'Py会保存游戏状态。保存的内容包括内部状态和Python的状�
 
 Python状态包括从游戏启动后存储区变化过的所有变量，以及跟那些变量有关的所有对象。注意，只有变量相关才行——改变对象内的字段(field)并不会触发对象状态被保存。
 
+使用 :ref:`default语句 <default-statement>` 定义的变量总是会保存。
+
 在下例中：
 
 ::
 
     define a = 1
     define o = object()
+    default c = 17
 
     label start:
          $ b = 1
          $ o.value = 42
 
-只有 `b` 会被保存。 A 不会被保存，因为它从游戏启动后就没有变动。 `O` 不会被保存因为它也没有变动——这里的变动是指引用对象的变化，而不是对象中变量值的变化。
+只有 `b` 和 `c` 会被保存。 A 不会被保存，因为它从游戏启动后就没有变动。 `O` 不会被保存因为它也没有变动——这里的变动是指引用对象发生变化，而不是对象成员变量的值的变化。
 
 .. _what-isn-t-saved:
 
 不保存什么
 ================
 
-在游戏开始之前定义，之后一直没有改变过的Python变量不会被保存。这可能是个重大的问题，前提是某个保存的变量引用了相同的对象。(对象的别名(alias)。)在这个例子中：
+游戏开始后没有改变过的Python变量不会保存。
+这可能是个重大的问题，前提是某个保存的变量引用了相同的对象。(对象的别名(alias)。)在这个例子中：
 
 ::
 
@@ -127,7 +131,9 @@ Ren'Py使用Python的pickle系统保存游戏状态。这个模块可以保存�
 * 类文件(file-like)对象。
 * 内部函数和lambda。
 
-默认情况下，Ren'Py使用cPickle模块保存游戏。配置 :var:`config.use_cpickle` 的值可以让Ren'Py使用pickle模块。默认配置速度较慢，但是比保存报错要好。
+默认情况下，Ren'Py使用cPickle模块保存游戏。将配置项 :var:`config.use_cpickle` 的值改为False，可以让Ren'Py使用pickle模块。
+默认配置速度较慢，但是在Python 2.x环境下比保存报错要好。
+注意这个设置对Python 3没有效果。
 
 .. _save-functions-and-variables:
 
@@ -428,7 +434,7 @@ Ren'Py使用Python的pickle系统保存游戏状态。这个模块可以保存�
             hotspot (8, 200, 78, 78) action ui.ChoiceJump("swimming", "go_swimming", block_all=False)
             hotspot (204, 50, 78, 78) action ui.ChoiceJump("science", "go_science_club", block_all=False)
             hotspot (452, 79, 78, 78) action ui.ChoiceJump("art", "go_art_lessons", block_all=False)
-            hotspot (602, 316, 78, 78) action uiChoiceJump("home", "go_home", block_all=False)
+            hotspot (602, 316, 78, 78) action ui.ChoiceJump("home", "go_home", block_all=False)
 
 举例：
 

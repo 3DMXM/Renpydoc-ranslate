@@ -91,7 +91,7 @@ image语句用于定义图像(image)。一条image语句由以下部分组成：
 
     image eileen happy = "eileen_happy.png"
     image black = "#000"
-    image bg tiled = LiveTile("tile.jpg")
+    image bg tiled = Tile("tile.jpg")
 
     image eileen happy question = VBox(
         "question.png",
@@ -156,7 +156,7 @@ show语句样例如下：::
     # 最基础的显示
     show mary night sad
 
-    # 由于‘mary night sad’已经显示了，本语句等价于：
+    # 由于‘mary night sad’已经显示了，下个语句等价于：
     # show mary night happy
     show mary happy
 

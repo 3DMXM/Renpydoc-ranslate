@@ -8,6 +8,84 @@
 只需要注意，设置 :var:`config.script_version` 就恢复版本变更导致的许多变化，代价是无法使用新增特性。
 
 关于GUI方面的不兼容变更，详见 :ref:`gui-changes` 部分，只有重新生成GUI才会让这些变更生效。
+.. _incompatible-7.4:
+
+7.4
+---
+
+Mobile platforms now use hardware, rather than software, video playback.
+To restore the old behavior, use
+移动平台仅限于软解解码，可以使用硬件解码播放视频。如果要回归原来的设置：
+::
+
+    define config.hw_video = True
+
+Ren'Py will now only show side images if with at least one attribute in
+addition to the image tag. To disable this, use
+当前版本Ren'Py只在图像标签(tag)中至少包含一个属性(attribute)的情况下才会显示侧边栏头像(side image)。禁用该设置：
+
+::
+
+    define config.side_image_requires_attributes = False
+
+
+7.4版本起，将不再支持初始化阶段以外的场景修改配置项，比如 :var:`config.mouse` 。
+请考虑使用:var:`default_mouse` 配置项设置自定义的鼠标光标。
+
+.. _incompatible-7.3.3:
+
+7.3.3
+-----
+
+在配置项 :var:`config.start_callbacks` 中注册的回调功能，任何情况下都会在 ``default`` 语句之后运行。
+如果要恢复原来的行为模式(即回调在 ``default`` 语句之前运行)：
+::
+
+    define config.early_start_callbacks = True
+
+
+.. _incompatible-7.3.0:
+
+7.3.0
+-----
+
+界面语言方面，在遇到类似下面的代码时会出现错误提示“a non-constant keyword argument ...
+is not allowed after a python block.” ：
+
+::
+
+    screen test():
+
+        default a = 0
+
+        button:
+            $ a = 1
+            action Return(a)
+
+            text "Test"
+
+原因是，`action` 特性会在Python变量声明之前运行，所以运行结果会返回0而不是1。
+如果要禁用这个错误提示功能，请在游戏的game目录下名为 01compat.rpy 的文件中添加一行：
+
+::
+
+    define config.keyword_after_python = True
+
+``side`` 布局的所有子对象的绘制顺序，现在由控制字符串决定。如果要改为原来的固定顺序，请使用：
+
+::
+
+    define config.keep_side_render_order = False
+
+:var:`config.say_attribute_transition_callback` 配置项的接口发生不兼容的改变。
+改变后允许使用新旧标签(tag)的集合。
+如果要恢复成旧的接口，请使用：
+
+::
+
+    define config.say_attribute_transition_callback_attrs = False
+
+模式参数也有一些改变，当 ``permanent`` 和 ``temporary`` 属性转场都起效时，将返回 ``both`` 。
 
 .. _incompatible-7.2.2:
 

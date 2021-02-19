@@ -47,7 +47,7 @@ offscreenleft和offscreenright变换位置会图片显示在界面之外。这�
 
 .. var:: default
 
-    水平居中，并与界面底部对齐。default可以重定义，这样show和scene语句显示的图片默认位置也会改变
+    水平居中，并与界面底部对齐。default可以通过 :var:`config.default_transform` 重定义，这样show和scene语句显示的图片默认位置也会改变
 
 .. var:: left
 

@@ -82,6 +82,22 @@ Ren'Py支持定义你自己的文本标签(tag)。文本标签系统可以操作
 
     init python:
 
+        def rot13_transform(s):
+
+            ROT13 = { }
+
+            for i, j in zip("ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"):
+                 ROT13[i] = j
+                 ROT13[j] = i
+
+                 i = i.lower()
+                 j = j.lower()
+
+                 ROT13[i] = j
+                 ROT13[j] = i
+
+            return "".join(ROT13.get(i, i) for i in s)
+
         def rot13_tag(tag, argument, contents):
             rv = [ ]
 

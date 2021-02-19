@@ -96,6 +96,15 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
     g "见到你我很 [mood!t] 。"
 
+``!i`` 标识会在字符串中执行一次额外的插值：
+
+::
+
+    define earned_points_info = _("[points]{image=points.png} 赢得点数")
+    g "我很高兴看到你 [earned_points_info!ti] "
+
+界面语言中会经常用到，详见 :ref:`常量文本 <const-text>` 。
+
 ``!u`` 标识强制将(英文)文本转为大写， ``!l`` 标识强制将(英文)文本转为小写。
 ``!c`` 标识将首字母大写。
 这些标识可以联用，比如使用 ``!cl`` 可以将首字母大写，后面所有文本强制小写。
@@ -134,11 +143,15 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
     锚点标签在其自身和自己的闭合标签内，创建了一个超链接。超链接的行为表现由
     :propref:`hyperlink_functions` 样式特性控制。 默认的处理包含以下行为：
 
-    * 当入参以“jump:”开头，入参的其余部分是要跳转的脚本标签(label)名。
+    * 当入参以 ``jump:`` 开头，入参的其余部分是要跳转的脚本标签(label)名。
 
-    * 当入参以“call:”开头，入参的其余部分是要调用的脚本标签(label)名。通常来说，call执行完后会回到当前的Ren'Py语句。
+    * 当入参以 ``call:`` 开头，入参的其余部分是要调用的脚本标签(label)名。通常来说，call执行完后会回到当前的Ren'Py语句。
 
-    * 当入参以“call_in_new_context:”开头，入参的其余部分是某个新的上下文(使用 :func:`renpy.call_in_new_context` 函数)中需要调用的脚本标签名。
+    * 当入参以 ``call_in_new_context:`` 开头，入参的其余部分是某个新的上下文(使用 :func:`renpy.call_in_new_context` 函数)中需要调用的脚本标签名。
+
+    * 当入参以 ``show:`` 开头，入参的其余部分是待显示的界面。
+
+    * 当入参以 ``showmenu:`` 开头，入参的其余部分是待显示的游戏菜单界面。
 
     * 除了以上情况，入参是一个URL，可以使用系统web浏览器打开。
 
@@ -172,6 +185,20 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
         "{alpha=-0.1}现在字的透明度少了10%{/alpha}"
         "{alpha=*0.5}字的透明度是默认的50%。{/alpha}"
 
+.. text-tag:: alt
+
+    alt文本标签(tag)将阻止文本内容被渲染，不过TTS系统依然有效。
+
+    ::
+
+       g "Good to see you! {image=heart.png}{alt}heart{/alt}"
+
+    还可以查看 :var:`alt` 角色相关内容.
+
+.. text-tag:: art
+
+    art文本标签(tag)会把闭合标签内的文本作为ruby文本的顶部文字显示。
+    详见 :ref:`Ruby文本 <ruby-text>` 。
 
 .. text-tag:: b
 
@@ -207,7 +234,7 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
    图片标签是一个自闭合标签，作用是在文本中内插一个图片。内插的图片高度应该和单行文本的高度一致。入参可以是图片文件名，或者使用image语句定义的图像名。 ::
 
-       g "见到你真好！ {image=heart.png}"
+       g "见到你真好！ {image=heart.png}{alt}heart{/alt}"
 
 .. text-tag:: k
 
@@ -215,6 +242,13 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
        "{k=-.5}Negative{/k} Normal {k=.5}Positive{/k}"
 
+.. text-tag:: noalt
+
+    noalt标签将防止文本被TTS系统使用。经常与 alt 标签一起使用，提供可见选项。
+
+    ::
+
+       g "见到你真好！ {noalt}<3{/noalt}{alt}heart{/alt}"
 
 .. text-tag:: outlinecolor
 
@@ -224,7 +258,7 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
 .. text-tag:: plain
 
-   纯文本标签保证文本没有任何加粗、斜体、下划线或删除线样式。 ::
+   plain标签保证文本没有任何加粗、斜体、下划线或删除线样式。 ::
 
        "{b}加粗。{plain}没有效果。{/plain} 加粗。{/b}"
 
@@ -278,6 +312,20 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 ------------------
 
 只能应用于对话的文本标签如下：
+
+.. text-tag:: done
+
+    在done标签后面的文本不会显示。那么你为什么会要这段文本？
+    当 :propref:`adjust_spacing` 设置为True时，可以避免文本字间距异常。
+
+    done标签出现后，该行对话不会添加到历史缓存中。如果nw标签出现，必须用在done标签之前。
+
+    ::
+
+        g "Looks like they're{nw}{done} playing with their trebuchet again."
+        g "看起来他们{nw}{done} 又在玩投石机。"
+        show trebuchet
+        g "看起来他们{fast} 又在玩投石机。"
 
 .. text-tag:: fast
 
@@ -692,7 +740,7 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
 Ren'Py允许创作者或者用于指示某些文本以慢速显示。这种情况下，Ren'Py会将文本渲染至某个纹理(texture)，然后将纹理的矩形区域绘制到界面上。
 
-不幸的是，这意味着字符间的重叠区域会被渲染成工件(artifact)。为了尽可能减少这种渲染工件(artifact)，需要尽可能保证 :propref:`line_leading` 和
+不幸的是，这意味着字符间的重叠区域渲染后会出现瑕疵。为了尽可能减少这种渲染瑕疵，需要尽可能保证 :propref:`line_leading` 和
 :propref:`line_spacing` 值足够大，各行之间没有覆盖的区域。如果首行缩进文本，特别是line_spacing为负值的情况，我们需要考虑增大
 :propref:`line_overlap_split` 的值。
 

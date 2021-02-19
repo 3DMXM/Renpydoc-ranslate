@@ -176,7 +176,7 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
     translate piglatin start_36562aba:
 
         # e "You scored [points] points!"
-        e $ latin_points = to_roman_numerals(points)
+        $ latin_points = to_roman_numerals(points)
         e "Ouyay oredscay [latin_points] ointspay!"
 
 .. _tips:

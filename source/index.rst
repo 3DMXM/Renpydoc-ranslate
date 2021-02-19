@@ -202,7 +202,7 @@ Python和Ren'Py
 * `变换特性(Transform Property)索引 <std-transform-property-index.html>`_
 * `变量(Variable)和定义索引 <std-var-index.html>`_
 * `函数(Function)和类(Class) 索引 <py-function-class-index.html>`_
-* `Reserved Names索引 <reserved.html>`_
+* `保留名称索引 <reserved.html>`_
 * `总索引 <genindex.html>`_
 
 .. _example-scripts:

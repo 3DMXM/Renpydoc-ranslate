@@ -14,6 +14,7 @@
 鼠标按键的快捷键格式是‘mouseup_#’或‘mousedown_#’，其中的 # 符号代表按键的编号。Ren'Py假设鼠标有5个按键，其中按键1、2、3分别表示左、中、右键，按键4和5分别表示滚轮的上滑和下滑。例如，“mousedown_1”代表鼠标左键按下，“mouseup_1”表示鼠标左键弹起，“mousedown_4”表示滚轮上滑。
 
 总共有两种键盘的快捷键。第一种是字符串里只有一个字符，有某个按键被按下时生成。通常用于绑定字母或数字按键。典型的快捷键包括“a”、“A”和“7”等。
+注意这里的字母对大小写敏感，“a”与“A”是不同字母。
 
 键盘快捷键也可以是符号或者功能按键。可以是pygame.constants中定义的任意 K\_ 形式常量。这种快捷键字符串类似于
 "K\_BACKSPACE"、 "K\_RETURN"和 "K\_TAB"；完整的快捷键定义详见 `这里 <http://www.pygame.org/docs/ref/key.html>`_。
@@ -22,14 +23,19 @@
 
 alt
     当alt键被同时按下时匹配。不同时按下alt键的快捷键与不带前缀的匹配。
+
 meta
     当meta、command或windows键被同时按下时匹配。不同时按下那些键的快捷键与不带前缀的匹配。
+
 ctrl
     当ctrl键被同时按下时匹配。不同时按下ctrl键的快捷键与不带前缀的匹配。(ctrl键很少用，因为它通常会触发跳过。)
+
 shift
     当shift键被同时按下时匹配。
+
 noshift
     当shift键没有被按下时匹配。一个 K\_ 形式快捷键忽略shift按键状态。
+
 repeat
     由于按键始终处于按下状态时，则匹配为repeat。不带这个前缀的快捷键不会匹配到repeat。
 
@@ -44,7 +50,7 @@ repeat
         $ config.keymap['dismiss'].append('t')
         $ config.keymap['dismiss'].remove('K_SPACE')
 
-默认的按键映射放在renpy/common/00keymap.rpy文件中，下面是6.99版本的配置：
+默认的按键映射放在renpy/common/00keymap.rpy文件中，下面是7.4版本的配置：
 
 ::
 
@@ -52,27 +58,28 @@ repeat
 
         # 除非明确禁用，各处都能使用的绑定快捷键。
         rollback = [ 'K_PAGEUP', 'repeat_K_PAGEUP', 'K_AC_BACK', 'mousedown_4' ],
-        screenshot = [ 's' ],
+        screenshot = [ 's', 'alt_K_s', 'alt_shift_K_s', 'noshift_K_s' ],
         toggle_afm = [ ],
-        toggle_fullscreen = [ 'f', 'alt_K_RETURN', 'alt_K_KP_ENTER', 'K_F11' ],
-        game_menu = [ 'K_ESCAPE', 'K_MENU', 'mouseup_3' ],
-        hide_windows = [ 'mouseup_2', 'h' ],
-        launch_editor = [ 'E' ],
+        toggle_fullscreen = [ 'f', 'alt_K_RETURN', 'alt_K_KP_ENTER', 'K_F11', 'noshift_K_f' ],
+        game_menu = [ 'K_ESCAPE', 'K_MENU', 'K_PAUSE', 'mouseup_3' ],
+        hide_windows = [ 'mouseup_2', 'h', 'noshift_K_h' ],
+        launch_editor = [ 'E', 'shift_K_e' ],
         dump_styles = [ ],
-        reload_game = [ 'R' ],
-        inspector = [ 'I' ],
-        full_inspector = [ 'alt_I' ],
-        developer = [ 'D' ],
+        reload_game = [ 'R', 'alt_shift_K_r', 'shift_K_r' ],
+        inspector = [ 'I', 'shift_K_i' ],
+        full_inspector = [ 'alt_shift_K_i' ],
+        developer = [ 'shift_K_d', 'alt_shift_K_d' ],
         quit = [ ],
         iconify = [ ],
         help = [ 'K_F1', 'meta_shift_/' ],
-        choose_renderer = [ 'G' ],
+        choose_renderer = [ 'G', 'alt_shift_K_g', 'shift_K_g' ],
         progress_screen = [ 'alt_shift_K_p', 'meta_shift_K_p', 'K_F2' ],
+        accessibility = [ "K_a" ],
 
-        # 数据接入能力。
-        self_voicing = [ 'v', 'V' ],
-        clipboard_voicing = [ 'C' ],
-        debug_voicing = [ 'alt_V', 'meta_V' ],
+        # 数据读取。
+        self_voicing = [ 'v', 'V', 'alt_K_v', 'K_v' ],
+        clipboard_voicing = [ 'C', 'alt_shift_K_c', 'shift_K_c' ],
+        debug_voicing = [ 'alt_shift_K_v', 'meta_shift_K_v' ],
 
         # say相关。
         rollforward = [ 'mousedown_5', 'K_PAGEDOWN', 'repeat_K_PAGEDOWN' ],
@@ -104,8 +111,8 @@ repeat
         input_delete = [ 'K_DELETE', 'repeat_K_DELETE' ],
         input_home = [ 'K_HOME' ],
         input_end = [ 'K_END' ],
-        input_copy = [ 'ctrl_K_INSERT', 'ctrl_K_c' ],
-        input_paste = [ 'shift_K_INSERT', 'ctrl_K_v' ],
+        input_copy = [ 'ctrl_noshift_K_INSERT', 'ctrl_noshift_K_c' ],
+        input_paste = [ 'shift_K_INSERT', 'ctrl_noshift_K_v' ],
 
         # 视口。
         viewport_leftarrow = [ 'K_LEFT', 'repeat_K_LEFT' ],
@@ -116,12 +123,14 @@ repeat
         viewport_wheeldown = [ 'mousedown_5' ],
         viewport_drag_start = [ 'mousedown_1' ],
         viewport_drag_end = [ 'mouseup_1' ],
+        viewport_pageup = [ 'K_PAGEUP', 'repeat_K_PAGEUP' ],
+        viewport_pagedown = [ 'K_PAGEDOWN', 'repeat_K_PAGEDOWN' ],
 
         # 这些按键控制跳过。
         skip = [ 'K_LCTRL', 'K_RCTRL' ],
         stop_skipping = [ ],
         toggle_skip = [ 'K_TAB' ],
-        fast_skip = [ '>' ],
+        fast_skip = [ '>', 'shift_K_PERIOD' ],
 
         # Bar。
         bar_activate = [ 'mousedown_1', 'K_RETURN', 'K_KP_ENTER', 'K_SELECT' ],
@@ -139,9 +148,12 @@ repeat
         drag_deactivate = [ 'mouseup_1' ],
 
         # 调试控制台。
-        console = [ 'shift_O' ],
+        console = [ 'shift_K_o', 'alt_shift_K_o' ],
         console_older = [ 'K_UP', 'repeat_K_UP' ],
         console_newer = [ 'K_DOWN', 'repeat_K_DOWN'],
+
+        # 编导器
+        director = [ 'noshift_K_d' ],
 
         # 忽略(保持后向兼容)。
         toggle_music = [ 'm' ],
@@ -149,6 +161,8 @@ repeat
         viewport_down = [ 'mousedown_5' ],
 
         # Profile命令。
+        performance = [ 'K_F3' ],
+        image_load_log = [ 'K_F4' ],
         profile_once = [ 'K_F8' ],
         memory_profile = [ 'K_F7' ],
 
@@ -163,12 +177,17 @@ repeat
         "pad_lefttrigger_pos" : [ "rollback", ],
         "pad_back_press" : [ "rollback", ],
 
+        "repeat_pad_leftshoulder_press" : [ "rollback", ],
+        "repeat_pad_lefttrigger_pos" : [ "rollback", ],
+        "repeat_pad_back_press" : [ "rollback", ],
+
         "pad_guide_press" : [ "game_menu", ],
         "pad_start_press" : [ "game_menu", ],
 
         "pad_y_press" : [ "hide_windows", ],
 
         "pad_rightshoulder_press" : [ "rollforward", ],
+        "repeat_pad_rightshoulder_press" : [ "rollforward", ],
 
         "pad_righttrigger_pos" : [ "dismiss", "button_select", "bar_activate", "bar_deactivate" ],
         "pad_a_press" : [ "dismiss", "button_select", "bar_activate", "bar_deactivate"],
@@ -189,6 +208,27 @@ repeat
         "pad_dpdown_press" : [ "focus_down", "bar_down", "viewport_downarrow" ],
         "pad_lefty_pos" : [ "focus_down", "bar_down", "viewport_downarrow" ],
         "pad_righty_pos" : [ "focus_down", "bar_down", "viewport_downarrow" ],
+
+        "repeat_pad_dpleft_press" : [ "focus_left", "bar_left", "viewport_leftarrow" ],
+        "repeat_pad_leftx_neg" : [ "focus_left", "bar_left", "viewport_leftarrow" ],
+        "repeat_pad_rightx_neg" : [ "focus_left", "bar_left", "viewport_leftarrow" ],
+
+        "repeat_pad_dpright_press" : [ "focus_right", "bar_right", "viewport_rightarrow" ],
+        "repeat_pad_leftx_pos" : [ "focus_right", "bar_right", "viewport_rightarrow" ],
+        "repeat_pad_rightx_pos" : [ "focus_right", "bar_right", "viewport_rightarrow" ],
+
+        "repeat_pad_dpup_press" : [ "focus_up", "bar_up", "viewport_uparrow" ],
+        "repeat_pad_lefty_neg" : [ "focus_up", "bar_up", "viewport_uparrow" ],
+        "repeat_pad_righty_neg" : [ "focus_up", "bar_up", "viewport_uparrow" ],
+
+        "repeat_pad_dpdown_press" : [ "focus_down", "bar_down", "viewport_downarrow" ],
+        "repeat_pad_lefty_pos" : [ "focus_down", "bar_down", "viewport_downarrow" ],
+        "repeat_pad_righty_pos" : [ "focus_down", "bar_down", "viewport_downarrow" ],
     }
 
-手柄按键的事件名格式是“pad_*button*_press”和“pad_*button*_release”。模拟摇杆事件格式是“pad_*axis*_pos”、“pad_*axis*_neg”和“pad_*axis*_zero”。
+手柄按键的事件名格式是“pad_*button*_press”和“pad_*button*_release”。
+模拟摇杆事件格式是“pad_*axis*_pos”、“pad_*axis*_neg”和“pad_*axis*_zero”。
+持续按住某个按键时，游戏手柄会生成另一个事件，前缀为“repeat_”。
+
+需要执行特定初始流程才能使用手柄，默认是禁用状态。包括任天堂Switch的Pro手柄，在电脑上使用时会要求特殊的初始化流程。
+控制器黑名单详见 :var:`config.controller_blocklist` 。

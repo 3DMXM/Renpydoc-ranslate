@@ -101,7 +101,7 @@
 
 .. var:: pushright
 
-    及： **pushleft, pushtop, pushbottom**
+    及： **pushleft, pushup, pushdown**
 
     新场景把旧场景从指定的边界推出。 :func:`PushMove()` 转场类的实例。
 

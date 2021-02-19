@@ -61,6 +61,13 @@ while语句
 
 ::
 
+    $ lines = ["sounds/three.mp3", "sounds/two.mp3", "sounds/one.mp3"]
+    while lines: # 只要lines列表不为空，表达式结果等效于True
+        play sound lines.pop(0) # 移除lines列表第一个元素
+        pause
+
+::
+
     while True:
 
         "这是一首永远不会结束的歌。"
@@ -68,7 +75,10 @@ while语句
 
 当主控流程遇到while语句时，while后的表达式会被计算一次，另外每次while下的语句块(block)执行结束后又会回到while表达式。除非while中的表达式结果为False，不然后面的语句块会反复不断运行。
 
-Ren'Py没有continue、break和for循环语句。使用jump语句分别跳转至while循环之前和之后的脚本标签(label)，可以替代continue和break语句的功能。在上面的第一个while循环样例中，演示了如果使用while循环代替for循环语句。
+Ren'Py没有continue、break和for循环语句。
+使用jump语句分别跳转至while循环之前和之后的脚本标签(label)，可以替代continue和break语句的功能。
+在上面的第一个while循环样例中，演示了如何使用while循环代替简单的for循环语句。
+第二个样例中，演示了如何使用while循环通过列表实现迭代器功能(其他程序语言中的foreach语句)。
 
 
 .. _conditional-pass-statement:

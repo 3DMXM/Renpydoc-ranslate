@@ -14,11 +14,11 @@ Ren'Py的大部分内容都遵循下列(MIT)许可证：
 
     本软件按“原样”提供，不提供任何以表达或暗示，包括但不限于销售，适用于特定用途和不侵权的保证。在任何情况下，作者或版权所有人不对因软件或软件的使用或其他事宜产生的任何索赔，损害或其他责任（无论是在合同，侵权或其他方面的诉讼中）负责。
 
-所以制作的Ren'Py游戏也必须满足LGPL的要求。
+Ren'Py的部分代码源自GNU Lesser General Public License协议下的项目，所以制作的Ren'Py游戏也必须满足LGPL的要求。
 
 请查看每个独立源文件的版权所有者。发布的demo样例中的所有美术作品也分别属于各版权所有者。
 
-Ren'Py代码包含以下项目：
+Ren'Py二进制文件中可能包含以下项目的代码：
 
 * Python (Python 许可证)
 * Pygame_SDL2 (MIT 许可证，GNU LGPL)
@@ -36,15 +36,28 @@ Ren'Py代码包含以下项目：
 * py2exe (MIT 许可证)
 * GLEW (修改过的BSD, MIT 许可证)
 * zsync (创作者授权)
+* pyjnius (MIT 许可证)
+* ANGLE (Three clause BSD 许可证)
+* requests (Apache 许可证 2.0)
+* certifi (Mozilla Public 许可证 2.0)
+* urllib3 (MIT 许可证)
+* chardet (GNU LGPL)
+* libusb (GNU LGPL)
 
 为了遵循LGPL的要求，所有Ren'Py的依赖源代码都放在下列代码仓库中：
 
 * https://github.com/renpy/renpy (Ren'Py)
 * https://github.com/renpy/pygame_sdl2 (Pygame_SDL2)
 * https://github.com/renpy/renpy-deps (Desktop dependencies)
+* https://github.com/renpy/renpyweb (Web)
+
+Ren'Py 7.4版本以前的内容：
+
+* https://github.com/renpy/renpy-deps (Desktop dependencies)
 * https://github.com/renpy/python-for-android (Android)
 * https://github.com/renpy/rapt (Android Build Tools)
 * https://github.com/renpy/renios (iOS)
+
 
 虽然我们不能给予任何法律方面的建议，但我们相信在你们使用的Ren'Py拷贝中包含一份这样的许可证，
 并在你们项目中的README文件或App Store描述中添加这份许可证的链接，就算是遵循了各种许可要求。

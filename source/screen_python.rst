@@ -564,7 +564,7 @@ Ren'Py支持定义定制化界面语言语句。创作者定义的界面语言�
 
 
     python early:
-        renpy.register_sl_statement("titledwindow", positional=1, children=1).add_property("icon").add_property("pos")
+        renpy.register_sl_statement("titledwindow", children=1).add_positional("title").add_property("icon").add_property("pos")
 
 然后，我们定义一个实现了定制化语句的界面。这个界面可以在任何文件中定义。比如：
 
@@ -588,3 +588,25 @@ Ren'Py支持定义定制化界面语言语句。创作者定义的界面语言�
                 null height 15
 
                 transclude
+
+需要大量传递特性(property)值时，更合理的方法是使用 \*\*properties 参数，例如：
+::
+
+    screen titledwindow(title, icon=None, **properties):
+        frame:
+            # 如果properties参数中不包含background，则会使用默认值。
+            background "#00000080"
+
+            properties properties
+
+            has vbox
+
+            hbox:
+                if icon is not None:
+                    add icon
+
+                text title
+
+            null height 15
+
+            transclude

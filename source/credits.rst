@@ -8,10 +8,9 @@
 如果你发现了这样的情况，请接受我的歉意，并发送邮件给 bishoujo.us 的 pytom。
 我会在未来的版本中修复丢失的部分。
 
-
-
 * Absinthe
 * Aenakume
+* Ajkahn96
 * Aleema
 * Alessio
 * Alexandre Tranchant
@@ -28,13 +27,18 @@
 * BlackDragonHunt/Mangagamer
 * Bryan Tsang
 * Carl
+* Capntrips
 * Caryoscelus
 * CensoredUsername (C)
+* Cherie Davidson
 * Chris Mear
 * Christian Koepp
 * Civalin
+* CobaltCore
 * Craig P. Donson
+* CursedOctopus
 * DaFool
+* Daniel Conley
 * Daniel Luque
 * David Gowers
 * Deji
@@ -42,6 +46,7 @@
 * Denzil
 * Derik
 * Diapolo10
+* Dogtopus
 * Doomfest
 * Donghyeok Tak
 * DragoonHP
@@ -61,16 +66,22 @@
 * Frédéric Chapoton
 * Gas
 * George Economidis
+* GimmiRuski
+* Gio
 * Giuseppe Bertone
+* Gouvernathor
+* Gratusfr
 * Gregory Pease
 * Grey
 * Gustavo Carvalho
 * Helloise
 * Hentai Senshi
+* Herpior
 * HikkeKun
 * Hixbooks
 * Huang Junjie
 * Huanxuantian
+* Hyper Sonic
 * Ian Leslie
 * Jackmcbarn
 * JaHIY
@@ -79,8 +90,12 @@
 * James Pearson Hughes
 * Jan Beich
 * Javimat
+* Joaquin Garmendia Cabrera
 * Joshua Fehler
+* Joshua Stone
+* Julian Uy
 * Kalawore
+* Kapil Gain
 * Kathryn
 * Kevin Turner
 * Kinsman
@@ -92,28 +107,36 @@
 * Kyouryuukunn
 * Lapalissiano
 * Lee Yunseok
+* Lezalith
 * Lore
+* Lucas Ramage
+* Maciej Katafiasz
 * Maissara Moustafa
 * Mal Graty
 * Marcel
+* Mason Chou
 * Markus Koschany
 * Max le Fou
 * Maxwell Paul Brickner
 * Meithal
 * Merumelu
+* Midgetthetree
 * mikey (ATP Projects)
 * Morgan Willcock
 * Moshibit
 * MrStalker
 * Mugenjohncel (Uncle Mugen)
 * Muhammad Nur Hidayat Yasuyoshi
+* Neotus
 * NetGenSuperstar
+* 逆转咸鱼
 * NoJoker
 * Nolanlemahn
 * Nxcrft
 * Nyaatrap
 * Oshi-Shinobu
 * Patrick Dawson
+* Paul J Martinez
 * Paul Morio
 * Pavel Langwell
 * Peter DeVita

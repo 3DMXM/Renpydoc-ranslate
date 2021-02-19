@@ -328,8 +328,8 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
 
 .. var:: build.include_i686 = True
 
-    If true, files necessary to run on 32-bit x86 processors will be included
-    in the Linux and Mac builds. If False, these files will not be included.
+    若为True，生成Linux和Mac版本时，将包含在32位x86处理器平台运行时需要的文件。
+    若为False，将不包含那些文件。
 
 .. var:: build.include_old_themes = True
 

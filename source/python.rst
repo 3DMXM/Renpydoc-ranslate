@@ -122,6 +122,19 @@ define语句可以选择使用一个命名存储区(详见下面的例子)，将
 
     define character.e = Character("艾琳")
 
+define语句可选择带一个索引值，使其可以在一个字典中设置元素：
+::
+
+    define config.tag_layer["eileen"] = "master"
+
+除了使用等号 ``=`` ，define语句还可以使用另外两个运算符。
+``+=`` 运算符用于添加元素，还主要用于列表合并。
+``|=`` 运算符主要用于集合合并。例如：
+::
+
+    define config.keymap["dismiss"] += [ "K_KP_PLUS" ]
+    define endings |= { "best_ending }
+
 使用define语句的一个优点是，在声明时它会记录下文件名和该行脚本编号，供启动器(launcher)的导航(navigation)特性使用。
 
 通过define语句定义的变量会被当作一个常数，不会保存或读取，也不该被修改。(Ren'Py不做强制要求，但修改那些参数会导致不可预见的情况出现。)

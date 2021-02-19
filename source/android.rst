@@ -241,7 +241,15 @@ Google Play扩展APK
 
 .. var:: build.google_play_key = "..."
 
-    这是与你的应用关联的Google Play证书，这个证书在Google Play开发者终端上与你应用关联的“Services & APIs”标签内可以找到。(确保在密钥中删除了所有的空格和换行。)
+    这是与你的应用关联的Google Play证书，这个证书在Google Play开发者终端上与你应用关联的“"Monetization Setup”标签内可以找到。(确保在密钥中删除了所有的空格和换行。)
+
+    一个常见的key长这样：
+
+    ::
+
+        define build.google_play_key = "MIIBIjANBgkqhkiG9w0BAQEFA…HGTQIDAQAB"
+
+    三个点的占位符“...”可能表示一长串字母和数字。
 
 .. var:: build.google_play_salt = ( ... )
 

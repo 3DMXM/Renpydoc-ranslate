@@ -57,7 +57,7 @@ say语句的最后一种形式是一个字符串及一个过渡(transition)效�
 
 角色(Character)是一个python函数，该函数包含一大串的关键词参数。这些关键词参数控制着角色行为。
 
-define语句会计算其自身的表达式，并声明为一个给定的变量名。若定义语句不在初始化的语句块(block)中，其会自动以与初始化相同的最高优先级(0)运行。
+define语句会计算其自身的表达式，并声明为一个给定的变量名。若 ``define`` 语句不在 ``init`` 语句块(block)中，其会自动以与初始化相同的最高优先级(0)运行。
 
 .. function:: Character(name, kind=adv, **args)
 
@@ -232,8 +232,8 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
 这是一些样例角色::
 
-    # 在圆括号中的角色拥有其对话。
-    define e = Character("艾琳", what_prefix='"', what_suffix='"')
+    # 角色的对话内容包含在一对圆括号中。
+    define e = Character("艾琳", what_prefix='(', what_suffix=')')
 
     # 从一个变量中获取角色名称。
     define p = Character("player_name", dynamic=True)
@@ -410,7 +410,7 @@ say语句后面可能会有分句，并带上入参或者属性(attribute)。这
     label start:
 
         # 这是个糟糕的变量名。
-        e = 100
+        $ e = 100
 
         e "我们的起始能量是 [e] 个单位。"
 
@@ -422,13 +422,13 @@ say语句带入参，对应回调函数的情况，样例：
 
 等效于：::
 
-    e("Hello, world.", interact=True, what_size=32)
+    $ e("Hello, world.", interact=True, what_size=32)
 
 当e是一个角色对象时，还可以进一步等效为：
 
 ::
 
-    Character(kind=e, what_size=32)("Hello, world.", interact=True)
+    $ Character(kind=e, what_size=32)("Hello, world.", interact=True)
 
 但是，我们也可以使用 var:`config.say_arguments_callback` 回调函数或者外包(wrap)一个角色实现一些与众不同的功能。
 

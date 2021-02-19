@@ -245,6 +245,34 @@ renpy.Render
 
         设置该可视组件子组件在水平和垂直方向上的缩放(zoom)等级。只有子组件会被缩放——宽度、高度和blit坐标都不会缩放。
 
+    下列属性和方法只在启用基于模型的渲染器后才能使用：
+
+    .. attribute:: mesh
+
+        This field enables model-based rendering for this Render. If true:
+        该字段对此Render对象启用基于模型的渲染器。
+
+        若为True：
+
+        * 此可视组件的所有子组件都会渲染为纹理(texture)。
+        * 此可视组件关联的第一个子组件的尺寸作为网格(mesh)的尺寸。
+        * 使用此Render对象创建网格、着色器、uniform变量和GL属性。
+
+        创建的网格模型将在单次绘制操作中完成。
+
+    .. method:: add_shader(shader)
+
+        该方法使此Render对象或其子对象使用名为 `shader` 的着色器进行绘制。
+        着色器名应是一个字符串。如果着色器名以“-”开头，表示不使用此着色器。
+
+    .. method:: add_uniform(name, value)
+
+        此Render对象或其子对象绘制时，将名为 `name` 的uniform变量赋值为 `value` 。
+
+    .. method:: add_property(name, value)
+
+        此Render对象或其子对象绘制时，将名为 `name` 的GL属性变量赋值为 `value` 。
+
 .. _utility-functions:
 
 功能函数
@@ -303,14 +331,6 @@ renpy.Render
 .. function:: renpy.timeout(seconds)
 
   经过 *seconds* 秒后生成一个事件消息。这个函数确保了创作者定义可视组件的事件处理方法被调用到。
-
-.. function:: im.load_image(im)
-
-  使用图像缓存加载图像操作器(manipulator) *im* ，并返回一个纹理(texture)。
-
-.. function:: im.load_surface(im)
-
-  使用图像缓存加载图像操作器(manipulator) *im* ，返回一个pygame Surface对象。
 
 .. function:: renpy.redraw(d, when)
 

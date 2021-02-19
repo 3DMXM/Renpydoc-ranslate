@@ -181,6 +181,13 @@ Python的数值和字符串都是常量，由常量数值和字符串组成的�
 
     text _("Your score is: [score]")
 
+如果变量中包含文本内插，就需要使用 ``!i`` 转义符：
+::
+
+    $ who = "Jane"
+    $ t = "Hello, [who]!"
+    text "Then I told her, "[t!i]""
+
 .. _const-functions:
 
 常函数

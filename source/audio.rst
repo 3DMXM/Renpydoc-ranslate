@@ -9,6 +9,7 @@ Ren'Py支持在后台播放音乐和音效，支持的音频文件格式如下�
 * Ogg Vorbis
 * MP3
 * WAV (只有未压缩的PCM编码格式)
+* WAV (只有未压缩的有符号16bit型PCM编码格式)
 
 Ren'Py支持任意数量的音频通道。有三种一般音频通道是默认定义好的：
 
@@ -44,19 +45,19 @@ play语句
 
 ::
 
-        play music "mozart.ogg"
-        play sound "woof.mp3"
-        play myChannel "punch.wav" # 'myChannel'需要先使用renpy.music.register_channel()定义。
+    play music "mozart.ogg"
+    play sound "woof.mp3"
+    play myChannel "punch.wav" # 'myChannel'需要先使用renpy.music.register_channel()定义。
 
-        "我们也可以播放一个音效或音乐的列表。"
-        play music [ "a.ogg", "b.ogg" ] fadeout 1.0 fadein 1.0
+    "我们也可以播放一个音效或音乐的列表。"
+    play music [ "a.ogg", "b.ogg" ] fadeout 1.0 fadein 1.0
 
 在audio通道上，同时播放多个音效文件：
 
 ::
 
-        play audio "sfx1.opus"
-        play audio "sfx2.opus"
+    play audio "sfx1.opus"
+    play audio "sfx2.opus"
 
 .. _stop-statement:
 
@@ -67,8 +68,8 @@ stop语句以关键词 ``stop`` 开头，后面跟需要静音的音频通道名
 
 ::
 
-        stop sound
-        stop music fadeout 1.0
+    stop sound
+    stop music fadeout 1.0
 
 .. _queue-statement:
 
@@ -77,12 +78,12 @@ queue语句
 
 ``queue`` 语句用于组建音频文件队列。当前播放的文件被播放完毕之后，queue语句组建的音频文件队列就会开始播放。
 
-queue语句以关键词 ``queue`` 开头，后面跟播放使用的音频通道名。最后是否带 ``loop`` 或 ``noloop`` 分句是可选的。
+queue语句以关键词 ``queue`` 开头，后面跟播放使用的音频通道名。最后是否带 ``fadein`` 、 ``loop`` 或 ``noloop`` 分句是可选的。
 
 ::
 
-        queue sound "woof.ogg"
-        queue music [ "a.ogg", "b.ogg" ]
+    queue sound "woof.ogg"
+    queue music [ "a.ogg", "b.ogg" ]
 
 使用这些语句的优点是，当lint工具运行时，可以检测出你程序中是否有丢失的音乐音效文件。后面的一些函数允许python接入和控制这些文件，并且会揭示一些高级(却很少用到)的特性。
 
@@ -108,13 +109,13 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 
 ::
 
-        play music "<from 5 to 15.5>waves.opus"
+    play music "<from 5 to 15.5>waves.opus"
 
 将从5秒的标记处开始，播放总计10.5秒waves.opus文件内容。下面这条语句：
 
 ::
 
-        play music "<loop 6.333>song.opus"
+    play music "<loop 6.333>song.opus"
 
 将会在完整播放完文件song.opus后，回到6.333秒标记处重新播放至结尾，并不断循环重复。
 
@@ -127,7 +128,7 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 
 ::
 
-        play audio [ "<silence .5>", "boom.opus" ]
+    play audio [ "<silence .5>", "boom.opus" ]
 
 将播放半秒的静音，然后出现一个爆炸音效。
 

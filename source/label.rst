@@ -64,7 +64,11 @@ call语句用于将主控流程转入给定的脚本标签(label)处。call语�
 
 若出现了 ``expression`` (表达式)关键词，关键词后面的表达式将被赋值，而被计算后的对应字符串则会被用作跳转目标的标签语句。若未出现 ``expression`` (表达式)关键词，跳转目标的标签名字就必须精确指定。
 
-若使用了可选项分句，传入的参数就可以在label语句后面的语句中使用传入的变量值。一个命名直白的标签(lable)有助于我们能利用栈(stack)回到脚本里合适的地方，就算加载的是修改过的脚本。 ::
+If the optional ``from`` clause is present, it has the effect of including a label
+statement with the given name as the statement immediately following the call
+statement. An explicit label helps to ensure that saved games with return
+stacks can return to the proper place when loaded on a changed script.
+``from`` 分句是可选的，在label语句后面直接添加入参名和值，并直接在该label下直接使用。一个命名直白的标签(lable)有助于我们能利用栈(stack)回到脚本里合适的地方，就算加载的是修改过的脚本。 ::
 
     e "首先，我们调用一个子程序(subroutine)。"
 
@@ -72,7 +76,7 @@ call语句用于将主控流程转入给定的脚本标签(label)处。call语�
 
     call subroutine(2)
 
-    call expression "subroutine" pass (count=3)
+    call expression "sub" + "routine" pass (count=3)
 
     # ...
 
@@ -114,6 +118,7 @@ return语句会在调用栈中弹出最顶层的那条语句，并将主控流�
 
 ``splashscreen``
     若该标签存在，游戏首次运行时，在主菜单出现前，该标签内容会被调用。
+    详见 :ref:`添加启动画面 <adding-a-splashscreen>` 。
 
 ``before_main_menu``
     若该标签存在，在主菜单出现前，该标签内容会被调用。在少数情况下，其用来设置主菜单，例如背景播放一段影片。
