@@ -228,7 +228,7 @@ repeat
 
 手柄按键的事件名格式是“pad_*button*_press”和“pad_*button*_release”。
 模拟摇杆事件格式是“pad_*axis*_pos”、“pad_*axis*_neg”和“pad_*axis*_zero”。
-持续按住某个按键时，游戏手柄会生成另一个事件，前缀为“repeat_”。
+持续按住某个按键时，游戏手柄会生成另一个事件，前缀为“repeat\_”。
 
 需要执行特定初始流程才能使用手柄，默认是禁用状态。包括任天堂Switch的Pro手柄，在电脑上使用时会要求特殊的初始化流程。
 控制器黑名单详见 :var:`config.controller_blocklist` 。

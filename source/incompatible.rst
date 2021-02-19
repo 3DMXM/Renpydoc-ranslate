@@ -202,7 +202,7 @@ Ren'Py现在将自动图像(automatic images)的优先级定义为 init 0，而�
 6.99.11
 -------
 
-``style`` 和``translate`` 语句的执行顺序已经改变，详见文档 :ref:`the changelog <renpy-6.99.11>` 。
+``style`` 和``translate`` 语句的执行顺序已经改变，详见文档 :ref:`the changelog <https://www.renpy.org/doc/html/changelog.html#ren-py-6-99-11>` 。
 如果不使用这个特性，需要在配置中添加：
 
 ::

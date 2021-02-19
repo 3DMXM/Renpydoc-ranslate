@@ -159,18 +159,6 @@
 
   只有执行或预加载一条say语句时，这个函数才可用。
 
-.. function:: renpy.get_side_image(prefix_tag, image_tag=None, not_showing=True, layer='master')
-
-  这个函数尝试找到图像显示为头像。
-
-  由某个图像属性(attribute)的集合决定启用哪个头像。如果给出了 *image_tag* ，函数从这个图像标签(tag)得到图像属性(attribute)。否则的话，函数从当前显示的角色获取图像属性。
-
-  然后函数会根据标签 *prefix_tag* 和其他一些属性寻找合适的图像，并返回找到的图像。
-
-  如果 *not_showing* 的值为True，这个函数将只返回一个头像，前提是图像使用的属性(attribute)不存在于当前界面上。
-
-  如果 *layer* 的值是None，当前显示的图像标签使用默认图层。
-
 .. function:: renpy.get_skipping()
 
   如果Ren'Py跳过中则返回True，如果Ren'Py快速跳过中则返回“fast”，如果Ren'Py不在跳过状态则返回False。

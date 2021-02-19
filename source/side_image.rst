@@ -166,18 +166,18 @@
 相关函数
 ----------
 
-.. function:: renpy.get_side_image(prefix_tag, image_tag=None, not_showing=None, layer=None)
+.. function:: renpy.get_side_image(prefix_tag, image_tag=None, not_showing=True, layer='master')
 
-    该函数将尝试找到某个图像用作头像。
+    这个函数尝试找到图像显示为头像。
 
-    它从图像属性(attribute)的集合开始。如果有给定的 `image_tag` 就从tag标签获取图像属性，也就是当前显示角色的图像属性。
+    由某个图像属性(attribute)的集合决定启用哪个头像。如果给出了 `image_tag` ，函数从这个图像标签(tag)得到图像属性(attribute)。否则，函数从当前显示的角色获取图像属性。
 
-    然后它根据 `prefix_tag` 和对应的属性寻找匹配的图像，如果找到就直接返回。
+    然后函数会根据标签 `prefix_tag` 和其他一些属性寻找合适的图像，并返回找到的图像。
 
-    如果入参 `not_showing` 为True，且对应图像属性(attribute)当前没有在屏幕显示，则该函数返回头像对应的image对象。
-    如果入参 `not_showing` 为None，则根据 :var:`config.side_image_only_not_showing` 的配置决定。
+    如果 `not_showing` 的值为True，这个函数将只返回一个头像，前提是图像使用的属性(attribute)不存在于当前界面上。
+    如果 `not_showing` 的值为None，则根据 :var:`config.side_image_only_not_showing` 的配置决定。
 
-    如果入参 `layer` 为None，使用在默认图层搜索目标头像。
+    如果 `layer` 的值是None，当前显示的图像标签使用默认图层。
 
 .. function:: renpy.set_tag_attributes(name, layer=None)
 
@@ -185,11 +185,13 @@
     该函数的主要用途是，直接设置头像所使用的图像属性。
 
     例如：
+
     ::
         $ renpy.set_tag_attributes("lucy mad")
         $ renpy.say(l, "I'm rather cross.")
 
     和
+
     ::
         l mad "I'm rather cross."
 
