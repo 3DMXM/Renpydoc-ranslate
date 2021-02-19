@@ -916,7 +916,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.new_translate_order = True
 
-    启用新的style和translate语句命令，详见 :ref:`Ren'Py 6.99.11 <https://www.renpy.org/doc/html/changelog.html#ren-py-6-99-11>`。
+    启用新的style和translate语句命令，详见 `Ren'Py 6.99.11 <https://www.renpy.org/doc/html/changelog.html#ren-py-6-99-11>`_ 。
 
 .. var:: config.new_substitutions = True
 
