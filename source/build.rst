@@ -271,25 +271,20 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
 
     空字符串则不生成任何格式的包(package)。(这个机制可以实现DLC需求。)
 
-  `file_lists`
+    `file_lists`
+        包含在包(package)中的文件列表。
 
-    包含在包(package)中的文件列表。
+    `description`
+        生成包(package)的可选项描述。
 
-  `description`
+    `update`
+        若为True并且生成了更新，就会为这个包(package)生成更新文件。
 
-    生成包(package)的可选项描述。
+    `dlc`
+        若为True，会在独立的DLC模式下生成zip或tar.bz2文件，而不是update目录下生成。
 
-  `update`
-
-    若为True并且生成了更新，就会为这个包(package)生成更新文件。
-
-  `dlc`
-
-    若为True，会在独立的DLC模式下生成zip或tar.bz2文件，而不是update目录下生成。
-
-  `hidden`
-
-    若为True，会在启动器(launcher)的包(package)列表中隐藏这个包。
+    `hidden`
+        若为True，会在启动器(launcher)的包(package)列表中隐藏这个包。
 
 .. _advanced-configuration:
 

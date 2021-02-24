@@ -29,7 +29,7 @@ Python函数
   :propref:`ysize`
     用于gui.kind_height(前提是这项存在)。
 
-  (需要注意，如果 *kind* 的值是字符串“nvel_button”，就会寻找gui.nvl_button_background配置项的值。)
+  (需要注意，如果 *kind* 的值是字符串“nvl_button”，就会寻找gui.nvl_button_background配置项的值。)
 
   background是一个frame，使用以下第一个能匹配到的文件作为其背景图：
 

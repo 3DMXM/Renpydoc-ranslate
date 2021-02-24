@@ -104,6 +104,7 @@ Ren'Py的window auto功能现在会自动判断对话或标题是否带menu语�
 启用这项特性需要使用“强制重新编译”。考虑到较老游戏的兼容性问题，这项特性可以通过如下配置关闭：
 
 ::
+
     define config.menu_showed_window = True
     define config.window_auto_show = [ "say" ]
     define config.window_auto_hide = [ "scene", "call screen" ]

@@ -303,7 +303,6 @@ renpy.Render
     如果pygame事件 *ev* 匹配 *keysym* 就返回True。
 
     `keysym`
-
         下列情况之一：
 
         - 在 :func:`config.keymap` 中配置的键盘绑定名称。

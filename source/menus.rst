@@ -71,6 +71,7 @@ menu语句后面可以使用一个set从句。set从句单独占一行。
 基于某些历史原因，菜单集可以是一个set对象或者一个列表。
 
 ::
+
     default menuset = set()
 
     menu chapter_1_places:

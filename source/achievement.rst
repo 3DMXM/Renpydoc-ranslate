@@ -71,4 +71,6 @@
 
     若非None，该项应是Steam appid。Ren'Py会在启动时自动设置此appid。需要使用define语句设置该项。
 
+    ::
+
         define config.steam_appid = 12345

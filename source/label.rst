@@ -64,10 +64,6 @@ call语句用于将主控流程转入给定的脚本标签(label)处。call语�
 
 若出现了 ``expression`` (表达式)关键词，关键词后面的表达式将被赋值，而被计算后的对应字符串则会被用作跳转目标的标签语句。若未出现 ``expression`` (表达式)关键词，跳转目标的标签名字就必须精确指定。
 
-If the optional ``from`` clause is present, it has the effect of including a label
-statement with the given name as the statement immediately following the call
-statement. An explicit label helps to ensure that saved games with return
-stacks can return to the proper place when loaded on a changed script.
 ``from`` 分句是可选的，在label语句后面直接添加入参名和值，并直接在该label下直接使用。一个命名直白的标签(lable)有助于我们能利用栈(stack)回到脚本里合适的地方，就算加载的是修改过的脚本。 ::
 
     e "首先，我们调用一个子程序(subroutine)。"

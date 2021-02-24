@@ -36,6 +36,8 @@ Windows编码故障
 
 如果Ren'Py放入一个当前系统语言中不合法的目录中，就不能在Windows中正常启动。举例，如果Ren'Py在这个目录里：
 
+::
+
     C:\\ビジュアルノベル\\renpy-6.16.0-sdk\
 
 并且系统设置为使用英语，Ren'Py就不能启动。要修复这种问题的话，进入控制面板，选择“区域和语言选项”、“高级”，并将系统语言切换为非Unicode项。
@@ -57,4 +59,4 @@ Ren'Py 6.14.x和6.15.0-3没有正确编译，经常会在64位Linux电脑上出�
 ::
 
 
-  /path/to/renpy-6.15.4/renpy.sh /path/to/game-with-problems
+    /path/to/renpy-6.15.4/renpy.sh /path/to/game-with-problems

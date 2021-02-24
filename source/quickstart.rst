@@ -38,7 +38,6 @@ Ren'Py启动器(launcher)已经被翻译为多种语言。需要更改语言的�
 
 .. ifconfig:: renpy_figures
 
-
     .. figure:: quickstart/launcher.png
         :width: 100%
 

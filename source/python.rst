@@ -31,14 +31,12 @@ python语句包含一个Python的语句块(block)，当主控流程达到该语�
 这里有两个标识符可以改变python语句的表现：
 
 ``hide``
-
     若出现了 ``hide`` 标识符，python语句将会以匿名者视角运行Python语句块。在该python语句块执行完毕后，匿名者视角就会丢失。
 
     hide标识符允许Python使用不能保存的临时变量——但也意味着存储(store)对象不能直接接入存储区(store)，而必须以字段(field)的形式接入。
 
 ``in``
-
-   ``in`` 标识符包含一个变量名。Python会使用那个变量名所代表的存储区(store)，而非默认存储区。
+    ``in`` 标识符包含一个变量名。Python会使用那个变量名所代表的存储区(store)，而非默认存储区。
 
 .. _one-line-python-statement:
 
