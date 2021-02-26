@@ -721,7 +721,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.autosave_on_choice = True
 
-    若为True，Ren'Py会在每次游戏内选项后自动存档。(当:func:`renpy.choice_for_skipping` 调用时。)
+    若为True，Ren'Py会在每次游戏内选项后自动存档。(当 :func:`renpy.choice_for_skipping` 被调用时。)
 
 .. var:: config.autosave_on_quit = True
 
