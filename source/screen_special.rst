@@ -462,10 +462,10 @@ Load
                 transpose True
                 xfill True
 
-                # Display ten file slots, numbered 1 - 10.
+                # 显示10个文件槽位，编号1到10。
                 for i in range(1, 11):
 
-                    # 显示10个文件槽位，编号1到10。
+                    # 每个文件槽位都是一个按钮。
                     button:
                         action FileAction(i)
                         xfill True
