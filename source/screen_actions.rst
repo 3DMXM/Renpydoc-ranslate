@@ -1,28 +1,30 @@
 .. _screen-actions:
 
 =====================================
-界面动作(action)、值(value)和函数
+界面行为(action)、值(value)和函数
 =====================================
 
-Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同作用。
+Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同作用。
+
+(译者注：在2021年3月之前，action翻译为“动作”。于2021年4月起，action修改为“行为函数”或“行为”。)
 
 .. _screen-action:
 
-动作(action)
+行为(action)
 =============
 
-当某个按钮(包括图片按钮、文本按钮和hotspot按钮)被激活、被鼠标悬停或失去鼠标悬停状态时，某个动作(action)就会被唤起。当某个按钮被选中或者非启用时，行为(action)就可能已经决定了。
+当某个按钮(包括图片按钮、文本按钮和hotspot按钮)被激活、被鼠标悬停或失去鼠标悬停状态时，某个行为(action)就会被唤起。当某个按钮被选中或者非启用时，行为(action)就可能已经决定了。
 
-与这些动作一样，某个动作可以是一个不带任何入参的函数。当动作被唤起时，对应的函数就会调用。如果那个动作返回某个值，返回的值就会传到来源交互动作。
+与这些行为一样，某个行为可以是一个不带任何入参的函数。当行为被唤起时，对应的函数就会调用。如果那个行为返回某个值，返回的值就会传到来源交互动作。
 
-一个动作也可能是个动作(action)列表，列表内的动作会顺序运行。
+一个行为也可能是个行为(action)列表，列表内的行为会顺序运行。
 
 .. _control-actions:
 
-控制动作
+控制行为
 ---------------
 
-这些动作用于管理界面，交互结果和流程控制。
+这些行为用于管理界面，交互结果和流程控制。
 
 .. function:: Call(label, *args, **kwargs)
 
@@ -43,7 +45,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
     不做任何事。
 
-    可以用作某个按钮的“鼠标悬停/鼠标离开”事件响应，不执行任何动作。
+    可以用作某个按钮的“鼠标悬停/鼠标离开”事件响应，不执行任何行为。
 
 .. function:: Return(value=None)
 
@@ -71,10 +73,10 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. _data-acitons:
 
-数据动作
+数据行为
 ------------
 
-这些动作设置或者切换数据。
+这些行为设置或者切换数据。
 
 .. function:: AddToSet(set, value)
 
@@ -123,7 +125,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. function:: ToggleDict(dict, key, true_value=None, false_value=None)
 
-    切换 *dict* 中键 *key* 的值。“切换”的意思是，当对应的动作执行后，原布尔值取反。
+    切换 *dict* 中键 *key* 的值。“切换”的意思是，当对应的行为执行后，原布尔值取反。
 
     `true_value`
         如果非None，这就是我们使用的True值。
@@ -133,7 +135,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. function:: ToggleField(object, field, true_value=None, false_value=None)
 
-    切换 *object* 上 *field* 的值。“切换”的意思是，当对应的动作执行后，原字段(field)上所有布尔值取反。
+    切换 *object* 上 *field* 的值。“切换”的意思是，当对应的行为执行后，原字段(field)上所有布尔值取反。
 
     `true_value`
         如果非None，这就是我们使用的True值。
@@ -171,7 +173,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
     切换集 *set* 中 *value* 的成员。如果对应的值在集里不存在，会添加那个值到集合中。否则，就会移动那个值。
 
-    带有这个动作的按钮会被标记为被选中(selected)状态，仅当那个值存在于集 *set* 中。
+    带有这个行为的按钮会被标记为被选中(selected)状态，仅当那个值存在于集 *set* 中。
 
     `set`
         待添加或移除成员的集合。其可以是一个集(set)或列表(list)。如果是列表，就会在列表中结尾添加新元素。
@@ -191,10 +193,10 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. _menu-actions:
 
-菜单动作
+菜单行为
 ------------
 
-以下动作(action)会唤起菜单，或者主要用在主菜单和游戏菜单中。
+以下行为(action)会唤起菜单，或者主要用在主菜单和游戏菜单中。
 
 .. function:: MainMenu(confirm=True)
 
@@ -237,16 +239,16 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. _file-actions:
 
-文件动作
+文件行为
 ------------
 
-这些动作会处理文件的保存、读取和删除。其中很多都是用 `name` 和 `page` 入参。
+这些行为会处理文件的保存、读取和删除。其中很多都是用 `name` 和 `page` 入参。
 
 `name`
     待保存内容的文件名。其可以是一个字符串或者一个整数。与 `page` 一起创建文件名。
 
 `page`
-    动作实际执行的页面(page)。其值是“auto”、“quick”或者一个正整数。若为None，page的值会根据持久化页面编号自动确定。
+    行为实际执行的页面(page)。其值是“auto”、“quick”或者一个正整数。若为None，page的值会根据持久化页面编号自动确定。
 
 .. function:: FileAction(name, page=None, **kwargs)
 
@@ -354,7 +356,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. _audio-acitons:
 
-音频动作
+音频行为
 -------------
 
 .. function:: PauseAudio(channel, value=True)
@@ -374,7 +376,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
         播放的文件。
 
     `selected`
-        若为True，当文件在通道上播放时，使用这个动作的按钮会被标记为“被选中”。若为False，这个动作不会触发按钮启动播放。若为None，当通道是一个音乐(music)通道时按钮会被标记为“被选中”。
+        若为True，当文件在通道上播放时，使用这个行为的按钮会被标记为“被选中”。若为False，这个行为不会触发按钮启动播放。若为None，当通道是一个音乐(music)通道时按钮会被标记为“被选中”。
 
     其他关键词参数会被传给renpy.music.play()。
 
@@ -428,22 +430,22 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. _other-actions:
 
-其他动作
+其他行为
 -------------
 
-这些是其他地方找不到的一些动作。
+这些是其他地方找不到的一些行为。
 
 .. function:: Confirm(prompt, yes, no=None, confirm_selected=False)
 
-    提示用户进行确认的一种动作。如果用户点击了“是”，将执行 *yes* 动作。否则，执行 *no* 动作。
+    提示用户进行确认的一种行为。如果用户点击了“是”，将执行 *yes* 行为。否则，执行 *no* 行为。
 
     `prompt`
         向用户显示的提示内容。
 
     `confirm_selected`
-        若为True，当yes动作被选中后，提示 *prompt* 依然会显示。若为False，也是默认值， *yes* 动作选中后提示就不再显示。
+        若为True，当yes行为被选中后，提示 *prompt* 依然会显示。若为False，也是默认值， *yes* 行为选中后提示就不再显示。
 
-    这个动作的可用性和可选择性与 *yes* 动作相匹配。
+    这个行为的可用性和可选择性与 *yes* 行为相匹配。
 
 .. function:: DisableAllInputValues()
 
@@ -451,7 +453,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. function:: Function(callable, *args, **kwargs)
 
-    这个动作会使用 *args* 和 *kwargs* 调用 *callable* 。
+    这个行为会使用 *args* 和 *kwargs* 调用 *callable* 。
 
     `callable`
         可调用的对象。
@@ -462,7 +464,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
     `kwargs`
         传给 *callable* 的关键词入参。
 
-    这个动作使用一个可选的 _update_screens 关键词参数，而且这个参数默认为True。参数为True时，函数返回后，互动行动会重新开始，各界面会更新。
+    这个行为使用一个可选的 _update_screens 关键词参数，而且这个参数默认为True。参数为True时，函数返回后，互动行动会重新开始，各界面会更新。
 
     如果函数返回一个非空值，互动行为会停止并返回那个值。(使用call screen语句得到的返回值放置在 *_return* 变量中。)
 
@@ -486,11 +488,11 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. function:: If(expression, true=None, false=None)
 
-    根据 *expression* 的结果选择使用 *true* 或 *false* 的动作。这个函数用在基于某个表达式的结果选择执行动作。注意入参的默认值None，也可以用作一个动作，禁用某个按钮。
+    根据 *expression* 的结果选择使用 *true* 或 *false* 的行为。这个函数用在基于某个表达式的结果选择执行行为。注意入参的默认值None，也可以用作一个行为，禁用某个按钮。
 
 .. function:: InvertSelected(action)
 
-    该动作将提供动作的选项状态反转，可以应用在别的方法上。
+    该行为将提供行为的选项状态反转，可以应用在别的方法上。
 
 .. function:: MouseMove(x, y, duration=0)
 
@@ -513,21 +515,21 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. function:: RestartStatement(*args, **kwargs)
 
-    这个动作会触发Ren'Py回滚到当前语句之前，并再次执行当前语句。可以用在某些持久化变量改变后影响语句显示效果的情况。
+    这个行为会触发Ren'Py回滚到当前语句之前，并再次执行当前语句。可以用在某些持久化变量改变后影响语句显示效果的情况。
 
-    在菜单语境运行的话，等到用户退出并回到上一层语境时才会执行回滚动作。
+    在菜单语境运行的话，等到用户退出并回到上一层语境时才会执行回滚行为。
 
 .. function:: RollForward(*args, **kwargs)
 
-    这个动作触发前滚，前提是前滚可行。否则，该动作是禁用状态。
+    这个行为触发前滚，前提是前滚可行。否则，该行为是禁用状态。
 
 .. function:: Rollback(*args, **kwargs)
 
-    这个动作触发回滚，前提是回滚可行。否则，不会发生任何事。
+    这个行为触发回滚，前提是回滚可行。否则，不会发生任何事。
 
 .. function:: RollbackToIdentifier(identifier)
 
-    这个动作触发回滚至某个标识符(identifier)。回滚标识符会作为HistoryEntry对象的一部分返回。
+    这个行为触发回滚至某个标识符(identifier)。回滚标识符会作为HistoryEntry对象的一部分返回。
 
 .. function:: Screenshot(*args, **kwargs)
 
@@ -535,7 +537,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. function:: SelectedIf(expression)
 
-    这个动作允许某个表达式控制一个按钮是否被标记为选中状态。其应被用作包含一个或多个动作的列表的一部分。例如：
+    这个行为允许某个表达式控制一个按钮是否被标记为选中状态。其应被用作包含一个或多个行为的列表的一部分。例如：
 
     ::
 
@@ -545,7 +547,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. function:: SensitiveIf(expression)
 
-    这个动作允许某个表达式控制一个按钮是否被标记为可用状态。其应被用作包含一个或多个动作的列表的一部分。例如：
+    这个行为允许某个表达式控制一个按钮是否被标记为可用状态。其应被用作包含一个或多个行为的列表的一部分。例如：
 
     ::
 
@@ -555,7 +557,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. function:: Skip(fast=False, confirm=False)
 
-    触发游戏开始使用跳过(skipping)。如果游戏处于菜单语境下，这个动作导致回到游戏界面。否则，这个动作启用跳过(skipping)。
+    触发游戏开始使用跳过(skipping)。如果游戏处于菜单语境下，这个行为导致回到游戏界面。否则，这个行为启用跳过(skipping)。
 
     `fast`
         若该值为True，直接跳到下一个菜单选项。
@@ -683,7 +685,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 .. function:: StaticValue(value=0.0, range=1.0)
 
-    这个动作允许某个值被指定为静态。
+    这个行为允许某个值被指定为静态。
 
     `value`
         值自身，一个数值。
@@ -730,7 +732,7 @@ Ren'Py带来了一大堆动作、值和函数，与界面和界面语言协同�
 
 输入(input)值与文本输入一起使用，用于设置默认文本、接受改变文本、响应回车键、决定文本是否可编辑。要创建新的输入(input)值，可以使用 :class:`InputValue` 类的子类。
 
-Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入值均含有Enable()、Disable()和Toggle()方法，分别执行启用(enable)、禁用(disable)和切换编辑(toggle edit)动作。可以参考 :func:`DisableAllInputValues` 动作。
+Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入值均含有Enable()、Disable()和Toggle()方法，分别执行启用(enable)、禁用(disable)和切换编辑(toggle edit)行为。可以参考 :func:`DisableAllInputValues` 行为。
 
 .. function:: DictInputValue(dict, key, default=True, returnable=False)
 
@@ -812,13 +814,13 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 环境设定(preference)
 ---------------------
 
-所有环境设定都可以基于上面给出的动作Action和值Value来定义。这需要一些Ren'Py方面的知识，才能选择正确的环境设定并运用。环境设定构造器(constructor)让这件事变得简单，通过创建一个动作或值，就能基于名称应用在默认的环境设定界面上。
+所有环境设定都可以基于上面给出的行为Action和值Value来定义。这需要一些Ren'Py方面的知识，才能选择正确的环境设定并运用。环境设定构造器(constructor)让这件事变得简单，通过创建一个行为或值，就能基于名称应用在默认的环境设定界面上。
 
 .. function:: Preference(name, value=None, range=None)
 
-    其从某项环境设定构造了合适的动作或者值。环境设定名称应该是在变准菜单中出现的名称，值应该是选项名、“toggle”轮询选项、一个指定的值，或者按钮的名称。
+    其从某项环境设定构造了合适的行为或者值。环境设定名称应该是在变准菜单中出现的名称，值应该是选项名、“toggle”轮询选项、一个指定的值，或者按钮的名称。
 
-    可以与按钮和热区一起使用的动作如下：
+    可以与按钮和热区一起使用的行为如下：
 
     - Preference("display", "fullscreen") - 全屏模式显示。
     - Preference("display", "window") - 窗口模式显示，1倍大小。
@@ -925,11 +927,11 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 游戏手柄
 ---------
 
-这些函数和动作跟游戏手柄一起工作。
+这些函数和行为跟游戏手柄一起工作。
 
 .. function:: GamepadCalibrate()
 
-    调用手柄校正的动作。
+    调用手柄校正的行为。
 
 .. function:: GamepadExists(developer=True)
 
@@ -943,7 +945,7 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 文件函数
 --------------
 
-这些函数返回关于文件的有用信息。它们使用相同的默认页面(page)相关的文件动作。
+这些函数返回关于文件的有用信息。它们使用相同的默认页面(page)相关的文件行为。
 
 .. function:: FileCurrentPage()
 
@@ -1091,13 +1093,13 @@ Tooltips
 
     当鼠标指针悬停在某个区域上时，一个tooltip对象可以用于提示对应界面的功能。
 
-    tooltip对象有一个 ``value`` 字段，当tooltip对象被创建时会通过构造器传入 *default* 作为默认值。当通过tooltip创建的某个按钮动作被使用时，value字段就会根据关联的动作改变对应值。
+    tooltip对象有一个 ``value`` 字段，当tooltip对象被创建时会通过构造器传入 *default* 作为默认值。当通过tooltip创建的某个按钮行为被使用时，value字段就会根据关联的行为改变对应值。
 
     .. method:: Action(value)
 
-        将按钮的hovered特性对应的动作返回。当按钮处于指针悬停状态时，tooltip的value字段会被设置为 *value* 。当按钮失去焦点时，tooltip的value字段会恢复为默认值。
+        将按钮的hovered特性对应的行为返回。当按钮处于指针悬停状态时，tooltip的value字段会被设置为 *value* 。当按钮失去焦点时，tooltip的value字段会恢复为默认值。
 
-在某个界面使用tooltip时，常用做法是在default语句中创建tooltip对象。tooltip的值和动作的方法可以在界面中使用。使用时可以按任何顺序——在动作执行前就可以使用tooltip的值。
+在某个界面使用tooltip时，常用做法是在default语句中创建tooltip对象。tooltip的值和行为的方法可以在界面中使用。使用时可以按任何顺序——在行为执行前就可以使用tooltip的值。
 
 tooltip可以使用任何类型的值。在下面的样例中，我们使用text语句在界面中显示字符串，使用add语句添加可视组件也是可行的。还可以设计更多复杂的行为。
 

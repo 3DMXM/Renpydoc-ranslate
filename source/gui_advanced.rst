@@ -189,25 +189,25 @@ Ren'Py值会重新运行define语句，所以它会将hover_color设置为accent
 GUI环境设定设置
 ===============
 
-Ren'Py也支持GUI环境设定设置(preference)系统，包括一个函数和一对动作(action)。
+Ren'Py也支持GUI环境设定设置(preference)系统，包括一个函数和一系列行为(action)。
 
 .. function:: gui.SetPreference(name, value, rebuild=True)
 
-  这个动作(action)将名为 *name* 的环境设定设置项的值设置为 *value* 。
+  这个行为(action)将名为 *name* 的环境设定设置项的值设置为 *value* 。
 
   `rebuild`
-    若为True，也就是默认值，调用 :func:`gui.rebuild()` 会让修改生效。这项应该始终为True，除了存在多个gui.SetPreference动作的情况，那种情况除了最后一个设置为True其他都设置为False。
+    若为True，也就是默认值，调用 :func:`gui.rebuild()` 会让修改生效。这项应该始终为True，除了存在多个gui.SetPreference行为的情况。那种情况除了最后一个设置为True其他都设置为False。
 
-  这是一个非常慢的动作，所以不适合在按钮处于指针悬垂(hover)状态时使用。
+  这是一个非常慢的行为，所以不适合在按钮处于指针悬垂(hover)状态时使用。
 
 .. function:: gui.TogglePreference(name, a, b, rebuild=True)
 
-  这个动作切换gui中名为 *name* 的环境设定设置在值 *a* 和 *b* 之间切换。当这个值等于 *a* 时表示该项被选中。
+  这个行为切换gui中名为 *name* 的环境设定设置在值 *a* 和 *b* 之间切换。当这个值等于 *a* 时表示该项被选中。
 
   `rebuild`
-    若为True，也就是默认值，调用 :func:`gui.rebuild()` 会让修改生效。这项应该始终为True，除了存在多个gui.SetPreference动作的情况，那种情况除了最后一个设置为True其他都设置为False。
+    若为True，也就是默认值，调用 :func:`gui.rebuild()` 会让修改生效。这项应该始终为True，除了存在多个gui.SetPreference行为的情况，那种情况除了最后一个设置为True其他都设置为False。
 
-  这是一个非常慢的动作，所以不适合在按钮处于指针悬垂(hover)状态时使用。
+  这是一个非常慢的行为，所以不适合在按钮处于指针悬垂(hover)状态时使用。
 
 .. function:: gui.preference(name, default=<renpy.python.RevertableObject object at 0x7f77abf8a6d0>)
 
@@ -228,7 +228,7 @@ Ren'Py也支持GUI环境设定设置(preference)系统，包括一个函数和�
     define gui.text_font = gui.preference("font", "DejaVuSans.ttf")
     define gui.text_size = gui.preference("size", 22)
 
-使用 :func:`gui.SetPreference` 和 :func:`gui.TogglePreference` 动作可以添加和修改环境设定配置的值。这是添加到环境设定配置界面的样例：
+使用 :func:`gui.SetPreference` 和 :func:`gui.TogglePreference` 行为可以添加和修改环境设定配置的值。这是添加到环境设定配置界面的样例：
 
 ::
 

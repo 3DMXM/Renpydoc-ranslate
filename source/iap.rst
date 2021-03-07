@@ -11,9 +11,9 @@ Ren'Py中包含一个高级的程序内购框架。这个框架目前只支持�
 * 在游戏的初始化阶段，使用
   :func:`iap.register` 函数注册内购项目。
 * 游戏启动后，使用 :func:`iap.has_purchased` 函数检查是否有购买过的内购项目。
-* 使用 :func:`iap.purchase` 函数或 :func:`iap.Purchase` 动作(action)允许用户购买某个道具。
+* 使用 :func:`iap.purchase` 函数或 :func:`iap.Purchase` 行为(action)允许用户购买某个道具。
 * 使用
-  :func:`iap.restore` 函数或 :func:`iap.Restore` 动作(action)允许用户同步在其他设备上购买的内容。
+  :func:`iap.restore` 函数或 :func:`iap.Restore` 行为(action)允许用户同步在其他设备上购买的内容。
 
 提供的程序内购项目，购买内容(包括价格等)必须在对应的应用市场上进行设置。生成安卓版本时，Ren'Py会询问配置哪个应用市场。
 
@@ -87,16 +87,16 @@ IAP函数
 
 .. _iap-actions:
 
-IAP 动作
+IAP 行为
 -----------
 
 .. function:: iap.Purchase(product, success=None)
 
-  这个动作尝试购买 *product* 。仅当 *product* 是可购买状态时(启用了应用商店并且没有购买过这个产品)，这个动作才是可用的。
+  这个行为尝试购买 *product* 。仅当 *product* 是可购买状态时(启用了应用商店并且没有购买过这个产品)，这个行为才是可用的。
 
   `success`
-    若非None，这是一个动作或者动作列表，当内购成功后执行这些动作。
+    若非None，这是一个行为或者行为列表，当内购成功后执行这些行为。
 
 .. function:: iap.Restore()
 
-  一个动作，连接应用商店并恢复(restore)所有丢失的内购。
+  一个行为，连接应用商店并恢复(restore)所有丢失的内购。

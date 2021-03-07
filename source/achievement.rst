@@ -11,7 +11,7 @@
 
 .. function:: achievement.Sync()
 
-  调用achievement.sync()函数的动作。只有当成就未同步的情况下才可用。
+  调用achievement.sync()函数的行为。只有当成就未同步的情况下才可用。
 
 .. function:: achievement.clear(name)
 

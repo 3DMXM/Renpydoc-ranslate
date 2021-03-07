@@ -7,7 +7,7 @@ GUI(图形用户接口)定制化指导
 Ren'Py的一个特色是，看起来挺萌的GUI系统。有需要的话还可以根据喜好完全替换成定制的GUI。本页内容阐述了如何制作出简单和中级的定制化GUI。
 
 如果需要做更深度的定制化，请参阅 :ref:`样式 <styles>` (包括 :ref:`样式特性 <style-properties>`)
-和 :ref:`界面 <screens>` (包括 :ref:`界面动作 <screen-actions>`
+和 :ref:`界面 <screens>` (包括 :ref:`界面行为 <screen-actions>`
 和 :ref:`特殊界面 <screen-special>` )。
 
 这是基于你在使用新样式的Ren'Py GUI为前提(定制化配置包含在gui.rpy文件中)。使用老版本的GUI(使用screen.rpy文件进行定制化配置)的用户，应该把本页内容当作是深度定制化指导。
@@ -1148,7 +1148,7 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 界面——引导(Screens - Navigation)
 ---------------------------------
 
-接下去的定制化就需要修改界面(screen)了。关于界面(screen)部分最重要文档，详见 :ref:`界面和界面语言 <screens>` 和 :ref:`界面动作、数值及函数 <screen-actions>` 段落。
+接下去的定制化就需要修改界面(screen)了。关于界面(screen)部分最重要文档，详见 :ref:`界面和界面语言 <screens>` 和 :ref:`界面行为、数值及函数 <screen-actions>` 段落。
 
 
 最重要的界面之一，是引导(navigation)界面，同时用在主菜单和游戏菜单，提供引导用户的功能。该界面是可编辑的，比如在界面上增加更多的按钮。修改引导界面的例子如下::

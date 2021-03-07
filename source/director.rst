@@ -89,7 +89,7 @@ Access
 
 .. var:: director.button = True
 
-    若为True，编导器(director)会显示一个带按钮的界面，用于接入编导器窗口。若为False，游戏提供自身的接入方式，通过执行可用的director.Start动作。
+    若为True，编导器(director)会显示一个带按钮的界面，用于接入编导器窗口。若为False，游戏提供自身的接入方式，通过执行可用的director.Start行为。
 
 .. _line-spacing:
 

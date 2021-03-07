@@ -58,18 +58,18 @@ updates.json
 函数
 ---------
 
-要触发更新时，需要调用updater.update函数或updater.Update动作(action)。
+要触发更新时，需要调用updater.update函数或updater.Update行为(action)。
 
 .. function:: updater.Update(*args, **kwargs)
 
-  这个动作调用 :func:`updater.update()` 函数。所有入参会存储并传入那个函数。
+  这个行为调用 :func:`updater.update()` 函数。所有入参会存储并传入那个函数。
 
 .. function:: updater.UpdateVersion(url, check_interval=21600, simulate=None, **kwargs)
 
   这个函数会连接 *url* 的服务器，并判断是否有可用的新版本。如果有可用更新就返回新版本号，否则返回None。
 
   由于连接服务器需要消耗一些时间，这个函数在后台启动一个线程，连接服务器成功后立刻返回版本号，如果连不上服务器则返回None。
-  后台线程一旦连接到服务器会重启当前交互动作，会让调用更新函数的界面更新。
+  后台线程一旦连接到服务器会重启当前交互行为，会让调用更新函数的界面更新。
 
   对应每个连接的url都需要分配至少1个Ren'Py会话(session)，并在每个 *check_interval* 秒的周期内保持会话。如果不能连接服务器，就返回缓存数据。
 

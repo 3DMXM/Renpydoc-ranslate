@@ -41,7 +41,7 @@ Ren'Py有一些存储区配置项，控制存储区的功能。存储区配置�
 
 .. var:: _ignore_action = None
 
-    当这项不为None时，表示在错误处理界面点击忽略(ignore)时运行的动作(action)。这个动作通常是 :func:`Jump`，跳转到游戏中能从错误中恢复的某个地方。若为None，主控流程会从下一个Ren'Py语句继续执行。
+    当这项不为None时，表示在错误处理界面点击忽略(ignore)时运行的行为(action)。这个行为通常是 :func:`Jump`，跳转到游戏中能从错误中恢复的某个地方。若为None，主控流程会从下一个Ren'Py语句继续执行。
 
 .. var:: main_menu = False
 

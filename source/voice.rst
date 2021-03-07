@@ -143,7 +143,7 @@ Voice Actions
 
 .. function:: SetCharacterVolume(voice_tag, volume=None)
 
-    该动作允许每个角色的语音音量都可以调整。若 *volume* 值为None，将返回 *voice_tag* 对应的音量值。否则的话， *voice_tag* 对应的音量值会被设置为 *volume* 。
+    该行为允许每个角色的语音音量都可以调整。若 *volume* 值为None，将返回 *voice_tag* 对应的音量值。否则的话， *voice_tag* 对应的音量值会被设置为 *volume* 。
 
     *volume* 是一个介于0.0至1.0之间的值，在包含 *voice* 通道的混合器(mixer)音量中则是一个分量。
 

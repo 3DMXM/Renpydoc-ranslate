@@ -71,7 +71,7 @@ Choice
 
     .. attribute:: action
 
-        当菜单选项被选择时执行的动作。如果这是菜单cation的话，可以为None，且
+        当菜单选项被选择时执行的行为。如果这是菜单行为(action)的话，可以为None，且
         :var:`config.narrator_menu` 的值为False。
 
     .. attribute:: chosen
@@ -250,7 +250,7 @@ Notify
         # 这些控制位置
         xalign .02 yalign .015
 
-        # 这些控制显示隐藏的动作。
+        # 这些控制显示隐藏的行为。
         on show:
             alpha 0
             linear .25 alpha 1.0
@@ -487,7 +487,7 @@ Preferences
 
 ``preference`` 界面用于提供游戏显示方面的环境设定选项。
 
-环境设定主要是 :func:`Preference` 返回的动作或者条(bar)值。
+环境设定主要是 :func:`Preference` 返回的行为或者条(bar)值。
 
 ::
 
@@ -635,10 +635,10 @@ Confirm
     这些变量的值都是字符串，表示都可以使用文本组件显示。
 
 `yes_action`
-    当用户选择“Yes”时执行的动作。
+    当用户选择“Yes”时执行的行为。
 
 `no_action`
-    当用户选择“No”时执行的动作。
+    当用户选择“No”时执行的行为。
 
 直到Ren'Py的6.99.10版本为止，该界面都称之为 ``yesno_prompt`` 界面。如果没有出现 ``confirm`` 界面，就是用 ``yesno_prompt`` 界面替代。
 

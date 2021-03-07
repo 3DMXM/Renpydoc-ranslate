@@ -129,7 +129,7 @@ interpolation语句可以包含一些其他分句。若出现了特性(property)
 
 * 除了以上两种情况，根据完成度均分，并将对应的值interpolate插入到起点与终点之间。
 
-如果出现的是简单表达式，其可以简化为一个变换(transform)，这个变换是一个最简单的interpolate语句，不包含warp、spline或者circular动作。变换(transform)中的各项特性(property)会如同直接包含在interpolation语句中一般被处理。
+如果出现的是简单表达式，其可以简化为一个变换(transform)，这个变换是一个最简单的interpolate语句，不包含warp、spline或者circular行为。变换(transform)中的各项特性(property)会如同直接包含在interpolation语句中一般被处理。
 
 一些interpolation语句样例如下：
 
@@ -151,11 +151,11 @@ interpolation语句可以包含一些其他分句。若出现了特性(property)
          # 设置旋转圆心
          alignaround (.5, .5)
 
-         # 使用circular动作带着我们旋转并从界面顶端离开。
+         # 使用circular运动带着我们旋转并从界面顶端离开。
          # 耗时2秒钟。
          linear 2.0 yalign 0.0 clockwise circles 3
 
-         # 使用spline动作环绕界面移动。
+         # 使用spline运动环绕界面移动。
          linear 2.0 align (0.5, 1.0) knot (0.0, .33) knot (1.0, .66)
 
 一种重要的特殊情况是暂停warper，pause后面只跟一个时间值，触发ATL暂停对应的时间。

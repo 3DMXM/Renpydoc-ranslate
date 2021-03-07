@@ -8,7 +8,7 @@ Ren'Py内涵多种方式用于显示文本。 :ref:`say <say-statement>`
 和 :ref:`menu <menu-statement>` 语句就会用到文本显示。 用户接口通常都包含文本，显示时使用 :ref:`text <sl-text>`， :ref:`textbutton <sl-textbutton>`，
 和 :ref:`label <sl-label>` screen语言语句。这些screen语句加上其他的函数，可以创建 :func:`Text()` 文本组件，并在界面上展示出来。
 
-文本组件用于管理显示给用户的文本内容。文本组件按以下顺序执行动作：
+文本组件用于管理显示给用户的文本内容。文本组件按以下顺序执行行为：
 
 
 1. 转化文本。

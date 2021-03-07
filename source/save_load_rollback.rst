@@ -146,7 +146,7 @@ Ren'Py使用Python的pickle系统保存游戏状态。这个模块可以保存�
 
    这是一个字符串，每次保存时都会存储。它可以用作存档名称，帮助用户区分不同存档。
 
-在 :ref:`界面动作 <screen-actions>` 中定义了一些高级别的保存动作和函数。除此之外，还有一些低级别的保存和加载动作。
+在 :ref:`界面行为 <screen-actions>` 中定义了一些高级别的保存行为和函数。除此之外，还有一些低级别的保存和加载行为。
 
 .. function:: renpy.can_load(filename, test=False)
 
@@ -229,7 +229,7 @@ Ren'Py使用Python的pickle系统保存游戏状态。这个模块可以保存�
 
 当游戏加载后，游戏状态会被重置(使用下面会提到的回滚系统)为当前语句开始执行的状态。
 
-在某些情况下，这是不希望发生的。例如，当某个界面允许编辑某个值时，我们可能想要游戏加载后维持那个值。调用 :func:`renpy.retain_after_load` 后，当游戏在下一个带检查点(checkpoint)的交互结束前，进行保存和加载动作都会保持不变。
+在某些情况下，这是不希望发生的。例如，当某个界面允许编辑某个值时，我们可能想要游戏加载后维持那个值。调用 :func:`renpy.retain_after_load` 后，当游戏在下一个带检查点(checkpoint)的交互结束前，进行保存和加载行为都会保持不变。
 
 注意，当数据没有被改变，主控流程会被重置为当前语句的开头。这条语句将再次执行，语句开头则使用新的数据。
 
@@ -416,9 +416,9 @@ Ren'Py使用Python的pickle系统保存游戏状态。这个模块可以保存�
 混合回滚和自定义界面
 =================================
 
-当使用fix_rollback系统编写定制Python路由，使游戏流程更舒服时，有几个简单的要点。首先是 :func:`renpy.in_fixed_rollback()` 函数可以用作决定游戏当前是否处于混合回滚状态。其次，当处于混合回滚状态时， :func:`ui.interact()` 函数总会返回使用的roll_forward数据，而不考虑动作是否执行。这表示，当 :func:`ui.interact()`/:func:`renpy.checkpoint()` 函数被使用时，大多数工作都已经完成了。
+当使用fix_rollback系统编写定制Python路由，使游戏流程更舒服时，有几个简单的要点。首先是 :func:`renpy.in_fixed_rollback()` 函数可以用作决定游戏当前是否处于混合回滚状态。其次，当处于混合回滚状态时， :func:`ui.interact()` 函数总会返回使用的roll_forward数据，而不考虑行为是否执行。这表示，当 :func:`ui.interact()`/:func:`renpy.checkpoint()` 函数被使用时，大多数工作都已经完成了。
 
-为了简化定制界面的创建，Ren'Py提供了两个最常用的动作(action)。当按钮检测到被按下时， :func:`ui.ChoiceReturn()` 动作会返回。 :func:`ui.ChoiceJump()` 动作可以用于跳转到某个脚本标签(label)。当界面通过一个  ``call screen`` 语句被调用时，这个动作才能正常工作。
+为了简化定制界面的创建，Ren'Py提供了两个最常用的行为(action)。当按钮检测到被按下时， :func:`ui.ChoiceReturn()` 行为会返回。 :func:`ui.ChoiceJump()` 行为可以用于跳转到某个脚本标签(label)。当界面通过一个  ``call screen`` 语句被调用时，这个行为才能正常工作。
 
 举例：
 
@@ -479,7 +479,7 @@ Ren'Py使用Python的pickle系统保存游戏状态。这个模块可以保存�
 
 .. function:: ui.ChoiceJump(label, value, location=None, block_all=None)
 
-  一个菜单选项动作(action)，返回值为 *value* 。同时管理按钮在混合回滚模式下的状态。(详见对应的 *block_all* 参数。)
+  一个菜单选项行为(action)，返回值为 *value* 。同时管理按钮在混合回滚模式下的状态。(详见对应的 *block_all* 参数。)
 
   `label`
     按钮的文本标签(label)。对imagebutton和hotspot来说可以是任何类型。这个标签用作当前界面内选项的唯一标识符。这个标识符与 *location* 一起存储，用于记录该选项是否可以被选择。
@@ -501,7 +501,7 @@ Ren'Py使用Python的pickle系统保存游戏状态。这个模块可以保存�
 
 .. function:: ui.ChoiceReturn(label, value, location=None, block_all=None)
 
-  一个菜单选项动作(action)，返回值为 *value* 。同时管理按钮在混合回滚模式下的状态。(详见对应的 *block_all* 参数。)
+  一个菜单选项行为(action)，返回值为 *value* 。同时管理按钮在混合回滚模式下的状态。(详见对应的 *block_all* 参数。)
 
   `label`
     按钮的文本标签(label)。对imagebutton和hotspot来说可以是任何类型。这个标签用作当前界面内选项的唯一标识符。这个标识符与 *location* 一起存储，用于记录该选项是否可以被选择。

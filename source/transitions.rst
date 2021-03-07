@@ -414,7 +414,7 @@
 溶解效果将在文本显示的时候发生。
 
 字典层转场不能在所有能用转场的地方使用，只有在能给一个层应用的转场时它才能使用。可以使用 ``with`` 语句和scene、show、hide语句的 ``with`` 子句。它也可以和 :func:`renpy.with_statement` ，
-:func:`renpy.transition` ， :func:`Show` and :func:`Hide` 动作和一系列接受转场的config变量一起使用。 字典层*不会*在不能作用于层的功能上起作用，比如ATL，:func:`ComposeTransition`
+:func:`renpy.transition` ， :func:`Show` and :func:`Hide` 行为和一系列接受转场的config变量一起使用。 字典层*不会*在不能作用于层的功能上起作用，比如ATL，:func:`ComposeTransition`
 和 :func:`MultipleTransition`。
 
 这可能与导致转场发生的语句互动不佳，就像由 ``window auto`` 产生的转场。这通常可以通过适用于不同层次的第二个字典转场来解决。举例来说，如果你发现当对话窗口显示和隐藏时出现了奇怪的闪动，试着把 options.rpy改成：

@@ -533,7 +533,7 @@ Ren'Py的web端口有一些变更：
 
 * :ref:`Screen variants <screen-variants>` 可以检测配置和进行设置。
 * 全屏功能提升，尽管用户可能需要点击对应选项才能启用全屏。
-* 关闭web页面的动作可以被检测到，并保存持久化数据。
+* 关闭web页面的行为可以被检测到，并保存持久化数据。
 * 原先默认生成的‘game.zip’文件名可以修改。在index.html文件中的‘DEFAULT_GAME_FILENAME’配置项控制该项。
 * 针对移动设备的HTTP请求(原生+renpyweb)：详见 https://github.com/renpy/renpyweb/blob/master/utils/asyncrequest.rpy
 * 启用Python的web端口用作测试WebSocket，可以使用Python的‘socket’模块监测端口。
@@ -567,7 +567,7 @@ NVL模式界面默认显示对话窗口，防止 ``windows show`` 语句已生�
 
 移除对GLES1的支持。(多年没用的东西了。)
 
-:func:`SelectedIf` 和 :func:`SensitiveIf` 动作(action)可以支持将其他动作作为入参。
+:func:`SelectedIf` 和 :func:`SensitiveIf` 行为(action)可以支持将其他行为作为入参。
 
 很多条值(BarValue)可以使用一个 `force_step` 入参，强制将某个条(bar)的值调整为最接近的某个档位(step)值。
 
@@ -785,7 +785,7 @@ Ren'Py丢失某些字符的问题，特别是阿拉伯语中设置为强调色�
 上传到itch.io时，Ren'Py会自动下载butler模块。这表示现在上传时不需要安装独立的Itch应用程序，而之前的版本是需要的。
 
 各种条(bar)值对象，包括 :func:`DictValue` ，:func:`FieldValue` ， :func:`VariableValue` 和 :func:`ScreenVariableValue`
-都可以使用新增的 `action` 参数。该参数对应一个在值发生改变时，执行的某个动作函数(action)。
+都可以使用新增的 `action` 参数。该参数对应一个在值发生改变时，执行的某个行为函数(action)。
 
 回滚系统优化，减少了GC数量。
 
@@ -933,7 +933,7 @@ Ren'Py现在支持临时性say语句。用法与普通say语句相同，可与�
 
 安卓SDK的下载更新。修复工具无法下载的问题。
 
-针对键盘制定了一个显式动作函数，确保回车键(enter)正常。
+针对键盘制定了一个显式行为函数，确保回车键(enter)正常。
 
 当使用sideload模式安装在亚马逊的设备时，Ren'Py使用亚马逊的支付API，可以使用“双商店”APK进行支付系统测试。
 
@@ -952,7 +952,7 @@ Ren'Py现在可以使用公共游戏目录(/mnt/sdcard/Android/`package`/files/g
 
 菜单集功能再次有效。
 
-当 :func:`Function` 和其他动作函数被传入不兼容的数据类型时，Ren'Py不会挂死。
+当 :func:`Function` 和其他行为函数被传入不兼容的数据类型时，Ren'Py不会挂死。
 
 某个情况下前向滚动失败的问题已修复。
 
@@ -985,7 +985,7 @@ Ren'Py的界面语言现在支持包含匿名的ATL变换(transform)。比如现
                 align (0.5, 0.5) alpha 0.0
                 linear 0.5 alpha 1.0
 
-新增的 :func:`SetLocalVariable` 和 :func:`ToggleLocalVariable` 动作函数，可以用来设置界面使用的变量。
+新增的 :func:`SetLocalVariable` 和 :func:`ToggleLocalVariable` 行为函数，可以用来设置界面使用的变量。
 
 
 新增的 :var:`config.menu_include_disabled` 配置项，决定菜单是否应该包含可由if分句禁用的入口(entry)。
@@ -1288,7 +1288,7 @@ LayerdImageProxy现在可以使用内插字符串。
 
 现在的Ren'Py中已经不包含旧的教程和模板。不过从旧版本的Ren'Py中复制过来也可以用。
 
-新 :func:`Scroll` 动作可以使按钮改变视口的位置或条(bar)的值。
+新 :func:`Scroll` 行为可以使按钮改变视口的位置或条(bar)的值。
 
 :func:`Dissolve`、 :func:`ImageDissolve` 和 :func:`AlphaDissolve` 转场现在可以承认源可视组件的alpha通道，就像设置了 alpha=True参数一样。由于忽略alpha通道不再是最优，这种改变允许在更多地方使用相同的转场。
 
@@ -1419,7 +1419,7 @@ Ren'Py的自动语音模式，针对视觉障碍用户的功能又进行了提�
 
 * 选择按钮之后会在后面加上单词“selected”。
 * 选择条(bar)之后会在后面加上单词“bar”。
-* 一些拥有自身自动语音信息的动作在新版GUI中提升了效果。
+* 一些拥有自身自动语音信息的行为在新版GUI中提升了效果。
 * Ren'Py内建的ALT文本实现多语言支持(translation)。
 
 由于改变了自动语音的输出，这个变更应该不会对已存在的支持语言生效。

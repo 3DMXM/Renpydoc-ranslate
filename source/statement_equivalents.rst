@@ -4,7 +4,7 @@
 等效语句
 =====================
 
-为了允许Ren'Py能够在Python中脚本化，每个Ren'Py语句都有一条等效的Python语句。每条等效Python语句通常包含一个Python函数，也可能包含一个Python正则表达式，执行一个等效动作。
+为了允许Ren'Py能够在Python中脚本化，每个Ren'Py语句都有一条等效的Python语句。每条等效Python语句通常包含一个Python函数，也可能包含一个Python正则表达式，执行一个等效行为。
 
 .. _state-equi-dialogue:
 

@@ -165,7 +165,7 @@
 
 .. function:: renpy.get_transition(layer=None)
 
-  获取 *lay* 的转场(transition)，如果 *layer* 为None则获取整个场景(scene)的转场。这个函数返回了在下次交互动作中，队列上层的转场(transition)。如果不存在符合条件的转场则返回None。
+  获取 *lay* 的转场(transition)，如果 *layer* 为None则获取整个场景(scene)的转场。这个函数返回了在下次交互行为中，队列上层的转场(transition)。如果不存在符合条件的转场则返回None。
 
 .. function:: renpy.iconify()
 
@@ -173,7 +173,7 @@
 
 .. function:: renpy.invoke_in_thread(fn, *args, **kwargs)
 
-  在背景线程调用函数 *fn* ，传入这个函数收到的所有入参。线程返回后重新启动交互动作。
+  在背景线程调用函数 *fn* ，传入这个函数收到的所有入参。线程返回后重新启动交互行为。
 
   这个函数创建一个守护线程(daemon thread)，当Ren'Py关闭后这个线程也会自动停止。
 
@@ -189,7 +189,7 @@
 
 .. function:: renpy.is_start_interact()
 
-  如果在当前交互动作中调用了restart_interaction，就返回True。这个函数可以用于确定是否某个交互动作已经开始，或者已重新开始。
+  如果在当前交互行为中调用了restart_interaction，就返回True。这个函数可以用于确定是否某个交互行为已经开始，或者已重新开始。
 
 .. function:: renpy.load_module(name, **kwargs)
 
@@ -226,7 +226,7 @@
 
   让Ren'Py使用notify界面显示 *message* 。默认情况下，显示的 *message* 消息会以dissolve方式出现，显示2秒，最后以dissolve方式消失。
 
-  对一些不会产生回调函数的动作(action)，比如截屏和快速保存，这个函数很有效。
+  对一些不会产生回调函数的行为(action)，比如截屏和快速保存，这个函数很有效。
 
   一次只能显示一条通知。显示第二条通知时，会直接替换第一条通知。。
 
@@ -290,9 +290,9 @@
 
 .. function:: renpy.restart_interaction()
 
-  重新启动当前交互动作。包括以下内容，将显示的图像添加到场景(scene)，重新规划界面(screen)，并启动所有队列中的转场(transition)。
+  重新启动当前交互行为。包括以下内容，将显示的图像添加到场景(scene)，重新规划界面(screen)，并启动所有队列中的转场(transition)。
 
-  仅在某个交互动作中，这个函数才会执行所有工作。交互动作之外，这个函数不产生任何效果。
+  仅在某个交互行为中，这个函数才会执行所有工作。交互行为之外，这个函数不产生任何效果。
 
 .. function:: renpy.screenshot(filename)
 
@@ -307,7 +307,7 @@
   scry对象告知Ren'Py当前语句哪些部分未来必定会是True。目前的版本中，scry对象只有一个字段(field)：
 
   ``nvl_clear``
-    如果在下一个交互动作之前会执行一个 ``nvl clear`` 则为True。
+    如果在下一个交互行为之前会执行一个 ``nvl clear`` 则为True。
 
 .. function:: renpy.set_autoreload(autoreload)
 
@@ -326,7 +326,7 @@
 
 .. function:: renpy.shown_window()
 
-  调用这个函数确认窗口已经显示。使用“window show”语句的交互动作，会显示一个空窗口，无论这个函数是否被调用。
+  调用这个函数确认窗口已经显示。使用“window show”语句的交互行为，会显示一个空窗口，无论这个函数是否被调用。
 
 .. function:: renpy.split_properties(properties, *prefixes)
 
@@ -356,7 +356,7 @@
 
 .. function:: renpy.transition(trans, layer=None, always=False)
 
-  设置下次交互动作使用的转场(transition)。
+  设置下次交互行为使用的转场(transition)。
 
   `layer`
     转场应用于这个参数表示的图层(layer)。若为None，转场应用于整个场景(scene)。
@@ -376,10 +376,10 @@
     显示的提示消息。
 
   `yes`
-    用户选择yes后运行的动作(action)。
+    用户选择yes后运行的行为(action)。
 
   `no`
-    用户选择no后运行的动作(action)。
+    用户选择no后运行的行为(action)。
 
 Ren'Py版本相关
 --------------

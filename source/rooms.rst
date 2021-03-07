@@ -157,7 +157,7 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
 .. class:: Gallery(self)
 
-  该类支持画廊实例的创建。该类提供的处理锁定图片的函数、显示一个或者多个图片的动作，以及创建按钮使用那个动作的方法。
+  该类支持画廊实例的创建。该类提供的处理锁定图片的函数、显示一个或者多个图片的行为，以及创建按钮使用那个行为的方法。
 
   .. attribute:: transition
 
@@ -195,7 +195,7 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
   .. method:: Action(name)
 
-    一个动作(action)，显示与给定的按钮名name相关联的图像。
+    一个行为(action)，显示与给定的按钮名name相关联的图像。
 
   .. method:: Next(unlocked=False)
 
@@ -311,9 +311,9 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
 2. 将音乐文件添加至实例。
 
-3. 创建一个使用MusicRoom实例的界面，界面中包含按钮、图片按钮和热点(hotspot)。界面中还包含能拾取音轨、进入下一个或上一个音轨、暂停或开始播放音乐的动作(action)。
+3. 创建一个使用MusicRoom实例的界面，界面中包含按钮、图片按钮和热点(hotspot)。界面中还包含能拾取音轨、进入下一个或上一个音轨、暂停或开始播放音乐的行为(action)。
 
-   需要注意，动作(action)用作某个MusicRoom实例的成员函数，所以如果MusicRoom实例名为mr，那么mr.Play("track1.ogg")就是播放动作的正确用法。
+   需要注意，行为(action)用作某个MusicRoom实例的成员函数，所以如果MusicRoom实例名为mr，那么mr.Play("track1.ogg")就是播放行为的正确用法。
 
 4. 将音乐空间界面添加到主菜单或者额外菜单。
 
@@ -375,7 +375,7 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
 .. class:: MusicRoom(channel=u'music', fadeout=0.0, fadein=0.0, loop=True, single_track=False, shuffle=False, stop_action=None)
 
-  一个音乐空间类，包含一系列可由用户解锁的曲子，以及顺序播放音频列表的动作。
+  一个音乐空间类，包含一系列可由用户解锁的曲子，以及顺序播放音频列表的行为。
 
   `channel`
     音乐空间使用的音频通道。
@@ -396,61 +396,61 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
     若为True，所有音轨乱序播放。若为False，根据音轨加入到音乐空间的顺序播放。
 
   `stop_action`
-    当音乐停止时执行的动作(action)。
+    当音乐停止时执行的行为(action)。
 
-  *single_track* 和 *shuffle* 两项是冲突的，二者最多只有一项能设置为True。(设置 *single_track* 和 *shuffle* 的动作会有这样的强制要求)。
+  *single_track* 和 *shuffle* 两项是冲突的，二者最多只有一项能设置为True。(设置 *single_track* 和 *shuffle* 的行为会有这样的强制要求)。
 
   .. method:: Next(self)
 
-    触发音乐空间播放列表中下一个已解锁音乐的动作。
+    触发音乐空间播放列表中下一个已解锁音乐的行为。
 
   .. method:: Play(filename=None)
 
-    这个动作触发音乐空间开始播放音乐。如果给定了 *filename* ，就开始播放对应的音频文件。否则，当前播放文件重新开始(前提是已经解锁)，或者播放第一个音频文件。
+    这个行为触发音乐空间开始播放音乐。如果给定了 *filename* ，就开始播放对应的音频文件。否则，当前播放文件重新开始(前提是已经解锁)，或者播放第一个音频文件。
 
     如果给定了 *filename* ，但对应的音频依然被锁定，那对应的按钮是不可用状态，正在播放的 *filename* 会被设为被选中状态。
 
   .. method:: Previous(self)
 
-    让音乐空间播放列表中上一个解锁文件的动作。
+    让音乐空间播放列表中上一个解锁文件的行为。
 
   .. method:: RandomPlay(self)
 
-    让音乐空间播放随机选择的一个解锁音轨的动作。
+    让音乐空间播放随机选择的一个解锁音轨的行为。
 
   .. method:: SetLoop(value)
 
-    这个动作设置loop特性的值。
+    这个行为设置loop特性的值。
 
   .. method:: SetShuffle(value)
 
-    这个动作设置shuffle特性的值。
+    这个行为设置shuffle特性的值。
 
   .. method:: SetSingleTrack(value)
 
-    这个动作设置single_track特性的值。
+    这个行为设置single_track特性的值。
 
   .. method:: Stop(self)
 
-    这个动作停止音乐播放。
+    这个行为停止音乐播放。
 
   .. method:: ToggleLoop(self)
 
-    这个动作切换loop特性的值。
+    这个行为切换loop特性的值。
 
   .. method:: TogglePlay(self)
 
-    如果当前没有任何音乐在播放，这个动作会开始播放第一个解锁的音轨。否则，停止当前音乐的播放。
+    如果当前没有任何音乐在播放，这个行为会开始播放第一个解锁的音轨。否则，停止当前音乐的播放。
 
     任何音乐播放时，这个按钮都是可用状态。
 
   .. method:: ToggleShuffle(self)
 
-    这个动作切换shuffle特性的值。
+    这个行为切换shuffle特性的值。
 
   .. method:: ToggleSingleTrack(self)
 
-    这个动作切换single_track特性的值。
+    这个行为切换single_track特性的值。
 
   .. method:: add(filename, always_unlocked=False, action=None)
 
@@ -460,9 +460,9 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
       若为True，音乐文件始终是解锁状态。这个设置允许音乐文件在游戏播放过之前，就可以在音乐空间中使用。
 
     `action`
-      这是一个动作或者动作列表。当文件播放时，这个动作或动作列表会被调用。
+      这是一个行为或者行为列表。当文件播放时，这个行为或行为列表会被调用。
 
-      例如，这些动作可以用于播放音乐文件时改变界面或者背景。
+      例如，这些行为可以用于播放音乐文件时改变界面或者背景。
 
   .. method:: is_unlocked(filename)
 
@@ -475,7 +475,7 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
 Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这可以用来创建一个“场景画廊”或者“回忆画廊”，允许用户重复重要的场景。在对应的场景结束后，Ren'Py会返回到启动回放前的菜单界面。
 
-场景回放也可以使用 :func:`Start` 动作。这两种模式的差别如下：
+场景回放也可以使用 :func:`Start` 行为。这两种模式的差别如下：
 
 * 回放可以从任何界面启动，而Start只能使用在主菜单或者主菜单显示的界面。
 
@@ -521,7 +521,7 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 
 此处魔术师回答“43”也是对此的恶搞。)
 
-这样定义的场景(scene)，就可以使用回放动作唤起回放了。
+这样定义的场景(scene)，就可以使用回放行为唤起回放了。
 
 ::
 
@@ -535,9 +535,9 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 
 除此之外，:var:`config.enter_replay_transition` 和
 :var:`config.exit_replay_transition` 会分别使用在进入和离开回放模式时。在进入回放时， :var:`config.replay_scope` 会向清理后的存储区添加变量，默认情况下会设置
-:var:`_game_menu_screen` 以触发“右键点击动作”默认显示环境设定界面。
+:var:`_game_menu_screen` 以触发“右键点击行为”默认显示环境设定界面。
 
-回放模式下一下变量和动作会被使用：
+回放模式下一下变量和行为会被使用：
 
 .. function:: EndReplay(confirm=True)
 
@@ -548,7 +548,7 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 
 .. function:: Replay(label, scope={}, locked=None)
 
-  从 *label* 处开始回放的动作。
+  从 *label* 处开始回放的行为。
 
   `scope`
     一个字典，表示从变量名与变量值的映射关系。进入回放时，所有变量会设置该字典的值。
