@@ -629,7 +629,7 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
 创建一个多语言游戏时，有时无法找到单一的字体能够包含所有文字并保持创作者想要表现的氛围。
 因此，Ren'Py支持将“字体组”的形式，将两种或更多字体合并为一种字体。
 
-创建字体组时，需要创建一个FontGroup对象并调用逐次调用 ``.add`` 方法。FontGroup对象可以直接当作字体使用。
+创建字体组时，需要创建一个 :class:FontGroup 对象并调用逐次调用 ``.add`` 方法。FontGroup对象可以直接当作字体使用。
 add方法会查看指定范围内的unicode字符，并采用最先能匹配到的unicode字符范围对应的字体。
 
 
@@ -644,19 +644,42 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
     可以将一组字体当作一种字体使用。
 
-    .. method:: add(font, start, end)
+    .. method:: add(font, start, end, target=None, target_increment=False)
 
-        说明字体中字符的unicode范围。
+        将某个范围内的字符与字体 *font* 关联。
 
         `start`
-            unicode范围起点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
+            字符范围起点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。如果该入参为None，使用font入参的字体作为默认值。
 
         `end`
-            unicode范围终点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
+            字符范围终点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。如果 *start* 入参为None，该参数值将忽略。 
 
-        当多个 ``.add()`` 调用中包含同一个字符时，使用第一个包含这个字符的add方法中的字体。
+        `target`
+            若给定该入参，将根target_increment的值，将指定范围的字符与指定的字体做关联。
+            可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。
+            如果指定的字符已经在添加了关联，则忽略此参数。
+
+        `target_increment`
+            若该值为True，[start, end]范围内的字符将映射到[target, target+end-start]范围。
+            若该值为False，指定范围内的字符直接与目标字符做关联。
+
+        当多个 ``.add()`` 调用中包含同一个字符时，使用第一个包含该字符的add方法中的字体。
 
         这个方法会返回FontGroup对象，所以能多个 ``.add()`` 串联使用。
+
+    .. method:: remap(cha, target)
+
+        将一个或一组字符重映射为某一个目标字符。
+
+        `cha`
+            需要映射的源字符或源字符集。该值可以是一个单字符的字符串，或unicode字符对应的整数值，或前两者的迭代器对象(iterable)。
+
+        `target`
+            需要映射的目标字符。该值可以是一个单字符的字符串，或unicode字符对应的整数值。
+
+        已经(使用add或remap方法)重映射过的字符将被忽略。如果FontGroup对象没有默认字体，必须指定每一个字符映射或关联关系。
+
+        与add方法一样，返回FontGroup对象。
 
 .. _text-displayables:
 

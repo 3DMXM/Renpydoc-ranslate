@@ -345,101 +345,109 @@ hide和show窗口
 
 .. function:: renpy.can_show(name, layer=None, tag=None)
 
-  该函数判断入参 *name* 代表的图像是否能显示。函数把入参 *name* 看做一个图像标签(tag)和属性(attribute)。该函数依据目前正显示在 *图层* 上的所有 *tag* 来尝试确认唯一的图像。若存在唯一可显示图像，则以元组形式返回图像名。否则返回None。
+    该函数判断入参 *name* 代表的图像是否能显示。函数把入参 *name* 看做一个图像标签(tag)和属性(attribute)。该函数依据目前正显示在 *图层* 上的所有 *tag* 来尝试确认唯一的图像。若存在唯一可显示图像，则以元组形式返回图像名。否则返回None。
 
-  `tag`
-    图像标签(tag)属性。若为空，默认使用入参name的第一个组件。
+    `tag`
+        图像标签(tag)属性。若为空，默认使用入参name的第一个组件。
 
-  `layer`
-    需要确认的图层(layer)名。若为空，则默认使用 *tag* 所在图层。
+    `layer`
+        需要确认的图层(layer)名。若为空，则默认使用 *tag* 所在图层。
+
+.. function:: renpy.change_zorder(layer, tag, zorder)
+
+    修改图层 *layer* 上标签为 *tag* 图像的zorder值。
 
 .. function:: renpy.check_image_attributes(tag, attributes)
 
-  根据给定的tag和attributes检查是否存在唯一图像。若存在，按顺序返回图像属性(attribute)。否则返回None。
+    根据给定的tag和attributes检查是否存在唯一图像。若存在，按顺序返回图像属性(attribute)。否则返回None。
 
 .. function:: renpy.copy_images(old, new)
 
-  复制图像，并更换新图像的前缀名。样例：
+    复制图像，并更换新图像的前缀名。样例：
 
-  ::
+    ::
 
-      renpy.copy_images("eileen", "eileen2")
+        renpy.copy_images("eileen", "eileen2")
 
-  将复制所有以“eileen”开头的图像并创建以“eileen2”开头的新图像。若“eileen happy”存在，则创建“eileen2 happy”。
+    将复制所有以“eileen”开头的图像并创建以“eileen2”开头的新图像。若“eileen happy”存在，则创建“eileen2 happy”。
 
-  `old`
-    原图片名的字符串，图片名各部分以空格分隔。
+    `old`
+        原图片名的字符串，图片名各部分以空格分隔。
 
-  `new`
-    新图片名的字符串，图片名各部分以空格分隔。
+    `new`
+        新图片名的字符串，图片名各部分以空格分隔。
 
 .. function:: renpy.get_attributes(tag, layer=None)
 
-  根据入参图片标签 *tag* ，返回对应图像属性(attribute)的元组。若图像整在显示，则返回None。
+    根据入参图片标签 *tag* ，返回对应图像属性(attribute)的元组。若图像整在显示，则返回None。
 
-  `layer`
-    待检图层(layer)。若为空，使用 *tag* 所在的默认图层。
+    `layer`
+        待检图层(layer)。若为空，使用 *tag* 所在的默认图层。
 
 .. function:: renpy.get_ordered_image_attributes(tag, attributes=(), sort=None)
 
-  返回图像标签(tag)列表，按照对用户来说合理的方式排序。
+    返回图像标签(tag)列表，按照对用户来说合理的方式排序。
 
-  `attributes`
-    若该值不为空，只寻找与给定属性(attribute)兼容的结果。(兼容的意思是，各类属性在同一时间里能找到对应唯一图像。)
+    `attributes`
+        若该值不为空，只寻找与给定属性(attribute)兼容的结果。(兼容的意思是，各类属性在同一时间里能找到对应唯一图像。)
 
-  `sort`
-    若不为None，返回的属性(attribute)列表就是排序后的。该函数应当用作中断器(tiebreaker)。
+    `sort`
+        若不为None，返回的属性(attribute)列表就是排序后的。该函数应当用作中断器(tiebreaker)。
 
 .. function:: renpy.get_placement(d)
 
-  该函数获取到可视组件d的位置。返回的位置信息可信度很低，因为可视组件在渲染后可能被改变了，也可能可视组件在首次渲染之前根本不存在。
+    该函数获取到可视组件d的位置。返回的位置信息可信度很低，因为可视组件在渲染后可能被改变了，也可能可视组件在首次渲染之前根本不存在。
 
-  该函数返回的对象包含以下字段(field)，每一个都对应一项样式特性(property)：
+    该函数返回的对象包含以下字段(field)，每一个都对应一项样式特性(property)：
 
-  **- xpos**
-  **- xanchor**
-  **- xoffset**
-  **- ypos**
-  **- yanchor**
-  **- yoffset**
-  **- subpixel**
+    **- xpos**
+    **- xanchor**
+    **- xoffset**
+    **- ypos**
+    **- yanchor**
+    **- yoffset**
+    **- subpixel**
 
 .. function:: renpy.get_say_image_tag()
 
-  返回当前发言角色对应的图像标签(tag)(角色获得的图像入参)。如果当前没有角色发言或当前发言角色没有对应的图像标签(tag)则返回None。
+    返回当前发言角色对应的图像标签(tag)(角色获得的图像入参)。如果当前没有角色发言或当前发言角色没有对应的图像标签(tag)则返回None。
 
 .. function:: renpy.get_showing_tags(layer='master')
 
-  返回入参 *layer* 图层上显示的所有图像标签(tag)的集。
+    返回入参 *layer* 图层上显示的所有图像标签(tag)的集。
+
+.. function:: renpy.get_zorder_list(layer)
+
+    返回图层 *layer* 的(tag, zorder)列表。
 
 .. function:: renpy.has_image(name, exact=False)
 
-  若入参name为名的图像存在返回真(true)，若不存在返回假(false)。
+    若入参name为名的图像存在返回真(true)，若不存在返回假(false)。
 
-  `name`
-    一个图像名的字符串，或者图像名各组件的元组。
+    `name`
+        一个图像名的字符串，或者图像名各组件的元组。
 
-  `exact`
-    只有跟name全匹配的图像名存在时才返回真(true)——部分匹配则返回假(false)。
+    `exact`
+        只有跟name全匹配的图像名存在时才返回真(true)——部分匹配则返回假(false)。
 
 .. function:: renpy.seen_image(name)
 
-  若名为name的图像在用户系统中至少被看到过一次，就返回真(true)。图像被看到的定义是，其在show、scene语句或者renpy.show()函数中出现过。(注意这里的“被看到”并不意味着真的被用户看见过，比如show语句后面马上跟一个hide语句的情况也属于“被看到”过。)
+    若名为name的图像在用户系统中至少被看到过一次，就返回真(true)。图像被看到的定义是，其在show、scene语句或者renpy.show()函数中出现过。(注意这里的“被看到”并不意味着真的被用户看见过，比如show语句后面马上跟一个hide语句的情况也属于“被看到”过。)
 
 .. function:: renpy.showing(name, layer='master')
 
-  若与name同名标签的图像整在图层  *layer* 上显示，则返回真(true)。
+    若与name同名标签的图像整在图层  *layer* 上显示，则返回真(true)。
 
-  `image`
-    可能是一个给定图像名的字符串，或者给定图像名各组件的元组。还可以只是给定图像标签(tag)的字符串。
+    `image`
+        可能是一个给定图像名的字符串，或者给定图像名各组件的元组。还可以只是给定图像标签(tag)的字符串。
 
-  `layer`
-    待检图层(layer)。若为None，使用 *tag* 所在默认图层。
+    `layer`
+        待检图层(layer)。若为None，使用 *tag* 所在默认图层。
 
 .. function:: renpy.start_predict(*args)
 
-  该函数接受一个或多个可视组件作为入参。该函数触发Ren'Py在每次交互行为中预加载入参中的可视组件，直到使用renpy.stop_predict()移除预加载的那些可视组件。
+    该函数接受一个或多个可视组件作为入参。该函数触发Ren'Py在每次交互行为中预加载入参中的可视组件，直到使用renpy.stop_predict()移除预加载的那些可视组件。
 
 .. function:: renpy.stop_predict(*args)
 
-  该函数接受一个或多个可视组件作为入参。该函数触发Ren'Py停止在每次互动行为中预加载入参中的可视组件。
+    该函数接受一个或多个可视组件作为入参。该函数触发Ren'Py停止在每次互动行为中预加载入参中的可视组件。

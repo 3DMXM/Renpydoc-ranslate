@@ -193,6 +193,12 @@ uniform变量开头必须为 u\_，attribute变量开头必须为 a\_，varying�
 
     show eileen happy at gradient
 
+还有一个变量可用于自定义着色器的debug：
+
+.. var:: config.log_gl_shaders = False
+
+    若该配置项为True，GLSL着色器程序的源代码会在启动阶段写入 log.txt 文件中。
+
 .. _transforms-and-model-based-rendering:
 
 Transform类和基于模型的渲染
@@ -210,6 +216,29 @@ Transform类和基于模型的渲染
     * 将创建一个网格。如果值是一个2元元组，将分别使用两个数值作为网格的x和y方向大小(任意方向至少为2)。如果值是True，根据子对象创建网格。
     * 该变换的子对象将渲染为纹理。
     * 渲染时将添加 renpy.texture 着色器。
+
+.. transform-property:: mesh_pad
+
+    :type: None 或 元组
+    :default: None
+
+    若该值不是None，其可能是2元或4元元组。
+    如果mesh的值是True，mesh_pad表示网格纹理的四边留白大小。
+    2元元组分别对应纹理的右侧和底部留白，4元元组分别对应纹理的左、顶、右、底留白。
+
+    该特性可以与 pixel_perfect 一起使用，将文本渲染为网格。
+    在Ren'Py中，文本渲染与屏幕分辨率有关，可能出现超出纹理无法覆盖网格的情况。
+    添加一些留白会让纹理稍微大一点，可以完整显示所有像素。例如：
+
+    ::
+
+        transform adjust_text:
+            mesh True
+            mesh_pad (10, 0)
+            gl_pixel_perfect True
+            shader "shaders.adjust_text"
+
+    可以确保传入着色器的纹理包含文本的所有像素。
 
 .. transform-property:: shader
 

@@ -187,6 +187,7 @@ Python和Ren'Py
    :maxdepth: 1
 
    changelog
+   changelog6
    incompatible
    distributor
    license

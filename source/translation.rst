@@ -9,10 +9,13 @@ Ren'Py包含了视觉系小说多语言支持的综合框架。有4类要素支�
 
 对话
     脚本的主对话能够支持多语言，包括各行文本内容的分割、合并、删除和调整的一套规则。
+
 菜单和接口字符串
     所有接口文本都支持多语言。
+
 图像和文件
     选择某种语言时，可以使用对应的一系列图片和其他文件。
+
 样式
     可以基于语言实现样式定制化，这样游戏会自动切换为对应某种语言的样式。
 
@@ -425,8 +428,13 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
            This line will be separate. Bork bork bork.
            """)
 
-这里有两个语言相关的变量。一个是
-:var:`config.language` ，用于改变游戏默认语言。
+.. function:: renpy.translate_string(s, language=<renpy.object.Sentinel object at 0x7f6d7c3b4810>)
+
+    将 `s` 立刻翻译为指定语言 `language` 并返回。
+    如果 `language` 的值是Default，使用设置(preferences)中的语言。
+    经过该函数翻译后的字符串 **不会** 被添加到可翻译字符串列表中。指定某个字符串的语言可能会导致其发生两次翻译的情况。
+
+这里有两个语言相关的变量。一个是 :var:`config.language` ，用于改变游戏默认语言。
 
 .. var:: _preferences.language
 

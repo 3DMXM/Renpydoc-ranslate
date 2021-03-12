@@ -15,6 +15,8 @@
 * Alessio
 * Alexandre Tranchant
 * Alisha Taylor
+* Andrej
+* Andrí Wilford
 * Andy_kl
 * Apricotorange
 * Arda Güler
@@ -89,6 +91,7 @@
 * James Broadhead
 * James Pearson Hughes
 * Jan Beich
+* Jan Masek
 * Javimat
 * Joaquin Garmendia Cabrera
 * Joshua Fehler

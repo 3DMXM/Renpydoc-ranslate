@@ -441,6 +441,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     若非None，就是一个在主菜单播放的音乐文件。
 
+.. var:: config.main_menu_music_fadein = 0.0
+
+    :var:`config.main_menu_music` 中用于淡入的时间，单位为秒。
+
 .. var:: config.menu_arguments_callback = None
 
     若该项不是None，应是一个函数，可能有固定位置入参和关键词入参。当menu语句运行时，就调用该项配置的函数。入参就是menu语句。

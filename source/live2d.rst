@@ -49,7 +49,7 @@ Ren'Py同时支持Cubism 3和Cubism 4格式的Live2D动画，即这两种格式�
 
 使用Live2D可是组件与image语句可以定义Live2D动画：
 
-.. function:: Live2D(filename, zoom=None, top=0.0, base=1.0, height=1.0, alias={}, loop=False, fade=None, seamless=None, attribute_function=None, attribute_filter=None, **properties)
+.. function:: Live2D(filename, zoom=None, top=0.0, base=1.0, height=1.0, alias={}, loop=False, fade=None, seamless=None, attribute_function=None, attribute_filter=None, update_function=None, **properties)
 
     该可是组件会播放一段Live2D动画。
 
@@ -102,12 +102,44 @@ Ren'Py同时支持Cubism 3和Cubism 4格式的Live2D动画，即这两种格式�
         该函数通常用于滤除可能冲突的非排他性属性。属性会按最近使用时间排序，从近到远。
         当属性发生冲突时，将采用最近使用过的属性。
 
+    `update_function`
+        若该值非None，应该是一个函数，当前动作和表情修改参数并渲染成动画后，将调用该函数。
+        调用该函数时需要有两个入参：
+
+        * Live2D对象。
+        * 显示时间，单位为秒。
+
+        该函数用于动态修改参数，方法是使用Live2D对象中的 `blend_parameter` 方法。
+        该函数应该返回一个数值，单位为秒，表示可以再次调用前的时间间隔；也可以返回None，表示下次交互行为发生时再次调用。
+        注意只要动作还要运行，该函数可能每帧都会被调用。
+        
+
     `attribute_function` 与 `attribute_filter` 间的差别是：前者用于用新属性替换原来的某个属性；后者用来解决属性冲突，确保一组属性中存在唯一真正可用。
 
     只有 `filename` 是固定位置参数，其他参数都是关键词参数。
 
-    相同 `filename` 的Live2D对象拥有相同的 `alias`、`fade`、`nonexclusive`、`seamless`、`default_fade`、`attribute_function`
-    和 `attribute_filter` 值。因此只要指定第一个指定使用 `filename` 的Live2D对象的这系列参数即可。
+    The values of `alias`, `fade`, `nonexclusive`, `seamless`, `default_fade`, `attribute_function`,
+    `attribute_filter` and `update_function` are shared between all Live2D objects that share `filename`,
+    such that these only need to be supplied once as part of the first Live2D object to
+    use `filename`.
+    相同 `filename` 的Live2D对象拥有相同的 `alias`、`fade`、`nonexclusive`、`seamless`、`default_fade`、`attribute_function`、 `attribute_filter` 
+    和 `update_function` 值。因此只要指定第一个指定使用 `filename` 的Live2D对象的这系列参数即可。
+
+    .. method:: blend_parameter(name, blend, value, weight=1.0)
+
+        该方法会使用遮罩模式(blend)修改当前传入参数的值。 `update_function` 以外无效果。
+
+        `name`
+            此模型需要修改的参数名称。
+
+        `blend`
+            遮罩模式，应该是“Add”、“Multiplay”或“Overwrite”之一。
+
+        `value`
+            使用遮罩的参数值。
+
+        `weight`
+            介于0.0到1.0之间的浮点数，表示使用遮罩后的新值所占权重。
 
 Live2D可视组件应使用image语句声明：
 ::

@@ -39,6 +39,6 @@ sed -i 's/Chinese Forum/Ren\&#39;Py中文空间/g' *.html
 
 sed -i 's/Ren\&#39;Py Documentation/Ren\&#39;Py 中文文档/g' *.html
 
-sed -i 's/https:\/\/www.renpy.org\/doc\/html/https:\/\/www.renpy.cn\/forum.php/g' *.html
+sed -i '0,s/https:\/\/www.renpy.org\/doc\/html/https:\/\/www.renpy.cn\/forum.php/g' *.html
 
 sed -i 's/Back to top/返回顶部/g' *.html
