@@ -110,6 +110,34 @@
     若为True，强制使用系统鼠标光标，忽略 :var:`config.mouse` 的值。
     若为False，则不执行这种操作。等效于“system cursor”设置。
 
+.. _mixer-functions:
+
+混音器函数
+---------------
+
+.. function:: preferences.set_volume(mixer, volume)
+
+    将混音器 `mixer` 的音量值设置为 `volume` 。
+
+    `mixer`
+        表示混音器名称的字符串。默认的混音器名称包括“music”、“sfx”和“voice”。
+
+    `volume`
+        介于0.0到1.0之间的数值。
+
+.. function:: preferences.get_volume(mixer):
+
+    获取混音器 `mixer` 的音量。如果该混音器被静音了，则返回0.0。
+
+.. function:: preferences.set_mute(mixer, mute):
+
+    设置混音器 `mixer` 静音状态。如果 `mute` 的值是True，则将混音器 `mixer` 静音。
+
+.. function:: preferences.get_mute(mute):
+
+    获取混音器 `mixer` 的静音设置。
+
+
 .. _audio-channel-defaults:
 
 音频通道默认配置
