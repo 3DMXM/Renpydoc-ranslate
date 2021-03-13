@@ -31,6 +31,8 @@ wait
 # Run some checks.
 python checks.py
 
+cd ~/renpy-zh/doc-web
+
 sed -i 's/placeholder="Search"/placeholder="搜索"/g' *.html
 
 sed -i 's/Home Page/官方主页/g' *.html
