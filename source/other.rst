@@ -199,7 +199,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
             SDL_GetWindowPosition(win, ctypes.byref(x), ctypes.byref(y))
 
-.. _miscellaneous::
+.. _miscellaneous:
 
 其他林林总总
 -------------
