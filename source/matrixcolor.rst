@@ -79,7 +79,8 @@ Ren'Py会调用ColorMatrix类的实例，并返回色彩矩阵。ColorMatrix对�
         linear 3.0 matrixcolor TintMatrix("#f00")
         repeat
 
-ColorMatrix衍生类继承自ColorMatrix基类，并需要实现 __call__ 方法。该方法有以下要求：
+ColorMatrix类可以被子类继承，需要重写 ``__call__`` 方法。
+该方法有以下要求：
 
 * 用作插值计算的旧对象。该对象可以来自任何类，在没有旧对象时可以是None。
 * 一个介于0.0和1.0之间的数值，用作插值计算的比例。0.0表示完全使用旧对象，1.0表示完全使用新对象。

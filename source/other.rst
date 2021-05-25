@@ -121,19 +121,15 @@ renpy.random
 这个对象是一个随机数生成器，实现了 `Python随机数生成接口 <http://docs.python.org/release/2.3.4/lib/module-random.html>`_ 。调用这个对象衍生的各种方法可以生成需要的随机数。详见Python中的完整列表。最常用的几个如下：
 
 * ``renpy.random.random()``
-
     返回一个位于(0.0, 1.0)开区间的随机浮点数。
 
 * ``renpy.random.randint(a, b)``
-
     返回一个整数N，a <= N <= b。
 
 * ``renpy.random.choice(seq)``
-
     从非空序列 *seq* 随机返回一个元素。
 
 * ``renpy.random.shuffle(seq)``
-
     打乱序列 `seq` 中元素的顺序。该函数不会返回列表，而是直接修改原列表。
 
 与标准的Python随机数生成器不同，这个对象可以与回滚兼容，无论回滚多少次都生成相同的随机数。所以可以使用这个对象代替标准Python随机模块。
@@ -150,7 +146,6 @@ renpy.random
     $ randfruit = renpy.random.choice(['apple', 'orange', 'plum'])
 
 * ``renpy.random.Random(seed=None)``
-
     返回一个新的随机数生成器对象。与主随机数生成器不同，新的对象使用指定的值作为种子。
 
 .. _SDL:
@@ -276,7 +271,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
 .. function:: renpy.full_restart(transition=False, label='_invoke_main_menu', target='_main_menu')
 
-    让Ren'Py重启，将用户带会到主菜单。
+    让Ren'Py重启，将用户带回到主菜单。
 
     `transition`
         如果给定了转场，就运行转场；如果这项是None则不运行转场；如果这项是False，就用 :func:`config.end_game_transition` 。

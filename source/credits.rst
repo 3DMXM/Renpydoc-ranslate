@@ -37,6 +37,7 @@
 * Christian Koepp
 * Civalin
 * CobaltCore
+* CodePsy
 * Craig P. Donson
 * CursedOctopus
 * DaFool
@@ -101,6 +102,7 @@
 * Kapil Gain
 * Kathryn
 * Kevin Turner
+* KG
 * Kinsman
 * Kobaltcore
 * Koichi "vbkaisetsu" Akabe
@@ -110,6 +112,7 @@
 * Kyouryuukunn
 * Lapalissiano
 * Lee Yunseok
+* Lent1
 * Lezalith
 * Lore
 * Lucas Ramage

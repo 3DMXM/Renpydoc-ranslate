@@ -33,10 +33,14 @@ local脚本标签可以在global脚本标签中定义，并被被直接引用，
         "现在让我们跳转进入其他地方的local脚本标签。"
         jump global_label.local_name
 
-lable语句可以带一些可选参数。这些参数的处理在PEP 3102中有详细说明，这里仅说两种例外:
+lable语句可以带一些可选参数。这些参数的处理在 :pep:`3102` 中有详细说明，这里仅说两种例外:
 
-* 语句被调用时，这些参数会被赋予默认值。
-* 变量是可以动态变化的，而不是仅限于语法中的定义。
+* 语句被调用时，才计算默认参数的值。
+* 变量具有动态生命周期。
+
+如果某个变量具有动态生命周期，它的值会持续到其所属的label标签中出现一个return语句为止。
+尝试使用jump或previous语句传递该变量的值都是不明智的。
+带有参数的label样例，详见 :ref:`call语句 <call-statement>` 。
 
 .. _jump-statement:
 
@@ -64,22 +68,26 @@ call语句用于将主控流程转入给定的脚本标签(label)处。call语�
 
 若出现了 ``expression`` (表达式)关键词，关键词后面的表达式将被赋值，而被计算后的对应字符串则会被用作跳转目标的标签语句。若未出现 ``expression`` (表达式)关键词，跳转目标的标签名字就必须精确指定。
 
-``from`` 分句是可选的，在label语句后面直接添加入参名和值，并直接在该label下直接使用。一个命名直白的标签(lable)有助于我们能利用栈(stack)回到脚本里合适的地方，就算加载的是修改过的脚本。 ::
+``from`` 分句是可选的，在label语句后面直接添加入参名和值，并直接在该label下直接使用。一个命名直白的标签(lable)有助于我们能利用栈(stack)回到脚本里合适的地方，就算加载的是修改过的脚本。 
 
-    e "首先，我们调用一个子程序(subroutine)。"
+::
 
-    call subroutine
+    label start:
 
-    call subroutine(2)
+        e "首先，我们调用一个支线(subroutine)。"
 
-    call expression "sub" + "routine" pass (count=3)
+        call subroutine
 
-    # ...
+        call subroutine(2)
+
+        call expression "sub" + "routine" pass (count=3)
+
+        return
 
     label subroutine(count=1):
 
         e "我来过这里 [count] 次了。"
-        e "接着，我们会返回到子程序(subroutine)。"
+        e "接着，我们会从支线(subroutine)返回。"
 
         return
 

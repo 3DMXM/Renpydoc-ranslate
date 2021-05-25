@@ -4,6 +4,52 @@
 变更日志(Ren'Py 7.x-)
 =====================
 
+.. _renpy-7.4.4:
+
+7.4.4
+=====
+
+old-game目录
+----------------------
+
+为帮助创作者实现游戏多个发布版本(比如早期公测或Patreon平台版本)，Ren'Py新增了old-game目录，会将前一个版本game目录的部分内容复制到old-game中。
+Ren'Py会使用目录中的.rpyc文件。由于.rpyc文件在加载游戏时需要使用，所以也可以用于帮助多人开发游戏遇到的加载问题。
+
+更多信息，详见 :ref:`文档 <old-game>` 。
+
+.. _fixes-7.4.4:
+
+修复
+-----
+
+A crash that could occur with gestures or controllers has been fixed.
+
+A crash that occurred when generating web distributions on windows has
+been fixed.
+
+The persistent backend for achievements now supports the clearing of
+progress.
+
+Live2D now resets opacities with other parameters.
+
+Ren'Py does not change the size of a maximized window when reloading.
+
+Other
+-----
+
+There is a new GL property, ``blend_func`` that is supported by the
+model-based renderer. This allows the customization of the GL blend
+function, allowing Ren'Py to start to support new blend modes.
+
+Live2D now supports the additive and multiply blend modes.
+
+Using default or define with the ``renpy`` namespace will now produce an
+error.
+
+A number of previously-undocumented methods on the `preferences object <preference-variables>`
+have been documented. These methods make it possible to get or set the current value
+of the volume and the current value of mute.
+
 .. _renpy-7.4.3:
 
 7.4.3
@@ -48,7 +94,7 @@ N卡的线程优化功能在Ren'Py上表现很糟糕，会在某些不希望暂�
 
 新增的 :func:`renpy.get_zorder_list` 和 :func:`renpy.change_zorder` 函数允许图像或界面显示中设置zorder的值。
 
-window和frame组件可以使用样式特性  :propref:`modal` 。
+window和frame组件可以使用样式特性 :propref:`modal` 。
 这两种组件中modal特性的语法和功能，与界面的 model 特性类似，但仅限于限制鼠标在这两种组件范围内的作用。
 主要用于确保玩家不能点击到window背后的某些按钮，而那些按钮并没有被禁用。
 
@@ -170,7 +216,7 @@ macOS上的JVM检测机制很健壮，不太会被浏览器插件拒绝。
 pause语句变更
 --------------
 
-``pause`` 语句的无法变更，正确用法为：
+``pause`` 语句的语法变更，正确用法为：
 
 ::
 
@@ -190,7 +236,7 @@ pause语句变更
 
 这表示需要真正暂停的功能特性都可以用pause语句实现。
 
-modal型界面不再阻挡 ``pause`` 或 :func:`renpy.pause()` 的暂停效果。
+modal型界面不再能阻止 ``pause`` 或 :func:`renpy.pause()` 的暂停效果。
 这表示pause语句可以对显示在其上层的界面也有效果。
 
 .. _7-4-1-say-statement-id-clause:

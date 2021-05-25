@@ -170,6 +170,18 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 偶尔用到的配置项
 -----------------
 
+.. var:: config.adjust_attributes = { }
+
+    若非None，该项是一个字典型数据。
+    当某个包含图像属性(image attribute)的语句或函数执行或预加载时，会将图像标签(tag)作为键值在字典内搜索。
+    如果没有搜索到，则使用键值None再次搜索。
+
+    如果搜索到了字典内的值，该值需要是某个函数。
+    此函数的入参是一个由图像名称、图像标签(tag)和属性(attribute)组成的元组。
+    函数返回值是另一个元组，由一组新的图像属性组成的元组。
+
+    该函数可能会在预加载阶段被调用，所以其不应该直接用在image语句中。
+
 .. var:: config.after_load_callbacks = [ ... ]
 
     读档时，(无入参)调用的参数列表。
@@ -177,6 +189,15 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.after_replay_callback = None
 
     若非None，这项是回放(replay)结束后，不使用入参那调用的函数。
+
+.. var:: config.allow_underfull_grids = False
+
+    若为True，Ren'Py不强制要求grids填充满。
+
+.. var:: config.pause_after_rollback = False
+
+    若为False，即默认值，回滚将跳过所有暂停，只在某些对话和菜单选项才会停止。
+    若为True，Ren'Py在回滚时，所有用户可能遇到的没有设置时间的暂停都会停止。
 
 .. var:: config.auto_channels = { "audio" : ( "sfx", "", ""  ) }
 

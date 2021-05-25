@@ -99,8 +99,8 @@
         整数被解释为像素数量，从可用区域最左边或顶边算起。
     float (比如 0.0, 0.5, or 1.0)
         浮点数被解释为可用区域的一个比例。例如，0.5表示区域类某条表的中点，1.0表示最右边或者底边。
-    renpy.absolute (比如 renpy.absolute(100.25))
-        当使用亚像素精度(subpixel-precise)渲染时，renpy.absolute数被解释为像素数量，从可用区域最左边或顶边算起。
+    absolute (比如 renpy.absolute(100.25))
+        当使用亚像素精度(subpixel-precise)渲染时，``absolute`` 数被解释为像素数量，从可用区域最左边或顶边算起。
 
 `displayable`
     任意可视组件。若某个可视组件名包含某个类似“[prefix\_]”的子串，就会按照如下描述进行前缀搜索。
@@ -607,6 +607,14 @@
 .. style-property:: size_group string or None
 
     若非None，该值是一个字符串。Ren'Py会使用size_group值相同的尺寸渲染所有窗口。
+
+.. style-property:: modal boolean or callable
+
+    若为True，窗口设为模态。鼠标点击事件值对当前窗口内的window或按钮组件有效，不会广播穿透。
+    若为False，窗口设为非模态。
+
+    该项也可以是一个可调用的函数。
+    其为函数时，入参使用(ev, x, y, w, h)形式的四元元组。其中ev是pygame事件消息，也可能是None笼统表示一个鼠标事件；x和y表示窗口坐标，w和h表示窗口的宽和高。函数返回为True时，窗口视为模态，否则视为非模态。
 
 .. _button-style-properties:
 

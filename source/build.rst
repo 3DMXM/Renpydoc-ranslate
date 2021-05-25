@@ -116,6 +116,7 @@ archive
 不在任何分类下的文件都会放入“all”文件列表中。
 
 如果要在分发版中排除某些文件，就将文件归类为None或空字符串。
+使用时，文件名表达式通配符中的 \* 和 \*\* 必须至少能匹配到一个字符。
 
 举例：::
 
@@ -182,6 +183,28 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
 如果某个归档文件为空，就不会生成。
 
 关于游戏归档的问题，请三思。使用开放文件可能有助于后人在未来的平台上运行你的游戏——那些你离开这个世界之后才出现的平台。
+
+.. _old-game:
+
+old-game目录
+----------------------
+
+生成多个游戏版本，比如早期公测或Patreon平台版本时，有必要保留旧版本的.rpyc文件。
+.rpyc文件中包含的信息可用来确认存档是否可以继承，如果忽略这些信息查可能会引起各种问题。
+
+同时，当game目录下的文件改变后，Ren'Py会更新对应的.rpyc文件，使文件无法适用版本控制的要求。
+
+为了解决这个问题，Ren'Py允许创作者将前一个版本的.rpyc文件放入 old-game 目录中，该目录与game目录平行。
+old-game的目录结构会与game目录保持一致，比如game/scripts/day1.rpyc文件移动后会成为old-game/scripts/day1.rpyc。
+非.rpyc文件将会忽略。
+
+使用old-game的优势是，Ren'Py总是会根据已知的代码改动在old-game生成.rpyc文件。
+对个人开发者来说可能没什么用，对大一些的多人开发游戏项目则会有帮助。
+
+关于在游戏变更后，如何使用.rpyc文件帮助实现存档继承的信息，可以查看下面的链接:
+
+* `Under the hood: .rpyc files <https://www.patreon.com/posts/under-hood-rpyc-23035810>`_
+* `Ren'Py developer update: February 20201 <https://www.patreon.com/posts/renpy-developer-48146908>`_
 
 .. _requirements:
 

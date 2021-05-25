@@ -44,7 +44,7 @@ Ren'Py绘制到屏幕上的内容，本质上是一个模型。该模型包含�
 
 * uniform型变量值。uniform型变量保存添加到模型中的数据。比如，要使某个模型显示为某个纯色，指定的颜色就需要是一个uniform型。
 
-* GL属性(property)。GL属性是控制渲染方式的标识型数据，比如模型的缩放模式以及颜色蒙版(mask)。
+* GL特性(property)。GL特性是控制渲染方式的标识型数据，比如模型的缩放模式以及颜色蒙版(mask)。
 
 Ren'Py通常会在屏幕上同时绘制好几样东西，并创建一棵 :class:`Render` 对象树。
 树上的Render对象的子对象可能是模型或其他Render对象。(后面会提到，Render对象也可以转为模型。)
@@ -114,7 +114,7 @@ Ren'Py生成着色器程序的第一步是识别着色器名称列表。该列�
 Ren'Py会将使用过的所有着色器组合缓存在 game/cache/shaders.txt 文件中，并在启动时加载这个文件。
 如果使用着色器方面有比较大改动，就需要编辑清空或删除这个文件。这样就可以重新生成有效数据。
 
-.. _creating-a-custom-shader:
+.. _custom-shaders:
 
 创建自定义着色器
 ----------------
@@ -247,9 +247,39 @@ Transform类和基于模型的渲染
 
     若该值不是None，根据字符串或字符串列表将对应的着色器应用到Render对象(如果创建了模型对象)或在Render对象树上该Render对象分支后面的所有模型。
 
+.. transform-property:: blend
+
+    :type: None 或 str
+    :default: None
+
+    若该值不是None，其应该是一个字符串。根据该字符串在 :var:`config.gl_blend_func` 搜索对应的遮罩函数gl_blend_func特性后，用作图像遮罩模式。
+
+    默认的遮罩模式包括“normal”(正常或覆盖)、“add”(相加)、“multiply”(相乘或正片叠底)、“min”(最小值)和“max”(最大值)。
+
+
 以 u\_ 而非 u_renpy 开头的uniform型变量可以当作Transform的特性(property)来使用。
-以 gl\_ 开头的GL属性(property)变量可以当作Transform的特性(property)来使用。
+以 gl\_ 开头的GL特性(property)变量可以当作Transform的特性(property)来使用。
 例如，想使用GL中的 color_mask 特性，在Transform中需要改为 gl_color_mask。
+
+.. _blend-functions:
+
+遮罩函数
+---------------
+
+.. var:: config.gl_blend_func = { ... }
+
+    一个字典型数据，用作遮罩模式名与遮罩函数的映射关系。
+    遮罩模式名称见下表：
+
+默认的遮罩模式有：
+
+::
+
+    gl_blend_func["normal"] = (GL_FUNC_ADD, GL_ONE, GL_ONE_MINUS_SRC_ALPHA, GL_FUNC_ADD, GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+    gl_blend_func["add"] = (GL_FUNC_ADD, GL_ONE, GL_ONE, GL_FUNC_ADD, GL_ZERO, GL_ONE)
+    gl_blend_func["multiply"] = (GL_FUNC_ADD, GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA, GL_FUNC_ADD, GL_ZERO, GL_ONE)
+    gl_blend_func["min"] = (GL_MIN, GL_ONE, GL_ONE, GL_MIN, GL_ONE, GL_ONE)
+    gl_blend_func["max"] = (GL_MAX, GL_ONE, GL_ONE, GL_MAX, GL_ONE, GL_ONE)
 
 .. _uniforms-and-attributes:
 
@@ -292,18 +322,66 @@ uniform和attribute变量
 
 .. _gl-properties:
 
-GL属性(property)
+GL特性(property)
 -----------------
 
-GL属性会更改OpenGL或基于模型渲染器的全局状态。
-将这些属性用作变换(Transform)的部分内容时，前缀为 ``gl\_`` ，比如在ATL中颜色蒙版属性写作 ``gl_color_masks`` 。
+GL特性会更改OpenGL或基于模型渲染器的全局状态。
+这些特性可以与Transform对象一起使用，或者 :func:`Render.add_property` 函数一起使用。
 
-``color_masks``
-    该属性需要时一个布尔型4元元组，分别对应像素中的4个通道(红、绿、蓝和alpha)。只有当元组中对应通道的元素值为True时，绘图操作才会实际绘制像素的颜色值。
+``gl_anisotropic``
+    该特性决定了，应到网格上的纹理是否创建各向异性(anisotropy)。
+    各向异性是一种功能特性，能让纹理在X和Y方向的缩放系数不同时，采样出多个纹理元素(texel)。
 
-``pixel_perfect``
-    只有创建网格时该属性才会生效。若该值是True，Ren'Py会把网格的第一个顶点与屏幕某个像素对齐。
-    该属性常用于文本内容的衔接，确保文字的清晰度。
+    该项默认为True。Ren'Py将其设置为False，为了避免对其他效果产生影响，比如Pixellate(像素化)转场。
+
+``gl_blend_func``
+    该特性应是一个6元元组，分别用作功能调节像素、原像素、遮罩像素和功能条件像素相关参数。
+    If present, this is expected to be a six-component tuple, which is
+    used to set the equation used to blend the pixel being drawn with the
+    pixel it is being drawn to, and the parameters to that equation.
+
+    一个例子是(`rgb_equation`, `src_rgb`, `dst_rgb`, `alpha_equation`, `src_alpha`, `dst_alpha`)。
+    调用方式如下：
+
+    ::
+
+        glBlendEquationSeparate(rgb_equation, alpha_equation)
+        glBlendFuncSeparate(src_rgb, dst_rgb, src_alpha, dst_alpha)
+
+    这些函数的功能请参考OpenGL文档。
+    OpenGL常量可以从renpy.uguu中引入：
+
+    ::
+
+        init python:
+            from renpy.uguu import GL_ONE, GL_ONE_MINUS_SRC_ALPHA
+
+    更通用的建议方式是使用 :tpref:`blend` 变换特性。
+
+``gl_color_masks``
+    该特性应是一个布尔型4元元组，分别对应像素中的4个通道(红、绿、蓝和alpha)。只有当元组中对应通道的元素值为True时，绘图操作才会实际绘制像素的颜色值。
+
+``gl_depth``
+    若为True，将会清理深度缓存，然后可视组件和其子组件的深度渲染。
+
+``gl_mipmap``
+    该项决定纹理是否提供了网格用于创建mipmap。默认值为True.
+
+``gl_pixel_perfect``
+    只有创建网格时该特性才会生效。若该值是True，Ren'Py会把网格的第一个顶点与屏幕某个像素对齐。
+    该特性常用于文本内容的衔接，确保文字的清晰度。
+
+``gl_texture_wrap``
+    该项决定了将纹理提高到网格的方式。其值应该是一个2元元组，
+    第一个元素用于设置GL_TEXTURE_WRAP_S，第二个元素用于设置GL_TEXTURE_WRAP_T，
+    这两项通常用作纹理的X和Y轴信息。
+
+    这些OpenGL常量应从renpy.uguu中引入：
+
+    ::
+
+        init python:
+            from renpy.uguu import GL_CLAMP_TO_EDGE, GL_MIRRORED_REPEAT, GL_REPEAT
 
 .. _default-shader-parts:
 

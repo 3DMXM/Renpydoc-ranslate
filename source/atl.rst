@@ -538,7 +538,7 @@ transform特性列表
 
 transform存在以下特性(property)：
 
-当给定的数据类型当作一个坐标时，其可能是一个整型、 ``renpy.absolute`` 类型或者浮点型。如果是一个浮点型，其可以用作某块区域(用作坐标 :propref:`pos` )或者可视组件(用作锚点 :propref:`anchor` )的比例数值。
+当给定的数据类型当作一个坐标时，其可能是一个整型、 ``absolute`` 类型或者浮点型。如果是一个浮点型，其可以用作某块区域(用作坐标 :propref:`pos` )或者可视组件(用作锚点 :propref:`anchor` )的比例数值。
 
 需要注意的是，并非所有特性都是完全独立的。例如， :propref:`xalign` 和 :propref:`xpos` 都会更新同一批底层数据。在parallel语句中，只有一个语句块(block)能调整水平坐标，而另一个语句块只能调整垂直坐标。(这些可能都是在同一个语句块中。)angle和radius特性同时设置水平和垂直坐标。
 
@@ -884,15 +884,31 @@ transform存在以下特性(property)：
     :type: None 或 矩阵 或 MatrixColor对象
     :default: None
 
-    若该值非None，该特性值用于将此变换下的所有子对象上色。详见 :ref:`matrixcolor` 。
+    若该值非None，该特性值用于将此变换下的所有子组件上色。详见 :ref:`matrixcolor` 。
 
 .. transform-property:: blur
 
     :type: None 或 float
     :default: None
 
-    使用 `blur` 像素数模糊图像的子对象， `blur` 数值不超过可视组件的边长。
+    使用 `blur` 像素数模糊图像的子组件， `blur` 数值不超过可视组件的边长。
     Ren'Py不同版本的模糊细节可能存在差异。模糊的结果可能存在瑕疵，尤其是模糊数值不断发生修改的情况下。
+
+    使用该特性的前提是启用基于模型的渲染器，将 :var:`config.gl2` 设置为True。
+
+此外，其他几组变换特性可以在文档其他地方找到：
+
+3D舞台特性：
+    :tpref:`perspective`、 :tpref:`matrixanchor`、 :tpref:`matrixtransform`、 :tpref:`zpos`、 :tpref:`zzoom`
+
+基于模型渲染特性：
+    :tpref:`blend`、 :tpref:`mesh`、 :tpref:`mesh_pad`、 :tpref:`shader`
+
+GL特性：
+    :ref:`GL特性 <gl-properties>`
+
+uniforms：
+    以 ``u_`` 开头的特性可以用于 :ref:`自定义着色器 <custom-shaders>` 中的uniform变量。
 
 这些特性按照以下顺序应用：
 
@@ -903,8 +919,14 @@ transform存在以下特性(property)：
 #. zoom, xzoom, yzoom
 #. pan
 #. rotate
-#. position properties
+#. zpos
+#. matrixtransform, matrixanchor
+#. zzoom
+#. perspective
+#. nearest, blend, alpha, additive, shader.
 #. matrixcolor
+#. GL Properties, Uniforms
+#. position properties
 
 .. _circular-motion:
 

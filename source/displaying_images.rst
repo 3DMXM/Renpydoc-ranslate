@@ -446,7 +446,22 @@ hide和show窗口
 
 .. function:: renpy.start_predict(*args)
 
-    该函数接受一个或多个可视组件作为入参。该函数触发Ren'Py在每次交互行为中预加载入参中的可视组件，直到使用renpy.stop_predict()移除预加载的那些可视组件。
+    该函数接受一个或多个可视组件作为入参。该函数触发Ren'Py在每次交互行为中预加载入参中的可视组件，直到使用 func:`renpy.stop_predict()` 移除预加载的那些可视组件。
+    如果可视组件名称字符串一个包含1个或多个 \\* 字符，则视为一个通配表达式。
+    如果字符串中至少存在一个英文句号 . ，表达式将对整个文件名进行匹配，否则将不匹配文件扩展名。
+    例如：
+
+    ::
+
+        $ renpy.start_predict("eileen *")
+
+    预加载所有名为eileen的所有图片。而：
+
+    ::
+
+        $ renpy.start_predict("images/concert*.*")
+
+    匹配images目录下所有以concert开头的文件。
 
 .. function:: renpy.stop_predict(*args)
 

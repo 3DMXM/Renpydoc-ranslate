@@ -9,20 +9,67 @@
 
 关于GUI方面的不兼容变更，详见 :ref:`gui-changes` 部分，只有重新生成GUI才会让这些变更生效。
 
+.. _incompatible-7.4.5:
+
+7.4.5
+------
+
+当前版本的游戏开发默认使用基于模型的渲染器。若要禁用该渲染器，修改配置项：
+
+::
+
+    define config.gl2 = False
+
+``scene`` 语句不再清理列表中的图层(layer)。若需要清理图层，使用：
+
+::
+
+    show layer master
+
+“master”是需要清理的图层名称。若要修复旧特性，修改配置项：
+
+::
+
+    define config.scene_clears_layer_at_list = True
+
+
+.. _incompatible-7.4.3:
+
+7.4.3
+-----
+
+当前版本允许用户使用点击(鼠标)忽略使用 :func:`renpy.transition` 转场效果，
+使其与使用 ``with`` 的say语句和 ``call screen`` 语句保持一致。
+如果要保持原有特性，修改配置项：
+
+::
+
+    define dismiss_blocking_transitions = False
+
+
+.. _incompatible-7.4.1:
+
+7.4.1
+-----
+
+当前版本的暂停效果使用 :func:`renpy.pause` 而不是 ``with Pause(...)`` 。
+这意味着用户需要多次点击(鼠标)才能跳过多个暂停。
+如果要恢复原来的设置，修改配置项：
+
+::
+
+    define config.pause_with_transition = True
+
 .. _incompatible-7.4:
 
 7.4
 ---
 
-Mobile platforms now use hardware, rather than software, video playback.
-To restore the old behavior, use
 移动平台仅限于软解解码，可以使用硬件解码播放视频。如果要回归原来的设置：
 ::
 
     define config.hw_video = True
 
-Ren'Py will now only show side images if with at least one attribute in
-addition to the image tag. To disable this, use
 当前版本Ren'Py只在图像标签(tag)中至少包含一个属性(attribute)的情况下才会显示侧边栏头像(side image)。禁用该设置：
 
 ::
@@ -31,7 +78,7 @@ addition to the image tag. To disable this, use
 
 
 7.4版本起，将不再支持初始化阶段以外的场景修改配置项，比如 :var:`config.mouse` 。
-请考虑使用:var:`default_mouse` 配置项设置自定义的鼠标光标。
+请考虑使用 :var:`default_mouse` 配置项设置自定义的鼠标光标。
 
 .. _incompatible-7.3.3:
 

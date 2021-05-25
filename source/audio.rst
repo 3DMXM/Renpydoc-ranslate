@@ -119,6 +119,24 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 
 将会在完整播放完文件song.opus后，回到6.333秒标记处重新播放至结尾，并不断循环重复。
 
+.. _sync-start:
+
+同步起始位置
+-------------------
+
+某段音频音频的起始播放位置可以同步到另一个音频通道，只需要使用特定的文件名，比如“<sync channelname>track.opus”。
+其中channelname就是需要同步的通道名称，可以是music、sound或其他任意注册过的音频通道。
+
+该功能可用于多个循环播放音轨的同步。比如：
+::
+    play music_2 [ "<sync music_1>layer_2.opus", "layer_2.opus" ]
+        
+This can be used to sync multi-layered looping tracks together. For example::
+
+        play music_2 [ "<sync music_1>layer_2.opus", "layer_2.opus" ]
+
+layer_2.opus播放时将会与music_1通道的循环保持同步，即music_1从头开始播放时也跟随从头播放，而不再会播放完之后再循环。
+
 .. _playing-silence:
 
 播放静音

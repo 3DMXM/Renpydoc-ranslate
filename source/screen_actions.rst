@@ -28,7 +28,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: Call(label, *args, **kwargs)
 
-    结束当前语句，并调用某个脚本标签(label)。入参和关键词参数会传给 :func:`renpy.call()` 。
+    结束当前语句，并调用某个脚本标签(label)。入参和关键词参数会传给 :func:`renpy.call` 。
 
 .. function:: Hide(screen, transition=None)
 
@@ -111,7 +111,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     将指定的变量 `name` 设置为当前本地上下文中的值 `value`。
 
     只有在某个界面(screen)被另一个场景(scene)使用的情况，才会用到该函数。其提供了一种方法，可以设置界面使用变量的值。
-    在其他需要修改变量值的情况下，推荐使用 :func:`SetScreenVariable()` ，那可以缓存更多的界面数据。
+    在其他需要修改变量值的情况下，推荐使用 :func:`SetScreenVariable` ，那可以缓存更多的界面数据。
 
     该函数能赋值的变量仅限当前上下文中创建——其他地方创建的变量不能通过该函数进行设置和传递。
 
@@ -148,7 +148,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     切换当前本地上下文中 `name` 的值。
 
     只有在某个界面(screen)被另一个场景(scene)使用的情况，才会用到该函数。其提供了一种方法，可以设置界面使用变量的值。
-    在其他需要修改变量值的情况下，推荐使用 :func:`ToggleScreenVariable()` ，那可以缓存更多的界面数据。
+    在其他需要修改变量值的情况下，推荐使用 :func:`ToggleScreenVariable` ，那可以缓存更多的界面数据。
 
     该函数能赋值的变量仅限当前上下文中创建——其他地方创建的变量不能通过该函数进行设置和传递。
 
@@ -266,8 +266,14 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     删除文件。
 
+    `name`
+        要删除的存档槽名称。
+
     `confirm`
         若为True，删除文件前提示用户确认。
+
+    `page`
+        存档或读档时使用的页面编号(page)。若为None，就使用当前页面。
 
 .. function:: FileLoad(name, confirm=True, page=None, newest=True)
 
@@ -288,6 +294,9 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `cycle`
         忽略。
 
+    `slot`
+        若为True，使用 *name* 参数，而忽略 *page* 参数。
+
 .. function:: FilePage(page)
 
     将文件页面设置为 *page* ，其可以是“auto”、“quick”或一个整数。
@@ -302,6 +311,12 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `wrap`
         若为True，我们可以从文件最后的页面前往第一页面，前提是设置了页面最大编号。
 
+    `auto`
+        若此参数和 *warp* 都为True，将会把玩家带往自动存档页。
+
+    `quick`
+        若此参数和 *warp* 都为True，将会把玩家带往快速存档页。
+
 .. function:: FilePagePrevious(max=None, wrap=False)
 
     前往上一个文件页面，前提是上一个页面存在的话。
@@ -311,6 +326,12 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     `wrap`
         若为True，我们可以从文件第一页面前往最后的页面，前提是设置了页面最大编号。
+
+    `auto`
+        若此参数和 *warp* 都为True，将会把玩家带往自动存档页。
+
+    `quick`
+        若此参数和 *warp* 都为True，将会把玩家带往快速存档页。
 
 .. function:: FileSave(name, confirm=True, newest=True, page=None, cycle=False)
 
@@ -331,7 +352,10 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
         槽位所在页面名称。若为None，使用当前页面。
 
     `cycle`
-        如果为True，在提供的页面上存档会循环使用而并不会显示给用户看。config.quicksave_slots配置了循环使用的槽位。
+        如果为True，在提供的页面上存档会循环使用而并不会显示给用户看。:var:`config.quicksave_slots` 配置了循环使用的槽位。
+
+    `slot`
+        若为True，使用 *name* 参数，而忽略 *page* 参数。
 
 .. function:: FileTakeScreenshot(*args, **kwargs)
 
@@ -367,7 +391,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: Play(channel, file, selected=None, **kwargs)
 
-    给定通道(channel)播放一个音频文件。
+    在指定通道(channel)播放一个音频文件。
 
     `channel`
         播放使用的通道(channel)。
@@ -378,7 +402,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `selected`
         若为True，当文件在通道上播放时，使用这个行为的按钮会被标记为“被选中”。若为False，这个行为不会触发按钮启动播放。若为None，当通道是一个音乐(music)通道时按钮会被标记为“被选中”。
 
-    其他关键词参数会被传给renpy.music.play()。
+    其他关键词参数会被传给 :func:`renpy.music.play`。
 
 .. function:: Queue(channel, file, **kwargs)
 
@@ -390,7 +414,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `file`
         播放的文件。
 
-    其他关键词参数会被传给renpy.music.queue()。
+    其他关键词参数会被传给 :func:`renpy.music.queue`。
 
 .. function:: SetMixer(mixer, volume)
 
@@ -419,7 +443,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `channel`
         停用的音频通道名。
 
-    关键词参数会传给renpy.music.stop()。
+    关键词参数会传给 :func:renpy.music.stop()。
 
 .. function:: ToggleMute(mixer)
 
@@ -472,7 +496,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     显示帮助。
 
-    如果定义过一个名为 ``help`` 的界面，使用 :func:`ShowMenu()` 就可以显示那个界面，并且 *help* 参数会被省略。
+    如果定义过一个名为 ``help`` 的界面，使用 :func:`ShowMenu` 就可以显示那个界面，并且 *help* 参数会被省略。
 
     `help`
         用于提供帮助的字符串。其被用于以下两种情况：
@@ -507,7 +531,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: OpenURL(url)
 
-    触发 *url* 在web浏览器中打开。
+    在web浏览器中打开 *url* 。
 
 .. function:: QueueEvent(event, up=False)
 
@@ -527,6 +551,8 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     这个行为触发回滚，前提是回滚可行。否则，不会发生任何事。
 
+    入参将传给 :func:renpy.rollback() 函数，除非参数 *force* 是默认值“menu”。
+
 .. function:: RollbackToIdentifier(identifier)
 
     这个行为触发回滚至某个标识符(identifier)。回滚标识符会作为HistoryEntry对象的一部分返回。
@@ -534,6 +560,17 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 .. function:: Screenshot(*args, **kwargs)
 
     屏幕截图。
+
+.. function:: Scroll(id, direction, amount=u'step')
+
+    `id`
+        当前界面中条(bar)、视口(viewport)或vpgrid的id。
+
+    `direction`
+        如果是vbar，“increase”或“decrease”二选一；如果是视口或vpgrid，“horizontal increase”、“vertical increase”、“horizontal decrease”或“vertical decrease”，四选一。
+
+    `amount`
+        滚动数量。可以使用像素数，也可以写“step”或“page”。
 
 .. function:: SelectedIf(expression)
 
@@ -543,7 +580,9 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
         # 如果mars_flag为True时，按钮会被选中
         textbutton "Marsopolis":
-            action [ Jump("mars"), SelectedIf(mars_flag) ]
+            action [ SelectedIf(SetVariable("mars_flag", True)), SetVariable("on_mars", True) ]
+
+    点击按钮后，在SeletedIf内部的行为会被正常执行。
 
 .. function:: SensitiveIf(expression)
 
@@ -553,7 +592,9 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
         # 如果mars_flag为True时，按钮是可用的
         textbutton "Marsopolis":
-            action [ Jump("mars"), SensitiveIf(mars_flag) ]
+            action [ SensitiveIf(SetVariable("mars_flag", True)), SetVariable("on_mars", True) ]
+
+    点击按钮后，在SensitiveIf内部的行为会被正常执行。
 
 .. function:: Skip(fast=False, confirm=False)
 
@@ -574,7 +615,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 条(bar)值
 ==========
 
-条(bar)值与条(bar)一同使用，设置条(bar)的值，且允许条(bar)调整某个潜在特性。可以通过创建 :class:`BarValue` 类的子类创建一个新的条值。
+条值与条(bar)一同使用，设置条(bar)的值，且允许条(bar)调整某个潜在特性。可以通过创建 :class:`BarValue` 类的子类创建一个新的条值。
 所有的BarValue类都有关键词 `step` ，也可以接受关键词 `force_step` ，具体情况详见 :func:`ui.adjustment` 。
 
 .. function:: AnimatedValue(value=0.0, range=1.0, delay=1.0, old_value=None)
@@ -600,7 +641,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `update_interval`
         值的更新频率，单位为秒。
 
-.. function:: DictValue(dict, key, range, max_is_zero=False, style=u'bar', offset=0, step=None)
+.. function:: DictValue(dict, key, range, max_is_zero=False, style=u'bar', offset=0, step=None, action=None, force_step=False)
 
     允许用户使用字典型数据的键调整对应的值。
 
@@ -625,7 +666,10 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `step`
         调整条(bar)值的步进大小。若为空，默认为条(bar)的十分之一。
 
-.. function:: FieldValue(object, field, range, max_is_zero=False, style=u'bar', offset=0, step=None)
+    `action`
+        若非None，当字段改变时，将调用指定行为(action)。
+
+.. function:: FieldValue(object, field, range, max_is_zero=False, style=u'bar', offset=0, step=None, action=None, force_step=False)
 
     允许用户调整某个对象上字段(field)的条(bar)值。
 
@@ -652,6 +696,9 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `step`
         调整条(bar)值的步进大小。若为空，默认为条(bar)的十分之一。
 
+    `action`
+        若非None，当字段改变时，将调用指定行为(action)。
+
 .. function:: MixerValue(mixer)
 
     音频混合器的值。
@@ -659,7 +706,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `mixer`
         待调整的混合器名。通常是“music”、“sfx”或“voice”，创作者也可以创建新的混合器。
 
-.. function:: ScreenVariableValue(variable, range, max_is_zero=False, style=u'bar', offset=0, step=None)
+.. function:: ScreenVariableValue(variable, range, max_is_zero=False, style=u'bar', offset=0, step=None, action=None, force_step=False)
 
     用于调整界面变量值的条(bar)值。
 
@@ -683,6 +730,9 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `step`
         调整条(bar)值的步进大小。若为空，默认为条(bar)的十分之一。
 
+    `action`
+        若非None，当字段改变时，将调用指定行为(action)。
+
 .. function:: StaticValue(value=0.0, range=1.0)
 
     这个行为允许某个值被指定为静态。
@@ -693,7 +743,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `range`
         数值范围。
 
-.. function:: VariableValue(variable, range, max_is_zero=False, style=u'bar', offset=0, step=None)
+.. function:: VariableValue(variable, range, max_is_zero=False, style=u'bar', offset=0, step=None, action=None, force_step=False)
 
     允许用户调整默认存储区变量值的条(bar)值。
 
@@ -716,6 +766,9 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     `step`
         调整条(bar)值的步进大小。若为空，默认为条(bar)的十分之一。
+
+    `action`
+        若非None，当字段改变时，将调用指定行为(action)。
 
 .. function:: XScrollValue(viewport)
 
@@ -822,106 +875,115 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 
     可以与按钮和热区一起使用的行为如下：
 
-    - Preference("display", "fullscreen") - 全屏模式显示。
-    - Preference("display", "window") - 窗口模式显示，1倍大小。
-    - Preference("display", 2.0) - 窗口模式显示，2倍大小。
-    - Preference("display", "any window") - 用前一种窗口尺寸显示。
-    - Preference("display", "toggle") - 切换显示模式。
-    - Preference("transitions", "all") - 显示所有转场(transition)效果。
-    - Preference("transitions", "none") - 不显示转场(transition)效果。
-    - Preference("transitions", "toggle") - 切换转场(transition)效果。
-    - Preference("video sprites", "show") - 显示所有视频精灵(sprite)。
-    - Preference("video sprites", "hide") - 可能的话，将视频精灵(sprite)降格为图片显示。
-    - Preference("video sprites", "toggle") - 切换图像降格行为。
-    - Preference("show empty window", "show") - 允许“window show”和“window auto”语句在say语句之外显示一个空窗口。
-    - Preference("show empty window", "hide") - 不允许“window show”和“window auto”语句在say语句之外显示一个空窗口。
-    - Preference("show empty window", "toggle") - 切换上面两种情况。
-    - Preference("text speed", 0) - 文本立刻显示。
-    - Preference("text speed", 142) - 设置文本显示速度为每秒142字符。
-    - Preference("joystick") - 显示joystick环境设定。
-    - Preference("skip", "seen") - 只跳过看过的信息。
-    - Preference("skip", "all") - 跳过所有信息，无论是否看过。
-    - Preference("skip", "toggle") - 切换上面两种情况。
-    - Preference("begin skipping") - 开始跳过(skipping)。
-    - Preference("after choices", "skip") - 在选项后跳过。
-    - Preference("after choices", "stop") - 在选项后停止跳过。
-    - Preference("after choices", "toggle") - 切换上面两种情况。
-    - Preference("auto-forward time", 0) - 将自动前进的时间设置为无限。
-    - Preference("auto-forward time", 10) - 设置自动前进时间(单位为每秒250个字符)。
-    - Preference("auto-forward", "enable") - 启用自动前进模式。
-    - Preference("auto-forward", "disable") - 禁用自动前进模式。
-    - Preference("auto-forward", "toggle") - 切换自动前进模式。
-    - Preference("auto-forward after click", "enable") - 在一次点击后维持自动前进模式。
-    - Preference("auto-forward after click", "disable") - 在一次点击后禁用自动前进模式。
-    - Preference("auto-forward after click", "toggle") - 切换上面两种情况。
-    - Preference("automatic move", "enable") - 启用自动鼠标模式。
-    - Preference("automatic move", "disable") - 禁用自动鼠标模式。
-    - Preference("automatic move", "toggle") - 切换自动鼠标模式。
-    - Preference("wait for voice", "enable") - 自动前进时，等待当前语音播放完毕。
-    - Preference("wait for voice", "disable") - 自动前进时，不等待当前语音播放完毕。
-    - Preference("wait for voice", "toggle") - 切换语音等待模式。
-    - Preference("voice sustain", "enable") - 当前互动行为中维持语音。
-    - Preference("voice sustain", "disable") - 当前互动行为中不维持语音。
-    - Preference("voice sustain", "toggle") - 切换语音维持模式。
-    - Preference("music mute", "enable") - 音乐混合器静音。
-    - Preference("music mute", "disable") - 取消音乐混合器静音。
-    - Preference("music mute", "toggle") - 切换音乐静音状态。
-    - Preference("sound mute", "enable") - 音效混合器静音。
-    - Preference("sound mute", "disable") - 取消音效混合器静音。
-    - Preference("sound mute", "toggle") - 切换音效静音状态。
-    - Preference("voice mute", "enable") - 语音混合器静音。
-    - Preference("voice mute", "disable") - 取消语音混合器静音。
-    - Preference("voice mute", "toggle") - 切换语音静音状态。
-    - Preference("mixer <mixer> mute", "enable") - 将指定的混合器静音。
-    - Preference("mixer <mixer> mute", "disable") - 取消指定的混合器静音。
-    - Preference("mixer <mixer> mute", "toggle") - 切换指定的混合器静音状态。
-    - Preference("all mute", "enable") - 所有混合器静音。
-    - Preference("all mute", "disable") - 取消所有混合器静音。
-    - Preference("all mute", "toggle") - 切换所有混合器静音状态。
-    - Preference("music volume", 0.5) - 设置音乐音量。
-    - Preference("sound volume", 0.5) - 设置音效音量。
-    - Preference("voice volume", 0.5) - 设置语音音量。
-    - Preference("mixer <mixer> volume", 0.5) - 设置指定混合器音量。
-    - Preference("emphasize audio", "enable") - 加强在config.emphasize_audio_channels中定义的音频通道。
-    - Preference("emphasize audio", "disable") - 取消加强在config.emphasize_audio_channels中定义的音频通道。
-    - Preference("emphasize audio", "toggle") - 切换音频加强状态。
-    - Preference("self voicing", "enable") - 启用自动语音。
-    - Preference("self voicing", "disable") - 禁用自动语音。
-    - Preference("self voicing", "toggle") - 切换自动语音模式。
-    - Preference("clipboard voicing", "enable") - 启用剪贴板语音。
-    - Preference("clipboard voicing", "disable") - 禁用剪贴板语音。
-    - Preference("clipboard voicing", "toggle") - 切换剪贴板语音状态。
-    - Preference("debug voicing", "enable") - 启用自动语音debug。
-    - Preference("debug voicing", "disable") - 禁用自动语音debug。
-    - Preference("debug voicing", "toggle") - 切换自动语音debug状态。
-    - Preference("rollback side", "left") - 触摸屏幕左侧触发回滚。
-    - Preference("rollback side", "right") - 触摸屏幕右侧触发回滚。
-    - Preference("rollback side", "disable") - 触摸屏幕不触发回滚。
-    - Preference("gl powersave", True) - 使用省电模式降低帧率。
-    - Preference("gl powersave", False) - 不使用省电模式降低帧率。
-    - Preference("gl powersave", "auto") - 使用电池情况下自动启用省电模式。
-    - Preference("gl framerate", None) - 运行时显示帧率。
-    - Preference("gl framerate", 60) - 在给定的帧率下运行。
-    - Preference("gl tearing", True) - (设备性能不足时)拖慢而不是跳帧。
-    - Preference("gl tearing", False) - (设备性能不足时)跳帧而不是拖慢。
+    * Preference("display", "fullscreen") - 全屏模式显示。
+    * Preference("display", "window") - 窗口模式显示，1倍大小。
+    * Preference("display", 2.0) - 窗口模式显示，2倍大小。
+    * Preference("display", "any window") - 用前一种窗口尺寸显示。
+    * Preference("display", "toggle") - 切换显示模式。
+    * Preference("transitions", "all") - 显示所有转场(transition)效果。
+    * Preference("transitions", "none") - 不显示转场(transition)效果。
+    * Preference("transitions", "toggle") - 切换转场(transition)效果。
+    * Preference("video sprites", "show") - 显示所有视频精灵(sprite)。
+    * Preference("video sprites", "hide") - 可能的话，将视频精灵(sprite)降格为图片显示。
+    * Preference("video sprites", "toggle") - 切换图像降格行为。
+    * Preference("show empty window", "show") - 允许“window show”和“window auto”语句在say语句之外显示一个空窗口。
+    * Preference("show empty window", "hide") - 不允许“window show”和“window auto”语句在say语句之外显示一个空窗口。
+    * Preference("show empty window", "toggle") - 切换上面两种情况。
+    * Preference("text speed", 0) - 文本立刻显示。
+    * Preference("text speed", 142) - 设置文本显示速度为每秒142字符。
+    * Preference("joystick") - 显示joystick环境设定。
+    * Preference("skip", "seen") - 只跳过看过的信息。
+    * Preference("skip", "all") - 跳过所有信息，无论是否看过。
+    * Preference("skip", "toggle") - 切换上面两种情况。
+    * Preference("begin skipping") - 开始跳过(skipping)。
+    * Preference("after choices", "skip") - 在选项后跳过。
+    * Preference("after choices", "stop") - 在选项后停止跳过。
+    * Preference("after choices", "toggle") - 切换上面两种情况。
+    * Preference("auto-forward time", 0) - 将自动前进的时间设置为无限。
+    * Preference("auto-forward time", 10) - 设置自动前进时间(单位为每秒250个字符)。
+    * Preference("auto-forward", "enable") - 启用自动前进模式。
+    * Preference("auto-forward", "disable") - 禁用自动前进模式。
+    * Preference("auto-forward", "toggle") - 切换自动前进模式。
+    * Preference("auto-forward after click", "enable") - 在一次点击后维持自动前进模式。
+    * Preference("auto-forward after click", "disable") - 在一次点击后禁用自动前进模式。
+    * Preference("auto-forward after click", "toggle") - 切换上面两种情况。
+    * Preference("automatic move", "enable") - 启用自动鼠标模式。
+    * Preference("automatic move", "disable") - 禁用自动鼠标模式。
+    * Preference("automatic move", "toggle") - 切换自动鼠标模式。
+    * Preference("wait for voice", "enable") - 自动前进时，等待当前语音播放完毕。
+    * Preference("wait for voice", "disable") - 自动前进时，不等待当前语音播放完毕。
+    * Preference("wait for voice", "toggle") - 切换语音等待模式。
+    * Preference("voice sustain", "enable") - 当前互动行为中维持语音。
+    * Preference("voice sustain", "disable") - 当前互动行为中不维持语音。
+    * Preference("voice sustain", "toggle") - 切换语音维持模式。
+    * Preference("music mute", "enable") - 音乐混合器静音。
+    * Preference("music mute", "disable") - 取消音乐混合器静音。
+    * Preference("music mute", "toggle") - 切换音乐静音状态。
+    * Preference("sound mute", "enable") - 音效混合器静音。
+    * Preference("sound mute", "disable") - 取消音效混合器静音。
+    * Preference("sound mute", "toggle") - 切换音效静音状态。
+    * Preference("voice mute", "enable") - 语音混合器静音。
+    * Preference("voice mute", "disable") - 取消语音混合器静音。
+    * Preference("voice mute", "toggle") - 切换语音静音状态。
+    * Preference("mixer <mixer> mute", "enable") - 将指定的混合器静音。
+    * Preference("mixer <mixer> mute", "disable") - 取消指定的混合器静音。
+    * Preference("mixer <mixer> mute", "toggle") - 切换指定的混合器静音状态。
+    * Preference("all mute", "enable") - 所有混合器静音。
+    * Preference("all mute", "disable") - 取消所有混合器静音。
+    * Preference("all mute", "toggle") - 切换所有混合器静音状态。
+    * Preference("music volume", 0.5) - 设置音乐音量。
+    * Preference("sound volume", 0.5) - 设置音效音量。
+    * Preference("voice volume", 0.5) - 设置语音音量。
+    * Preference("mixer <mixer> volume", 0.5) - 设置指定混合器音量。
+    * Preference("emphasize audio", "enable") - 加强在config.emphasize_audio_channels中定义的音频通道。
+    * Preference("emphasize audio", "disable") - 取消加强在config.emphasize_audio_channels中定义的音频通道。
+    * Preference("emphasize audio", "toggle") - 切换音频加强状态。
+    * Preference("self voicing", "enable") - 启用自动语音。
+    * Preference("self voicing", "disable") - 禁用自动语音。
+    * Preference("self voicing", "toggle") - 切换自动语音模式。
+    * Preference("clipboard voicing", "enable") - 启用剪贴板语音。
+    * Preference("clipboard voicing", "disable") - 禁用剪贴板语音。
+    * Preference("clipboard voicing", "toggle") - 切换剪贴板语音状态。
+    * Preference("debug voicing", "enable") - 启用自动语音debug。
+    * Preference("debug voicing", "disable") - 禁用自动语音debug。
+    * Preference("debug voicing", "toggle") - 切换自动语音debug状态。
+    * Preference("rollback side", "left") - 触摸屏幕左侧触发回滚。
+    * Preference("rollback side", "right") - 触摸屏幕右侧触发回滚。
+    * Preference("rollback side", "disable") - 触摸屏幕不触发回滚。
+    * Preference("gl powersave", True) - 使用省电模式降低帧率。
+    * Preference("gl powersave", False) - 不使用省电模式降低帧率。
+    * Preference("gl powersave", "auto") - 使用电池情况下自动启用省电模式。
+    * Preference("gl framerate", None) - 运行时显示帧率。
+    * Preference("gl framerate", 60) - 在给定的帧率下运行。
+    * Preference("gl tearing", True) - (设备性能不足时)拖慢而不是跳帧。
+    * Preference("gl tearing", False) - (设备性能不足时)跳帧而不是拖慢。
+    * Preference("font transform", "opendyslexic") - 将字体转为opendyslexic(译者注：为阅读障碍人群设计的字体)的配置项。
+    * Preference("font transform", "dejavusans") - 将字体转为deja vu sans的配置项。
+    * Preference("font transform", None) - 禁用字体转换。
+    * Preference("font size", 1.0) - 字号缩放因子配置项。
+    * Preference("font line spacing", 1.0) - 字体行距缩放因子配置项。
+    * Preference("system cursor", "enable") - 使用系统贯标，忽略 config.mouse。
+    * Preference("system cursor", "disable") - 使用config.mouse的光标。
+    * Preference("system cursor", "toggle") - 切换系统光标。
 
     可以与条(bar)一起使用的值如下：
 
-    - Preference("text speed")
-    - Preference("auto-forward time")
-    - Preference("music volume")
-    - Preference("sound volume")
-    - Preference("voice volume")
-    - Preference("mixer <mixer> volume")
+    * Preference("text speed")
+    * Preference("auto-forward time")
+    * Preference("music volume")
+    * Preference("sound volume")
+    * Preference("voice volume")
+    * Preference("mixer <mixer> volume")
+    * Preference("self voicing volume drop")
+    * Preference("font size")
+    * Preference("font line spacing")
 
-  *range* 参数可以给出某个条(bar)的数值范围。“text speed”的默认值是200cps。“auto-forward time”的默认值是每段文本30秒。
+  *range* 参数可以指定某个条(bar)的数值范围。例如，“text speed”的默认值是200cps。“auto-forward time”的默认值是每段文本30秒。
 
 .. function:: GetCharacterVolume(voice_tag)
 
-    该函数根据关联的语音标签(tag)，返回一个介于0.0到1.0之间的数值，表示对应语音声道最大音量的一个比例。
-    
+    该函数根据关联的语音标签(tag)，返回一个介于0.0到1.0之间的数值，表示对应 *voice* 声道最大音量的一个比例。
 
-    
 .. _gamepad:
 
 游戏手柄

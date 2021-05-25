@@ -61,6 +61,8 @@ Ren'Py语言
    atl
    matrixcolor
    layeredimage
+   3dstage
+   live2d
 
 .. _customizing-ren-py:
 
@@ -79,6 +81,7 @@ Ren'Py语言
    config
    preferences
    store_variables
+   mouse
 
 .. _tools:
 
