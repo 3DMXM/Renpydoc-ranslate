@@ -493,6 +493,22 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     如果截屏保存成功就返回True。如果由于某些原因保存失败就返回False。
 
+.. function:: renpy.screenshot_to_bytes(size)
+
+    以二进制对象形式返回一个截屏，可以作为参数传入 :func:`im.Data` 。该二进制对象将是一张png格式图片，例如：
+
+    ::
+        $ data = renpy.screenshot_to_bytes((640, 360))
+        show expression im.Data(data, "screenshot.png"):
+            align (0, 0)
+
+    将显示一个截屏图像。这个二进制对象可以存储到存档文件和持久化数据中。不过这个对象可能很大，注意不要存储太多类似的对象。
+
+    `size`
+        截屏后重新缩放的目标尺寸。若为None，截屏将按用户窗口的尺寸进行调整，不包含窗口的标题栏。
+
+    该函数运行可能比较慢，通常用在类似存档的截屏需求中，而不应该用在需要实时生效的功能中。
+
 .. function:: renpy.scry()
 
     返回当前语句的scry对象。
