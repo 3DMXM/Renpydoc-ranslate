@@ -10,7 +10,7 @@ Ren'Py可以提示用户输入一小段文本，但有一些限制条件。:func
 
 renpy.input函数定义如下：
 
-.. function:: renpy.input(prompt, default=u'', allow=None, exclude=u'{}', length=None, with_none=None, pixel_width=None, screen=u'input', **kwargs)
+.. function:: renpy.input(prompt, default=u'', allow=None, exclude=u'{}', length=None, with_none=None, pixel_width=None, screen=u'input', mask=None, **kwargs)
 
     调用该函数会弹出一个窗口，要求用户输入文本。函数返回用户输入的文本。
 
@@ -34,6 +34,9 @@ renpy.input函数定义如下：
 
     `screen`
         接受输入的界面名称。如果没有指定，默认使用 ``input`` 界面。
+
+    `mask`
+        若非空，在输入时会用单字符的字符串代替用户输入的文本，类似密码输入。
 
     如果 :var:`config.disable_input` 的值为True，该函数只会返回 *default* 的值。
 
