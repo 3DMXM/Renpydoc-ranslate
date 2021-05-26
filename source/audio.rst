@@ -207,6 +207,11 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
 
   返回目前 *channel* 通道上正在播放的音频或视频文件的全长。若 *channel* 通道上没有正在播放的文件，则返回0.0。
 
+.. function:: renpy.music.get_loop(channel=u'music')
+
+    返回音频通道上正在循环播放的文件列表，如果没有文件在循环播放则返回None。
+    如果循环列表还在待播放队列中排队，并没有播放，依然会返回循环列表，而不是正在播放的音乐。
+
 .. function:: renpy.music.get_pause(channel='music')
 
   返回 *channel* 通道上的pause标记的值。
