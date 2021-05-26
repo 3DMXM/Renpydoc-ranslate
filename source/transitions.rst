@@ -331,30 +331,50 @@
 
 .. function:: Pixellate(time, steps)
 
-  返回一个转场效果，其使用像素化切换新旧场景。
+    返回一个转场效果，其使用像素化切换新旧场景。
 
-  `time`
-    转场效果总耗时，单位为秒。
+    `time`
+        转场效果总耗时，单位为秒。
 
-  `steps`
-    在各个方向展开像素化使用的步数。每一步都会创建出上一步两倍宽度和高度的像素方块，所以5步像素化就能创建出32×32大小的像素方块。
+    `steps`
+        在各个方向展开像素化使用的步数。每一步都会创建出上一步两倍宽度和高度的像素方块，所以5步像素化就能创建出32×32大小的像素方块。
 
 .. function:: PushMove(time, mode="pushright")
 
-  返回一个转场效果，其使用新场景把旧场景“推”出界面。
+    返回一个转场效果，其使用新场景把旧场景“推”出界面。
 
-  `time`
-    转场效果耗时。
+    `time`
+        转场效果耗时。
 
-  `mode`
-    总共有4种模式：“pushright”、“pushleft”、“pushup”和“pushdown”，对应旧场景被“推”出界面的方向。
+    `mode`
+        总共有4种模式：“pushright”、“pushleft”、“pushup”和“pushdown”，对应旧场景被“推”出界面的方向。
 
-  ::
+    ::
 
-      define pushright = PushMove(1.0, "pushright")
-      define pushleft = PushMove(1.0, "pushleft")
-      define pushup = PushMove(1.0, "pushup")
-      define pushdown = PushMove(1.0, "pushdown")
+        define pushright = PushMove(1.0, "pushright")
+        define pushleft = PushMove(1.0, "pushleft")
+        define pushup = PushMove(1.0, "pushup")
+        define pushdown = PushMove(1.0, "pushdown")
+
+.. function:: Swing(delay=1.0, vertical=False, reverse=False, background="#000", flatten=True)
+
+    一个转场效果。将旧场景绕某个轴旋转90度，此时画面是该场景一条边；切换为新场景并继续旋转90度。
+
+    `delay`
+        转场持续时间。
+
+    `vertical`
+        若为True，场景绕x轴旋转(像素在垂直方向移动)。若为False，场景绕y轴旋转(像素在水平方向移动)。
+
+    `reverse`
+        若为True，反向旋转。
+
+    `background`
+        场景旋转时，显示为背景的可视组件。
+
+    `flatten`
+        若为True，场景内元素将编排为屏幕尺寸相同的图像进行旋转。
+        某些图像没有完整显示在屏幕中导致不希望出现的效果时，可以设置该参数。
 
 .. _transition-families:
 
@@ -365,30 +385,30 @@
 
 .. function:: define.move_transitions(prefix, delay, time_warp=None, in_time_warp=None, out_time_warp=None, old=False, layers=[u'master'], **kwargs)
 
-  该函数定义了move转场效果的族群，类似于move和ease转场。根据给定的入参 *prefix* ，其定义了以下转场效果：
+    该函数定义了move转场效果的族群，类似于move和ease转场。根据给定的入参 *prefix* ，其定义了以下转场效果：
 
-  - *prefix* ——一个转场效果，其使用 *delay* 秒时间，将图像移动至新坐标。
-  - *prefixinleft* ， *prefixinright* ，*prefixintop* ，*prefixinbottom* —— 这些转场效果，使用 *delay* 秒时间，将图像移动至新坐标，并将新的图像从对应的界面边缘移入界面。
-  - *prefixoutleft* ， *prefixoutright* ，*prefixouttop* ，*prefixoutbottom* —— 这些转场效果，使用 *delay* 秒时间，将图像移动至新坐标，并将新的需要隐藏的图像从对应的界面边缘移出界面。
+    - *prefix* ——一个转场效果，其使用 *delay* 秒时间，将图像移动至新坐标。
+    - *prefixinleft* ， *prefixinright* ，*prefixintop* ，*prefixinbottom* —— 这些转场效果，使用 *delay* 秒时间，将图像移动至新坐标，并将新的图像从对应的界面边缘移入界面。
+    - *prefixoutleft* ， *prefixoutright* ，*prefixouttop* ，*prefixoutbottom* —— 这些转场效果，使用 *delay* 秒时间，将图像移动至新坐标，并将新的需要隐藏的图像从对应的界面边缘移出界面。
 
-  `time_warp, in_time_warp, out_time_warp`
-    时间扭曲功能是根据输入的图像移动完成时间(取值范围为0.0值1.0)，返回一个图像直线运动的完成时间比例(取值范围为0.0值1.0)。
+    `time_warp, in_time_warp, out_time_warp`
+        时间扭曲功能是根据输入的图像移动完成时间(取值范围为0.0值1.0)，返回一个图像直线运动的完成时间比例(取值范围为0.0值1.0)。
 
-    该功能让图像运动速度复合缓动(ease)曲线，而不是让所有图像以一个统一恒定的速度移动。
+        该功能让图像运动速度复合缓动(ease)曲线，而不是让所有图像以一个统一恒定的速度移动。
 
-    三个变量分别对应停留在界面的图像、新显示的图像和新隐藏的图像。
+        三个变量分别对应停留在界面的图像、新显示的图像和新隐藏的图像。
 
-  `old`
-    若该值为真(true)，转场效果作用于旧的可视组件，而不是新的那些。
+    `old`
+        若该值为真(true)，转场效果作用于旧的可视组件，而不是新的那些。
 
-  `layers`
-    应用转场效果的图层(layer)名。
+    `layers`
+        应用转场效果的图层(layer)名。
 
-  ::
+    ::
 
-      # 这条语句定义了所有以“move”开头的预定义转场效果的delay时间
-      init python:
-          define.move_transitions("move", 0.5)
+        # 这条语句定义了所有以“move”开头的预定义转场效果的delay时间
+        init python:
+            define.move_transitions("move", 0.5)
 
 
 .. _dict-transitions:
