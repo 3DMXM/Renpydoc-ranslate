@@ -4,6 +4,116 @@
 变更日志(Ren'Py 7.x-)
 =====================
 
+.. _renpy-7.4.5:
+
+7.4.5
+=====
+
+.. _model-based-renderer-7-4-5:
+
+基于模型的渲染器
+--------------------
+
+从Ren'Py 7.4.5开始，基于模型的渲染器将作为游戏的默认渲染器。
+如果要禁用此渲染器，请将 :var:`config.gl2` 设置为False。
+
+启用基于模型的渲染器后，Ren'Py可以支持“3D舞台”。
+3D舞台在显示图像时增加了第三个维度，当可视组件缩放、移动、旋转等变化时显示3D透视效果。
+更多信息详见 :ref:`3D Stage <3dstage>`。
+
+为了3D舞台的使用便利性考虑，使用 ``show layer`` 或 :func:`renpy.layer_at_list` 应用到整个图层的变换(transform)后，``scene`` 语句不再清空该图层的变换(transform)。
+
+启用基于模型的渲染器后，可以使用新增的 :func:`Swing` 转场效果。
+该转场能让场景在3D空间里的垂直或水平轴向旋转，并实现场景切换。
+
+新增的 :tpref:`blend` 变换特性可用来指定遮罩函数。
+遮罩函数控制如何将新的像素与原有像素混合。除了Ren'Py原有的“normal”和“add”遮罩函数，这次新增了“multiply”、“min”和“max”函数。
+
+.. _mouse:
+
+鼠标
+-----
+
+一直以来积攒了一些对硬件鼠标支持的修改和提升，现在正式在文档中发布了GPU中受限尺寸硬件鼠标的支持。
+
+新增配置项 :var:`config.mouse_displayable` 和可视组件 :func:`MouseDisplayable`，可用软件鼠标替换硬件鼠标，类似于Ren'Py 7.3或更早之前的方案。
+
+.. _features-7-4-5:
+
+功能特性
+--------
+
+新增函数 :func:`renpy.screenshot_to_bytes`，可以截屏并把图像存入一个二进制对象，该二进制对象可以传给 :func:`im.Data`。
+二进制对象很大，可以将它存储在常用或永久存档中。
+
+新增的 :func:`renpy.music.get_loop` 函数会返回某音频通道上的一个循环播放音频文件列表。
+可以用来控制循环播放的顺序等。
+
+:func:`renpy.input` 函数和input可视组件可以使用新增的 `mask` 参数。
+该参数是一个字符串，用来遮挡向用户展示的字符内容。常用于隐藏密码文本。
+
+启动器新增了一个黑暗主题。
+
+新增的 :var:`config.adjust_attributes` 配置项，可以实现图像属性(attribute)替换。
+比如，可以将原本的 ``eileen happy`` 替换为 ``eileen happy_eyes happy_mouth``。
+层叠式图像(LayeredImage)也可以契合该功能。
+
+从命令行运行lint工具时，选项 ``--error-code`` 可以在lint运行失败时让Ren'Py返回错误代码。
+
+图层转场可以在某个互动行为结尾持续。
+
+Ren'Py避免在回滚中暂停，总是尝试在某个需要互动的语句处结束回滚。
+
+播放音频时，现在可以同步两个音频通道上不同音频文件的时间轴。
+
+.. _android-7-4-5:
+
+安卓
+-------
+
+发布安卓版本的几个必要的包(package)已经包含在Ren'Py中。
+这样就修复了由于Bintray关闭导致新安装的Ren'Py 7.4.4无法成功发布安卓版本。
+
+Ren'Py在安卓上显示preslash界面的方式变更。
+preslash现在使用Java bootstrap显示，在OpenGL图层顶部的一个新图层中。
+相对于Ren'Py 7.4中使用SDL的2D渲染器，这是一个新的渲染机制。
+这个改动将提高安卓设备的兼容性，并避免启动阶段的黑屏。
+
+此次改动的另一部分是，Ren'Py缩放preslpash图片的方式也改变了。Ren'Py会将presplash图像在整个可用区域内使用scale-to-fit方式进行缩放。
+
+某些安卓设备上模糊效果无法正确显示的一个问题已修复。
+
+在安卓设备上播放某些稀有视频、音频格式时出现的一个问题已修复。
+
+安卓方面的修复会要求创作者重新生成安卓项目，遇到安卓在配置时的问题
+
+.. _other-platform-7-4-5:
+
+其他平台
+---------------
+
+Web平台beta版更新。
+
+iOS 14.5.1及更高版本上的移动版Safari浏览器的一次回退，使Ren'Py无法在该平台运行。
+由于该问题是由移动版Safari引起的，没有解决方案，只会向用户显示一调提示信息让他们联系苹果公司。
+此次回退也影响了其他在iOS平台的浏览器，比如移动版Safari封装外壳的Chrome和Firefox浏览器。
+
+iOS版本生成问题修复。
+
+macOS平台对Steam的支持已修复。
+
+macOS应用程序的签名和认证已修复。
+
+.. _other-fixes-7-4-5:
+
+其他修复项
+-----------
+
+默认的level-of-detail bias设置为-0.5，可以通过配置项 :var:`config.gl_lod_bias` 修改。
+这个值在Ren'Py中对缩小有用，对放大没用。不过在放大图像时可能会产生锯齿。
+
+此外还有一些Ren'Py针对模态界面的提升。
+
 .. _renpy-7.4.4:
 
 7.4.4
@@ -22,33 +132,31 @@ Ren'Py会使用目录中的.rpyc文件。由于.rpyc文件在加载游戏时需�
 修复
 -----
 
-A crash that could occur with gestures or controllers has been fixed.
+使用手势或控制器导致程序异常退出的一个问题已修复。
 
-A crash that occurred when generating web distributions on windows has
-been fixed.
+发布web版本时windows版本程序异常退出的问题已修复。
 
-The persistent backend for achievements now supports the clearing of
-progress.
+成就系统的后端持久化数据，可以清空进度。
 
-Live2D now resets opacities with other parameters.
+Live2D可以重置不透明度等参数。
 
-Ren'Py does not change the size of a maximized window when reloading.
+加载时，Ren'Py不再改变窗口最大化尺寸。
 
-Other
+.. _other-7.4.4:
+
+其他
 -----
 
-There is a new GL property, ``blend_func`` that is supported by the
-model-based renderer. This allows the customization of the GL blend
-function, allowing Ren'Py to start to support new blend modes.
+新增了一项GL特性 ``blend_func`` ，需要启用基于模型的渲染器。
+该特性可以自己定义GL遮罩函数，使Ren'Py开始支持各种遮罩模式。
 
-Live2D now supports the additive and multiply blend modes.
+Live2D可以支持additive(叠加)和multiply(相乘或正片叠底)遮罩模式。
 
-Using default or define with the ``renpy`` namespace will now produce an
-error.
+使用default或define定义 ``renpy`` 命名空间的变量时将报错。
 
-A number of previously-undocumented methods on the `preferences object <preference-variables>`
-have been documented. These methods make it possible to get or set the current value
-of the volume and the current value of mute.
+
+之前有一些 ref:`Preference对象 <preference-variables>` 的方法在文档中遗漏，已补充在文档中。
+这些方法可以获取或设置当前音量值和静音状态。
 
 .. _renpy-7.4.3:
 
