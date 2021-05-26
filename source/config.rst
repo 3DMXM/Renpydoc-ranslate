@@ -388,6 +388,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     在有意义的图像绘制前，用于清理窗口使用的颜色。当游戏在窗口或显示器全屏模式下的高宽比与游戏定义的高宽比不匹配时，letterbox或pillarbox的边框就是用的这种颜色。
 
+.. var:: config.gl_lod_bias = -0.5
+
+    uniform变量u_lod_bias的默认值，控制Ren'Py使用的mipmap。
+
 .. var:: config.gl_test_image = "black"
 
     运行OpenGL性能测试时使用的图片名称。这个图片会在启动时显示5帧或者0.25秒，然后自动隐藏。
