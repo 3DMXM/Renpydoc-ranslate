@@ -40,7 +40,7 @@ Ren'Py在3D舞台中渲染可视组件时将计算合适的透视效果，并启
 摄像机
 ------
 
-摄像机的初始位置由参数 :renpy:`gui.init` 控制。
+摄像机的初始位置由参数 :func:`gui.init 控制。
 Ren'Py会根据 `width` 和 `fov` 计算出默认的 `z` 轴坐标。在 `fov` 默认值为75的情况下：
 
 * 当 width = 1280，z轴坐标大约为834
@@ -264,7 +264,7 @@ TransformMatrix的子类必须要实现 ``__call__`` 方法。该方法需要两
     `x, y, x`
         各轴缩放系数。
 
-.. _transform-properties:
+.. _3d-transform-properties:
 
 变换特性
 --------------------

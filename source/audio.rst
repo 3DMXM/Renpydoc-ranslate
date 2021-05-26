@@ -128,6 +128,7 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 其中channelname就是需要同步的通道名称，可以是music、sound或其他任意注册过的音频通道。
 
 该功能可用于多个循环播放音轨的同步。比如：
+
 ::
     play music_2 [ "<sync music_1>layer_2.opus", "layer_2.opus" ]
         

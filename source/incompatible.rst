@@ -89,8 +89,15 @@
 如果要恢复原来的行为模式(即回调在 ``default`` 语句之前运行)：
 ::
 
-    define config.early_start_callbacks = True
+    define config.early_start_store = True
 
+当视口或vpgrid带有滚动条时，将自动关联minimum、xminimum和yminimum变长特性到对应边的滚动条上，而不仅仅是视口自身的特性。
+
+要绕开这个不兼容点，要么使用 ``viewport_minimum``，``viewport_xminimum`` 和 ``viewport_yminimum``，要么修改配置项：
+
+::
+
+    define config.compat_viewport_minimum = True
 
 .. _incompatible-7.3.0:
 

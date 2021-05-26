@@ -498,6 +498,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
     以二进制对象形式返回一个截屏，可以作为参数传入 :func:`im.Data` 。该二进制对象将是一张png格式图片，例如：
 
     ::
+
         $ data = renpy.screenshot_to_bytes((640, 360))
         show expression im.Data(data, "screenshot.png"):
             align (0, 0)
