@@ -518,6 +518,14 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     序列帧以20Hz的频率循环播放。
 
+.. var:: config.mouse_displayable = None
+
+    若非None，该项可以是一个可视组件或者可以返回一个可视组件的可调用对象。
+    如果可调用对象可以返回None，Ren'Py会预处理这种情况。
+
+    如果该项的值指定为可视组件，鼠标光标将被隐藏，指定的可视组件会显示在其他所有画面元素之上。
+    指定的可视组件可以相应所以鼠标光标位置和绘制的事件消息，与 :func:`MouseDisplayable` 等组件类似。
+
 .. var:: config.narrator_menu = False
 
     (默认情况下screen.ryp文件会将这项设置为True。)若为True，菜单内的叙述会使用旁白(narrator)角色。否则，叙述会显示为菜单内的文字说明。
