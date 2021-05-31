@@ -33,7 +33,7 @@ transform语句必须在初始化时运行。如果在 ``init`` 语句块(block)
 
    transform left_to_right:
        xalign 0.0
-       linear 2.0 yalign 1.0
+       linear 2.0 xalign 1.0
        repeat
 
 .. _atl-image-statement:
