@@ -8,8 +8,9 @@ Ren'Py支持在后台播放音乐和音效，支持的音频文件格式如下�
 * Opus
 * Ogg Vorbis
 * MP3
-* WAV (只有未压缩的PCM编码格式)
-* WAV (只有未压缩的有符号16bit型PCM编码格式)
+* WAV (未压缩的有符号16bit型PCM编码格式)
+
+Opus和Ogg Vorbis格式可能不被某些基于WebKit的浏览器(比如Safari)，但对气态平台来说是最好的选择。
 
 Ren'Py支持任意数量的音频通道。有三种一般音频通道是默认定义好的：
 
@@ -59,6 +60,15 @@ play语句
     play audio "sfx1.opus"
     play audio "sfx2.opus"
 
+此处可以使用变量替代字符串。如果某个变量在 :ref:`音频命名空间 <audio-namespace>` 中存在，它就可以在默认的命名空间中直接引用。
+
+::
+
+        play music illurock
+
+Files placed into the audio namespace may automatically define variables that can
+be used like this.
+
 .. _stop-statement:
 
 stop语句
@@ -82,8 +92,23 @@ queue语句以关键词 ``queue`` 开头，后面跟播放使用的音频通道�
 
 ::
 
-    queue sound "woof.ogg"
+    queue sound "woof.mp3"
     queue music [ "a.ogg", "b.ogg" ]
+
+queue语句也可以使用 ``volume`` 从句。
+
+::
+
+        play sound "woof.mp3" volume 0.25
+        queue sound "woof.mp3" volume 0.5
+        queue sound "woof.mp3" volume 0.75
+        queue sound "woof.mp3" volume 1.0
+
+当多个queue语句出现，且没有给任何队列指定互动行为情况下，所有的声音文件都将加入到队列中。
+在某个互动行为发生后，第一个queue语句对应的队列将清空，除非其已经被某个play或stop语句清空过。
+
+
+此处可以使用变量替代字符串。如果某个变量在 :ref:`音频命名空间 <audio-namespace>` 中存在，它就可以在默认的命名空间中直接引用。
 
 使用这些语句的优点是，当lint工具运行时，可以检测出你程序中是否有丢失的音乐音效文件。后面的一些函数允许python接入和控制这些文件，并且会揭示一些高级(却很少用到)的特性。
 
@@ -170,7 +195,7 @@ layer_2.opus播放时将会与music_1通道的循环保持同步，即music_1从
 
     play music sunflower
 
-Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
+Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件，并根据文件名在audio命名空间中生成对应变量。
 该目录下直接支持的几种音频音频，会被去掉文件扩展名(当前包括.wav、.mp2、.mp3、.ogg和.opus)，剩下的文件名强制转为小写字母，并放入audio命名空间。
 
 需要注意，文件名会放入audio命名空间并不表示就会播放。如果需要播放一个名为“opening_song.ogg”文件，需要写：
@@ -188,25 +213,25 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
 
 .. function:: AudioData(data, filename)
 
-  该类会指向一个byte编码对象，包含音频数据。该对象可以传入音频播放系统。包含的音频数据应该是Ren'Py支持的格式(例如RIFF、WAV格式)。
+    该类会指向一个byte编码对象，包含音频数据。该对象可以传入音频播放系统。包含的音频数据应该是Ren'Py支持的格式(例如RIFF、WAV格式)。
 
-  `data`
-    包含音频文件数据的byte编码对象。
+    `data`
+        包含音频文件数据的byte编码对象。
 
-  `filename`
-    与音频数据相关的复合文件名。它可以表示音频数据格式，也可以用做报错信息。
+    `filename`
+        与音频数据相关的复合文件名。它可以表示音频数据格式，也可以用做报错信息。
 
 .. function:: renpy.play(filename, channel=None, **kwargs)
 
-  播放一个音效。如果channel为None，默认值为config.play_channel。该函数用在各种样式(style)定义，鼠标悬停声(hover_sound)和激活声(activate_sound)。
+    播放一个音效。如果channel为None，默认值为config.play_channel。该函数用在各种样式(style)定义，鼠标悬停声(hover_sound)和激活声(activate_sound)。
 
 .. function:: renpy.seen_audio(filename)
 
-  如果filename对应的音频文件在用户系统中至少被播放过一次，则返回True。
+    如果filename对应的音频文件在用户系统中至少被播放过一次，则返回True。
 
 .. function:: renpy.music.get_duration(channel='music')
 
-  返回目前 *channel* 通道上正在播放的音频或视频文件的全长。若 *channel* 通道上没有正在播放的文件，则返回0.0。
+    返回目前 *channel* 通道上正在播放的音频或视频文件的全长。若 *channel* 通道上没有正在播放的文件，则返回0.0。
 
 .. function:: renpy.music.get_loop(channel=u'music')
 
@@ -215,152 +240,152 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件。
 
 .. function:: renpy.music.get_pause(channel='music')
 
-  返回 *channel* 通道上的pause标记的值。
+    返回 *channel* 通道上的pause标记的值。
 
 .. function:: renpy.music.get_playing(channel='music')
 
-  若入参channel上有音频正在播放，返回文件名。否则返回None。
+    若入参channel上有音频正在播放，返回文件名。否则返回None。
 
 .. function:: renpy.music.get_pos(channel='music')
 
-  返回入参channel通道上正在播放的音频或者视频文件的已播放进度，单位为秒。如果 *channel* 通道上没有任何音频或视频文件正在播放，返回None。
+    返回入参channel通道上正在播放的音频或者视频文件的已播放进度，单位为秒。如果 *channel* 通道上没有任何音频或视频文件正在播放，返回None。
 
-  由于在某个通道开始播放前，总是会返回None；也可能对应的音频通道已经被静音(mute)。该函数的调用者应该能够处理空值。
+    由于在某个通道开始播放前，总是会返回None；也可能对应的音频通道已经被静音(mute)。该函数的调用者应该能够处理空值。
 
 .. function:: renpy.music.is_playing(channel='music')
 
-  若入参channel上正在播放一个音频则返回True，否则返回False。或者当声音系统没有工作的情况也返回False。
+    若入参channel上正在播放一个音频则返回True，否则返回False。或者当声音系统没有工作的情况也返回False。
 
 .. function:: renpy.music.play(filenames, channel='music', loop=None, fadeout=None, synchro_start=False, fadein=0, tight=None, if_changed=False)
 
-  该函数会立即停止入参channel上正在播放的声音，解散音频队列，并开始播放入参filenames指定的文件。
+    该函数会立即停止入参channel上正在播放的声音，解散音频队列，并开始播放入参filenames指定的文件。
 
-  `filenames`
-    该值可以是单个文件，也可以是待播放的文件列表。
+    `filenames`
+        该值可以是单个文件，也可以是待播放的文件列表。
 
-  `channel`
-    播放声音使用的通道。
+    `channel`
+        播放声音使用的通道。
 
-  `loop`
-    若该值为True，音轨会循环播放，前提是其已经是播放队列最后一个音频。
+    `loop`
+        若该值为True，音轨会循环播放，前提是其已经是播放队列最后一个音频。
 
-  `fadeout`
-    若不为空，这是一个淡出效果的持续时间，单位为秒。否则，淡出时间使用config.fade_music的值。
+    `fadeout`
+        若不为空，这是一个淡出效果的持续时间，单位为秒。否则，淡出时间使用config.fade_music的值。
 
-  `synchro_start`
-    Ren'Py会确保所有synchro_start标志为True的通道，能够在几乎同一时间一齐开始播放音频。当我们需要两个音频文件相互同步时，synchro_start就应该被设置为True。
+    `synchro_start`
+        Ren'Py会确保所有synchro_start标志为True的通道，能够在几乎同一时间一齐开始播放音频。当我们需要两个音频文件相互同步时，synchro_start就应该被设置为True。
 
-  `fadein`
-    音频开始淡入效果持续时间，单位为秒，在循环播放时仅对第一遍播放有效。
+    `fadein`
+        音频开始淡入效果持续时间，单位为秒，在循环播放时仅对第一遍播放有效。
 
-  `tight`
-    若该值为True，淡出效果将作用至同一个队列中后面的声音。若为空，当loop为True时tight也为True，否则为False。
+    `tight`
+        若该值为True，淡出效果将作用至同一个队列中后面的声音。若为空，当loop为True时tight也为True，否则为False。
 
-  `if_changed`
-    若该值为True，当前真在播放的音频不会被立刻停止/淡出，而会继续播放。
+    `if_changed`
+        若该值为True，当前真在播放的音频不会被立刻停止/淡出，而会继续播放。
 
-  该函数会清空对应通道上所有的pause标记。
+    该函数会清空对应通道上所有的pause标记。
 
 .. function:: renpy.music.queue(filenames, channel='music', loop=None, clear_queue=True, fadein=0, tight=None)
 
-  该函数将文件名为filenames的文件加入指定通道channel的播放队列。
+    该函数将文件名为filenames的文件加入指定通道channel的播放队列。
 
-  `filenames`
-    该值可以是单个文件，也可以是待播放的文件列表。
+    `filenames`
+        该值可以是单个文件，也可以是待播放的文件列表。
 
-  `channel`
-    播放声音使用的通道。
+    `channel`
+        播放声音使用的通道。
 
-  `loop`
-    若该值为True，音轨会循环播放，前提是其已经是播放队列最后一个音频。
+    `loop`
+        若该值为True，音轨会循环播放，前提是其已经是播放队列最后一个音频。
 
-  `clear_queue`
-    若为True，当前播放文件结束后，播放队列中原有文件将被清空。若为False，新增文件会被加在原有队列结尾。无论实际哪种情况，如果当前没有任何音频正在播放，新队列中的音频都会立刻被播放。
+    `clear_queue`
+        若为True，当前播放文件结束后，播放队列中原有文件将被清空。若为False，新增文件会被加在原有队列结尾。无论实际哪种情况，如果当前没有任何音频正在播放，新队列中的音频都会立刻被播放。
 
-  `fadein`
-    音频开始淡入效果持续时间，单位为秒，在循环播放时仅对第一遍播放有效。
+    `fadein`
+        音频开始淡入效果持续时间，单位为秒，在循环播放时仅对第一遍播放有效。
 
-  `tight`
-    若该值为True，淡出效果将作用至同一个队列中后面的声音。若为空，当loop为True时tight也为True，否则为False。
+    `tight`
+        若该值为True，淡出效果将作用至同一个队列中后面的声音。若为空，当loop为True时tight也为True，否则为False。
 
-  该函数会清空对应通道上所有的pause标记。
+    该函数会清空对应通道上所有的pause标记。
 
 .. function:: renpy.music.register_channel(name, mixer=None, loop=None, stop_on_mute=True, tight=False, file_prefix='', file_suffix='', buffer_queue=True, movie=False)
 
-  该函数用于注册新的名为入参name的音频通道。之后就可以使用play或queue语句在name通道上播放音频了。
+    该函数用于注册新的名为入参name的音频通道。之后就可以使用play或queue语句在name通道上播放音频了。
 
-  `mixer`
-    混合器(mixer)使用的通道名。默认情况下，Ren'Py能识别“music”、“sfx”和“voice”混合器。使用其他名称也是可行的，不过可能要修改个性化界面。
+    `mixer`
+        混合器(mixer)使用的通道名。默认情况下，Ren'Py能识别“music”、“sfx”和“voice”混合器。使用其他名称也是可行的，不过可能要修改个性化界面。
 
-  `loop`
-    若为True，在新注册通道上的音频默认循环播放。
+    `loop`
+        若为True，在新注册通道上的音频默认循环播放。
 
-  `stop_on_mute`
-    若为True，当新注册通道被静音(mute)时，通道上所有音频都会停止播放。
+    `stop_on_mute`
+        若为True，当新注册通道被静音(mute)时，通道上所有音频都会停止播放。
 
-  `tight`
-    若为True，即使有淡出效果，依然可以循环播放。若要实现音效、音乐的无缝连接，就应该把这项设为True。若使用音乐的淡出效果则设置为False。
+    `tight`
+        若为True，即使有淡出效果，依然可以循环播放。若要实现音效、音乐的无缝连接，就应该把这项设为True。若使用音乐的淡出效果则设置为False。
 
-  `file_prefix`
-    在该通道上播放的所有声音文件都会添加的文件名前缀。
+    `file_prefix`
+        在该通道上播放的所有声音文件都会添加的文件名前缀。
 
-  `file_suffix`
-    在该通道上播放的所有声音文件都会添加的文件名后缀。
+    `file_suffix`
+        在该通道上播放的所有声音文件都会添加的文件名后缀。
 
-  `buffer_queue`
-    我们是否应缓存一两个文件或者一个文件队列？如果通道是播放音频的话应该设置为True，如果播放视频的话应该设置为False。
+    `buffer_queue`
+        我们是否应缓存一两个文件或者一个文件队列？如果通道是播放音频的话应该设置为True，如果播放视频的话应该设置为False。
 
-  `movie`
-    若值为True，该通道会被设为播放视频。
+    `movie`
+        若值为True，该通道会被设为播放视频。
 
 .. function:: renpy.music.set_pan(pan, delay, channel='music')
 
-  设置该通道的声像(pan)。
+    设置该通道的声像(pan)。
 
-  `pan`
-    控制音频的音源位置的一个值，位于-1至1的闭区间内。若该值为-1，所有音频使用左声道。若该值为0，左右声道均衡发声。若该值为1，所有音频使用右声道。
+    `pan`
+        控制音频的音源位置的一个值，位于-1至1的闭区间内。若该值为-1，所有音频使用左声道。若该值为0，左右声道均衡发声。若该值为1，所有音频使用右声道。
 
-  `delay`
-    为了形成声像使用的延迟时间。
+    `delay`
+        为了形成声像使用的延迟时间。
 
-  `channel`
-    应用声像的通道名。可以是音乐或音效通道。通常使用通道7，也就是默认的音乐通道。
+    `channel`
+        应用声像的通道名。可以是音乐或音效通道。通常使用通道7，也就是默认的音乐通道。
 
 .. function:: renpy.music.set_pause(value, channel='music')
 
-  将入参value赋值给通道名为channel的暂停标识。若value为True，通道会被暂停，否则正常播放。
+    将入参value赋值给通道名为channel的暂停标识。若value为True，通道会被暂停，否则正常播放。
 
 .. function:: renpy.music.set_queue_empty_callback(callback, channel='music')
 
-  该函数设置了一个callback函数，当播放队列为空时，将会调用callback函数。播放队列首次变空时callback函数将被调用，且每次会导致播放队列清空的互动行为都会至少调用一次。
+    该函数设置了一个callback函数，当播放队列为空时，将会调用callback函数。播放队列首次变空时callback函数将被调用，且每次会导致播放队列清空的互动行为都会至少调用一次。
 
-  callback函数被调用时不带任何参数。其会使用合适的参数调用renpy.music.queue，将声音组件成一个队列。请注意，某个声音在播放时callback就可能会被调用，因为当时待播放队列已经空了。
+    callback函数被调用时不带任何参数。其会使用合适的参数调用renpy.music.queue，将声音组件成一个队列。请注意，某个声音在播放时callback就可能会被调用，因为当时待播放队列已经空了。
 
 .. function:: renpy.music.set_volume(volume, delay=0, channel='music')
 
-  设置通道的音量volume。对于控制多个通道的混合器(mixer)，该值表示混合器的一个音量分量。
-  Sets the volume of this channel, as a fraction of the volume of the mixer controlling the channel.
+    设置通道的音量volume。对于控制多个通道的混合器(mixer)，该值表示混合器的一个音量分量。
+    Sets the volume of this channel, as a fraction of the volume of the mixer controlling the channel.
 
-  `volume`
-    该值位于0.0至1.0的闭合区间。对于控制多个通道的混合器(mixer)，该值表示混合器的一个音量分量。
+    `volume`
+        该值位于0.0至1.0的闭合区间。对于控制多个通道的混合器(mixer)，该值表示混合器的一个音量分量。
 
-  `delay`
-    该值代表一个时间量，用于新旧音量值切换/平滑过渡时的时延，单位为秒。该值会保存在存档中，并接受回滚操作。
+    `delay`
+        该值代表一个时间量，用于新旧音量值切换/平滑过渡时的时延，单位为秒。该值会保存在存档中，并接受回滚操作。
 
-  `channel`
-    需要设置的通道名。
+    `channel`
+        需要设置的通道名。
 
 .. function:: renpy.music.stop(channel='music', fadeout=None)
 
-  该函数停止正在播放的音乐，并解散播放队列。如果入参fadeout为None，使用config.fade_music配置值作为淡出效果时间，否则就是用fadeout入参值。
+    该函数停止正在播放的音乐，并解散播放队列。如果入参fadeout为None，使用config.fade_music配置值作为淡出效果时间，否则就是用fadeout入参值。
 
-  该函数将最后组建的待播放文件列表设置为None。
+    该函数将最后组建的待播放文件列表设置为None。
 
-  `channel`
-    需要停止播放的通道名。
+    `channel`
+        需要停止播放的通道名。
 
-  `fadeout`
-    若不为None，包含一个淡出效果时间，单位为秒。否则淡出时间取决于config.fade_music。
+    `fadeout`
+        若不为None，包含一个淡出效果时间，单位为秒。否则淡出时间取决于config.fade_music。
 
 .. _sound-functions:
 

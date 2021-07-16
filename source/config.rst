@@ -194,10 +194,12 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     若为True，Ren'Py不强制要求grids填充满。
 
-.. var:: config.pause_after_rollback = False
+.. var:: config.audio_filename_callback = None
 
-    若为False，即默认值，回滚将跳过所有暂停，只在某些对话和菜单选项才会停止。
-    若为True，Ren'Py在回滚时，所有用户可能遇到的没有设置时间的暂停都会停止。
+    若非None，该项是一个函数。入参是一个音频文件名，可能会返回另一个音频文件名，用作稍后连续播放。
+
+    该项可用在音频文件格式发生改变的场景，但最好不要用于更改游戏脚本。
+
 
 .. var:: config.auto_channels = { "audio" : ( "sfx", "", ""  ) }
 
@@ -512,7 +514,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     字典中的每个键对应的值都是一个(*image, xoffset, yoffset*)形式元组的列表，按帧排序。
 
     `image`
-        鼠标指针图像。
+        鼠标指针图像。图像的最大尺寸取决于用户的硬件配置。32×32的图像可以用在任何地方，64×64在大多数硬件上可以运行。更大的图像可能就无法工作了。
 
     `xoffset`
         从指针左端开始算的热点(hotspot)偏移量，单位是像素。
@@ -556,6 +558,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.overlay_screens = [ ... ]
 
     当覆盖(overlay)启用时，显示的界面列表；当覆盖(overlay)被阻止时，隐藏界面列表。(界面在screen图层上显示，而不是overlay图层。)
+
+.. var:: config.pause_after_rollback = False
+
+    若为False，即默认值，回滚将跳过所有暂停，只在某些对话和菜单选项才会停止。
+    若为True，Ren'Py在回滚时，所有用户可能遇到的没有设置时间的暂停都会停止。
 
 .. var:: config.preload_fonts = [ ]
 
@@ -732,7 +739,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.allow_skipping = True
 
-    如果设置为False，用户就不能跳过游戏的文本内容。
+    如果设置为False，用户就不能跳过游戏的文本内容。 参见 :var:`_skipping` 。
+
+.. var:: config.allow_screensaver = True
+
+    若为True，游戏运行时可以激活截屏工具。若为False，禁用截屏工具。
 
 .. var:: config.archives = [ ]
 
@@ -763,6 +774,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.autosave_on_quit = True
 
     若为True，Ren'Py会在用户做出以下操作时尝试自动存档：退出、返回主菜单、游戏中读取其他存档。(存档时，当用户被提示确认就会执行自动存档。)
+
+.. var:: config.autosave_on_input = True
+
+    若为True，Ren'Py在用户输入文本时自动保存(调用 :func:`renpy.input` 时)。
 
 .. var:: config.character_callback = None
 
@@ -1056,6 +1071,8 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.screenshot_pattern = "screenshot%04d.png"
 
     用作创建截屏文件的正则表达式。这个(使用Python的格式规则)表达式应用自然数列生成一个文件名序列。生成的文件名是绝对路径，或与config.renpy_base关联。首个当前不存在的文件名会用作截屏的文件名。
+
+    如果表达式中的目录不存在，则会自动创建目录。详见 :var:`_screenshot_pattern` 。
 
 .. var:: config.script_version = None
 

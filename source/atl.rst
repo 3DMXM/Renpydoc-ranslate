@@ -465,6 +465,46 @@ function语句
             pause 1.0
             repeat
 
+.. _animation-statement:
+
+animation语句
+-------------------
+
+使用 ``animation`` 语句时，必须将其放在整个ATL语句块的开头，告诉Ren'Py该语句将使用动画时间轴。
+
+.. productionlist:: atl
+    atl_animation : "animation"
+
+与普通的现实时间轴相比，在带有相同标签(tag)的图像(image)或界面(screen)开始显示的那一刻，animation时间轴就将进行计时并被所有相同标签(tag)的图像和界面共享。
+animation时间轴常用于动画过程中的图像替换。例如：
+
+::
+
+    image eileen happy moving:
+        animation
+        "eileen happy"
+        xalign 0.0
+        linear 5.0 xalign 1.0
+        repeat
+
+    image eileen vhappy moving:
+        animation
+        "eileen vhappy"
+        xalign 0.0
+        linear 5.0 xalign 1.0
+        repeat
+
+    label start:
+
+        show eileen happy moving
+        pause
+        show eileen vhappy moving
+        pause
+
+这个例子中，艾琳的立绘表情将在第一个 pause 语句处改变，但她的位置不会改变。
+因为两个动画使用相同的animation时间轴，避免了更换立绘后出现图像位置不连续。
+不使用 animation 语句的话，用户通过点击鼠标或屏幕后，角色的立绘位置将发生一次重置。
+
 .. _warpers:
 
 warpers

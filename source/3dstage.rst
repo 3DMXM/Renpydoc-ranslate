@@ -65,11 +65,11 @@ Ren'Py会自动给摄像机坐标设置一个坐标偏移量(`width` / 2, `heigh
 使用3D舞台
 ------------------
 
-使用3D舞台时，首先需要使用 ``show layer`` 语句明确对应的图层。常用方法是：
+使用3D舞台时，首先需要使用 ``camera`` 语句指定图层。常用方法是：
 
 ::
 
-    show layer master:
+    camera:
         perspective True
 
 创作者可能还会想要设置一个默认的摄像机位置。详见下面的内容。
@@ -141,20 +141,18 @@ Ren'Py提供了一个简单方式修复这个问题—— :tpref:`zzoom` 。
 可能出导致奇怪的问题。因为Ren'Py会将图像放在一个三维的有体积的矩形中(就像一个方块，但各边长度不一致)，并对图像应用透视效果，
 最终导致部分图像移出屏幕范围。
 
-摄像机也可以移动，使用 ``show layer`` 语句。例如：
+摄像机也可以移动，使用 ``camera`` 语句。例如：
 
 ::
 
-    show layer master:
+    camera:
         perspective True
         xpos 0
         linear 3.0 xpos 500
 
 需要移动摄像机时，最好使用比整个窗口还要大的背景图片。
-从Ren'Py 7.4.5版本开始，各个 ``show layer`` 语句之间不会保持各变换特性的值，
-所以每次使用 ``show layer`` 语句后，都要重新设置各特性值。
 
-如果在某个sprite上应用了zpos值但没有任何效果，原因可能是在 ``show layer`` 语句后面忘记添加 ``perspective`` 从句了。
+如果在某个sprite上应用了zpos值但没有任何效果，原因可能是在 ``camera`` 语句后面忘记添加 ``perspective`` 从句了。
 
 .. _depth:
 
@@ -169,7 +167,7 @@ If your game shows images out of order like this, you can tell the GPU :tpref:`g
 
 ::
 
-    show layer master:
+    camera:
         perspective True
         gl_depth True
 

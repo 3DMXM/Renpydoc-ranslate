@@ -172,7 +172,7 @@ show语句样例如下：::
     # 在用户自定义的图层上显示图像
     show moon onlayer user_layer
 
-**Show 表达式。**
+**Show expression**
 show语句的一个变种，使用关键词 ``expression`` 代替图像名，后面跟一个简单表达式。表达式必须能解析为一个可视组件，而该可视组件会在图层上显示。若要隐藏该可视组件，必须使用as语句指定一个图像标签(tag)。
 
 举例::
@@ -180,19 +180,7 @@ show语句的一个变种，使用关键词 ``expression`` 代替图像名，后
     show expression "moon.png" as moon
 
 **Show Layer.**
-show layer语句允许我们将某个变换(transform)或者ATL变换(transform)应用于整个图层(layer)，比如“master”图层上。语法如下：::
-
-    show layer master at flip
-
-或：::
-
-    show layer master:
-        xalign 0.5 yalign 0.5 rotate 180
-
-若要停用图层上的格式，则使用：::
-
-    show layer master
-
+``show layer`` 语句跟后面将讨论的 camera 语句相同。
 
 .. _scene-statement:
 
@@ -309,6 +297,48 @@ with分句等效于在原有语句前面先加了一行 ``with None`` 语句，�
     with None
     show lucy mad at right
     with dissolve
+
+.. _camera-and-show-layer-statements:
+
+camera和show layer语句
+================================
+
+``camera`` 语句允许我们将某个变换(transform)或者ATL变换(transform)应用于整个图层(layer)，比如“master”图层上。语法如下：
+
+::
+
+    camera at flip
+
+或：
+
+::
+
+    camera:
+        xalign 0.5 yalign 0.5 rotate 180
+
+若要停用图层上的格式，则使用：::
+
+    camera
+
+camera语句可以选择指定图层名称，图层名放在 ``camera`` 和 ``at`` 或 ``:``之间：
+
+::
+
+    camera mylayer at flip
+
+``show layer`` 语句相当于一个旧版本的 ``camera`` 语句，有一些区别，也依然可以使用。
+
+::
+
+    show layer master:
+        blur 10
+
+两者的区别是：
+
+* 使用 ``show layer`` 应用的变换会在下一个 ``scene`` 语句后清除，而 ``camera`` 语句则需要显式清除。
+
+* ``show layer`` 语句需要指定图层名称，而 ``camera`` 默认应用到master图层。
+
 
 .. _hide-and-show-window:
 

@@ -177,7 +177,8 @@ uniform变量开头必须为 u\_，attribute变量开头必须为 a\_，varying�
             uniform vec4 u_gradient_right;
             uniform vec2 u_model_size;
             varying float v_gradient_done;
-        """, vertex_300="""
+            attribute vec4 a_position;
+            """, vertex_300="""
             v_gradient_done = a_position.x / u_model_size.x;
         """, fragment_300="""
             gl_FragColor *= mix(u_gradient_left, u_gradient_right, v_gradient_done);
@@ -382,6 +383,30 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
 
         init python:
             from renpy.uguu import GL_CLAMP_TO_EDGE, GL_MIRRORED_REPEAT, GL_REPEAT
+
+.. _model-displayable:
+
+模型可视组件
+-----------------
+
+The Model displayable acts as a factory to created models for use with the
+model-based renderer.
+
+.. include:: model_displayable
+
+Model Displayable Examples
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Model displayable can be used in conjunction with an ATL transform and
+a built-in shader to create the Dissolve transform::
+
+    transform dt(delay=1.0, new_widget=None, old_widget=None):
+        delay delay
+        Model().texture(old_widget).child(new_widget)
+        shader [ 'renpy.dissolve' ]
+
+        u_renpy_dissolve 0.0
+        linear delay u_renpy_dissolve 1.0
 
 .. _default-shader-parts:
 
