@@ -389,16 +389,85 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
 模型可视组件
 -----------------
 
-The Model displayable acts as a factory to created models for use with the
-model-based renderer.
+模型可视组件(model displayable)就像是使用基于模型渲染器创建并使用模型的一个工厂。
 
-.. include:: model_displayable
+.. class:: Model(size=None)
 
-Model Displayable Examples
+    该类是一种可视组件，让Ren'Py使用基于模型渲染器创建一个2D或3D模型，并根据指定渲染器绘制模型，
+    或放入指定的Transform(或Displayable)对象中。
+
+    `size`
+
+        若非None，该参数应是一个分辨便是宽度和高度的二元元组，用于模型的尺寸。
+        若没有指定，模型的尺寸将与其占用的区域一致。合适的参数也将影响模型使用到纹理的大小。
+
+    如果没有调用 mesh 方法，且存在至少一个纹理，Ren'Py将根据加载纹理时的方式设置网格的 a_postion 和 a_tex_coord 值。
+    否则，将只设置网格的a_postion。
+    All methods on this calls return the displayable the method is called
+    on, making it possible to chain calls.(译者注：看不懂这句写的是什么鸡掰意思……)
+
+    .. method:: grid_mesh(width, height)
+
+        生成一个width×height的空间点网格，将所有点在水平和垂直方向上距离最近的其他点连接生成矩形，然后将矩形沿对角线切割生成三角形网格。
+
+        `width`, `height`
+            水平和垂直方向上点的数量，都必须是不小于2的整数。
+
+    .. method:: texture(displayable, focus=False, main=False, fit=False)
+
+        通过指定可视组件，为该模型添加纹理。
+        第一张纹理会成为 ``tex0``，第二张纹理则是 ``tex1`` ，以此类推。
+
+        `focus`
+            若为True，获得焦点事件将传给可视组件。
+            默认作为入参的可视组件坐标以1:1映射到纹理。
+
+        `main`
+            若为True，作为入参的可视组件将作为模型的主要子组件，可以被可视组件检测器探知。
+
+        `fit`
+            若为True，根据可视组件的尺寸创建模型。
+            只有在单一纹理的情况下才可以设置为True。
+
+    .. method:: child(displayable, fit=False)
+
+        该方法与texture方法相同，除了 `focus` 和 `main` 参数已被设置为True。
+
+    .. method:: shader(shader)
+
+        为模型添加着色器(shader)。
+
+        `shader`
+            表示着色器名称的字符串，并将应用到模型上。
+
+    .. method:: uniform(name, value)
+
+        设置着色器中用到的各uniform型变量的值。
+
+        `name`
+            一个字符串，表示uniform型变量的名称，前缀是“u_”。
+
+        `value`
+            uniform型变量的值。可以是浮点型数值，2元、3元、4元数组，或者矩阵。
+
+    .. method:: properties(name, value)
+
+        设置GL特性(property)的值。
+
+        `name`
+            一个字符串，表示GL特性的名称，前缀是“gl_”。
+
+        `value`
+            GL特性的值。
+
+.. _model-displayable-examples:
+
+模型可视组件样例
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The Model displayable can be used in conjunction with an ATL transform and
-a built-in shader to create the Dissolve transform::
+模型可视组件可用在ATL变换中间，并使用内置着色器(shader)创建溶解(dissolve)变换效果。
+
+::
 
     transform dt(delay=1.0, new_widget=None, old_widget=None):
         delay delay

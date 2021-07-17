@@ -4,62 +4,59 @@
 皮肤
 =====
 
-Ren'Py支持启动器换皮——修改启动器外观。实现这点需要完成下列步骤：
+Ren'Py支持启动器更换皮肤——修改启动器外观。实现这点需要完成下列步骤：
 
-皮肤需要指定使用的Ren'Py，不前向或后向兼容。
+皮肤只对指定版本的Ren'Py生效，不前向或后向兼容。
 
 1. 进入“设置”界面，选择打开启动器工程。(译者注：当前最新版本中无法从启动器工程创建脚本文件，请直接进入Ren'Py安装目录下的launcher/game。)
 
-2. 创建skin.rpy脚本文件。
+2. 创建或修改skin.rpy脚本文件。将你使用的图片文件放入启动器的game目录中。推荐的背景图片尺寸为800×600像素。
 
-3. 将下列内容复制到skin.rpy里：
+3. 在“设置”中选择自定义主题。
+
+错误的skin.rpy文件内容可能ui导致启动器无法正常运行。可以将下列内容粘贴到skin.rpy文件中尝试修复：
 
 ::
 
-    init python:
 
+    init -2 python:
         # 非交互文本颜色。
-        TEXT = "#545454"
+        custom_text = "#545454"
 
         # 各种状态的按钮颜色。
-        IDLE = "#42637b"
-        HOVER = "#d86b45"
-        DISABLED = "#808080"
+        custom_idle = "#42637b"
+        custom_hover = "#d86b45"
+        custom_disable = "#808080"
 
         # 反向文本按钮颜色（已选中选项）。
-        REVERSE_IDLE = "#78a5c5"
-        REVERSE_HOVER = "#d86b45"
-        REVERSE_TEXT = "#ffffff"
+        custom_reverse_idle = "#78a5c5"
+        reverse_hover = "#d86b45"
+        custom_reverse_text = "#ffffff"
 
         # 滑块颜色。
-        SCROLLBAR_IDLE = "#dfdfdf"
-        SCROLLBAR_HOVER = "#d86b45"
+        custom_scrollbar_idle = "#dfdfdf"
+        custom_scrollbar_hover = "#d86b45"
+        # 用作分割符图像文件。
+        custom_pattern = "images/pattern.png"
 
-        # 用来做分割的图像文件。
-        PATTERN = "images/pattern.png"
+        # 用作背景的可视组件
+        custom_background = "images/background.png"
 
-        # 一个用来做所有背景的可视组件。
-        BACKGROUND = "images/background.png"
+        # 用作window可视组件的背景。
+        # window组件包含命令，外观选项和导航信息。
+        custom_window = "#ffffff80" # Frame("window.png", 0, 0, tile=True)
 
-        # 一个用来做窗口背景的可视组件。
-        # 包含命令，外观选项和导航信息。
-        WINDOW = Frame("images/window.png", 0, 0, tile=True)
+        # 用作项目列表背景。
+        custom_projects_window = Null()
 
-        # 一个用来做工程列表背景的可视组件。
-        PROJECTS_WINDOW = Null()
-
-        # 一个用来做消息框背景的可视组件。
-        INFO_WINDOW = "#f9f9f9"
+        # 用作各种信息框的背景。
+        custom_info_window = "#f9f9f9c0"
 
         # 消息框的标题颜色。
-        ERROR_COLOR = "#d15353"
-        INFO_COLOR = "#545454"
-        INTERACTION_COLOR = "#d19753"
-        QUESTION_COLOR = "#d19753"
+        custom_error_color = "#d15353"
+        custom_info_color = "#545454"
+        custom_interaction_color = "#d19753"
+        custom_question_color = "#d19753"
 
         # 输入文本的颜色。
-        INPUT_COLOR = "#d86b45"
-
-4) 根据需要修改skin.py的内容就能给启动器换皮了。还可以将你自己的图片文件放入launcher的game目录中。
-
-如果skin.rpy文件有问题将不能正常运行启动器(launcher)。修复这种问题时，需要从launcher的game目录中移除skin.rpy和skin.rpyc文件，运行启动器。
+        custom_imput_color = "#d86b45"

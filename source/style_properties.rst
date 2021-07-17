@@ -99,7 +99,7 @@
         整数被解释为像素数量，从可用区域最左边或顶边算起。
     float (比如 0.0, 0.5, or 1.0)
         浮点数被解释为可用区域的一个比例。例如，0.5表示区域类某条表的中点，1.0表示最右边或者底边。
-    absolute (比如 renpy.absolute(100.25))
+    absolute (比如 absolute(100.25))
         当使用亚像素精度(subpixel-precise)渲染时，``absolute`` 数被解释为像素数量，从可用区域最左边或顶边算起。
 
 `displayable`
@@ -357,7 +357,7 @@
 
 .. style-property:: caret displayable or None
 
-    若非None，其应是一个可视组件。输入部件会使用这个可视组件显示在文本的末尾。若为空，1像素宽的行会用作一个占位符。
+    若非None，其应是一个可视组件。输入部件会使用这个可视组件显示在文本的末尾。若为空，会有一条1像素宽的线在行尾闪烁。
 
 .. style-property:: color color
 

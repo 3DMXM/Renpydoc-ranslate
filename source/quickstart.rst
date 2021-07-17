@@ -332,17 +332,17 @@ image语句也用于比较复杂的任务，但我们会在 `其他地方 <displ
 举例::
 
     ###
-        play music "illurock.ogg"
+        play music "audio/illurock.ogg"
 
 更换音乐时，我们可以使用一个fadeout and fadein分句，fadeout and fadein分句用于旧音乐的淡出和新音乐的淡入。 ::
 
     ###
-        play music "illurock.ogg" fadeout 1.0 fadein 1.0
+        play music "audio/illurock.ogg" fadeout 1.0 fadein 1.0
 
 queue music语句表示，在当前音乐播放完毕后播放的音频文件。 ::
 
     ###
-        queue music "next_track.opus"
+        queue music "audio/next_track.opus"
 
 乐播放可以使用stop music语句停止，这个语句也可选用fadeout分句。 ::
 
@@ -352,7 +352,17 @@ queue music语句表示，在当前音乐播放完毕后播放的音频文件。
 音效可以使用play sound语句来播放。与音乐不同，音效不会循环播放。 ::
 
     ###
-        play sound "effect.ogg"
+        play sound "audio/effect.ogg"
+
+在“game/audio”目录中的音频文件，如果其文件名去掉文件扩展名后符合Python变量的命名规则(以字母开头且仅包含英文字母、数字或下划线)，
+则可以直接不带引号，直接使用文件名播放音频文件。
+
+例如，存在一个音频文件“game/audio/illurock.ogg”。我们可以直接在脚本中写：
+
+::
+
+    ###
+        play music illurock
 
 .. _pause-statement:
 

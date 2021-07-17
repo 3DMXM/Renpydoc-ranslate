@@ -59,6 +59,15 @@ Ren'Py使用“字段对齐”的形式进行分析，最终使用各字段中�
 持久化函数
 --------------------
 
+.. function:: persistent._clear(progress=False)
+
+    重置持久化数据。
+
+    `progress`
+        若为True，同时重置Ren'Py内部的进度数据。
+
+    请注意，该函数将删除所有持久化数据，并默认在Ren'Py重启之前不再响应对该函数的调用。
+
 .. function:: renpy.register_persistent(field, func)
 
     注册一个函数，用于合并磁盘上的持久化字段(field)值和当前持久化对象的值。
