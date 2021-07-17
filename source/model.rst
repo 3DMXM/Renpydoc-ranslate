@@ -445,7 +445,7 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
         设置着色器中用到的各uniform型变量的值。
 
         `name`
-            一个字符串，表示uniform型变量的名称，前缀是“u_”。
+            一个字符串，表示uniform型变量的名称，前缀是“u\_”。
 
         `value`
             uniform型变量的值。可以是浮点型数值，2元、3元、4元数组，或者矩阵。
@@ -455,7 +455,7 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
         设置GL特性(property)的值。
 
         `name`
-            一个字符串，表示GL特性的名称，前缀是“gl_”。
+            一个字符串，表示GL特性的名称，前缀是“gl\_”。
 
         `value`
             GL特性的值。
@@ -483,7 +483,7 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
 ---------------
 
 renpy.geometry (priority 100)
-""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 变量列表：
 ::
@@ -497,7 +497,7 @@ renpy.geometry (priority 100)
     gl_Position = u_transform * a_position;
 
 renpy.blur (priority 200)
-""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 变量列表：
 ::
@@ -527,7 +527,7 @@ renpy.blur (priority 200)
     gl_FragColor /= renpy_blur_norm;
 
 renpy.dissolve (priority 200)
-""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 变量列表：
 ::
@@ -553,7 +553,7 @@ renpy.dissolve (priority 200)
     gl_FragColor = mix(color0, color1, u_renpy_dissolve);
 
 renpy.imagedissolve (priority 200)
-"""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 变量列表：
 ::
@@ -583,7 +583,7 @@ renpy.imagedissolve (priority 200)
     gl_FragColor = mix(color1, color2, a);
 
 renpy.solid (priority 200)
-"""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 变量列表：
 ::
@@ -596,7 +596,7 @@ renpy.solid (priority 200)
     gl_FragColor = u_renpy_solid_color;
 
 renpy.texture (priority 200)
-"""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 变量列表：
 ::
@@ -617,7 +617,7 @@ renpy.texture (priority 200)
     gl_FragColor = texture2D(tex0, v_tex_coord.xy, u_lod_bias);
 
 renpy.matrixcolor (priority 400)
-"""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 变量列表：
 ::
@@ -630,7 +630,7 @@ renpy.matrixcolor (priority 400)
     gl_FragColor = u_renpy_matrixcolor * gl_FragColor;
 
 renpy.alpha (priority 500)
-"""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 变量列表：
 ::

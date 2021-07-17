@@ -316,7 +316,9 @@ camera和show layer语句
     camera:
         xalign 0.5 yalign 0.5 rotate 180
 
-若要停用图层上的格式，则使用：::
+若要停用图层上的格式，则使用：
+
+::
 
     camera
 
