@@ -322,7 +322,7 @@ camera和show layer语句
 
     camera
 
-camera语句可以选择指定图层名称，图层名放在 ``camera`` 和 ``at`` 或 ``:``之间：
+camera语句可以选择指定图层名称，图层名放在 ``camera`` 和 ``at`` 或 ``:`` 之间：
 
 ::
 

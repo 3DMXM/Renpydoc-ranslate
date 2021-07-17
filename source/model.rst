@@ -178,7 +178,7 @@ uniform变量开头必须为 u\_，attribute变量开头必须为 a\_，varying�
             uniform vec2 u_model_size;
             varying float v_gradient_done;
             attribute vec4 a_position;
-            """, vertex_300="""
+        """, vertex_300="""
             v_gradient_done = a_position.x / u_model_size.x;
         """, fragment_300="""
             gl_FragColor *= mix(u_gradient_left, u_gradient_right, v_gradient_done);
@@ -397,7 +397,6 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
     或放入指定的Transform(或Displayable)对象中。
 
     `size`
-
         若非None，该参数应是一个分辨便是宽度和高度的二元元组，用于模型的尺寸。
         若没有指定，模型的尺寸将与其占用的区域一致。合适的参数也将影响模型使用到纹理的大小。
 

@@ -155,11 +155,8 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 该功能可用于多个循环播放音轨的同步。比如：
 
 ::
-    play music_2 [ "<sync music_1>layer_2.opus", "layer_2.opus" ]
-        
-This can be used to sync multi-layered looping tracks together. For example::
 
-        play music_2 [ "<sync music_1>layer_2.opus", "layer_2.opus" ]
+    play music_2 [ "<sync music_1>layer_2.opus", "layer_2.opus" ]
 
 layer_2.opus播放时将会与music_1通道的循环保持同步，即music_1从头开始播放时也跟随从头播放，而不再会播放完之后再循环。
 
