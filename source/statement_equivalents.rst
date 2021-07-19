@@ -152,7 +152,7 @@ image、scene、show和hide语句都一个等效的Python函数。
       $ renpy.scene()
       $ renpy.show("bg beach")
 
-.. function:: renpy.show(name, at_list=, []layer='master', what=None, zorder=0, tag=None, behind=[])
+.. function:: renpy.show(name, at_list=[], layer='master', what=None, zorder=0, tag=None, behind=[])
 
   在某个图层上显示某个图像。这是show语句的等效Python语句。
 
