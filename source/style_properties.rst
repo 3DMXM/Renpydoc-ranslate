@@ -540,7 +540,7 @@
 
 .. style-property:: background displayable or None
 
-    用作窗口背景的可视组件。通常是一个:func:`Frame`，能根据窗口大小拉伸背景的尺寸。
+    用作窗口背景的可视组件。通常是一个 :func:`Frame`，能根据窗口大小拉伸背景的尺寸。
 
     若为None，不绘制背景。但其他特性函数会假设背景存在。
 
