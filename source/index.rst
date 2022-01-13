@@ -1,4 +1,4 @@
-﻿.. _welcome-to-ren-py-s-documentation:
+.. _welcome-to-ren-py-s-documentation:
 
 欢迎来到Ren'Py的参考文档
 ==================================================
@@ -113,7 +113,6 @@ Ren'Py语言
    history
    multiple
    splashscreen_presplash
-   live2d
 
 .. _python-and-ren-py:
 
