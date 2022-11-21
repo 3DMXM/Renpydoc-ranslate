@@ -807,16 +807,16 @@ transform存在以下特性(property)：
 
     若该值非None，给定了剪裁框的右下角坐标。crop优先级高于该项。
 
-.. transform-property:: size
+.. transform-property:: xysize
 
-    :type: None 或 (int, int)
+    :type: None 或 (position, position)
     :default: None
 
     若该值非None，将可视组件伸缩至给定的尺寸。
 
 .. transform-property:: xsize
 
-    :type: None 或 int
+    :type: None 或 position
     :default: None
 
     若该值非None，可是组件会按照给定的宽度缩放。
@@ -825,7 +825,7 @@ transform存在以下特性(property)：
 
 .. transform-property:: ysize
 
-    :type: None 或 int
+    :type: None 或 position
     :default: None
 
     若该值非None，可是组件会按照给定的高度缩放。
@@ -856,6 +856,13 @@ transform存在以下特性(property)：
          - 类似 ``contain``，但不会增加可视组件的尺寸。
        * - ``scale-up``
          - 类似 ``cover``，但不会增加可视组件的尺寸。
+
+.. transform-property:: size
+
+    :type: None 或 (int, int)
+    :default: None
+
+    若该值非None，将可视组件伸缩至给定的尺寸。
 
 .. transform-property:: maxsize
 

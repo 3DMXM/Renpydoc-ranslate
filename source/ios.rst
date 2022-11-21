@@ -119,3 +119,8 @@ Xcode的项目名会自动选用启动器中显示的项目名称。项目可以
 
 ``ios-icon.png``
     若文件存在，会自动将图像缩放为合适的尺寸用作iOS版本图标。
+
+Pyobjus
+=======
+
+在iOS和macOS平台，可以通过 `Pyobjus <https://pyobjus.readthedocs.io/en/latest/>`_ 调用系统库。

@@ -225,6 +225,85 @@ android-icon_background.png
 android-presplash.jpg
     当app加载时使用的图像。这个图片应该使用单色的边界(border)。边界会扩展并填充整个屏幕的剩余空间。
 
+android-downloading.jpg
+    Google Play Asset下载资源时显示的图片。该图片应该有1像素的单色边缘。
+    显示该图片时，图片将保持宽高比缩放到近可能大的程度，如果无法覆盖整个显示屏幕则用边缘的单色填充。。
+
+    距离底部、左侧和右侧各20像素的位置将显示一个20像素高的进度条，展示下载进度。
+
+.. _pyjnius:
+
+Pyjnius
+=======
+
+运行在安卓设备上时，可以使用 `Pyjnius <https://pyjnius.readthedocs.io/en/stable/>`_ 库。
+这个库允许高阶开发者调用安卓的库。
+
+It may be necessary to get the main activity. It can be found in the mActivity
+field in the org.renpy.android.PythonSDLActivity class. For example
+使用时首先需要启用一个main的实例。方法可以在 org.renpy.android.PythonSDLActivity 类的mActivity字段中找到。
+例如：
+
+::
+
+    init python:
+        if renpy.android:
+            import jinus
+            mActivity = jnius.autoclass("org.renpy.android.PythonSDLActivity")
+        else:
+            mActivity = None
+
+
+.. _android-permissions:
+
+权限许可
+===========
+
+Ren'Py自身不要求额外的运行权限，但如果创作者的游戏要使用Pyjnius调用安卓，就需要申请权限许可。
+Ren'Py包含一个变量和两个函数，用于与安卓选线系统交互。
+
+.. var:: build.android_permissions = [ ]
+
+    这是一个字符串列表，其中每个字符串都指定了某项安卓许可权限。例如，“android.permission.WRITE_EXTERNAL_STORAGE”。
+    这样直接声明了应用程序需要那些权限。接着就需要使用 renpy.check_permission 和 renpy.request_permission 行数申请具体的权限。
+
+.. function:: check_permission(permission)
+
+    检查安卓是否已授予该应用程序某个权限。
+
+    `permission`
+        表示具体权限许可名称的字符串，例如“android.permission.WRITE_EXTERNAL_STORAGE”。
+
+    如果已授权则返回True，如果未授权或运行平台并非安卓则返回False.
+
+.. function:: request_permission(permission)
+
+    向安卓申请向该应用程序授予权限。用户可能会受到弹窗提示授权。
+
+    `permission`
+        表示具体权限许可名称的字符串，例如“android.permission.WRITE_EXTERNAL_STORAGE”。
+
+    如果已授权则返回True，如果未授权或运行平台并非安卓则返回False.
+
+.. _transferring-files-to-and-from-android:
+
+与安卓设备互传文件
+===================
+
+When your Android device is connected to your computer over USB, and configured
+to allow access to file storage, there are some directories that files can be
+placed in. (This assumes that your game's package is org.renpy.mygame, but it will
+almost certainly be different.)
+使用USB线将你的安卓设备与电脑接连后，将连接方式设置为文件存储，可以看到各目录中保存着的文件。
+(这里假设你的游戏目录为 org.renpy.mygame ，当然实际目录名是各种各样的)
+
+Android/data/org.renpy.mygame/files/saves
+    该目录保存游戏存档文件。
+
+Android/data/org.renpy.mygame/files/game
+    该目录不一定存在。若不存在你可以主动创建一个。
+    在该目录内的文件可能由安卓安装包中各文件加载。各类补丁可以放置在这个目录中。
+
 .. _expansion-apk:
 
 Google Play扩展APK

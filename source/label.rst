@@ -182,6 +182,14 @@ return语句会在调用栈中弹出最顶层的那条语句，并将主控流�
 
   调用该函数会引起主控流程离开当前上下文(context)，并转换到父上下文(context)中指定的脚本标签(label)处。
 
+.. function:: renpy.mark_label_seen(label)
+
+  在当前用户系统内，将名为label的标签语句设置为已执行过。
+
+.. function:: renpy.mark_label_unseen(label)
+
+  在当前用户系统内，将名为label的标签语句设置为未执行过。
+
 .. function:: renpy.seen_label(label)
 
   在当前用户系统内，名为label的标签语句至少被执行了一次，则返回True，否则返回False。该概述常用于解锁场景画廊(gallery)等。
