@@ -100,7 +100,7 @@ at后面的某个变换(transform)或者变换列表也会让可视组件产生�
 
 group和attribute语句在某个层叠式图像中可以出现多次，所有指定属性(attribute)的图像都会显示。
 
-``if`` 语句是个例外，所有Python表达死都会在初始化阶段进行计算。
+``if`` 语句是个例外，所有Python表达式都会在初始化阶段进行计算。
 
 .. _using-an-layered-image:
 
