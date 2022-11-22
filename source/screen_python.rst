@@ -105,6 +105,13 @@ Ren'Py支持使用Python定义界面(screen)，与使用Ren'Py界面语言能实
 
   Ren'Py正在预加载界面的情况下返回True。
 
+.. function:: renpy.set_focus(screen, id, layer=u'screens')
+
+  该函数会将界面screen中指定id的可视组件指定为获得焦点。
+  如果可视组件未找到，或整个窗口没有获得焦点或其他强制无法更改焦点的情况下，该函数将不会有实际效果。
+
+The focus may change if the mouse moves, even slightly, after this call is processed.
+
 .. function:: renpy.show_screen(_screen_name, *_args, **kwargs)
 
   等效于show screen语句。

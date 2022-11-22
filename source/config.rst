@@ -194,6 +194,12 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     若为True，Ren'Py不强制要求grids填充满。
 
+.. var:: define config.audio_filename_callback = None
+
+    若非None，该函数调用时需要传入一个音频文件名，并返回另一个音频文件名，并实际播放后者。
+
+    在音频文件格式需要改变，但又不想改游戏脚本时，可以使用该配置项。
+
 .. var:: config.audio_filename_callback = None
 
     若非None，该项是一个函数。入参是一个音频文件名，可能会返回另一个音频文件名，用作稍后连续播放。
@@ -441,6 +447,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     控制按键重复频率。如果启用了按键重复，这项应该是一个元组。元组内第一个元素是首次重复的延迟，第二个元素是之后每次重复的延迟。两个元素单位都是秒。如果这项是None，键盘重复功能被禁用。
 
+.. var:: define config.input_caret_blink = 1.0
+
+    若非False，将设置默认光标的闪烁间隔时间，单位为秒。
+
 .. var:: config.language = None
 
     若非None，这项应是一个字符串，指定了多语言支持框架下的默认语言。
@@ -640,6 +650,15 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.screen_width = 800
 
     界面宽度。通常使用 :func:`gui.init` 进行设置。
+
+.. var:: define config.single_movie_channel = None
+
+    若非None，当play语句后面使用了Movie()，该配置项决定了影片播放使用的通道。
+    该项不能设置为“movie”，因为“movie”是Ren'Py预留的关键字。
+
+.. var:: define config.skip_sounds = False
+
+    若非False，Ren'Py处于跳过(skipping)状态时将不会播放非循环播放的音频。
 
 .. var:: config.speaking_attribute = None
 

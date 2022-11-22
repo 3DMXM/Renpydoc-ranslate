@@ -430,7 +430,7 @@ say语句带入参，对应回调函数的情况，样例：
 
     $ Character(kind=e, what_size=32)("Hello, world.", interact=True)
 
-但是，我们也可以使用 var:`config.say_arguments_callback` 回调函数或者外包(wrap)一个角色实现一些与众不同的功能。
+但是，我们也可以使用 :var:`config.say_arguments_callback` 回调函数或者外包(wrap)一个角色实现一些与众不同的功能。
 
 窗口管理的实现，是通过设置 :var:`_window` 和 
 :var:`_window_auto` 变量，及使用下面两个函数：

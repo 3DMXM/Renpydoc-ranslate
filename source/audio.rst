@@ -10,7 +10,7 @@ Ren'Py支持在后台播放音乐和音效，支持的音频文件格式如下�
 * MP3
 * WAV (未压缩的有符号16bit型PCM编码格式)
 
-Opus和Ogg Vorbis格式可能不被某些基于WebKit的浏览器(比如Safari)，但对气态平台来说是最好的选择。
+Opus和Ogg Vorbis格式可能不被某些基于WebKit的浏览器(比如Safari)，但对其他平台来说是最好的选择。
 
 Ren'Py支持任意数量的音频通道。有三种一般音频通道是默认定义好的：
 
