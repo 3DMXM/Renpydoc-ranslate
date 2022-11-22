@@ -1028,7 +1028,7 @@ window含有一个子组件。如果实际上提供的子组件并非一个，�
 imagemap语句
 ===================
 
-创建界面的简易方法，特别是对于那些想要创建可视化imagemap的人。当创建一个imagemap时，imagemap语句用于指定六个图像。hotspot和hotbar用于从整个图像中分割出矩形区域，并为那些区域添加行为和值。
+创建界面的简易方法，特别是对于那些想要创建可视化imagemap的人。当创建一个imagemap时，imagemap语句用于指定至多6个图像(image)。hotspot和hotbar用于从整个图像中分割出矩形区域，并为那些区域添加行为和值。
 
 这是一个preferences界面使用imagemap的样例：
 
