@@ -241,6 +241,10 @@ bar
 `unhovered`
     当条(bar)失去焦点后的行为。
 
+`released`
+    在条(bar)被释放时执行指定的行为。甚至条的数值没有发生变化时依然会被调用执行。
+
+
 `value` 或者 `adjustment` 之一必须给定。除此之外，该函数还是用以下特性：
 
 * :ref:`通用特性 <common-properties>`
@@ -300,6 +304,60 @@ bar
 
 按钮使用一个子组件。如果0个、两个或者更多子组件被应用，他们全部会自动整合为一个固定布局(fixed)，并添加到按钮上。
 
+.. _sl-dismiss:
+
+dismiss
+-------
+
+``dismiss`` 语句创建一个高度特化的dismiss可视组件，在其他可视组件都没有获得焦点时，dismiss组件就会获得焦点，并在激活后执行一个行为。
+从效果上来说类似say语句。
+
+dismiss组件的应用场景不多，大多数时候与某个模态frame搭配，当用户点击frame之外的区域时激活dismiss。此外，偶尔也能用作弹窗。
+
+该组件可使用下列特性：
+
+`action`
+    当dismiss组件激活时执行的行为。该特性必须指定。
+
+`keysym`
+    指定一个字符串，代替默认的 :doc:`keysym <keymap>` 字典中dismiss键对应的值。
+
+`modal`
+    默认情况下，dismiss组件是模态的，不允许向其“背后”的其他可视组件传递事件消息。
+
+
+该组件还可使用下列特性：
+
+* :ref:`通用特性 <common-properties>`
+* :propref:`hover_sound` 和 :propref:`activate_sound` 样式特性。
+
+这是一个dismiss的使用样例：
+
+::
+
+    screen dismiss_test():
+
+        dismiss action Return()
+
+        frame:
+            modal True
+
+            align (.5, .3)
+            padding (20, 20)
+
+            has vbox
+
+            text "这是一条非常重要的信息。":
+                xalign 0.5
+                text_align 0.5
+
+            # Dismiss can be confusing on its own, so we'll add a button as well.
+            # 译者注：上面一句注释似乎是作者在玩梗，但是太冷导致不知道如何翻译。
+            textbutton "Dismiss":
+                xalign 0.5
+                action Return()
+
+dismiss组件还可以与 :ref:`nearrect <sl-nearrect>` 协同实现其他效果。
 
 .. _sl-fixed:
 
@@ -527,6 +585,13 @@ input语句不接受参数，可以跟下列特性：
 `changed`
     当用于输入字符串改变时，使用输入字符串调用的一个Python函数。
 
+`mask`
+    该值是一个字符串，可将文本中的字符都替换显示为指定字符串。可用于表现一个密码。
+
+`caret_blink`
+    若非False，指定光标闪烁间隔时间。此项将覆盖 :var:`config.input_caret_blink` 配置项。
+
+
 
 输入框还使用下列特性：
 
@@ -553,10 +618,14 @@ key语句
 
 key语句创建一个键盘按键绑定，可以通过按键运行某个行为。key语句的应用场景比较宽泛，可以支持手柄和鼠标事件。
 
-key语句有一个固定位置参数，一个需要绑定的按键名字符串。详见 :ref:`keymap` 。key语句使用一个特性：
+key语句有一个固定位置参数，一个需要绑定的按键名字符串。详见 :ref:`keymap` 。key语句使用两个特性：
 
 `action`
     这个特性给定了按键(keypress)事件发生后触发的行为。该特性必须存在。
+
+`capture`
+    若为True，即默认值，捕获事件并不会由其他可视组件处理。
+    若为False，则按键行为不会结束此次交互，其他可视组件会处理事件。
 
 key不包含子组件。
 
@@ -565,7 +634,7 @@ key不包含子组件。
     screen keymap_screen():
         key "game_menu" action ShowMenu('save')
         key "p" action ShowMenu('preferences')
-        key "s" action Screenshot()
+        key ["s", "w"] action Screenshot()
 
 
 .. _sl-label:
@@ -601,34 +670,6 @@ label语句不包含任何子组件。
             textbutton "Fullscreen" action Preference("display", "fullscreen")
             textbutton "Window" action Preference("display", "window")
 
-
-.. _sl-null:
-
-null
-----
-
-null语句在界面中插入了一块空的区域。其可以用于物体分隔开。null语句不包含参数，可以使用下列特性：
-
-`width`
-    空区域的宽度，单位是像素。
-
-`height`
-    空区域的高度，单位是像素。
-
-null语句可以使用以下样式：
-
-* :ref:`通用特性 <common-properties>`
-* :ref:`位置样式特性 <position-style-properties>`
-
-null语句不包含子组件：
-
-::
-
-    screen text_box():
-        vbox:
-             text "The title."
-             null height 20
-             text "This body text."
 
 .. _mousearea:
 .. _sl-mousearea:
@@ -677,6 +718,134 @@ mousearea语句不含子组件。
 
     label start:
         show screen button_overlay
+
+.. _sl-nearrect:
+
+nearrect
+--------
+
+``nearrect`` 语句后面带一个字组件名，并把对应的子组件放在附近的一个矩形区域中。
+通常使用 :func:`CaptureFocus` 行为函数获取焦点附近的矩形区域。
+nearrect可以用于提示信息和下落、下拉菜单。
+
+nearrect组件使用下列特性：
+
+`rect`
+    若给定，参数应该是一个(x, y, w, h)形式的矩形，将子组件的位置信息与矩形关联。具体关联方式见下面的描述。
+
+`focus`
+    若给定，该参数应该是一个字符串。字符串传递给 :func:`GetFocusRect` 函数并寻找合适的矩形区域。
+    若找到了合适的矩形，则渲染对应子组件。
+
+    将参数设置为“tooltip”时，将会在最后获得焦点的可视组件位置显示提示信息。
+
+`prefer_top`
+    若给定，将子组件的位置设置为获得焦点矩形区域的上层。
+
+该组件还可使用下列特性：
+
+* :ref:`通用特性 Common Properties <common-properties>`
+* :ref:`位置样式特性 <position-style-properties>`
+
+
+nearrect与其他组件布局的位置计算方式不同，不把其子组件放在指定矩形区域内，而是放在指定矩形区域附近。
+子组件首先计算可用宽度，然后计算矩形区域上方和下方分别可能的最大可用高度。最后根据下面的原则计算结果确定y轴方向的位置。
+
+* 如果子组件可以放在矩形区域上方，并且入参给定 `prefer_top`，子组件将直接放在矩形区域上方。
+* 否则，弱如果子组件可以放在矩形区域下方，直接放在矩形下方。
+* 否则，子组件直接放在矩形上。
+
+x轴方向的位置使用通用准则计算，可以设置子组件的 :propref:`xpos` 、 :propref:`xanchor` 和 :propref:`xalign` 特性。
+位置特性的值与矩形区域的x坐标相关。如果是浮点值，则与矩形区域的宽度相关。
+
+:propref:`xoffset` 和 :propref:`yoffset` 特性的应用方式与其他组件相同。
+
+如果nearrect组件的子组件是一个变换(transform)，变换指定了 ``show`` 和 ``hide`` 事件响应。
+但是，实际位置会发生改变。
+nearrect最好放置在界面顶层，变换和位置特性应用到其子组件上，而不是nearrect自身。
+
+这是一个下拉菜单的样例：
+
+::
+
+    default difficulty = "简单"
+
+    screen select_difficulty():
+
+        # 根据实际需要，此处的frame可以拥有非常复杂的布局。
+        frame:
+            align (.5, .3)
+            padding (20, 20)
+
+            has vbox
+
+            # 点击此按钮激活下拉菜单
+            textbutton "选择难度: [difficulty]":
+
+                # 该行为捕获获取焦点的矩形区域，并显示下拉菜单
+                action CaptureFocus("diff_drop")
+
+            textbutton "完成":
+                action Return()
+
+        # 其他界面元素可以写在这里，但nearrect相关的元素需要写在最上层。
+        # nearrect的子组件最后显示，只能要分开写。
+
+        # 仅当焦点区域捕获成功，才显示下拉菜单。
+        # 可以使用showif替代基本的if语句。
+        if GetFocusRect("diff_drop"):
+
+            # 如果玩家点击了frame之外的区域，使用dismiss关闭下拉菜单。
+            # 此处使用ClearFocus行为函数关闭。
+            dismiss action ClearFocus("diff_drop")
+
+            # nearrect组件的位置放在之前定义的按钮附近(通常是下方)。
+            nearrect:
+                focus "diff_drop"
+
+                # Finally, this frame contains the choices in the dropdown, with
+                # each using ClearFocus to dismiss the dropdown.
+                # 最后，下拉菜单里的各个选项放在一个frame中。
+                # 每个选项行为都使用ClearFocus，以隐藏下拉菜单。
+                frame:
+                    modal True
+
+                    has vbox
+
+                    textbutton "简单" action [ SetVariable("difficulty", "简单"), ClearFocus("diff_drop") ]
+                    textbutton "正常" action [ SetVariable("difficulty", "正常"), ClearFocus("diff_drop") ]
+                    textbutton "困难" action [ SetVariable("difficulty", "困难"), ClearFocus("diff_drop") ]
+                    textbutton "噩梦" action [ SetVariable("difficulty", "噩梦"), ClearFocus("diff_drop") ]
+
+下拉菜单可以通过样式提升观感，此处不做具体演示了。
+
+.. _sl-null:
+
+null
+----
+
+null语句在界面中插入了一块空的区域。其可以用于物体分隔开。null语句不包含参数，可以使用下列特性：
+
+`width`
+    空区域的宽度，单位是像素。
+
+`height`
+    空区域的高度，单位是像素。
+
+null语句可以使用以下样式：
+
+* :ref:`通用特性 <common-properties>`
+* :ref:`位置样式特性 <position-style-properties>`
+
+null语句不包含子组件：
+
+::
+
+    screen text_box():
+        vbox:
+             text "这是标题。"
+             null height 20
+             text "这是正文。"
 
 .. _sl-side:
 
@@ -1540,11 +1709,21 @@ show screen
 ``show screen`` 语句会触发某个界面的显示。其使用一个界面名作为参数，后面还有一个可选的Pythone入参列表。如果入参列表出现，这些参数用作初始化界面作用域(scope)内的变量。
 还有几个特殊关键词会传入 :func:`show_screen` 和 :func:`call_screen` 函数。
 
+如果出现关键词 ``expression``，后面的表达式会计算实际显示的界面名称。
+为了将表达式关键词和入参同时传入界面，需要使用 ``pass`` 关键词分割。
+
+::
+
+    $ screen_name = "my_screen"
+    show screen expression screen_name
+    # 如果需要入参
+    show screen expression screen_name pass ("Foo", message="Bar")
+
 show screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面预加载。当界面预加载时，传入界面的入参会被计算。请确保作为界面入参的表达式不会引起不希望出现的副作用。
 
 .. warning::
 
-    如果计算入参表达式会引发界面的副作用，你的游戏可能会出现不希望出现的情况。
+    如果计算入参表达式会引发界面的副作用，你的游戏可能会表现出不希望出现的情况。
 
 使用这种方式的界面会一直显示，除非有明确的语句隐藏界面。这个设计可以用作界面的互相覆盖。
 
@@ -1571,12 +1750,15 @@ hide screen
 ``hide screen`` 语句用于隐藏当前正在显示的界面。如果指定的界面并没有显示，不会发生任何事。
 如果带有 ``with`` 分句，则与show语句的语法相同。
 
+与 ``show screen`` 语句类似，``hide screen`` 语句也可以使用 ``expression`` 关键词，可以通过表达式计算界面名称。
+
 ::
 
     hide screen rare_screen
     hide screen clock_screen with dissolve
     hide screen overlay_screen
-    hide screen clock
+    $ screen_name = "some_screen"
+    hide screen expression screen_name
 
 .. _call-screen:
 
@@ -1589,7 +1771,20 @@ call screen
 
 call screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面前缀出现。当界面含有前缀时，传入界面的入参会被计算。请确保作为界面入参的表达式不会引起不希望出现的副作用。
 
-call screen语句使用一个可选的 ``with`` 关键词，后面跟一个转场(transition)。界面首次显示的时候会使用转场(transition)效果。当界面显示转场效果之后，再跟一个with语句和转场效果，就是界面隐藏使用的转场。
+call screen语句使用一个可选的 ``with`` 关键词，后面跟一个转场(transition)。
+
+Since calling a screen is an interaction, and interactions trigger
+an implicit ``with None``, using a ``with`` statement after the
+``call screen`` instruction won't make the screen disappear using the
+transition, as the screen will already will be gone. To disable the
+implicit ``with None`` transition, pass the ``_with_none=False``
+special keyword argument to the screen, as in the example below.
+由于调用一个界面属于一个交互行为，交互触发器需要显式带有 ``with None`` ，因为在 ``call screen`` 后面使用 ``with`` 语句将不能使原界面正确使用转场消失，毕竟之前的界面已经没了。
+若要禁用 ``with None`` 转场，则使用 ``_with_none=False`` 特殊关键词作为参数传入对应界面，详见后面的样例。
+
+其他交互转场方式也能生效，例如使用 ``[ With(dissolve), Return() ]`` 行为列表。
+
+与 ``show screen`` 语句类似，``hide screen`` 语句也可以使用 ``expression`` 关键词，可以通过表达式计算界面名称。
 
 .. warning::
 
@@ -1601,9 +1796,17 @@ call screen语句使用一个可选的 ``with`` 关键词，后面跟一个转�
 
     call screen my_screen(side_effect_function()) nopredict
 
-    # 使用dissolve转场显示界面，使用fade转场隐藏界面。
+    # 使用dissolve显示界面
     call screen my_other_screen with dissolve
-    with fade
+    # 使用None方式隐藏界面，使用pixellate转场执行。
+    with pixellate
+
+    # 使用dissolve显示界面，使用pixellate隐藏界面。
+    call screen my_other_screen(_with_none=False) with dissolve
+    with pixellate
+
+    $ screen_name = "my_screen"
+    call screen expression screen_name pass (foo="bar")
 
 .. _screen-variants:
 

@@ -812,7 +812,9 @@ transform存在以下特性(property)：
     :type: None 或 (position, position)
     :default: None
 
-    若该值非None，将可视组件伸缩至给定的尺寸。
+    若该值非None，将可视组件伸缩至给定的尺寸。等效于，将入参元组的第一元素赋值给 :tpref:`xsize`，将入参元祖的第二元素赋值给 :tpref:`ysize`。
+
+    该值受到 :tpref:`fit` 影响。
 
 .. transform-property:: xsize
 
@@ -1013,3 +1015,125 @@ Ren'Py会合理运用angle和radius特性，触发圆周运动。如果transform
 
 ``hover``, ``idle``, ``selected_hover``, ``selected_idle``
    当包含此transform的按钮或者被此transform包含的按钮，出现对应的状态名称时触发。
+
+.. _replacing-transforms:
+
+替换变换
+====================
+
+使用 :func:`Transform` 类定义的变换可以使用另一个同类对象替换。变换的特性从前一个变换对象中继承。
+
+When the ``show`` statement has multiple transforms in the at list, the
+transforms are matched from last to first, until one list runs out. For
+example, in
+如果 ``show`` 语句中的at关键字后列出了多个变换带替换，则新变换列表从后往前依次替换，直到新替换变换列表全部换完。例如：
+
+::
+
+    show eileen happy at a, b, c
+    "我们稍等一下。"
+    show eileen happy at d, e
+
+``e`` 变换替换了 ``c``， ``d`` 变换替换了 ``b``，而没有变换会替换 ``a``。
+
+替换时，旧变换的特性值由新变换继承。如果旧变换正处于动画中，则新变换继承的可能是中间的某个值。例如：
+
+::
+
+    transform bounce:
+        linear 3.0 xalign 1.0
+        linear 3.0 xalign 0.0
+        repeat
+
+    transform headright:
+        linear 15 xalign 1.0
+
+    label example:
+        show eileen happy at bounce
+        pause
+        show eileen happy at headright
+        pause
+
+这个例子中，精灵(sprite)会左右横跳，直到用户点击鼠标。
+当用户点击鼠标后， ``bounce`` 中的 ``xalign`` 特性值将被 ``headright`` 继承。
+精灵在x轴方向坐标移动的初始值，即是用户点击鼠标时的值。
+
+位置相关特性(包括 :tpref:`xpos`、:tpref:`ypos`、:tpref:`xanchor` 和 :tpref:`yanchor`)继承时有一项特殊规则：
+子组件设置的值会覆盖父组件的值。这样设计是考虑到可视组件往往只有一项位置信息，需要优先保证设置的值不受影响。
+对位置特性的设置有多种方式，例如，:tpref:`xalign` 会同时设置xpos和xanchor。
+
+最后，如果某个 ``show`` 语句不包含 ``at`` 从句，则不需要搞特性值继承问题。为了避免继承，可以直接显示/隐藏对应的可视组件。
+
+.. _atl-transitions:
+
+ATL转场
+===============
+
+可以使用ATL变换定义一个转场(transition)。
+这样定义的转场接受 `old_widget` 和 `new_widget` 入参，分别指定转场的起始和结束使用的可视组件。
+
+ATL转场必须设置 :tpref:`delay` 特性，表示转场时间，单位为秒。
+还可以使用 :tpref:`events` 特性，使旧组件屏蔽事件消息。
+
+::
+
+    transform spin(duration=1.0, new_widget=None, old_widget=None):
+
+        # 设置变换耗时
+        delay duration
+
+        # 置于正中
+        xcenter 0.5
+        ycenter 0.5
+
+        # 转动旧组件
+        old_widget
+        events False
+        rotate 0.0
+        easeout (duration / 2) rotate 360.0
+
+        # 转动新组件
+        new_widget
+        events True
+        easein (duration / 2) rotate 720.0
+
+
+.. _atl-keyword-parameters:
+
+特殊ATL关键词参数
+==============================
+
+Ren'Py中可以向ATL传入一些特殊参数。
+
+`child`
+    ATL用作一个变换时，child参数将向原来的子组件传入变换并应用于子组件。
+    这用于精准控制。例如，可以实现子组件与其他可视组件之间的切换。
+
+    ::
+
+        transform lucy_jump_scare(child):
+            child      # 显示原来的子组件
+            pause 5
+            "lucy mad" # “jump scare”式惊吓.
+            pause .2
+            child      # 再显示原来的子组件.
+
+    还可以在 ``contains`` 语句块中放置原来的子组件：
+    
+    ::
+
+        transform marquee(width, height=1.0, duration=2.0, child=None):
+            xcenter 0.5
+            ycenter 0.5
+
+            crop_relative True
+            crop (0, 0, 0.5, 500)
+
+            contains:
+                child
+                xanchor 0.0 xpos 1.0
+                linear duration xanchor 1.0 xpos 0.0
+
+
+`old_widget`, `new_widget`
+    当ATL语句块用作转场时，以上两个参数分别用作转场的起始和结束画面。

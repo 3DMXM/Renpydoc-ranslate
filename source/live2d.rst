@@ -141,6 +141,13 @@ Ren'Py同时支持Cubism 3和Cubism 4格式的Live2D动画，即这两种格式�
         `weight`
             介于0.0到1.0之间的浮点数，表示使用遮罩后的新值所占权重。
 
+There is a config variable that can help in debugging what motions and expressions were loaded from .model3.json files:
+通过一个配置项可用于帮助debug源自 .model3.json 文件的动画和表情问题：
+
+.. var:: config.log_live2d_loading = False
+
+    若为True，启动时将会动作和表情记录到加载目录中的log.txt文件中。
+
 Live2D可视组件应使用image语句声明：
 ::
 

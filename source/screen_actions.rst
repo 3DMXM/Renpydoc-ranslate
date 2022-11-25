@@ -421,7 +421,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     将 *mixer* 的音量设置为 *value* 。
 
     `mixer`
-        需要调整音量的混合器(mixer)。这个字符串通常是“music”、“sfx”或“voice”。
+        需要调整音量的混合器(mixer)。这个字符串通常是“main”、“music”、“sfx”或“voice”。混合器的信息详见 :ref:`volume` 。 
 
     `value`
         调整的目标音量值。是一个位于0.0至1.0闭区间内的数值。
@@ -451,6 +451,41 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     `mixer`
         单个混合器名称的字符串，或一个混合器列表名称的字符串列表。混合器名称通常是“music”、“sfx”或“voice”。
+
+.. _focus_actions:
+
+获取焦点行为
+--------------
+
+.. function:: CaptureFocus(name=u'default')
+
+    若某个可视组件获得焦点并执行该行为，将存储一块包含可视组件的矩形区域，并根据入参 `name` 命名。
+    该矩形区域可通过 :func:`GetFocusRect` 或 :ref:`sl-nearrect` 组件的 `focus` 特性访问。
+    若没有可视组件获得焦点，上次捕获的矩形区域将从存储区移除。
+
+    `name`
+        获得焦点矩形区域存储名称。其应是一个字符串。
+        如果设置为“tooltip”则比较特殊，当提示消息改变时，将执行自动捕获。
+
+.. function:: ClearFocus(name=u'default')
+
+    使用 :func:`CaptureFocus` 函数清除存储的矩形区域焦点。
+
+.. function:: GetFocusRect(name="default")
+
+    若指定名称的矩形区域在存储区中(无论是使用 :func:`CaptureFocus` 捕获还是tooltip自动捕获)，返回一个(x, y, h, w)形式的矩形。否则返回None。
+
+    `name`
+        获得焦点矩形区域检索名称。其应是一个字符串。
+        如果设置为“tooltip”则比较特殊，当提示消息改变时，将执行自动捕获。
+
+.. function:: ToggleFocus(name="default")
+
+    若焦点矩形区域存在则清除，否则捕获。
+
+    `name`
+        获得焦点矩形区域存储名称。其应是一个字符串。
+        如果设置为“tooltip”则比较特殊，当提示消息改变时，将执行自动捕获。
 
 .. _other-actions:
 
@@ -931,6 +966,7 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
     * Preference("all mute", "enable") - 所有混合器静音。
     * Preference("all mute", "disable") - 取消所有混合器静音。
     * Preference("all mute", "toggle") - 切换所有混合器静音状态。
+    * Preference("main volume", 0.5) - 设置对所有音频通道的调整值。
     * Preference("music volume", 0.5) - 设置音乐音量。
     * Preference("sound volume", 0.5) - 设置音效音量。
     * Preference("voice volume", 0.5) - 设置语音音量。
@@ -970,6 +1006,7 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 
     * Preference("text speed")
     * Preference("auto-forward time")
+    * Preference("main volume")
     * Preference("music volume")
     * Preference("sound volume")
     * Preference("voice volume")

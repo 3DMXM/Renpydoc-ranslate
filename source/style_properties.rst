@@ -627,11 +627,19 @@
 
 .. style-property:: hover_sound string
 
-    当按钮获取焦点时，一个音效会播放。
+    当按钮获取焦点时，将播放一个音效。
 
 .. style-property:: activate_sound string
 
-    当按钮被点击时，一个音效会播放。
+    当按钮被点击时，将播放一个音效。
+
+.. style-property:: hover_sound - string
+
+    当按钮获得焦点时，将播放一个音效。
+
+.. style-property:: activate_sound
+
+    当按钮被激活(点击)时，将播放一个音效。
 
 .. style-property:: mouse string
 

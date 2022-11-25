@@ -329,12 +329,6 @@ GL特性(property)
 GL特性会更改OpenGL或基于模型渲染器的全局状态。
 这些特性可以与Transform对象一起使用，或者 :func:`Render.add_property` 函数一起使用。
 
-``gl_anisotropic``
-    该特性决定了，应到网格上的纹理是否创建各向异性(anisotropy)。
-    各向异性是一种功能特性，能让纹理在X和Y方向的缩放系数不同时，采样出多个纹理元素(texel)。
-
-    该项默认为True。Ren'Py将其设置为False，为了避免对其他效果产生影响，比如Pixellate(像素化)转场。
-
 ``gl_blend_func``
     该特性应是一个6元元组，分别用作功能调节像素、原像素、遮罩像素和功能条件像素相关参数。
     If present, this is expected to be a six-component tuple, which is
@@ -359,18 +353,30 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
 
     更通用的建议方式是使用 :tpref:`blend` 变换特性。
 
-``gl_color_masks``
+``gl_color_mask``
     该特性应是一个布尔型4元元组，分别对应像素中的4个通道(红、绿、蓝和alpha)。只有当元组中对应通道的元素值为True时，绘图操作才会实际绘制像素的颜色值。
 
 ``gl_depth``
-    若为True，将会清理深度缓存，然后可视组件和其子组件的深度渲染。
+    若为True，将会清理深度缓存，然后启用该可视组件和其子组件的深度渲染。
 
-``gl_mipmap``
-    该项决定纹理是否提供了网格用于创建mipmap。默认值为True.
+    注意，绘制任意像素甚至是透明像素，都会更新深度缓存。因此，对包含半透明像素的图片使用该特性可能会导致无法预料的问题。
+    (替代方案为，``show`` 语句中使用 ``zorder`` 和 ``behind`` 从句。)
 
 ``gl_pixel_perfect``
     只有创建网格时该特性才会生效。若该值是True，Ren'Py会把网格的第一个顶点与屏幕某个像素对齐。
     该特性常用于文本内容的衔接，确保文字的清晰度。
+
+``gl_drawable_resolution``
+    若为True或未设置，纹理将以游戏窗口的相同分辨率渲染。若为False，纹理将以可视组件的虚拟分辨率渲染。
+
+``gl_anisotropic``
+    该特性决定了，应到网格上的纹理是否创建各向异性(anisotropy)。
+    各向异性是一种功能特性，能让纹理在X和Y方向的缩放系数不同时，采样出多个纹理元素(texel)。
+
+    该项默认为True。Ren'Py将其设置为False，为了避免对其他效果产生影响，比如Pixellate(像素化)转场。
+
+``gl_mipmap``
+    该项决定纹理是否提供了网格用于创建mipmap。默认值为True.
 
 ``gl_texture_wrap``
     该项决定了将纹理提高到网格的方式。其值应该是一个2元元组，

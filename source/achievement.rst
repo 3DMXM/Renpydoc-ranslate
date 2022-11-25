@@ -21,6 +21,10 @@
 
   清除所有成就。
 
+.. function:: achievement.get_progress(name)
+
+  根据成就名返回成就完成进度。如果没有任何注册进度或成就未知时，将返回0。
+
 .. function:: achievement.grant(name)
 
   解锁名为 *name* 的成就，前提是该成就尚未解锁。
@@ -74,3 +78,8 @@
     ::
 
         define config.steam_appid = 12345
+
+Steamworks API
+===============
+
+当Steam可用时，基于ctypes库的Steamworks API绑定也将可用，并暴露为 `achievement.steamapi` 。这些绑定是steamapi模块的一个实例，将C++版本的Steamworks API通过机器转换为Python版本。

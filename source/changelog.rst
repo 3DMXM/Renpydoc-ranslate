@@ -7,151 +7,281 @@
 .. _renpy-7.5.0:
 .. _renpy-8.0.0:
 
-7.5 / 8.0
+8.0 / 7.5
 =========
 
+.. _8.0-python-3-support:
 
-Dismiss, Nearrect, and Focus Rectangles
+Python 3支持(Ren'Py 8.0)
+-----------------------------
+
+Ren'Py 8.0运行在Python 3环境下，即Python语言的最新主干版本。
+
+如果你的游戏只使用了Python的基础功能(例如存储角色名字和flag)，运行起来不会跟以前有什么差别。
+否则的话，请继续阅读以下内容。
+
+对很多Ren'Py开发者来说，转移到Python 3将会带来很多Python语言和库方面的提升，详见文档 `What's new in Python <https://docs.python.org/3.9/whatsnew/index.html>`_ 。
+文档中包含很多Python 3中的变化，请根据需要阅读。
+
+值得着重一说的，一些Ren'Py游戏开发过程中的新东西如下：
+
+* 函数可以仅有关键词入参。(脚本标签、变换和界面的入参也支持该特点)
+
+* 对函数入参和返回值的数据类型进行注释(annotate)。(仅在Python中支持)
+
+* 可以使用格式化字符串语法。比如字符串 ``f"characters/{character}.chr"``，
+  在花括号中的文本将使用格式化后的Python变量，类似于Ren'Py对话中的字符串插值。
+  不过该功能仅在Python语句中有效。大多数Ren'Py语句中不能使用。
+
+此外还有一大堆提升，毕竟这是直接从Python 2.7到Python 3.9的巨大跨越。有兴趣的朋友请参阅其他Python文档，寻找各方面的提升。
+
+Ren'Py从Python 2.7迁走的其中一个重大考量是，2.7版已经不再受Python软件基金会的支持。
+所以迁移为Ren'Py的后续发展提供了有利基础。
+
+如果你使用新版Python，需要注意一些转换要点。
+
+* 在Python 3中，出发总会返回浮点型，而不再是整型(例如，``3 / 2`` 的结果是1.5而不是1)。
+  操作符 ``//`` 用于取整除法。这项改变会对原来Ren'Py计算位置的部分产生影响，因为Ren'Py中对整数和浮点数的处理方式不同。
+
+* 在Python 3中，字典类型的键、元素、值相关方法都只返回视图(view)类型，而不返回列表(list)类型。
+  iterkeys、iteritems和itervalues方法不能使用。xrange方法已删除，range方法不再返回一个列表。
+
+* except从句必须写成 ``except Exception as e:`` 类似的方式，不再支持旧写法 ``except Exception, e:`` 。
+
+* 所有字符串默认使用unicode编码(Ren'Py从多年前就已强制如此)，文件默认使用文本模式打开。
+  (但是，:func:`renpy.file` 函数还是以二进制模式打开文件。使用 :func:`renpy.open_file` 函数可以默认编码打开文件。)
+
+* 很多Python模块(module)的命名发生了变化。
+
+这里不是一个完整的变化列表。
+
+Ren'Py只使用Python标准库的一个子集，并非所有Python模块在Ren'Py中都可以直接使用。
+如果你觉得哪些模块好用，请务必让我们知道，特别是那些没有库依赖关系的模块。
+由于 ``async`` 和 ``await`` 是可用的，Ren'Py并不直接支持协程(coroutine)。
+
+Ren'Py 8.0使用Python 3.9.10版本，可以应用在Windows、macOS、Linux、安卓和各iOS平台。Web平台将在后续版本中支持。
+
+运行Ren'Py 8时，默认Python环境不带 ``-O`` 标识，可以使用 docstring 和 assert 语句。
+
+根据我们的经验，大多数使用游戏在Python3环境下运行完全无变化，特别是使用Ren'Py的API管理游戏状态的游戏。
+Ren'Py 8已经尝试过运行最早开发于2006年的Ren'Py游戏。
+
+.. _7.5-continued-python-2-7-support:
+
+继续对Python 2.7的支持(Ren'Py 7.5)
+-----------------------------------------
+
+Ren'Py 7.5与8.0同步发行，继续提供基于Python 2.7的新版Ren'Py，作为对目前开发中游戏(或发行后维护中游戏)的支持。
+这个版本依然需要Python 2.7环境。
+
+该版本中，Ren'Py还支持Web平台。
+
+Ren'Py 7.5和Ren'Py 8.0支持同样的功能特性。
+
+我们计划继续支持Ren'Py 7系列，直到我们看到社区彻底迁移到Ren'Py 8系列，或者基于Python生态变化导致基于Python 2的Ren'Py无法维持时。
+
+请在Ren'Py 8中随意测试你们的游戏。对大多数游戏来说，只需要极少量改动甚至完全不需要改动。
+如果因为某些原因，你无法将游戏迁移到Ren'Py 8上，请让我们了解具体的掣肘原因。
+
+.. _7.5-platform-support-changes:
+
+支持的平台变化
+------------------------
+
+该版本增加了对64位ARM版Linux(linux-aarch64)平台的支持。
+基于Ubuntu 20.04，该版本已在Chrome笔记本上做过测试，并且应该也能支持64位版本的ARM平台。
+
+要想在ARM Linux上运行Ren'Py游戏，需要先下载新的ARM Linux SDK包，然后把游戏放入对应项目目录中，并使用该SDK启动游戏。
+某些情况下Linux发布版本时会带有ARM Linux SDK文件，不过出于文件大小的考量，默认是不带那些文件的。
+
+迁移到Ren'Py 8后，我们移除了以下平台的支持：
+
+* 32-bit x86 Windows (i686)
+* 32-bit x86 Linux (i686)
+
+这项变化对32位的x86电脑有明显影响。上述两个平台依然可以使用Ren'Py 7.5，但未来永远无法使用Ren'Py 8.
+
+.. _7.5-web-and-chromeos:
+
+Web和ChromeOS
+----------------
+
+目前只有Ren'Py 7.5支持Web平台。
+
+Safari和Chrome浏览器的改变导致了Ren'Py的内存占用大概提高了50倍，当浏览器的堆内存溢出时就会出现内存范围错误(RangeError)。
+Ren'Py 7.5做出了一些修改，以降低对Web浏览器内存的占用。
+
+新增 :var:`config.webaudio_required_types` 配置项，可以设置为一个列表，用于指定游戏使用的媒体类型(mime type)。
+如果浏览器支持对应的媒体类型，Ren'Py将只适用浏览器的音频系统播放音频文件。
+如果浏览器不支持对应的媒体类型，将使用webasm播放，而这可能会导致声音停顿或跳跃，尤其是在运行速度慢的设备上。
+
+:var:`config.webaudio_required_types` 配置项的设计原意是在Safari上运行游戏时可以使用ogg和opus音频，并在只是用mp3时能灵活切换。
+
+Web版导入存档文件后，Ren'Py将立刻刷新存档文件列表，而不用重启。
+
+以安卓app形式运行在ChromeOS设备上时，变种项“chromeos”将激活。
+
+ARM版本的Chromebook上可以运行Ren'Py SDK。
+
+.. _7.5-android-and-ios
+
+安卓和iOS
+---------------
+
+如果游戏内包含app内购项目时，安卓配置项会再次提示选择app商店。
+如果没有选择任何app商店，项目中不会包含支持游戏内购的库。
+这些库中包括付费许可，会在游戏上架时标识为包含游戏内购内容，尽管可能游戏中实际没有内购内容。
+
+由于某些底层库的问题， :func:`renpy.input` 函数和 ``input`` 可视组件不再支持安卓平台的基于输入法编辑器(非拉丁字符)的文本输入。(译者注：也就是不支持中文输入。)
+
+在iOS平台上，对OpenGL ES的调用将会被转为原生Metal图形系统。
+这项改动将提升新款苹果设备的适配性，并修复部分苹果使用Silicon芯片的设备上运行iOS模拟器时的问题。
+
+.. _7.5-steam-steamdeck-and-epicgamesstore:
+
+Steam、Steam Deck和Epic游戏商店
 ---------------------------------------
 
-Two new displayables have been added to Ren'Py to help use cases like
-drop-down menus, pulldown menus, and tooltips.
+该版本重写对对Steam的支持，基于ctypes库实现接入和调用整套Steamworks的API。
+不过对Steam的 :doc:`成就模块 <achievement>` 保持原样，便于高级Python程序员们接入Steam的各种功能。
 
-The :ref:`dismiss <sl-dismiss>` displayable is generally used behind a
-modal frame, and causes an action to run when it is activated. This allows,
-among other things, a behavior where if the player clicks outside the frame,
-the frame gets hidden.
+当Steam激活时，Ren'Py将启用“steam”变种。
 
-The :ref:`nearrec <sl-nearrect>` displayable lays out a displayable either
-above or below a rectangle on the screen. This can be used to display a
-tooltip above a button, or a drop-down menu below it. (An example of
-a drop-down menu is documented with nearrect, and an exampler of tooltip
-usage is with :ref:`tooltips <tooltips>`.
+该版本包含对Steam Deck的硬件支持。
+调用 :func:`renpy.input` 函数时，将在Steam Deck上显示屏幕软键盘。
+在Steam Deck上运行Ren'Py时，将启用“steam_deck”、“steam”、“medium”和“touch”几项变种项。
 
-The rectangles aside of which the nearrect places things can be captured by
-the new :func:`CaptureFocus` action, which captures the location of the current
-button on the screen. After being captured, the :func:`GetFocusRect` function
-can get the focus rectangle, and the :func:`ClearFocus` can clear the
-captured focus.
+我们写了一个 `Ren'PySteam Deck Guide <https://github.com/renpy/steam-deck-guide>`_
+帮助你们实现游戏认证。感谢Valve提供的测试用Steam Deck。
 
-ATL
----
+构建分发包中的“Windows, Mac, and Linux for Markets”选项作用发生变化，不再会根据目录名称和版本号生成zip包的前缀。
+这表示不需要每次在Steam上更新启动器配置信息，只需要第一次上传时更新即可。
 
-It's now possible to include a block as part of an ATL interpolation.
-This means that::
+Ren'Py支持从Epic游戏商店启动，不过启动时会忽略很多参数。
+
+.. _7.5-visual-studio-code:
+
+Visual Studio Code
+------------------
+
+Ren'Py支持下载和使用Visual Studio Code(VSC)，并且有一个VSC扩展 `Ren'Py语言 <https://marketplace.visualstudio.com/items?itemName=LuqueDaniel.languague-renpy>`_ 。
+
+Ren'Py语言扩展提供了对Ren'Py的丰富支持，包括语法高亮、分段、自动填充、颜色预览、文档说明、跳转到定义、函数签名、错误分析和轮廓线等。
+
+VSC还有海量的系统扩展，包括拼写检查等。可以与Ren'Py语言扩展插件一起使用。
+
+可以通过编辑器设置选项下载VSC。还可以直接设置为已经装好Ren'Py语言扩展插件的VSC。
+
+
+dismiss、nearrect和Focus Rectangles
+---------------------------------------
+
+Ren'Py中加入了两种新的可视组件，用于拖放菜单、下拉菜单和提示消息。
+
+:ref:`dismiss <sl-dismiss>` 组件主要用在某个模态frame后面，激活后执行某个行为。
+该组件可以用在其他组件的缝隙间，当用户点击frame之外的区域时直接隐藏整个frame。
+(译者注：即常见的“点击空白处关闭窗口”。)
+
+:ref:`nearrect <sl-nearrect>` 组件会在其上方或下方的矩形区域放置另一个可视组件。
+改组件可以用于按钮上显示提示，或者弹出下拉菜单。
+(文档中有使用nearrect组件实现下拉菜单以及使用 :ref:`tooltips <tooltips>` 组件实现提示消息的样例。)
+
+新增行为函数 :func:`CaptureFocus` ，用于捕获nearrect组件需要的目标矩形区域。
+捕获目标矩形区域后，:func:`GetFocusRect` 函数获取目标矩形焦点，:func:`ClearFocus` 函数清除目标矩形焦点，
+:func:`ToggleFocus` 函数根据当前焦点情况使目标矩形区域获取或清除焦点。
+
+.. _7.5-alt-and-transforms:
+
+ATL和变化
+------------------
+
+现在可以在ATL插值操作中包含一个代码块了。具体来说：
+
+::
 
     linear 2.0:
         xalign 1.0
         yalign 1.0
 
-is now allowed, and equivalent to::
+这种写法是允许的，等效于：
+
+::
 
     linear 2.0 xalign 1.0 yalign 1.0
 
-Information about :ref:`ATL Transitions <atl-transitions>` and :ref:`Special ATL Keyword Parameters <atl-keyword-parameters>`
-has been added to the documentation.
+关于 :ref:`ATL 转场 <atl-transitions>` 和 :ref:`特殊ATL关键字参数 <atl-keyword-parameters>` 的信息，已添加对应文档。
 
-The ``pause 0`` statement has been special-cased to always display one frame,
-and is the only way to guarantee at least one frame is displayed. Since 6.99.13,
-Ren'Py has been trying various methods to guarantee single frame display, and
-many of which led to visual glitches.
+``pause 0`` 语句作为特殊情况，将显示1帧，并且是唯一可以保证至少显示1帧的方式。
+从6.99.13起，Ren'Py尝试了各种方式实现单帧显示，然而大部分都会有画面撕裂的问题。
 
-When an ATL image is used as one of the children of an image button, its
-shown time begins each time it is shown.
+当ATL图像用作某个图片按钮的子组件时，当其每次显示时，已显示时间(shown time)都会重新计时。
 
-Image Gallery
+变换特性 :tpref:`crop_relative` 默认值改为True。
+
+``function`` 语句仅在产生延迟时会阻止执行，前提是在变换中使用 ``function`` 语句并继承某个时间轴以实现更加自然的效果。
+
+.. _7.5-image-gallery:
+
+画廊
 -------------
 
-The :class:`Gallery` class now has a new field, `image_screen`, that can be
-used to customize how gallery image are displayed.
+:class:`Gallery` 类新增一个字段 `image_screen`，用于定制画廊图片的现实方式。
 
-The :func:`Gallery.image` and :func:`Gallery.unlock_image` methods now
-take keywork arguments beginning with `show\_`. These arguments have the
-`show\_` prefix stripped, and are then passed to the Gallery.image_screen
-as additional keyword arguments. This can be used to include additional
-information with the images in the gallery.
+:func:`Gallery.image` 和 :func:`Gallery.unlock_image` 方法可以使用前缀为 `show\_` 的关键词入参。
+入参的前缀 `show\_` 将被剔除，然后传入Gallery.image_screen。该功能可用于在画廊中的图片保存额外信息。
 
-Web and ChromeOS
-----------------
+.. _7.5-boxes-grids-and-vpgrids:
 
-The new :var:`config.webaudio_required_types` variable can be given a list of
-mime types of audio files used by the game. Ren'Py will only use the web
-browser's Web Audio system for playback if all of the mime types are supported
-in the browser. If not, webasm is used for playback, which is more likely to
-cause skipping if the computer is slow.
-
-The config.webaudio_required_types variable is intended to allow games using ogg
-or opus audio to run on Safari, and can be changed if a game only uses mp3 audio.
-
-When running as an Android application on a ChromeOS device, the "chromeos"
-variant will be selected.
-
-Boxes, Grids and Vpgrids
+box、grid和vpgrid布局
 ------------------------
 
-Displayables that take up no space (like :ref:`key <sl-key>`, :ref:`timer <sl-timer>`
-or a false :ref:`showif <sl-showif>`) inside a :ref:`vbox <sl-vbox>` or :ref:`hbox <sl-hbox>`
-will not be surrounded with :propref:`spacing`. These displayables still take
-up space in other layouts, such as grids.
+自身不占据任何空间的可视组件(比如 :ref:`key <sl-key>`、:ref:`timer <sl-timer>` 和判断为False时的 :ref:`showif <sl-showif>`)
+放在布局组件 :ref:`vbox <sl-vbox>` 或 :ref:`hbox <sl-hbox>` 中时，:propref:`spacing` 特性没有实际效果。但那些可视组件在其他布局组件中会占据空间，例如grid。
 
-Having an overfull vpgrid - when both ``rows`` and ``cols`` are specified - is now
-disallowed.
+完全重写了vpgrid组件，不允许指定 ``rows`` 和 ``cols`` 后超过总单元格数量的子组件。
 
-Having an underfull vpgrid now raises an error unless the warning is opted-out using
-either the ``allow_underfull`` property or :var:`config.allow_underfull_grids`, the
-former taking precedence on the latter.
+没有完全填满的vpgrid可能会导致一个错误，除非默认启用(opt-out) ``allow_underfull`` 或 配置项 :var:`config.allow_underfull_grids`。
 
-A vpgrid with both cols and rows specified is underfull if and when it has less than
-rows \* cols children. A vpgrid with either cols or rows specified is underfull if and when its number of
-children is not a multiple of the specified value.
+如果vpgrid指定了行数和列数，内部子组件数量却少于“行数×列出”，则称作未满(underfull)。
+一个只指定了行数或列数其中之一的vpgrid，其内部的子组件数量如果不是指定行数或列数的整倍数，则这个vpgrid也是未满的。
 
 .. _call-screen-roll-forward:
 
-Call Screen and Roll Forward
+调用界面和前向滚动
 ----------------------------
 
-The roll forward feature has been disabled by default in the ``call screen``
-statement, as it's unsafe and confusing in the general case. The problem is
-that the only side-effect of a screen that roll-forward preserves is the return
-value of the screen, or the jump location if a screen jumps. Actions with other
-side effects, like changing variables or playing music, were not preserved
-through a roll forwards.
+默认情况下使用 ``call screen`` 将禁用前向滚动，原因是不安全并容易导致混乱。
+关键问题是，在界面中前向滚动会对返回值产生副作用，使用jump的界面跳转也可能有影响。
+有其他副作用的行为，例如修改变量和播放音乐，在前向滚动时都无法保持正确运行。
 
-Roll forward may be safe for a particular screen, and so can be enabled
-on a per-screen basis by enabling the new `roll_forward` property on the
-screen. If all screens in your game support roll forward, it can be enabled
-with the new :var:`config.call_screen_roll_forward` variable.
+确定某个特殊界面使用前向滚动也是安全的前提下，使用 `roll_forward` 特性可以启用前向滚动。
+如果确定游戏中所有界面都要支持前向滚动，可以直接设置 :var:`config.call_screen_roll_forward` 项。
 
-Features
---------
+.. _7.5-new-features:
 
-There is a new "main" volume that can be accessed through :func:`Preferences`.
-The main volume is multiplied with all the other volumes to globally reduce
-the volume of the game.
+新功能特性
+------------
 
-The new  :var:`config.preserve_volume_when_muted` variable causes
-Ren'Py to show the current volume when channels are muted.
+``show screen``、``hide screen`` 和 ``call screen`` 语句可以使用一个 ``expression`` 修饰符，允许通过Python表达式传递界面名称。
 
-A button to clean the Ren'Py temporary directory has been added
-to the preferences screen of the launcher. This can remove these
-files to reduce the space Ren'Py requires.
+在设置 :func:`Preference` 中新增了“main”音量。“main”音量的值会乘以各其他音量的值，以实现对所有游戏音量的调整。
 
-The new :var:`config.choice_empty_window` variable can customize
-the empty window that is shown when a choice menu is displayed. The intended
-use is::
+新增 :var:`config.preserve_volume_when_muted` 配置项，当某个音频通道静音时依然可以查看对应通道的音量值。
+
+启动器的设置界面中新增一个按钮，可以一键清空临时目录文件。
+
+新增 :var:`config.choice_empty_window` 配置项，用于定制选项菜单显示时的空window。
+用法如下：
+
+::
 
     define config.choice_empty_window = extend
 
-Which repeats the last line of dialogue as the caption of the
-choice menu.
+选项菜单标题将使用前一句对话内容。
 
-The :ref:`key <sl-key>` displayable now supports a `capture`
-property, which controls if the pressed key is handled further
-it does not end an interaction.
+可视组件 :ref:`key <sl-key>` 新增支持 `capture` 特性，决定按下的按键是否在某次交互结束后依然需要处理按键事件。
 
-The new "anywhere" value of the :propref:`language` style property
-allows Ren'Py to break anywhere in a string, for when keeping to
-a fixed width is the most important aspect of breaking.
+样式特性 :propref:`language` 新增一个“anywhere”值，允许Ren'Py处理字符串时可在任意地方断开。
 
 The new `predict` argument to :func:`renpy.pause` makes it possible to pause
 until image prediction is finished, including prediction caused by
@@ -186,12 +316,32 @@ The new RENPY_PATH_TO_SAVES environment variable makes it possible to control
 where Ren'Py places system-level saves. The RENPY_MULTIPERSISTENT variable has
 been documented, and controls the same thing with multipersistent data.
 
+The new :var:`config.at_exit_callbacks` functions are called when the game
+quits. This is intended to allow the game to save additional data created
+by the developer.
+
+The :var:`config.default_attribute_callbacks` variable allows a game to
+specify default attributes for a tag that are used when other attributes
+do not conflict.
+
+
+Other Changes
+-------------
+
+It is now possible to copy from :func:`renpy.input` with ctrl-C, and paste
+with ctrl-V. When text input is displayed, ctrl will no longer cause skipping
+to happen.
+
+The :func:`renpy.file` function has been renamed to :func:`renpy.open_file`,
+with the old named retained. It has also gained an `encoding` parameter to
+open the file with an encoding.
+
 The :propref:`focus_mask` style property now defaults to None for drag displayables.
 This improves performance, but means that the displayable can be dragged by
 transparent pixels.
 
-Other changes
--------------
+When adding files to the audio namespace, Ren'Py now scans for flac
+files.
 
 Say statements used as menu captions can now take permanent and temporary
 image attributes, just like say statements elsewhere.
@@ -241,143 +391,144 @@ Playing or stopping music on a channel now unpauses that channel.
 The new :var:`preferences.audio_when_minimized` preference now enables the
 audio of the game to be paused when the window is minimized.
 
+The default for :propref:`outline_scaling` is now "linear".
+
+The version of SDL used by Ren'Py has been upgraded to 2.0.20 on non-web
+platforms.
+
+Many translations have been updated.
+
+The jEdit editor has been removed, as the Ren'Py integration was largely
+obsolete. However, if the version from 7.4.0 is unpacked, it should be
+selectable in the launcher.
+
+Versioning
+----------
+
+Ren'Py's full version numbers are now of the form major.minor.patch.YYMMDDCCnu,
+where:
+
+* YY is the two digit year of the latest commit.
+* MM is the month of the commit.
+* DD is the day of the commit
+* CC is the commit number on that day
+* n is present if this is a nightly build.
+* u is present if this is an unofficial build.
 
 .. _renpy-7.4.11:
 
 7.4.11
 ======
 
-The gui.variant Decorator
+.. _7.4.11-the-gui-variant-decorator:
+
+gui.variant修饰器
 -------------------------
 
-A new gui.variant decorator has been added to Ren'Py. This should be used
-to decorate a function with the name of a variant, and causes that function
-to be run, if the variant is active, when the game is first started, and then
-each time the gui is rebuilt (which happens when :func:`gui.rebuild` is called,
-when a gui preference is changed, or when the translation changes.)
+Ren'Py新增 gui.variant 修饰器。其用于修饰某些的函数。
+当函数运行时，若是游戏首次启动或每次gui重建后(调用 :func:`gui.rebuild` 函数或gui的设定变更，或应用语言变更)修饰器生效。
 
-This is expected to be used like::
+使用样例如下：
+
+::
 
     init python:
 
         @gui.variant
         def small():
 
-            ## Font sizes.
+            ## 字号.
             gui.text_size = gui.scale(30)
             gui.name_text_size = gui.scale(36)
             # ...
 
-as a replacement for::
+无修饰器的原脚本为：
+
+::
 
     init python:
 
         if renpy.variant("small"):
-            ## Font sizes.
+            ## 字号
             gui.text_size = gui.scale(30)
             gui.name_text_size = gui.scale(36)
             # ...
 
-Which only runs once, and lost the changes if the gui was ever rebuilt.
+无修饰器版本只会运行一次，并且在gui重建后会丢失所有变更内容。
 
-Fixes
+.. _7.4.11-fixed:
+
+修复
 -----
 
-The new :var:`config.mouse_focus_clickthrough` variable determines if clicks that
-cause the game window to be focused will be processed normally.
+新增配置项 :var:`config.mouse_focus_clickthrough`，用于判断鼠标点击是否让游戏窗口获得焦点，并正常处理点击事件。
 
-The launcher now runs with :var:`config.mouse_focus_clickthrough` true, which
-means that it will only take a single click to launch the game.
+启动器的 :var:`config.mouse_focus_clickthrough` 设置为True，所以只要点击一次就可以直接启动游戏了。
 
-The `caret_blink` property of Input is now exposed through screen language.
+输入框的 `caret_blink` 特性可以在界面语言中使用。
 
-When a Live2D motion contains a curve with a shorter duration then the motion
-it is part of, the last value of the curve is retained to the end of the
-motion.
+若Live2D动作中某条动画曲线的时间范围小于整个动作的时间，将维持该动画曲线的终值到动作结束。
 
-Rare issues with a displayable being replaced by a displayable of a different
-type are now guarded against. This should only occur when a game is updated
-between saves.
+可视组件在被不同类型可视组件替换时极小概率出现的问题已针对性防护。上述问题应该只出现在游戏更新后不同版本存档间。
 
-Modal displayables now prevent pauses from ending.
+模态(modal)可视组件不再阻止暂停。
 
-An issue that could cause images to not display in some cases (when a displayable
-was invalidated) has been fixed.
+某些情况(比如可视组件不可见状态)图像无法正常显示的问题已修复。
 
-Starting a movie no longer causes paused sounds to unpause.
+播放影片不再会导致暂停的音响恢复播放。
 
-AudioData objects are no longer stored in the persistent data. Such objects
-are removed when persistent data is loaded, if present.
+AudioData对象不再存储在持久化数据中。加载持久化数据后，类似对象将会删除。
 
-Platform variables like renpy.android and renpy.ios are now set to follow
-the emulated platform, when Ren'Py is emulating ios or android.
+平台标识，例如renpy.android和renpy.ios，将会与运行的模拟平台保持一致。
 
-When in the iOS and Android emulator, the mobile rollback side is used.
+在iOS和安卓模拟器中，移动端回滚侧栏将被启用。
 
-Ren'Py will now always run an `unhovered` action when a displayable (or its
-replacement) remains shown, and the focus changes. Previously, the unhovered
-action would not run when the loss of focus was caused by showing a second
-screen.
+Ren'Py对保持显示的可视组件(或替代组件)将使用运行其 `unhovered` 行为，即使焦点发生变更。
+在之前的版本中，组件失去焦点并显示另一个界面时，会不再运行unhovered行为。
 
-When :var:`config.log` is true, the selected choice is now logged properly.
+若 :var:`config.log` 设置为True，选择的选项将会被记录在日志中。
 
-The new :func:`gui.variant` function makes it possible to work around
-an issue in the standard gui where the calling :func:`gui.rebuild` would cause
-gui variants to reset.
+新增的 :func:`gui.variant` 函数可以用来处理标准gui调用 :func:`gui.rebuild` 时可能导致的各种gui变量重置导致的问题。
 
-The web browser now checks for progressively downloaded images once per
-frame, allowing images to be loaded into the middle of an animation.
+Web浏览器端将每帧检查图片下载进度，允许在动画中加载图片。
 
-Live2D now uses saturation arithmetic to combine motion fadeins and fadeouts,
-such that if the fadein contributes 80% of a parameter value, and the
-fadeout contributes 20% of the value, 100% of the value comes from
-the two motions. (Previously, the fadein and fadeout were applied
-independently, such that together, the fadein and fadeout would
-contribute 84% of the value, with the remaining 16% taken from
-the default.)
+Live2D现在使用饱和算法实现连接动作间的淡入淡出。例如，淡入动作贡献80&的参数值，淡出动作贡献20%，所有数值都源自这两个动作。
+(之前的版本中，淡入和淡出动作独立启动。例如可能会导致淡入和淡出动作都贡献了数值的84%，其余的16%由默认动作贡献。)
 
-When fading from one sequence of Live2D motions to another, the original
-sequence ends when a motion fades out.
+从某个Live2D动作序列淡入到另一个序列时，前一个动作序列将在淡出后结束。
 
-When preserving screens in the old state for a transition, the later_at_list
-and camera lists are taken from the old state, preventing unexpected changes.
+从某个专场恢复旧状态的界面时，later_at_list和camera列表会从旧状态获取值，防止意外。
 
-The :tpref:`gl_depth` property now causes Ren'Py to use GL_LEQUALS,
-which more closely matches Ren'Py's semantics.
+`gl_depth` 特性可以让Ren'Py使用GL_LEQUALS。这个设置更适配Renpy语法。
 
-The 4-component constructor for matrices has been fixed.
+矩阵的4元构造器已修复。
 
-Ren'Py now cleans out the android build directories when producing a Android
-App Bundle (AAB) file, preventing problems that might be caused when packaging
-multiple games, or a single game where files are deleted.
+Ren'Py在构建安卓App Bundle(AAB)文件时，将清理构建目录，防止打包多个游戏时互相影响。
 
-Live2d now properly handles seamless animation when the same motion is repeated
-in a displayable. (For example, ``show eileen m1 m1 m2`` where ``m1`` is seamless.)
+Live2D中重复多个同名动画可以无缝衔接。
+(例如，``show eileen m1 m1 m2`` 中，两个 ``m1`` 都是无缝衔接的。)
 
-Mouse motion is now tracked on Chrome OS devices. This prevents the mouse cursor
-from being hidden between clicks.
+ChromeOS设备上的鼠标动作可以追踪了。该功能可以防止鼠标光标在点击后隐藏的情况。
 
-An issue with windows partially rendering on ChromeOS has been resolved.
+ChromeOS上窗口部分渲染渲染的问题已解决。
 
-An issue with transcludes in screens has been fixed.
+界面中transcludes相关的问题已修复。
 
-An issue that could prevent a transform with both :tpref:`perspective` and
-:tpref:`mesh` true from displaying has been fixed.
+在变换中将 :tpref:`perspective` 和 :tpref:`mesh` 设置为True可能会导致的问题都已修复。
 
-Buttons now only propagate transform state to direct children, not to
-children accessed through ImageReferences.
+按钮将只会向直接子组件广播变换状态，而不再对图片引用类型子组件生效。
 
-The ``repeat_`` modifier can now be applied to gamepad events.
+``repeat_`` 修饰符可以用于游戏控制器事件。
 
-A new :var:`config.debug_prediction` variable has been split out of
-:var:`config.debug_image_cache`. This controls the logging of
-prediction errors to the console and log.txt, making the latter
-variable act as documented.
+从 :var:`config.debug_image_cache` 分离出 :var:`config.debug_prediction` 配置项。
+该项控制预加载错误日志记录到log.txt，将后续的变量记录到日志中。
 
-Translations
+.. _7.4.11-translations:
+
+多语言支持
 ------------
 
-The German, Indonesian, Polish, and Russian translations have been updated.
+德语、印度尼西亚语、波兰语和俄语版本更新。
 
 
 .. _renpy-7.4.10:
@@ -385,34 +536,25 @@ The German, Indonesian, Polish, and Russian translations have been updated.
 7.4.10
 ======
 
-Fixes
+.. _7-4-10-fixes:
+
+修复
 -----
 
-This released fixes an issue that prevented large images (larger than
-maximum texture size, 4096x4069 on most platforms) from being displayed
-by the gl2 renderer.
+该版本修复了使用gl2渲染器时，超大尺寸图片(超过大多数平台上的最大纹理尺寸4096×4096)无法正常显示的问题。
 
-Dialogue lines that end with the {nw} tag now do not wait for voice to
-finish.
+对话内容行尾使用 {nw} 标签(tag)时，将不会等待语音结束。
 
-Dialogue lines that contain {fast} (including those created
-with the ``extend`` character) sustain the voice from the previous
-statement.
+包含 {fast} (包括使用 ``extend`` 的角色)的对话行将从前一个语句起保持语音播放。
 
-These supplement a change introduced in 7.4.9 (that missed the changelog),
-where timed {w} and {p} text tags will no longer wait for voice to stop
-playing before advancing.
+7.4.9版本变化的补充(变更日志中忘记写了)：{w}和{p}文本标签将不在等待语音播放完成后再前进。
 
-The :propref:`focus_mask` property can be slow, but several changes to
-have been included to fix pathological cases of slowness. While it's best
-to avoid it if possible (the default will change to None for drags, where
-it's True now, in 7.5), this should allow for some speedups where it is
-True.
+:propref:`focus_mask` 特性可能会比较慢，但一些更改尝试并没有使其变快。
+所以最好暂时避免使用该特性(拖放组件的该特性默认值是True，后续的7.5版本将改为None)，可以提升一些运行速度。
 
-Live2D support no longer logs to log.txt by default. That logging can be
-restored with :var:`config.log_live2d_loading`.
+Live2D的相关日志不再强制写入log.text，可以通过 :var:`config.log_live2d_loading` 配置。
 
-A problem with automatically determining the Android store has been fixed.
+自动判断安卓应用商店的问题已修复。
 
 
 Translations
@@ -530,44 +672,33 @@ descriptive文本功能禁用时，descriptive文本( :var:`alt` 角色)不再�
 其他
 -----
 
-The :ref:`bar <sl-bar>` screen language statement now has a new property,
-`released`, that gives an action to perform when the bar is released.
+当前版本界面语言中的 :ref:`bar <sl-bar>` 语句新增 `released` 特性。该特性可以在条(bar)被释放时执行指定的行为。
 
-It's now documented that the :ref:`key <sl-key>` screen language statement
-can take a list of keysyms.
+当前版本界面语言中的 :ref:`key <sl-key>` 语句可以直接使用按键列表进行定义。
 
-On Linux, if Ren'Py detects the "C" locale, it will enable support for
-UTF-8 filesystems. This is intended to provide better compatibility with
-Steam Linux, which uses this locale.
+在Linux系统上，当Ren'Py检测到“C”运行语言环境时，它会启用支持UTF-8编码的文件系统。
+这用于提供Linux版Steam的更好适配性。
 
-A new Polish translation of the launcher has been added.
+启动器添加波兰语版本。
 
-The music room has been updated to include a TogglePause button,
-that pauses and unpauses music.
+音乐鉴赏房间添加了一个“TogglePause”按钮，可以暂停和恢复音乐播放。
 
-There is now a --safe-mode flag, that starts Ren'Py in safe mode.
+添加 --safe-mode 运行标识，可以在安全模式下启动Ren'Py。
 
-Mute now mutes movies.
+静音操作可以对影片生效。
 
-An issue that caused analysis files to grow unconstrained, slowing down
-Ren'Py startup, has been fixed. The analysis file will be reduced in size
-when the game scripts are recompiled.
+分析文件无节制增长，导致Ren'Py启动变慢的问题已经修复。分析文件将在脚本重新编译后缩减。
 
-The :propref:`hover_sound` and :propref:`activate_sound` properties now
-apply to bars.
+条(bar)新增 :propref:`hover_sound` 和 :propref:`activate_sound` 两个特性。
 
-When dispatching events in ATL, if an event with a ``selected_`` prefix is not
-handled, the prefix is stripped and the event is matched again. This means
-that a ``hover`` handler will handle the ``selected_hover`` even if the
-``selected_hover`` handler does not exist, and same thing with ``selected_idle``
+在ATL内部匹配事件时，如果前缀是 ``selected_`` 事件没有处理，前缀将去掉并再次匹配。
+这意味着，如果 ``selected_hover`` 处理器不存在时， ``hover`` 处理器将处理 ``selected_hover`` 事件。类似的情况还有 ``selected_idle`` 。
 
-Ren'Py versions can now include an optional letter at the end. The ``n`` suffix
-is applied to nightly builds of Ren'Py, while the ``u`` suffix is applied to
-unofficial builds.
+Ren'Py版本号可以在结尾包含一个可选的字母。后缀 ``n`` 表示每夜版，后缀 ``u`` 用于非官方版。
 
-The ``default`` statement is applied after each rollback.
+每次回滚都将运行所有 ``default`` 语句。
 
-A regression that could prevent text in buttons from changing has been fixed.
+按钮组件中阻止文本修改的某个回退已修复。
 
 .. _renpy-7.4.8:
 

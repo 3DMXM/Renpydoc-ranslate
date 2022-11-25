@@ -157,146 +157,174 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
 .. class:: Gallery(self)
 
-  该类支持画廊实例的创建。该类提供的处理锁定图片的函数、显示一个或者多个图片的行为，以及创建按钮使用那个行为的方法。
+    该类支持画廊实例的创建。该类提供的处理锁定图片的函数、显示一个或者多个图片的行为，以及创建按钮使用那个行为的方法。
 
-  .. attribute:: transition
+    .. attribute:: transition
 
-    改变图像时使用的转场(transition)。
+        改变图像时使用的转场(transition)。
 
-  .. attribute:: locked_button
+    .. attribute:: locked_button
 
-    make_button用于某个被锁定按钮的默认可视组件。
+        make_button用于某个被锁定按钮的默认可视组件。
 
-  .. attribute:: hover_border
+    .. attribute:: hover_border
 
-    make_button使用的默认鼠标悬垂(hover)边界(border)。
+        make_button使用的默认鼠标悬垂(hover)边界(border)。
 
-  .. attribute:: idle_border
+    .. attribute:: idle_border
 
-    make_button使用的默认空闲(idle)边界(border)。
+        make_button使用的默认空闲(idle)边界(border)。
 
-  .. attribute:: unlocked_advance
+    .. attribute:: unlocked_advance
 
-    若为True，画廊只会在解锁的图片中advance through。
+        若为True，画廊只会在解锁的图片中advance through。
 
-  .. attribute:: navigation
+    .. attribute:: navigation
 
-    若为True，画廊会在图片的上方显示导航和幻灯片按钮。
+        若为True，画廊会在图片的上方显示导航和幻灯片按钮。
 
-    若要定制导航外观，你可以重写gallery_navigation界面。默认的界面定义在common/00gallery.rpy中。
+        若要定制导航外观，你可以重写gallery_navigation界面。默认的界面定义在common/00gallery.rpy中。
 
-  .. attribute:: span_buttons
+    .. attribute:: span_buttons
 
-    若为True，添加span按钮。
+        若为True，添加span按钮。
 
-  .. attribute:: slideshow_delay
+    .. attribute:: slideshow_delay
 
-    使用幻灯片模式时，画廊中每张图片的播放时间。
+        使用幻灯片模式时，画廊中每张图片的播放时间。
 
-  .. method:: Action(name)
 
-    一个行为(action)，显示与给定的按钮名name相关联的图像。
+    .. attribute:: image_screen = "_gallery"
 
-  .. method:: Next(unlocked=False)
+        该界面用于显示画廊中的独立图片。
+        可以使用下列关键词参数：
 
-    前进至画廊的下一个图片。
+        `locked`
+            图片锁定状态则为True。
 
-    `unlocked`
-      若为True，只使用已解锁的图片。
+        `displayables`
+            一个经过变换的可视组件组成的列表，用于向用户展示。
 
-  .. method:: Previous(unlocked=False)
+        `index`
+            显示图片序列号，从1开始计。
 
-    后退至画廊的上一个图片。
+        `count`
+            当前按钮对应的图片数量。
 
-    `unlocked`
-      若为True，只使用已解锁的图片。
+        `gallery`
+            Gallery对象。
 
-  .. method:: Return(self)
+        调用 :meth:`Gallery.image` 和 :meth:`Gallery.unlock_image` 时，带前缀 `show_` 的将作为额外参数传入。
+        界面的默认定义在 renpy/common/00gallery.rpy 文件底部。
 
-    停止显示画廊图片。
+    .. method:: Action(name)
 
-  .. method:: ToggleSlideshow(self)
+        一个行为(action)，显示与给定的按钮名name相关联的图像。
 
-    切换幻灯片模式。
+    .. method:: Next(unlocked=False)
 
-  .. method:: allprior(self)
+        前进至画廊的下一个图片。
 
-    一个条件函数，当前按钮关联的所有主要图片都解锁的情况下为True。
+        `unlocked`
+            若为True，只使用已解锁的图片。
 
-  .. method:: button(name)
+    .. method:: Previous(unlocked=False)
 
-    创建一个名为 *name* 的按钮。
+        后退至画廊的上一个图片。
 
-    `name`
-      创建的按钮名称。
+        `unlocked`
+            若为True，只使用已解锁的图片。
 
-  .. method:: condition(expression)
+    .. method:: Return(self)
 
-    一个条件函数，expression为真时表示条件满足。
+        停止显示画廊图片。
 
-    `expression`
-      一个Python表达式字符串。
+    .. method:: ToggleSlideshow(self)
 
-  .. method:: display(*displayables)
+        切换幻灯片模式。
 
-    将一个新的图像添加至当前按钮。该图像由一个或多个可视组件构成。
+    .. method:: allprior(self)
 
-  .. method:: get_fraction(name, format=u'{seen}/{total}')
+        一个条件函数，当前按钮关联的所有主要图片都解锁的情况下为True。
 
-    返回一个文本字符串，表示名为 *name* 的按钮的已解锁图片数和图片总数。
+    .. method:: button(name)
 
-    `format`
-      一个Python格式字符串，用于格式化数值。有三种可以被替换的值：
+        创建一个名为 *name* 的按钮。
 
-      **{seen}**
-        已经看过的图片的数值。
+        `name`
+            创建的按钮名称。
 
-      **{total}**
-        按钮中图片总数。
+    .. method:: condition(expression)
 
-      **{locked}**
-        依然锁定的图片数量。
+        一个条件函数，expression为真时表示条件满足。
 
-  .. method:: image(*displayables)
+        `expression`
+            一个Python表达式字符串。
 
-    将一个新的图像添加至当前按钮。该图像由一个或多个可视组件构成。
+    .. method:: display(*displayables)
 
-  .. method:: make_button(name, unlocked, locked=None, hover_border=None, idle_border=None, **properties)
+        将一个新的图像添加至当前按钮。该图像由一个或多个可视组件构成。
 
-    该函数创建一个按钮，显示与给定按钮名相关联的图像。
+    .. method:: get_fraction(name, format=u'{seen}/{total}')
 
-    `name`
-      需要创建的按钮名称。
+        返回一个文本字符串，表示名为 *name* 的按钮的已解锁图片数和图片总数。
 
-    `unlocked`
-      当按钮解锁时显示的可视组件。
+        `format`
+            一个Python格式字符串，用于格式化数值。有三种可以被替换的值：
 
-    `locked`
-      当按钮锁定时显示的可视组件。若为None，将使用画廊对象的locked_button字段(field)值。
+        **{seen}**
+            已经看过的图片的数值。
 
-    `hover_border`
-      当按钮解锁并得到焦点时，覆盖在按钮上的可视组件。若为None，将使用画廊对象的hover_border字段(field)值。
+        **{total}**
+            按钮中图片总数。
 
-    `idle_border`
-      当按钮解锁未得到焦点是，覆盖在按钮上的可视组件。若为None，将使用画廊对象的idle_border字段(field)值。
+        **{locked}**
+            依然锁定的图片数量。
 
-    更多的关键词入参会成为所创建按钮对象的样式特性(sytle property)。
+    .. method:: image(*displayables)
 
-  .. method:: transform(*transforms)
+        将一个新的图像添加至当前按钮。该图像由一个或多个可视组件构成。
+        
+        前缀 show_ 会被剔除，然后作为额外关键词参数传入gallery.image_screen界面。
 
-    将变换(transform)应用于注册的最后一张图片。该函数被调用时应该包含与图片中可视组件数量相同的变换(transform)数量。每个变换分别对应一个可视组件。
+    .. method:: make_button(name, unlocked, locked=None, hover_border=None, idle_border=None, **properties)
 
-    如果某个变换为None，就使用默认的变换。
+        该函数创建一个按钮，显示与给定按钮名相关联的图像。
 
-  .. method:: unlock(*images)
+        `name`
+            需要创建的按钮名称。
 
-    一个条件函数，使用一个或多个图片名作为入参，当所有入参的图像都被用户看过时表示条件满足。图片名称应该是字符串。
+        `unlocked`
+            当按钮解锁时显示的可视组件。
 
-  .. method:: unlock_image(*images)
+        `locked`
+            当按钮锁定时显示的可视组件。若为None，将使用画廊对象的locked_button字段(field)值。
 
-    一个简便的函数，等效于使用相同的参数调用图片对象并解锁。这个函数会触发某个图片的显示，前提是这个图片之前被看过。
+        `hover_border`
+            当按钮解锁并得到焦点时，覆盖在按钮上的可视组件。若为None，将使用画廊对象的hover_border字段(field)值。
 
-    指定的图片名应该是字符串。
+        `idle_border`
+            当按钮解锁未得到焦点是，覆盖在按钮上的可视组件。若为None，将使用画廊对象的idle_border字段(field)值。
+
+        更多的关键词入参会成为所创建按钮对象的样式特性(sytle property)。
+
+    .. method:: transform(*transforms)
+
+        将变换(transform)应用于注册的最后一张图片。该函数被调用时应该包含与图片中可视组件数量相同的变换(transform)数量。每个变换分别对应一个可视组件。
+
+        如果某个变换为None，就使用默认的变换。
+
+    .. method:: unlock(*images)
+
+        一个条件函数，使用一个或多个图片名作为入参，当所有入参的图像都被用户看过时表示条件满足。图片名称应该是字符串。
+
+    .. method:: unlock_image(*images)
+
+        一个简便的函数，等效于使用相同的参数调用图片对象并解锁。
+        (前缀为 ``show_`` 的关键词入参会传给对应图片对象。)
+        这个函数会触发某个图片的显示，前提是这个图片之前被看过。
+
+        指定的图片名应该是字符串。
 
 .. _music-room:
 
@@ -366,7 +394,7 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
 ::
 
-        textbutton "Music Room" action ShowMenu("music_room")
+    textbutton "Music Room" action ShowMenu("music_room")
 
 主菜单界面添加音乐空间选项。
 
@@ -375,98 +403,98 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
 .. class:: MusicRoom(channel=u'music', fadeout=0.0, fadein=0.0, loop=True, single_track=False, shuffle=False, stop_action=None)
 
-  一个音乐空间类，包含一系列可由用户解锁的曲子，以及顺序播放音频列表的行为。
+    一个音乐空间类，包含一系列可由用户解锁的曲子，以及顺序播放音频列表的行为。
 
-  `channel`
-    音乐空间使用的音频通道。
+    `channel`
+        音乐空间使用的音频通道。
 
-  `fadeout`
-    改变音轨时，渐出效果时长，单位为秒。
+    `fadeout`
+        改变音轨时，渐出效果时长，单位为秒。
 
-  `fadein`
-    改变音轨时，渐入效果时长，单位为秒。
+    `fadein`
+        改变音轨时，渐入效果时长，单位为秒。
 
-  `loop`
-    当播放列表到达结尾时，决定循环播放还是停止播放。
+    `loop`
+        当播放列表到达结尾时，决定循环播放还是停止播放。
 
-  `single_track`
-    若为True，每次只播放一条音轨。若 *loop* 为True，则循环播放这条音轨。否则在音轨结束时结束播放。
+    `single_track`
+        若为True，每次只播放一条音轨。若 *loop* 为True，则循环播放这条音轨。否则在音轨结束时结束播放。
 
-  `shuffle`
-    若为True，所有音轨乱序播放。若为False，根据音轨加入到音乐空间的顺序播放。
+    `shuffle`
+        若为True，所有音轨乱序播放。若为False，根据音轨加入到音乐空间的顺序播放。
 
-  `stop_action`
-    当音乐停止时执行的行为(action)。
+    `stop_action`
+        当音乐停止时执行的行为(action)。
 
-  *single_track* 和 *shuffle* 两项是冲突的，二者最多只有一项能设置为True。(设置 *single_track* 和 *shuffle* 的行为会有这样的强制要求)。
+    *single_track* 和 *shuffle* 两项是冲突的，二者最多只有一项能设置为True。(设置 *single_track* 和 *shuffle* 的行为会有这样的强制要求)。
 
-  .. method:: Next(self)
+    .. method:: Next(self)
 
-    触发音乐空间播放列表中下一个已解锁音乐的行为。
+        触发音乐空间播放列表中下一个已解锁音乐的行为。
 
-  .. method:: Play(filename=None)
+    .. method:: Play(filename=None)
 
-    这个行为触发音乐空间开始播放音乐。如果给定了 *filename* ，就开始播放对应的音频文件。否则，当前播放文件重新开始(前提是已经解锁)，或者播放第一个音频文件。
+        这个行为触发音乐空间开始播放音乐。如果给定了 *filename* ，就开始播放对应的音频文件。否则，当前播放文件重新开始(前提是已经解锁)，或者播放第一个音频文件。
 
-    如果给定了 *filename* ，但对应的音频依然被锁定，那对应的按钮是不可用状态，正在播放的 *filename* 会被设为被选中状态。
+        如果给定了 *filename* ，但对应的音频依然被锁定，那对应的按钮是不可用状态，正在播放的 *filename* 会被设为被选中状态。
 
-  .. method:: Previous(self)
+    .. method:: Previous(self)
 
-    让音乐空间播放列表中上一个解锁文件的行为。
+        让音乐空间播放列表中上一个解锁文件的行为。
 
-  .. method:: RandomPlay(self)
+    .. method:: RandomPlay(self)
 
-    让音乐空间播放随机选择的一个解锁音轨的行为。
+        让音乐空间播放随机选择的一个解锁音轨的行为。
 
-  .. method:: SetLoop(value)
+    .. method:: SetLoop(value)
 
-    这个行为设置loop特性的值。
+        这个行为设置loop特性的值。
 
-  .. method:: SetShuffle(value)
+    .. method:: SetShuffle(value)
 
-    这个行为设置shuffle特性的值。
+        这个行为设置shuffle特性的值。
 
-  .. method:: SetSingleTrack(value)
+    .. method:: SetSingleTrack(value)
 
-    这个行为设置single_track特性的值。
+        这个行为设置single_track特性的值。
 
-  .. method:: Stop(self)
+    .. method:: Stop(self)
 
-    这个行为停止音乐播放。
+        这个行为停止音乐播放。
 
-  .. method:: ToggleLoop(self)
+    .. method:: ToggleLoop(self)
 
-    这个行为切换loop特性的值。
+        这个行为切换loop特性的值。
 
-  .. method:: TogglePlay(self)
+    .. method:: TogglePlay(self)
 
-    如果当前没有任何音乐在播放，这个行为会开始播放第一个解锁的音轨。否则，停止当前音乐的播放。
+        如果当前没有任何音乐在播放，这个行为会开始播放第一个解锁的音轨。否则，停止当前音乐的播放。
 
-    任何音乐播放时，这个按钮都是可用状态。
+        任何音乐播放时，这个按钮都是可用状态。
 
-  .. method:: ToggleShuffle(self)
+    .. method:: ToggleShuffle(self)
 
-    这个行为切换shuffle特性的值。
+        这个行为切换shuffle特性的值。
 
-  .. method:: ToggleSingleTrack(self)
+    .. method:: ToggleSingleTrack(self)
 
-    这个行为切换single_track特性的值。
+        这个行为切换single_track特性的值。
 
-  .. method:: add(filename, always_unlocked=False, action=None)
+    .. method:: add(filename, always_unlocked=False, action=None)
 
-    将音乐文件 *filename* 添加到音乐空间。音乐空间中文件被添加的顺序就是音乐播放的默认顺序。
+        将音乐文件 *filename* 添加到音乐空间。音乐空间中文件被添加的顺序就是音乐播放的默认顺序。
 
-    `always_unlocked`
-      若为True，音乐文件始终是解锁状态。这个设置允许音乐文件在游戏播放过之前，就可以在音乐空间中使用。
+        `always_unlocked`
+            若为True，音乐文件始终是解锁状态。这个设置允许音乐文件在游戏播放过之前，就可以在音乐空间中使用。
 
-    `action`
-      这是一个行为或者行为列表。当文件播放时，这个行为或行为列表会被调用。
+        `action`
+            这是一个行为或者行为列表。当文件播放时，这个行为或行为列表会被调用。
 
-      例如，这些行为可以用于播放音乐文件时改变界面或者背景。
+            例如，这些行为可以用于播放音乐文件时改变界面或者背景。
 
-  .. method:: is_unlocked(filename)
+    .. method:: is_unlocked(filename)
 
-    如果 *filename* 已被解锁(或一直是解锁)则返回True，否则返回False。
+        如果 *filename* 已被解锁(或一直是解锁)则返回True，否则返回False。
 
 .. _replay:
 
@@ -491,25 +519,25 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 
 ::
 
-  ###
+    ###
 
        "最后，我终于见到了魔导士本尊。"
 
-  label meaning_of_life:
+    label meaning_of_life:
 
-       scene
+        scene
 
-      "魔术师" "你问我，生命的意义？"
+        "魔术师" "你问我，生命的意义？"
 
-      "魔术师" "我曾经苦思冥想，并为获取这个问题的答案耗费了大量时光。"
+        "魔术师" "我曾经苦思冥想，并为获取这个问题的答案耗费了大量时光。"
 
-      "魔术师" "而现在我会这样回答这个问题——生命的意义是……"
+        "魔术师" "而现在我会这样回答这个问题——生命的意义是……"
 
-      "魔术师" "是43。"
+        "魔术师" "是43。"
 
-      $ renpy.end_replay()
+        $ renpy.end_replay()
 
-      "魔术师" "总之就是类似的玩意儿。"
+        "魔术师" "总之就是类似的玩意儿。"
 
 (译者注：这个梗比较冷僻，稍作解释。道格拉斯·亚当斯的小说《银河系漫游指南》中提到，42是“生命、宇宙以及任何事情的终极答案”。
 此后，42经常被用来表示致敬。援引维基百科上对 `42 <https://zh.wikipedia.org/wiki/42>`_ 的解释，几个最著名的致敬梗有：
@@ -525,13 +553,13 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 
 ::
 
-  textbutton "生命的意义" action Replay("meaning_of_life")
+    textbutton "生命的意义" action Replay("meaning_of_life")
 
 回放模式有一个专用的存储变量：
 
 .. var:: _in_replay
 
-   在回放模式下，这个变量就是回放开始的文本标签(label)。非回放模式下，这个变量值是None。
+    在回放模式下，这个变量就是回放开始的文本标签(label)。非回放模式下，这个变量值是None。
 
 除此之外，:var:`config.enter_replay_transition` 和
 :var:`config.exit_replay_transition` 会分别使用在进入和离开回放模式时。在进入回放时， :var:`config.replay_scope` 会向清理后的存储区添加变量，默认情况下会设置
@@ -541,27 +569,27 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 
 .. function:: EndReplay(confirm=True)
 
-  结束当前回放。
+    结束当前回放。
 
-  `confirm`
-    若为True，结束回放前提示用户确认。
+    `confirm`
+        若为True，结束回放前提示用户确认。
 
 .. function:: Replay(label, scope={}, locked=None)
 
-  从 *label* 处开始回放的行为。
+    从 *label* 处开始回放的行为。
 
-  `scope`
-    一个字典，表示从变量名与变量值的映射关系。进入回放时，所有变量会设置该字典的值。
+    `scope`
+        一个字典，表示从变量名与变量值的映射关系。进入回放时，所有变量会设置该字典的值。
 
-  `locked`
-    若为True，该回放锁定。若为False，该回放解锁。若为None，如果游戏进度未进展到对应标签则锁定回放。
+    `locked`
+        若为True，该回放锁定。若为False，该回放解锁。若为None，如果游戏进度未进展到对应标签则锁定回放。
 
 .. function:: renpy.call_replay(label, scope={})
 
-  将脚本标签(label)视为一个回忆。
+    将脚本标签(label)视为一个回忆。
 
-  关键词入参用于设置回忆场景的变量初始值。
+    关键词入参用于设置回忆场景的变量初始值。
 
 .. function:: renpy.end_replay()
 
-  处在回放时，立刻结束回放。否则，不做任何事。
+    处在回放时，立刻结束回放。否则，不做任何事。

@@ -10,7 +10,7 @@
 
 ::
 
-    default preferences.text_cps = 142
+    default preferences.text_cps = 40
 
 设置默认的每秒显示字符数为40。在环境设定值已经修改过的情况下，使用default语句修改环境设定值才会直接生效。例如，如果用户将cps设置为50，以后运行时cps将保持为50。如果之后还有使用default语句修改cps为42，那么用户的设置就会修改为42。(之后用户可以再次修改。)
 
@@ -104,11 +104,13 @@
 
 .. var:: preferences.system_cursor = False
 
-    If True, the system cursor is forced to be used, ignoring the
-    :var:`config.mouse` value. If False, it will not. The equivalent of the
-    "system cursor" preference.
     若为True，强制使用系统鼠标光标，忽略 :var:`config.mouse` 的值。
     若为False，则不执行这种操作。等效于“system cursor”设置。
+
+.. var:: preferences.audio_when_minimized = True
+
+    若为Fasel，窗口最小化后音频通道停止，当窗口恢复后音频通道恢复。
+    若为True，窗口状态与音频无关。等效于“最小话窗口保持声音”选项。
 
 .. _mixer-functions:
 
@@ -120,7 +122,7 @@
     将混音器 `mixer` 的音量值设置为 `volume` 。
 
     `mixer`
-        表示混音器名称的字符串。默认的混音器名称包括“music”、“sfx”和“voice”。
+        表示混音器名称的字符串。默认的混音器名称包括“main”、“music”、“sfx”和“voice”(“main”是个特殊混音器)。
 
     `volume`
         介于0.0到1.0之间的数值。

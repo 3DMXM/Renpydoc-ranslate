@@ -184,7 +184,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.after_load_callbacks = [ ... ]
 
-    读档时，(无入参)调用的参数列表。
+    读档时，(无入参)调用的回调函数列表。
+    
+    若回调函数会修改数据(例如，从旧版迁移数据到新版)，应该调用 :func:`renpy.block_rollback` 函数，以防止用户回滚导致修改回退。
 
 .. var:: config.after_replay_callback = None
 
@@ -193,6 +195,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.allow_underfull_grids = False
 
     若为True，Ren'Py不强制要求grids填充满。
+
+.. var:: config.always_shown_screens = [ ]
+
+    Ren'Py中始终强制显示的界面列表。该列表中的界面在UI隐藏时或打开菜单时，依然会显示。
+    该项通常由Ren'Py内部使用。对创作者来说，:var:`config.overlay_screens` 更合适。
 
 .. var:: define config.audio_filename_callback = None
 
@@ -215,6 +222,12 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     * 通道上播放文件的前缀。
     * 通道上播放文件的后缀。
 
+.. var:: config.auto_movie_channel = True
+
+    若为True，`play` 入参传入 :func:`Movie`。每个影片都会自动生成对应的音频通道名。
+
+    :var:`config.single_movie_channel` 的优先级高于该配置项。
+
 .. var:: config.auto_load = None
 
     若非None，该项表示Ren'Py启动时自动加载的一个存档文件名。这项是提供给针对开发者用户，而不是终端用户用的。将这项设置为1的话，就会自动读取槽位1的存档。
@@ -229,23 +242,14 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     更多细节详见 :ref:`自动语音 <automatic-voice>` 。
 
-.. var:: config.automatic_images = None
+.. var:: config.autosave_callback = None
 
-    若非None，则允许Ren'Py自动定义图像。
+    后台自动存档时，将调用的回调函数列表。某些交互后可能需要执行一些行为函数，但不需要返回值。
 
-    非空的情况下，这项应该设置为一个分隔符列表。(例如， ``[ ' ', '_', '/' ]`` 。)
+    若非行为类回调函数会显示一个可视组件或界面，需要调用 :func:`renpy.restart_interaction`。
 
-    Ren'Py会扫描磁盘和归档的文件列表。当找到后缀名是“.png”或“.jpg”文件，Ren'Py会省略这些后缀，并根据文件名创建新的图像名。如果文件名至少包含两部分，并且没有同名的图像被定义过，Ren'Py会根据文件名匹配文件名。
-
-    根据分隔符列表样例，如果你的游戏目录中包含：
-
-    * eileen_happy.png， Ren'Py 会定义图像 "eileen happy".
-    * lucy/mad.png，Ren'Py会定义图像"lucy mad".
-    * mary.png，Ren'Py不会做任何事。(因为图片文件名不包含两部分。)
-
-.. var:: config.automatic_images_strip = [ ]
-
-      一个字符串列表，给定了自动定义图像时省略的前缀。当某些目录下包含图片，可以用来删除目录名称。
+    ::
+        define config.autosave_callback = Notify("Autosaved.")
 
 .. var:: config.autosave_slots = 10
 
@@ -290,6 +294,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     若为True，Ren'Py会把关于 :ref:`图像缓存 <images>`
     的信息写入到image_cache.txt文件中。
+
+.. var:: config.debug_prediction = False
+
+    若为True，Ren'Py会将预加载(执行流程、图像、界面)时发生的错误记录到日志log.txt和控制台中。
 
 .. var:: config.debug_sound = False
 
@@ -578,6 +586,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     Ren'Py启动时加载的TrueType和OpenType字体名列表。添加在这个列表中的字体名称可以防止引入新字体Ren'Py出现暂停。
 
+.. var::  config.preserve_volume_when_muted = False
+
+    若为False，即默认值，当音频通道处于静音状态时，对应通道的音量值为0，并不能改变。
+    否则，音频通道在静音状态下可以调整音量值。
+
 .. var:: config.python_callbacks = [ ]
 
     一个函数列表。列表中的函数会在初始化阶段之外的任何时候被调用，不使用任何入参。
@@ -692,6 +705,19 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     若非None，这是一个字符串，表示自动语音模式下播放tts语音时使用的非默认声音。可用的选项跟运行的平台有关联，并且需要设置成特定平台对应特定语音的形式。(在多语言支持的情况下最好也修改这项。)
 
+.. var:: config.webaudio_required_types = [ "audio/ogg", "audio/mp3" ]
+
+    运行在Web平台时，Ren'Py将会检查浏览器是否支持播放音频文件的媒体类型。如果支持则直接播放音频文件，如果不支持则使用可能会有声音跳跃问题的asm解码器。
+
+    默认情况下，Chrome和火狐浏览器使用通用Web音频系统，而Safari使用wasm。
+    如果游戏中只使用mp3音频文件，可以这样设置：
+
+    ::
+    
+        define config.webaudio_required_types = [ "audio/mp3" ]
+    
+    在Safari上使用更快的Web音频系统也类似。
+
 .. var:: config.window_auto_hide = [ 'scene', 'call screen', 'menu' ]
 
     一个语句名称列表，列表内的语句会触发 ``window auto`` 隐藏空的对话窗口。
@@ -752,6 +778,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     语音文件播放完成后，在AFM能进入下一段文本之前，等待的时间值，单位为秒。
 
+.. var:: config.call_screen_roll_forward = False
+
+    当界面的 `roll_forward` 特性值为None时，则使用该配置项的值。
+
 .. var:: config.all_character_callbacks = [ ]
 
     可以通过所有角色调用的回调函数列表。这个列表会前向添加到指定角色回调函数列表。
@@ -801,6 +831,20 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.character_callback = None
 
     Character对象回调参数的默认值。
+
+.. var:: config.choice_empty_window = None
+
+    若非None，并且(通常使用 ``menu`` 语句调用的)选项菜单没有标题，就调用此处定义的函数生成标题，入参为("", interact=False)。
+
+    使用方法为：
+    
+    ::
+
+        define config.choice_empty_window = extend
+
+    这样就可以让选项菜单的标题显示为之前对话内容的最后一句。
+
+    还有其他实现方式，前提是对话窗口总是显示。
 
 .. var:: config.choice_layer = "screens"
 
@@ -974,6 +1018,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.missing_label_callback = None
 
     若非None，当Ren'Py尝试转到某个不存在的脚本标签(label)时，配置的函数会被调用。该函数会返回一个脚本标签名称，用以代替那个丢失的脚本标签。若Ren'Py抛出异常(exception)时则返回None。
+
+.. var:: config.mouse_focus_clickthrough = False
+
+    若为True，鼠标点击使游戏窗口获取焦点，并正常处理点击事件。若为False，则鼠标点击事件将忽略。
 
 .. var:: config.mouse_hide_time = 30
 

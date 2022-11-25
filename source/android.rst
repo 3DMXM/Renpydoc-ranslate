@@ -290,10 +290,6 @@ Ren'Py包含一个变量和两个函数，用于与安卓选线系统交互。
 与安卓设备互传文件
 ===================
 
-When your Android device is connected to your computer over USB, and configured
-to allow access to file storage, there are some directories that files can be
-placed in. (This assumes that your game's package is org.renpy.mygame, but it will
-almost certainly be different.)
 使用USB线将你的安卓设备与电脑接连后，将连接方式设置为文件存储，可以看到各目录中保存着的文件。
 (这里假设你的游戏目录为 org.renpy.mygame ，当然实际目录名是各种各样的)
 
@@ -303,43 +299,3 @@ Android/data/org.renpy.mygame/files/saves
 Android/data/org.renpy.mygame/files/game
     该目录不一定存在。若不存在你可以主动创建一个。
     在该目录内的文件可能由安卓安装包中各文件加载。各类补丁可以放置在这个目录中。
-
-.. _expansion-apk:
-
-Google Play扩展APK
-==========================
-
-当设备支持Google Play时，Ren'Py可选择支持扩展APK的使用。扩展APK允许Google Play突破游戏不能大于50MB的限制。详见：
-
-    http://developer.android.com/google/play/expansion-files.html
-
-关于扩展APK工作机制的信息。
-迄今为止，只支持主扩展APK，文件限制为2GB。创建扩展APK时，所有的游戏文件都会放在这个APK包中。Ren'Py会显式使用这些文件。
-
-要将游戏配置为使用扩展APK，你需要设置两个变量：
-
-.. var:: build.google_play_key = "..."
-
-    这是与你的应用关联的Google Play证书，这个证书在Google Play开发者终端上与你应用关联的“"Monetization Setup”标签内可以找到。(确保在密钥中删除了所有的空格和换行。)
-
-    一个常见的key长这样：
-
-    ::
-
-        define build.google_play_key = "MIIBIjANBgkqhkiG9w0BAQEFA…HGTQIDAQAB"
-
-    三个点的占位符“...”可能表示一长串字母和数字。
-
-.. var:: build.google_play_salt = ( ... )
-
-    这是一个20byte的元组，每个byte都是一个介于-128和127之间的整数。这个元组用于加密来自Google Play的信息。
-
-    一个合法(但不安全)的元组值如下：
-
-    ::
-
-        (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19)
-
-当在设备上安装了APK包之后，RAPT会在设备上放置扩展APK。扩展APK会是在RAPT目录的bin子目录下的一个.obb文件。
-
-在通常操作中，用户安装应用程序时，Google Play会在设备上自动放置扩展APK。
