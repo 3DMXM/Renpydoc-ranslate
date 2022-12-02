@@ -8,9 +8,12 @@ Ren'Py支持在后台播放音乐和音效，支持的音频文件格式如下�
 * Opus
 * Ogg Vorbis
 * MP3
+* MP2
+* FLAC
 * WAV (未压缩的有符号16bit型PCM编码格式)
 
-Opus和Ogg Vorbis格式可能不被某些基于WebKit的浏览器(比如Safari)，但对其他平台来说是最好的选择。
+在Web浏览器上，Ren'Py会检查一个音频格式列表，并根据浏览器支持的格式启用一个更快更少卡顿的模式。
+如果你的游戏只是用mp3，而且不考虑Safari浏览器，可以直接修改 :var:`config.webaudio_required_types` 的值。
 
 Ren'Py支持任意数量的音频通道。有三种一般音频通道是默认定义好的：
 
@@ -21,7 +24,7 @@ Ren'Py支持任意数量的音频通道。有三种一般音频通道是默认�
 通用通道支持音频的播放和音频队列，但同一时间只能播放1个音频文件。可以使用
 :func:`renpy.music.register_channel` 函数注册新的通用通道。
 
-游戏内自定义配置菜单中的“音乐音量”、“音效音量”和“语音音量”设置的值，会应用于以上对应的音频通道。
+游戏内自定义配置菜单中的“音乐音量”、“音效音量”和“语音音量”设置的值，会应用于以上对应的音频通道。详见 :ref:`volume` 。
 
 另外，除了通用通道，还存在特殊音频通道 ``audio`` 。audio通道支持同时播放多个音频文件，但不支持队列播放和中途停止。
 
@@ -53,6 +56,28 @@ play语句
     "我们也可以播放一个音效或音乐的列表。"
     play music [ "a.ogg", "b.ogg" ] fadeout 1.0 fadein 1.0
 
+当提供了 ``if_changed`` 从句，并且对应的音频通道正在播放，播放指令不会中断当前播放的音频。
+
+::
+
+        label market_side:
+            play music market
+            "我们正在进入市场。"
+            jump market_main
+
+        label market_main:
+            play music market if_changed
+            "我们可能刚进入市场，也可能已经在市场里一段时间了。"
+            "如果我们已经在市场里一段时间了，音乐不会停止并重从播放，只是继续播放。"
+            jump market_main
+
+``volume`` 从句也是可选的，可以指定音量值，音量范围为0.0到1.0。
+这样每次指定音频文件时，也可以同时设置音量。
+
+::
+
+        play sound "woof.mp3" volume 0.5
+
 在audio通道上，同时播放多个音效文件：
 
 ::
@@ -66,8 +91,7 @@ play语句
 
         play music illurock
 
-Files placed into the audio namespace may automatically define variables that can
-be used like this.
+放入audio命名空间的文件会根据文件名自动定义变量并使用。
 
 .. _stop-statement:
 
@@ -107,8 +131,16 @@ queue语句也可以使用 ``volume`` 从句。
 当多个queue语句出现，且没有给任何队列指定互动行为情况下，所有的声音文件都将加入到队列中。
 在某个互动行为发生后，第一个queue语句对应的队列将清空，除非其已经被某个play或stop语句清空过。
 
+此处可以使用变量替代字符串。如果某个变量在 :ref:`音频命名空间 <audio-namespace>` 中存在，它就可以在默认的命名空间中直接引用：
 
-此处可以使用变量替代字符串。如果某个变量在 :ref:`音频命名空间 <audio-namespace>` 中存在，它就可以在默认的命名空间中直接引用。
+::
+
+    define audio.woof = "woof.mp3"
+
+    # ...
+
+    play sound woof
+
 
 使用这些语句的优点是，当lint工具运行时，可以检测出你程序中是否有丢失的音乐音效文件。后面的一些函数允许python接入和控制这些文件，并且会揭示一些高级(却很少用到)的特性。
 
@@ -160,6 +192,37 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 
 layer_2.opus播放时将会与music_1通道的循环保持同步，即music_1从头开始播放时也跟随从头播放，而不再会播放完之后再循环。
 
+.. _volume:
+
+音量
+------
+
+播放音频时的音量与以下变量都有关：
+
+- 混音器“main”的音量值
+- 相关音频通道的混音器音量值
+- 音频通道的音量值
+- 音频自身音量
+
+以上4项音量值都介于0与1之间，最终音量值是它们相乘后的结果。
+
+例如，main音量值80%(0.8)，混音器音量值100%，音频通道音量值50%(0.5)，音频自身音量25%(0.25)。
+最终音量为 .8\*1.\*.5\*.25 = .1，即10% 。
+
+混音器音量可以使用 :func:`preferences.set_volume` 函数、:func:`SetMixer` 行为和 :func:`Preference` 行为指定“mixer <mixer> volume”进行设置。
+audio和sound音频通道相关的混音器为“sfx”，music音频通道相关的混音器为“music”，而voice音频通道相关的混音器为“voice”。
+每个音频通道都与“main”混音器相关。
+
+使用 :func:`renpy.music.set_volume` 函数可以设置某个音频通道的音量。
+通常仅当多个音频通道共用同一混音器时才需要用。
+:func:`renpy.music.register_channel` 函数的 ``mixer`` 参数可以在注册音频通道时指定关联的混音器，如果混音器不存在则直接创建一个。
+
+在 :ref:`play-statement` 后面加 ``volume`` 从句可以直接设置音频文件的相对音量。
+
+除了音量值，各音频通道关联的混音器都有静音标识。
+启用静音标识后，会将音量直接设置为0.
+可以使用 :func:`SetMute`、:func:`ToggleMute`、:func:`Preference` 或 :func:`preferences.set_mute`，指定“mixer <mixer> mute”启用对应混音器的静音标识。
+
 .. _playing-silence:
 
 播放静音
@@ -203,6 +266,13 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件，并�
 
 某些文件名无法使用这种方式，因为这些文件名不符合Python变量命名规范。例如，“my song.mp3”、“8track.opus”和“this-is-a-song.ogg”就有这种情况。
 
+.. _actions:
+
+行为函数
+--------
+
+详见 :ref:`audio-actions`。
+
 .. _functions:
 
 相关函数
@@ -217,6 +287,14 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件，并�
 
     `filename`
         与音频数据相关的复合文件名。它可以表示音频数据格式，也可以用做报错信息。
+
+.. function:: renpy.mark_audio_seen(filename)
+
+    将指定文件名的文件标记为当前用户已播放过至少一次。
+
+.. function:: renpy.mark_audio_unseen(filename)
+
+    将指定文件名的文件标记为当前用户未播放过。
 
 .. function:: renpy.play(filename, channel=None, **kwargs)
 
@@ -281,6 +359,11 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件，并�
     `if_changed`
         若该值为True，当前真在播放的音频不会被立刻停止/淡出，而会继续播放。
 
+    `relative_volume`
+        当前音频通道播放音频时的相对音量值。
+        指定文件将以该音量值播放。
+        如果没有指定该音量值则默认为1.0，表示以音频文件原始音量播放，再乘以混音器、音频通道和相关第二音量的值。
+
     该函数会清空对应通道上所有的pause标记。
 
 .. function:: renpy.music.queue(filenames, channel='music', loop=None, clear_queue=True, fadein=0, tight=None)
@@ -305,11 +388,19 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件，并�
     `tight`
         若该值为True，淡出效果将作用至同一个队列中后面的声音。若为空，当loop为True时tight也为True，否则为False。
 
+    `relative_volume`
+        当前音频通道播放音频时的相对音量值。
+        指定文件将以该音量值播放。
+        如果没有指定该音量值则默认为1.0，表示以音频文件原始音量播放，再乘以混音器、音频通道和相关第二音量的值。
+
     该函数会清空对应通道上所有的pause标记。
 
 .. function:: renpy.music.register_channel(name, mixer=None, loop=None, stop_on_mute=True, tight=False, file_prefix='', file_suffix='', buffer_queue=True, movie=False)
 
     该函数用于注册新的名为入参name的音频通道。之后就可以使用play或queue语句在name通道上播放音频了。
+
+    `name`
+        待注册音频通道名。
 
     `mixer`
         混合器(mixer)使用的通道名。默认情况下，Ren'Py能识别“music”、“sfx”和“voice”混合器。使用其他名称也是可行的，不过可能要修改个性化界面。
@@ -334,6 +425,9 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件，并�
 
     `movie`
         若值为True，该通道会被设为播放视频。
+
+    `framedrop`
+        该参数控制视频卡顿时的处理方式。若为True，则会跳帧以保持音视频同步。若为False，Ren'Py会无视视频迟延。
 
 .. function:: renpy.music.set_pan(pan, delay, channel='music')
 

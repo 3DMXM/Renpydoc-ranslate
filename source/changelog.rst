@@ -4,6 +4,180 @@
 变更日志(Ren'Py 7.x-)
 =====================
 
+.. _renpy-7.5.3:
+.. _renpy-8.0.3:
+
+8.0.3 / 7.5.3
+=============
+
+.. _7.5.3-changes-and-fixes:
+
+安全
+-----
+
+文档中新增 :doc:`security` 页面，用于帮助用户理解mod和分享存档可能设计的安全问题。
+
+.. _7.5.3-modal-screen-pauses-and-timers:
+
+模态界面、暂停和计时器
+-----------------------
+
+基于创作者们的反馈，模态窗口与暂停和计时器的交互彻底重做。
+在当前版本中，显示模态界面时暂停不会结束，解释器也可以触发。
+
+不过也有一些情况不希望这样。
+为了解决那些需求， :ref:`timer 组件 <sl-timer>` 和 :func:`renpy.pause` 都新增了新的 `modal` 特性/参数。
+如果该特性或参数为True，在显示模态界面后计时器将结束计时，暂停会立即结束。
+
+.. _7.5.3-changes-and-fixes:
+
+变更和修复项
+-------------
+
+Ren'Py对安卓API的支持提升到level 33，对应安卓13版本，允许新游戏加入Google Play商店。
+Play Billing库升级到第5版。
+
+使用 :func:`renpy.load_module` 加载模块的运行优先级改为 init 级别。
+
+lint与 :var:`config.adjust_attributes` 配置项保持一致。
+
+某个情况下模糊效果会变成透明的问题已定位。
+
+将对话内容作为选项菜单标题显示时修改语言类型，Ren'Py会自动找到修改后语言的前一个say语句并作为选项菜单标题。
+
+开发中的游戏如果没有指定 :func:`gui.preference` 的默认值，Ren'Py将报错。
+
+多处文档做了修改和提升。
+
+该版本修复的矩阵相等判断的问题，不再会出现使用矩阵实现动效的错误。
+
+Ren'Py会对lambda匿名函数中绑定的变量进行正确解析。
+
+添加了乌克兰语版本的教程和“The Question”。启动器的乌克兰语版本也做了更新。
+
+.. _renpy-7.5.2:
+.. _renpy-8.0.2:
+
+8.0.2 / 7.5.2
+=============
+
+.. _7.5.2-fixes:
+
+修复项
+--------
+
+自动加载脚本(Shift+R)方面有一些改动，尝试防止加载遇到错误时Ren'Py再次创建一个不可用的存档文件并导致Ren'Py进入不可用状态。
+这些改动的目标是，在修改前保留存档文件并可以再次使用对应文件。
+
+当前版本可以在0.68秒之内实现音频的淡入淡出效果。
+在之前的版本中，如此之短的时间会导致音频直接终端而没有淡入淡出效果。
+不过当前版本依然不能严格保证淡出淡出的精确时间。
+
+针对achievement.steamapi的某些函数回退已经取消。
+
+aarch64版本无法正确构建发行版的问题已修复。
+
+存储区变量数量过大时，CPU和内存消耗急剧增大的问题已修复。
+
+加载一个与当前设置的语言版本不同的存档时，可以正确显示 :var:`config.after_load_transition` 配置的转场。
+
+Ren'Py 8中某些游戏内购无法使用的问题已修复。
+
+在教程中的某些非英语样例无法正确运行的问题已修复。
+
+Ren'Py源代码打包时已包含Tinydialogs.
+
+.. _7.5.2-default-focus-changes:
+
+默认获取焦点相关变更
+---------------------
+
+可以获取焦点可视组件，比如按钮和条(bar)，其 `default_focus` 特性有几项变更。
+当某些可视组件被移除后，该特性可以让Ren'Py选择某个组件自动获取焦点。
+
+新的焦点获取规则为：
+
+* 当使用鼠标时，焦点跟随鼠标，`default_focus` 不起作用。
+* 某个可视组件的 `default_focus` 值比其他组件大时，该组件获得焦点。
+* 某个具有最大 `default-foucs` 值的可视组件被隐藏时，具有次高且非零值 `default-focus` 的组件获得焦点。
+
+这项改动的目的是方便键盘和游戏控制器用户，对鼠标用户没影响。
+
+.. _7.5.2-other-improvements:
+
+其他性能提升
+------------------
+
+文档中记录了多处改动和性能提升。
+
+控制台可以显示更多Python 3数据类型。
+
+:func:`MouseDisplayable` 将与 :var:`default_mouse` 设置的值保持一致。
+
+在Ren'Py 8中，Python代码编译时默认带 ``from __future__ import annotations`` 。
+
+模态screen和dismiss将会阻止 ``pause`` 语句和 :func:`renpy.pause`` 函数的效果。
+在之前的版本中此类情况没有明确定义，并且不同版本会发生的情况也各不相同。
+
+在macOS平台上，Ren'Py游戏窗口在不同分辨率显示器间移动时，将会自动进行合理缩放。
+
+macOS平台上可以使用Command+C和Command+V实现复制粘贴。
+
+screens.rpy文件中的默认input界面发生变更，解决了vbox中 :propref:`xalign` 和 :propref:`xpos` 两个特性的冲突。
+将使用xalign的地方都改为了 :propref:`xanchor`。
+
+包括开发者模式下，Ren'Py可以无声卡启动。
+音频硬件的错误将写入到log.text文件。
+
+日语版本更新。
+
+New games created with Ren'Py no longer filter out ruby/furigana text tags.
+
+不再滤除“ruby/furigana”文本标签。
+
+.. _renpy-7.5.1:
+.. _renpy-8.0.1:
+
+8.0.1 / 7.5.1
+=============
+
+.. _7.5.1-improvements:
+
+性能提升
+------------
+
+启动器新增乌克兰语，感谢Matias B的协助。
+
+Web端在循环播放音频文件时，可以服用音频数据，降低了内存使用。
+
+:func:`MouseDisplayable` 内部使用的ATL变换可以在鼠标改变后重置。在之前的版本中，该行为未定义。
+
+控制台的追踪界面改为每帧更新。
+
+其他更多提升详见文档。
+
+.. _7.5.1-fixes:
+
+修复项
+-------
+
+ALT文本将按从前往后顺序执行。8.0版的某项改动使ALT文本的顺序反了。
+
+CropMove转场不正确的问题，是某个数值取整错误导致，已修复。
+
+zoomin和zoomout转场无法正常运行的问题已修复。
+
+Movie组件再次可以播放一个视频文件列表，而不仅只能指定单一文件。
+
+构建安卓版本时的一个问题已修复。
+
+对象标识将用于比较 :func:`Function` 行为函数的入参。
+这样做是为了避免，在两个行为函数入参相等但并实际不相同(比如，两个空列表)的情况下错误复用参数的问题。
+
+获取和设置Steam统计数据的问题已修复。
+
+:ref:`dismiss <sl-dismiss>` 已正确设置为模态(modal)。
+
 .. _renpy-7.5.0:
 .. _renpy-8.0.0:
 
@@ -281,139 +455,114 @@ box、grid和vpgrid布局
 
 可视组件 :ref:`key <sl-key>` 新增支持 `capture` 特性，决定按下的按键是否在某次交互结束后依然需要处理按键事件。
 
-样式特性 :propref:`language` 新增一个“anywhere”值，允许Ren'Py处理字符串时可在任意地方断开。
+样式特性 :propref:`language` 新增一个“anywhere”值，允许Ren'Py处理字符串时可在任意地方断行。
 
-The new `predict` argument to :func:`renpy.pause` makes it possible to pause
-until image prediction is finished, including prediction caused by
-:func:`renpy.start_predict` and :func:`renpy.start_predict_screen`.
+:func:`renpy.pause`函数新增入参 `predict` ，可以暂停等待图片预加载完成。
+预加载可以由 :func:`renpy.start_predict` 和 :func:`renpy.start_predict_screen` 两个函数触发。
 
-It is now possible to select a language other than the default when
-extracting dialogue.
+生成对话时可以选择一项语言，而不是原来只能使用默认项。
 
-The screen language ``add`` statement now takes an `alt` property,
-making it possible to write::
+界面语言中的 ``add`` 语句新增 `alt` 特性，使用方法如下：
+
+::
 
     screen test():
         add "icon.png" alt "The Icon"
 
-The :func:`Hide` action now takes None for the screen name, to hide
-the current screen.
+行为函数 :func:`Hide` 可以使用None作为界面名，效果是隐藏当前界面。
 
-:func:`Placeholder` now takes a `text` argument, that overrides the
-automatically determined text with something the creator specifies.
+:func:`Placeholder` 新增入参 `text` 。该项会覆盖自动检测到的占位符文本。
 
-The :func:`renpy.dynamic` function can now make variables in namespaces
-dynamic.
+:func:`renpy.dynamic` 函数可以生成命名空间 daynamic 的变量。
 
-The new :var:`config.always_shown_screens` variable allows one to define
-screens that are always shown (even in the main and game menus). See also
-the existing :var:`config.overlay_screens`.
+新增配置项 :var:`config.always_shown_screens` ，允许创作者定义始终显示的界面(即使在主菜单或游戏菜单界面)。
+同时参见 :var:`config.overlay_screens`。
 
-The location and size of the OpenGL viewport is made available to shaders as
-u_viewport.
+OpenGL视口(viewport)的位置和尺寸在着色器(shader)中可用，名为u_viewport。
 
-The new RENPY_PATH_TO_SAVES environment variable makes it possible to control
-where Ren'Py places system-level saves. The RENPY_MULTIPERSISTENT variable has
-been documented, and controls the same thing with multipersistent data.
+新增环境变量RENPY_PATH_TO_SAVES，可以在系统级别控制Ren'Py存档位置。
+环境变量RENPY_MULTIPERSISTENT加入文档，与多项持久化(multipersistent)数据的用法相同。
 
-The new :var:`config.at_exit_callbacks` functions are called when the game
-quits. This is intended to allow the game to save additional data created
-by the developer.
+新增配置项 :var:`config.at_exit_callbacks`，当游戏退出时调用配置的函数。
+该项用途是在允许开发者保存自己需要的额外数据。
 
-The :var:`config.default_attribute_callbacks` variable allows a game to
-specify default attributes for a tag that are used when other attributes
-do not conflict.
+新增配置项 :var:`config.default_attribute_callbacks`，可以指定某个标签(tag)的默认属性(attribute)，并且不会与其他属性冲突。
 
+.. _7.5-other-changes:
 
-Other Changes
+其他变更
 -------------
 
-It is now possible to copy from :func:`renpy.input` with ctrl-C, and paste
-with ctrl-V. When text input is displayed, ctrl will no longer cause skipping
-to happen.
+可以在 :func:`renpy.input` 中使用快捷键Ctrl+C和Ctrl+V实现复制粘贴。
+显示文本输入状态时，Ctrl键不再会触发跳过(skipping)。
 
-The :func:`renpy.file` function has been renamed to :func:`renpy.open_file`,
-with the old named retained. It has also gained an `encoding` parameter to
-open the file with an encoding.
+:func:`renpy.file` 函数重命名为 :func:`renpy.open_file`，旧函数名保留。
+新增 `encoding` 参数，可以在打开文件时指定编码。
 
-The :propref:`focus_mask` style property now defaults to None for drag displayables.
-This improves performance, but means that the displayable can be dragged by
-transparent pixels.
+可拖拽组件的样式特性 :propref:`focus_mask` 默认值改为None。
+性能有提升，但组件的透明像素部分也可以拖拽。
 
-When adding files to the audio namespace, Ren'Py now scans for flac
-files.
+向命名空间audio添加文件时，Ren'Py会重新扫描flac文件。
 
-Say statements used as menu captions can now take permanent and temporary
-image attributes, just like say statements elsewhere.
+say语句用作选项菜单标题时，可以使用永久和临时的图像属相(attribute)，与其他地方的say语句用法一致。
 
-All position properties can now be supplied as gui variables to buttons.
-For example::
+所有位置相关特性都可以作为gui变量应用到按钮上。例如：
+
+::
 
     define gui.navigation_button_text_hover_yoffset = -3
 
-now works.
-
-The behavior of modal :ref:`frames <sl-frame>` has been changed. A modal
-frame now blocks mouse events when inside the frame, and blocks focus from
+模态 :ref:`frame <sl-frame>` 的表现发生变化。
+A modal frame now blocks mouse events when inside the frame, and blocks focus from
 being transferred to displayables fully behind the frame, while allowing focus
 to be given to other displayables.
 
-The new :var:`config.main_menu_stop_channels` variable controls the
-channels that are stopped when entering the main menu.
+新增配置项 :var:`config.main_menu_stop_channels`，控制进入主菜单界面时停止播放的音频通道。
 
-Layered images are now offered the the full size of the screen whenever
-rendered. Previously, when a layered image was used inside a layout (like
-hbox, vbox, side, and others), the space offered to the layered image
-could change, and relative positions could also change. (This is unlikely,
-but happened at least once.) The new `offer_screen` property of layered images
-controls this behavior.
+层叠式图像将根据整个屏幕尺寸进行渲染。
+在之前的版本中，层叠式图像内部使用布局管理(像hbox、vbox、side等)，层叠式图像内部元素之间的空隙和相对位置都会发生改变。
+新增特性 `offer_screen` 控制以上表现。
 
-A :func:`Character` defined with `interact` false, or otherwise used in a
-non-interactive way will now cause an automatic voice line to play, if the
-relevant file exists.
+定义角色对象 :func:`Character` 时若将 `interact` 设置为False，或用于不可互动的方式，将会使用自动语音，前提是相关文件存在。
 
-When ``window auto`` displays the window before a say or menu-with-caption
-statement, Ren'Py will automatically determine if the character to speak
-uses NVL or ADV, and will display the correct window. Previously, the last
-character in a say statement was used.
+在某个say语句或者带标题的menu语句前使用 ``window auto`` ，Ren'Py会自动判断角色是在NVL模式还是ADV模式下说话，并会显示正确的对话窗口。
+在之前的版本中，只能将最后一个使用say语句的角色作为对话角色。
 
-The :propref:`activate_sound` plays when activating a drag displayable.
+:propref:`activate_sound` 特性会在拖拽组件激活时播放指定音效。
 
-The :func:`VariableValue`, :func:`FieldValue`, and :func:`DictValue` Bar Values
-can now call :func:`Return`, to cause the interaction to return a specific value.
+:func:`VariableValue`、 :func:`FieldValue` 和 :func:`DictValue` 可以调用 :func:`Return`，让交互后返回特定的值。
 
-The :propref:`adjust_spacing` property is now set to False for dialogue and
-narration in new games. This might cause the spacing of text to change, when
-the game is resized, in exchange for keeping it stable when extend is used.
+:propref:`adjust_spacing` 特性可以在新游戏项目中，针对对话和旁白设置为False。
+这样设置可能会导致，游戏窗口尺寸改变时，文本间距也发生变化。使用extend语句时则会保持文本间距。
 
-Playing or stopping music on a channel now unpauses that channel.
+播放或停止某个音频通道的音乐，将会取消对应通道的暂停状态。
 
-The new :var:`preferences.audio_when_minimized` preference now enables the
-audio of the game to be paused when the window is minimized.
+新增设置 :var:`preferences.audio_when_minimized` ，当游戏窗口最小化时暂停游戏内音频。
 
-The default for :propref:`outline_scaling` is now "linear".
+:propref:`outline_scaling` 特性的默认值改为“linear”。
 
-The version of SDL used by Ren'Py has been upgraded to 2.0.20 on non-web
-platforms.
+除Web平台外，Ren'Py使用的SDL版本升级到2.0.20
 
-Many translations have been updated.
+多种语言版本升级。
 
-The jEdit editor has been removed, as the Ren'Py integration was largely
-obsolete. However, if the version from 7.4.0 is unpacked, it should be
-selectable in the launcher.
+考虑到Ren'Py内置文件过大的问题，移除了jEdit编辑器。
+不过，如果在7.4.0之前解包的目录中，依然可以从启动器中选择jEdit。
 
-Versioning
+.. _7.5-versioning:
+
+版本号规范
 ----------
 
-Ren'Py's full version numbers are now of the form major.minor.patch.YYMMDDCCnu,
-where:
+Ren'Py的完整版本号格式改为major.minor.patch.YYMMDDCCnu。
+各字段含义如下：
 
-* YY is the two digit year of the latest commit.
+* YY表示(github)最后提交年份的后两位。
 * MM is the month of the commit.
-* DD is the day of the commit
-* CC is the commit number on that day
-* n is present if this is a nightly build.
-* u is present if this is an unofficial build.
+* MM表示提交月份。
+* DD表示提交日期。
+* CC表示当天提交次数。
+* n表示每夜构建版。
+* u表示非官方构建版。
 
 .. _renpy-7.4.11:
 
@@ -538,8 +687,8 @@ ChromeOS上窗口部分渲染渲染的问题已解决。
 
 .. _7-4-10-fixes:
 
-修复
------
+修复项
+-------
 
 该版本修复了使用gl2渲染器时，超大尺寸图片(超过大多数平台上的最大纹理尺寸4096×4096)无法正常显示的问题。
 
@@ -707,8 +856,8 @@ Ren'Py版本号可以在结尾包含一个可选的字母。后缀 ``n`` 表示�
 
 .. _7-4-8-fixes:
 
-修复
------
+修复项
+-------
 
 修复了一个重大问题。该问题是，在滚回后可能会导致列表、字典、集合和对象的数据错误。
 使用7.4.7版本的用户推荐都升级到7.4.8以规避该问题。
@@ -1123,7 +1272,7 @@ window和frame组件可以使用样式特性 :propref:`modal` 。
 
 .. _7-4-3-other-fixes:
 
-其他修复内容
+其他修复项
 -------------
 
 多个modal界面存在时的处理异常问题已经修复。
@@ -1295,7 +1444,7 @@ Pyobjus已经内置在macOS版本Ren'Py中。这个库可以使用Cocoa的API。
 
 .. _7-4-1-other-fixes:
 
-其他修复
+其他修复项
 -----------
 
 某些支持SSE3的电脑使用Ren'Py播放某些分辨率视频时导致的死机问题已经修复。
@@ -2142,8 +2291,8 @@ Ren'Py的界面语言现在支持包含匿名的ATL变换(transform)。比如现
 
 .. _7.1.2-fixes:
 
-修复
------
+修复项
+-------
 
 修复了一个Windows平台的bug。这个bug仅在使用阿拉伯语和希伯来语时出现(译者注：就是说中文用户不用管，所以这也不按原文翻译了)。
 

@@ -37,19 +37,19 @@ Ren'Py更新器在处理过程会显示一个更新界面，提示用户处理�
 更新文件包含下列内容：
 
 updates.json
-   可用更新和版本号的索引。
+    可用更新和版本号的索引。
 
 *package*.sums
-   包含包(package)中每个区块(block)的校验和。
+    包含包(package)中每个区块(block)的校验和。
 
 *package*.update.gz
-   指定包的升级数据。
+    指定包的升级数据。
 
 *package*.update.json
-   包含每个包的文件列表，当用户下载DLC时会被更新器使用。
+    包含每个包的文件列表，当用户下载DLC时会被更新器使用。
 
 *package*.zsync
-   zsync用于管理下载的控制文件。
+    zsync用于管理下载的控制文件。
 
 创作者必须把所有这些文件都上传到web服务器的单一目录下。
 
@@ -62,61 +62,69 @@ updates.json
 
 .. function:: updater.Update(*args, **kwargs)
 
-  这个行为调用 :func:`updater.update()` 函数。所有入参会存储并传入那个函数。
+    这个行为调用 :func:`updater.update()` 函数。所有入参会存储并传入那个函数。
 
 .. function:: updater.UpdateVersion(url, check_interval=21600, simulate=None, **kwargs)
 
-  这个函数会连接 *url* 的服务器，并判断是否有可用的新版本。如果有可用更新就返回新版本号，否则返回None。
+    这个函数会连接 *url* 的服务器，并判断是否有可用的新版本。如果有可用更新就返回新版本号，否则返回None。
 
-  由于连接服务器需要消耗一些时间，这个函数在后台启动一个线程，连接服务器成功后立刻返回版本号，如果连不上服务器则返回None。
-  后台线程一旦连接到服务器会重启当前交互行为，会让调用更新函数的界面更新。
+    由于连接服务器需要消耗一些时间，这个函数在后台启动一个线程，连接服务器成功后立刻返回版本号，如果连不上服务器则返回None。
+    后台线程一旦连接到服务器会重启当前交互行为，会让调用更新函数的界面更新。
 
-  对应每个连接的url都需要分配至少1个Ren'Py会话(session)，并在每个 *check_interval* 秒的周期内保持会话。如果不能连接服务器，就返回缓存数据。
+    对应每个连接的url都需要分配至少1个Ren'Py会话(session)，并在每个 *check_interval* 秒的周期内保持会话。如果不能连接服务器，就返回缓存数据。
 
-  额外的关键词入参(包括 *simulate* )会如同传给 :func:`updater.update()` 一样，传给更新机制使用。
+    额外的关键词入参(包括 *simulate* )会如同传给 :func:`updater.update()` 一样，传给更新机制使用。
 
 .. function:: updater.can_update(base=None)
 
-  如果可以更新成功则返回True。如果无法完全更新(比如update目录被删除了)，就返回False。
+    如果可以更新成功则返回True。如果无法完全更新(比如update目录被删除了)，就返回False。
 
-  注意这个函数并不实际进行更新操作。实际更新需要使用函数 :func:`updater.UpdateVersion()` 。
+    注意这个函数并不实际进行更新操作。实际更新需要使用函数 :func:`updater.UpdateVersion()` 。
 
 .. function:: updater.get_installed_packages(base=None)
 
-  返回已安装DLC的包名列表。
+    返回已安装DLC的包名列表。
 
-  `base`
-    更新的基目录。默认为当前项目的基目录。
+    `base`
+        更新的基目录。默认为当前项目的基目录。
 
-.. function:: updater.update(url, base=None, force=False, public_key=None, simulate=None, add=[], restart=True)
+.. function:: updater.update(url, base=None, force=False, public_key=None, simulate=None, add=[], restart=True, confirm=True, patch=True)
 
-  将这个Ren'Py游戏更新到最新版。
+    将这个Ren'Py游戏更新到最新版。
 
-  `url`
-    update.json文件的URL地址。
+    `url`
+        update.json文件的URL地址。
 
-  `base`
-    更新的基目录。默认为当前游戏的基目录。(这项通常会忽略。)
+    `base`
+        更新的基目录。默认为当前游戏的基目录。(这项通常会忽略。)
 
-  `force`
-    就算版本号相同也强制更新。(用于测试。)
+    `force`
+        就算版本号相同也强制更新。(用于测试。)
 
-  `public_key`
-    检查更新签名的公钥PEM文件路径。(这项通常会忽略。)
+    `public_key`
+        检查更新签名的公钥PEM文件路径。(这项通常会忽略。)
 
-  `simulate`
-    这项用于测试GUI，而不是真的实行更新。这项可能的值为：
+    `simulate`
+        这项用于测试GUI，而不是真的实行更新。这项可能的值为：
 
-    - None表示实行更新。
-    - “available”表示有可用更新时进行测试。
-    - “not_available”表示无可用更新时进行测试。
-    - “error”表示测试更新报错。
+        - None表示实行更新。
+        - “available”表示有可用更新时进行测试。
+        - “not_available”表示无可用更新时进行测试。
+        - “error”表示测试更新报错。
 
-  `add`
-    本次更新添加的包(package)列表。DLC必须要有这个列表。
+    `add`
+        本次更新添加的包(package)列表。DLC必须要有这个列表。
 
-  `restart`
-    更新后重启游戏。
+    `restart`
+        更新后重启游戏。
+
+    `confirm`
+        Ren'Py是否提示用户确认此次升级。若为False，此次升级将不需要用户确认。
+
+    `patch`
+        若为True，Ren'Py会以补丁形式更新游戏，只下载变更的数据。
+        若为False，Ren'Py会全量更新游戏，下载整个游戏。
+        更新url不以“http”开头时，该项自动设置为False.
 
 .. _screen:
 

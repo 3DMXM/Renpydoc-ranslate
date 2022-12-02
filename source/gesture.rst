@@ -1,4 +1,4 @@
-.. _gestures:
+.. _gesture:
 
 手势
 ========

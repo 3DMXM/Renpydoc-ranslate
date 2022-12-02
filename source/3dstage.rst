@@ -154,6 +154,16 @@ Ren'Py提供了一个简单方式修复这个问题—— :tpref:`zzoom` 。
 
 如果在某个sprite上应用了zpos值但没有任何效果，原因可能是在 ``camera`` 语句后面忘记添加 ``perspective`` 从句了。
 
+摄像机可以转动，比如：
+
+::
+
+    camera:
+        perspective True
+        rotate 45
+
+注意摄像机转动后的效果，与可视组件旋转相反方向类似。
+
 .. _depth:
 
 深度
@@ -206,6 +216,26 @@ Ren'Py将矩阵变换应用到图像上时，首先将图像锚点设置(0, 0, 0
         matrixtransform RotateMatrix(45, 0, 0) * OffsetMatrix(0, -300, 0)
 
 图像将向上平移300像素，然后沿X轴旋转45度。
+
+.. _structural-similarity:
+
+结构上的相似
+^^^^^^^^^^^^^^^^
+
+在ATL中，对 :tpref:`matrixtransform` 特性进行插值，要求使用的TransformMatrixes对象具有相似结构。
+这表示相同类型的TransformMatrix，使用相同顺序相乘。
+
+下面的样例中，会对图像进行旋转和平移，然后再转回去：
+
+::
+
+    show eileen happy at center:
+        matrixtransform RotateMatrix(0, 0, 0) * OffsetMatrix(0, 0, 0)
+        linear 2.0 matrixtransform RotateMatrix(45, 0, 0) * OffsetMatrix(0, -300, 0)
+        linear 2.0 matrixtransform RotateMatrix(0, 0, 0) * OffsetMatrix(0, 0, 0)
+
+对matrixtransform的第一步设置看起来似乎是多余的，但实际并非如此，这步确定了后续插值使用的矩阵结构。
+如果不在第一步设置矩阵结构，后面的插值都将略过。
 
 .. _transformmatrix:
 
@@ -289,19 +319,23 @@ TransformMatrix的子类必须要实现 ``__call__`` 方法。该方法需要两
     若非空，该特性指定的矩阵用于变换子组件的顶点变换。
     该变换对象用作子组件变换位置与屏幕坐标间的转换。
 
+    对该特性进行插值计算时，必须使用TransformMatrix对象，并且这些对象具有相似结构。
+
 .. transform-property:: perspective
 
     :type: True or False or Float or (Float, Float, Float)
-    :default: False
+    :default: None
 
-    该特性应用到某个变换时，启用透视渲染效果。
-    
+    该特性应用到某个变换时，启用透视渲染效果。    
     特性值应该是个3元元组，分别表示最近平面、1:1平面z轴距离和最远平面。
+
     如果值是一个浮点数，最近和最远平面从配置项 :var:`config.perspective` 获取。
     如果值是True，所有3个数值都从配置项 :var:`config.perspective` 获取。
 
-    当perspective特性不是False时， :tpref:`xpos` 、 :tpref:`ypos` 和 :tpref:`zpos` 的值是反转的，
+    当perspective特性不是False时， :tpref:`xpos` 、 :tpref:`ypos` 、 :tpref:`zpos` 和 :tpref:`rotate` 的值是反转的，
     表示相对摄像机的位置，而不是某个子组件自身的坐标。
+
+    由于透视变换假设结果是与窗口对其的，所以不要用 :tpref:`xanchor`、 :tpref:`yanchor`、:tpref:`anchor`、:tpref:`align`、:tpref:`center`。
 
 .. transform-property:: zpos
 

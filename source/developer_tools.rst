@@ -5,6 +5,18 @@
 
 Ren'Py包含一些功能，可以让开发工作变得更容易。其中很多功能需要配置项 :var:`config.developer` 设置为True才能执行。
 
+.. _lint:
+
+Lint
+----
+
+Lint工具(可从启动器中使用)可以检查游戏中的潜在错误和待优化项，并向开发组提供相关建议。
+有些问题在当前平台不会出现，但可能会影响其他平台的使用者，所以还是推荐尽可能修复所有错误。
+
+Lint工具包含游戏的很多有用信息和状态。
+
+注意，通过了Lint的检查并不等于执行了完整的测试流程。
+
 .. _shift-o-console:
 
 Shift+O 控制台
@@ -19,6 +31,30 @@ Shift+O 控制台
 * 运算某个Python表达式或语句并查看结果。
 * 在游戏过程中追踪Python表达式。
 
+主要命令如下：
+* clear：清除控制台历史记录
+* escape：启用转义 Unicode 字符串中的 Unicode 符号。
+* exit：退出控制台
+* help：显示此帮助信息
+* jump <标签>：跳转到此标签
+* load <档位>：读取该档位的存档
+* long：在控制台中打印出对象的完整表征。
+* reload：重新加载游戏，并刷新脚本
+* save <档位>：存储存档到该档位
+* short：在控制台中缩短对象的表征（默认）。
+* stack：打印返回栈
+* unescape：禁止转义 Unicode 字符串中的 Unicode 符号，并按原样打印（默认）。
+* unwatch <表达式>：停止监视该表达式
+* unwatchall：停止监视所有表达式
+* watch <表达式>：监视该 python 表达式
+* watch short：简短表征所跟踪的表达式（默认）
+* watch long：按原样表征所跟踪的表达式
+* <renpy 脚本语句>：运行此语句
+* <python 表达式或语句>：运行此表达式或语句
+
+(译者注：以上命令的内容源自SDK中的 launcher/game/tl/schinese/developer.rpy 文件，为zedraxlo在github上提交的翻译。
+部分名词可能与文档其他部分有出入。)
+
 .. _shift-e-editor-support:
 
 Shift+E Editor 帮助与支持
@@ -26,7 +62,7 @@ Shift+E Editor 帮助与支持
 
 配置项 :var:`config.editor` 允许开发者使用“启动编辑器”组合键(默认是“shift+E”)时，运行指定的编辑器命令。
 
-详见 :ref:`集成文本编辑器 <text-editor-integration>` 。
+详见 :doc:`集成文本编辑器 <editor>` 。
 
 .. _shift-d-developer-menu:
 
@@ -53,12 +89,7 @@ Shift+I 样式检查
 
 当 :var:`config.developer` 为True，使用组合键“shift+I”能触发样式检查。样式检查中会显示鼠标指针下面的可视组件列表。并显示每一个可视组件的类型、样式和渲染尺寸。
 
-.. _shift-y-style-dumping:
-
-Shift+Y Style 样式备份
-----------------------------
-
-当 :var:`config.developer` 为True，使用“备份样式”组合键(默认是“shift+Y”)，会把Ren'Py知道的所有样式描述信息都记录到文件“sytles.txt”中。样式描述信息包括样式的每一种特性(property)，特性的值，以及特性继承自哪种样式。
+点击样式名称会显示使用该样式的特性以及对应的可视组件。
 
 .. _fast-skipping:
 

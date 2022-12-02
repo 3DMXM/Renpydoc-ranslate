@@ -1,3 +1,5 @@
+.. _udd:
+.. _cdd:
 .. _creator-defined-displayables:
 
 ============================
@@ -8,12 +10,12 @@
 一个创作者定义的可视组件允许使用任何pygame事件消息。
 其可以渲染其他可视组件，并将其他可视组件放置在界面的任何位置。
 这可是突破Ren'Py提供的工具限制，适合创建一些2D的迷你游戏。
-(但请参考 :ref:`sprites <sprites>` 章节内容，那里相似地描述了生成同样物体的高阶方法。)
+(但请参考 :ref:`sprites <sprites>` 章节内容，描述了生成同样物体的高阶方法。)
 
 创作者定义的可视组件完全使用Python代码编写，
 我们鼓励创作者在创建自己的可视组件之前具有一定程度的Python面向对象编程技能。
 
-.. _udd-example:
+.. _cdd-example:
 
 样例
 =======
@@ -106,7 +108,7 @@
     label start:
         show screen alpha_magic
 
-        "Can you find the logo?"
+        "你能找到logo吗？"
 
         return
 
@@ -273,9 +275,9 @@ renpy.Render
 
         此Render对象或其子对象绘制时，将名为 `name` 的GL属性变量赋值为 `value` 。
 
-.. _utility-functions:
+.. _utility-functions-and-classes:
 
-功能函数
+功能函数和类
 =================
 
 这些函数管理渲染过程。
@@ -331,3 +333,11 @@ renpy.Render
 .. function:: renpy.redraw(d, when)
 
     经过 *when* 秒之后重新绘制可视组件 *d* 。
+
+.. exception:: renpy.IgnoreEvent
+
+    异常处理，可以让Ren'Py忽略异常事件。在事件方法中的使用：
+    
+    ::
+
+        raise renpy.IgnoreEvent()

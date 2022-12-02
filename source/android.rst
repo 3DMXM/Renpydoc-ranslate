@@ -120,7 +120,7 @@ Ren'Py包含一些工具能帮助创作者以包(package)为中心进行安卓�
 Java开发工具包（Java Development Kit （JDK）） 包含一些RAPT需要的工具。
 RAPT需要使用这些工具，包括用于生成密钥(key)和签名包的工具。JDK的下载地址为：
 
-    http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+    https://adoptopenjdk.net/releases.html?variant=openjdk8&jvmVariant=hotspot
 
 需要下载的是版本为8的JDK。
 
@@ -156,9 +156,11 @@ RAPT会实时报告它正在做的工作。它还会将各类许可的警告信�
 
    RAPT生成的密钥使用一个标准密码创建。你应该使用密钥工具生成自己的签名密钥。
 
-    http://docs.oracle.com/javase/7/docs/technotes/tools/windows/keytool.html
+    https://developer.android.com/studio/publish/app-signing?hl=fr#generate-key
 
-   至少，你应该将android.keystore文件保存在一个安全的地方。你还应该将保存这个密钥的备份，因为没有这个密钥的话，你就不能上传生成的应用程序。
+   至少，你应该将android.keystore和bundle.keystore文件保存在一个安全的地方。你还应该将保存这个密钥的备份，因为没有这个密钥的话，你就不能上传生成的应用程序。
+
+创建安卓密钥时，Ren'Py会把密钥文件备份在脚本文件的相同备份目录下。避免你每次都自己额外备份。
 
 如果你不想每次都下载SDK，可以创建一个名为“sdk.txt”的文本文件，文件里写上已安装SDK的所在路径。
 
@@ -176,13 +178,24 @@ RAPT会实时报告它正在做的工作。它还会将各类许可的警告信�
 步骤4：生成应用包并安装
 -------------------------------------
 
-最后，你可以生成应用包并安装了。将你的安卓设备连接到你的电脑，然后在Ren'Py启动器的安卓界面选择“生成应用包并安装”。(首次安装时，你的安卓设备可能会询问你是否允许你的电脑向安卓设备安装应用。)
+最后，你可以生成应用包并安装了。
+你可以在下面两种模式中任选其一：
 
-如果你需要将游戏的apk文件手工移植到安卓设备上的话，在Ren'Py启动器的安卓界面选择“生成应用包”。然后进入RAPT目录下的bin目录，将选取合适的文件复制到安卓设备上。之后找到安卓的文件管理应用找到对应的apk文件，打开文件执行安装。
+Play Bundle
+    Play Bundle发布包会以Android App Bundle(AAB)格式发布，适合直接上传到Google Play商店。
+    也可以在启用了Google Play套件的安卓设备上直接安装。
 
-Ren'Py中有两种模式供创作者选用，debug模式和release模式。Debug模式对测试很有用，并且可以很方便地使用Android Studio工具查看设备的日志和文件。Release模式用于生成最终上传到各应用商店的app版本。
+    Play Bundle的最大文件大小为2GB，并会分割为4个最大500MB的包文件。
+    不过4个包文件分割本身可能也是问题，不能把某个游戏分割为5个300MB的包，而必须分割为4个。
 
-如果要在debug模式和release模式之间切换，需要卸载app。
+Universal APK
+    Universal APK发布包适合直接在安卓设备上安装，无论是通过Ren'Py、ADB、其他安卓应用商店或直接从网上下载。
+
+    Universal APK发布包可以直接使用最大2GB的文件。对内容没有其他限制。
+
+有三种命令可以让你在多种性能组合下生成安装包，直接安装到设备上，或测试运行。
+
+如果要在不同的release模式之间切换，需要卸载app。
 
 .. _icon-and-presplash-images:
 
@@ -223,11 +236,12 @@ android-icon_background.png
 在安卓设备上，预启动画面特别重要，尤其是Ren'Py首次运行时需要较长时间解包运行使用的支持文件。
 
 android-presplash.jpg
-    当app加载时使用的图像。这个图片应该使用单色的边界(border)。边界会扩展并填充整个屏幕的剩余空间。
+    当app加载时使用的图片。该图片应该有1像素的单色边缘。
+    显示该图片时，图片将保持宽高比缩放到近可能大的程度，如果无法覆盖整个显示屏幕则用边缘的单色填充。
 
 android-downloading.jpg
-    Google Play Asset下载资源时显示的图片。该图片应该有1像素的单色边缘。
-    显示该图片时，图片将保持宽高比缩放到近可能大的程度，如果无法覆盖整个显示屏幕则用边缘的单色填充。。
+    Google Play Asset下载资源时使用的图片。该图片应该有1像素的单色边缘。
+    显示该图片时，图片将保持宽高比缩放到近可能大的程度，如果无法覆盖整个显示屏幕则用边缘的单色填充。
 
     距离底部、左侧和右侧各20像素的位置将显示一个20像素高的进度条，展示下载进度。
 
@@ -239,8 +253,6 @@ Pyjnius
 运行在安卓设备上时，可以使用 `Pyjnius <https://pyjnius.readthedocs.io/en/stable/>`_ 库。
 这个库允许高阶开发者调用安卓的库。
 
-It may be necessary to get the main activity. It can be found in the mActivity
-field in the org.renpy.android.PythonSDLActivity class. For example
 使用时首先需要启用一个main的实例。方法可以在 org.renpy.android.PythonSDLActivity 类的mActivity字段中找到。
 例如：
 

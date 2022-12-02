@@ -6,9 +6,9 @@ GUI(图形用户接口)定制化指导
 
 Ren'Py的一个特色是，看起来挺萌的GUI系统。有需要的话还可以根据喜好完全替换成定制的GUI。本页内容阐述了如何制作出简单和中级的定制化GUI。
 
-如果需要做更深度的定制化，请参阅 :ref:`样式 <styles>` (包括 :ref:`样式特性 <style-properties>`)
-和 :ref:`界面 <screens>` (包括 :ref:`界面行为 <screen-actions>`
-和 :ref:`特殊界面 <screen-special>` )。
+如果需要做更深度的定制化，请参阅 :doc:`样式 <styles>` (包括 :doc:`样式特性 <style-properties>`)
+和 :doc:`界面 <screens>` (包括 :doc:`界面行为 <screen_actions>`
+和 :doc:`特殊界面 <screen_special>` )。
 
 这是基于你在使用新样式的Ren'Py GUI为前提(定制化配置包含在gui.rpy文件中)。使用老版本的GUI(使用screen.rpy文件进行定制化配置)的用户，应该把本页内容当作是深度定制化指导。
 
@@ -46,7 +46,8 @@ options.rpy文件中有一堆配置项会被GUI使用。
     这个配置项应该被设置为False，用于在画面主菜单中隐藏标题名字和版本号。(因为，标题应是被“镶嵌”在主菜单的图片中)
 
 :var:`config.version`
-    一个字符串，表示游戏版本号。这在多个场合都会呈现在用户面前。
+    一个字符串，表示游戏版本号。默认GUI中，很多地方都会向用户显示。
+    此外，也可以用于显示错误信息或问题追踪。
 
 :var:`gui.about`
     在关于(about)界面上的附加文本内容。如果你想要展示多行的credits(制作人员信息)，可以使用 \\n\\n 换行。
@@ -927,9 +928,7 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 
 这里有一些配置项可以控制历史(history)界面的展现效果。
 
-.. var:: config.history_length = 250
-
-    Ren'Py保存在历史(history)中的对话段落个数。
+:var:`config.history_length` 配置项默认值为250，表示Ren'Py会保存的历史对话段落数。
 
 .. var:: gui.history_height = 210
 
@@ -1086,8 +1085,6 @@ dialogue(对话)
 notify(通知)
     针对通知(notify)的文本。
 
-
-
 样例::
 
     define gui.dialogue_text_outlines = [ (0, "#00000080", 2, 2) ]
@@ -1134,7 +1131,7 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 样式(style)
 ------------
 
-:ref:`样式 <styles>` 和 :ref:`样式特性 <style-properties>` 控制可视组件(displayable)的显示方式。若需要知道某个可视组件(displayable)使用的是什么样式(style)，之需要将鼠标移动到它上面并使用快捷键“shift+I”。这将唤起样式检测器，并显示样式名称。我们之后对应的样式名称后，就可以使用一个样式(style)语句实现对应样式的定制化。
+:doc:`样式 <style>` 和 :doc:`样式特性 <style_properties>` 控制可视组件(displayable)的显示方式。若需要知道某个可视组件(displayable)使用的是什么样式(style)，之需要将鼠标移动到它上面并使用快捷键“shift+I”。这将唤起样式检测器，并显示样式名称。我们之后对应的样式名称后，就可以使用一个样式(style)语句实现对应样式的定制化。
 
 比如说，我们在编写GUI有关文件时石乐志，想要在对话文本上添加一个高亮的红色轮廓线。我们可以把鼠标移动到对应文本上，并按下“shift+I”以找到了使用样式名为“say_dialogue”。然后我们就可以在一些文件(screens.rpy结尾，或者options.rpy某处)中添加样式(style)语句。::
 
@@ -1148,7 +1145,7 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 界面——引导(Screens - Navigation)
 ---------------------------------
 
-接下去的定制化就需要修改界面(screen)了。关于界面(screen)部分最重要文档，详见 :ref:`界面和界面语言 <screens>` 和 :ref:`界面行为、数值及函数 <screen-actions>` 段落。
+接下去的定制化就需要修改界面(screen)了。关于界面(screen)部分最重要文档，详见 :doc:`screens` 和 :doc:`screen_actions` 段落。
 
 
 最重要的界面之一，是引导(navigation)界面，同时用在主菜单和游戏菜单，提供引导用户的功能。该界面是可编辑的，比如在界面上增加更多的按钮。修改引导界面的例子如下::
@@ -1256,14 +1253,14 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 GUI整体替换
 ---------------------
 
-高级创作者可能会部分甚至全部替换screen.rpy文件的内容。这样做的话，gui.rpy的部分或全部内容都会失效。调用 :func:`gui.init` 重置样式(style)可能是个好主意 - ——之后，创作者可能就可以为所欲为了。通常需要保证，在部分或所有的 :ref:`特殊界面 <screen-special>` 中，用户能使用Ren'Py本身提供的各种基础功能。
+高级创作者可能会部分甚至全部替换screen.rpy文件的内容。这样做的话，gui.rpy的部分或全部内容都会失效。调用 :func:`gui.init` 重置样式(style)可能是个好主意 - ——之后，创作者可能就可以为所欲为了。通常需要保证，在部分或所有的 :doc:`特殊界面 <screen_special>` 中，用户能使用Ren'Py本身提供的各种基础功能。
 
 .. _see-also:
 
 更多
 ========
 
-关于GUI的更新信息，详见 :ref:`高级GUI <gui-advanced>` 章节。
+关于GUI的更新信息，详见 :doc:`高级GUI <gui_advanced>` 章节。
 
 .. _gui-changes:
 

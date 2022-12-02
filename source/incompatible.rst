@@ -9,6 +9,235 @@
 
 关于GUI方面的不兼容变更，详见 :ref:`gui-changes` 部分，只有重新生成GUI才会让这些变更生效。
 
+.. _incompatible-8.1.0:
+.. _incompatible-7.6.0:
+
+8.1.0 / 7.6.0
+-------------
+
+此版本的Ren'Py引入了 :ref:`常量存储 <constant-stores>`，并把某些内建的存储常量化了。
+常量存储在初始化阶段后不会再改变。以下为存储的常量：
+
+    _errorhandling
+    _gamepad
+    _renpysteam
+    _warper
+    audio
+    achievement
+    build
+    director
+    iap
+    layeredimage
+    updater
+
+如果游戏中需要修改存储的某些变量值，(举例来说)可以将对应的变量设置：
+
+::
+
+    define audio._constant = False
+
+混音器(mixer)音量必须使用新的格式，0.0表示-60dB(电平)，1.0表示0dB(电平)。
+若要使用旧版格式：
+
+::
+
+    define config.quadratic_volume = True
+
+同时，还要将 :var:`config.default_music_volume`、:var:`config.default_sfx_volume` 和 :var:`config.default_voice_volume`
+都修改。如果任何一个的值为0.0或1.0，都没效果。
+
+.. _incompatible-8.0.2:
+.. _incompatible-7.5.2:
+
+8.0.2 / 7.5.2
+-------------
+
+模态界面会屏蔽 ``pause`` 语句和 :func:`renpy.pause`` 效果，直接终止暂停。
+原本是这样的设计，但某些情况下没效果。
+若要恢复旧版：
+
+::
+
+    define config.modal_blocks_pause = False
+
+历史记录默认不再使用Ruby/Furigana文本标签。
+若要恢复旧版，需要修改screens.rpy文件中的 :var:`gui.history_allow_tags` 配置项：
+
+::
+
+    define gui.history_allow_tags = { "alt", "noalt", "rt", "rb", "art" }
+
+仅在游戏中使用Ruby/Furigana文本标签时才需要注意。
+
+8.0.0 / 7.5.0
+-------------
+
+构建分发包时，“Windows, Mac, and Linux for Markets”类型的包不会在添加目录名称和版本号作为zip文件前缀。
+若要恢复旧特性，可以在游戏脚本中添加：
+
+::
+
+    init python:
+        build.package("market", "zip", "windows linux mac renpy all", "Windows, Mac, Linux for Markets")
+
+对于历史记录中的noalt文本标签，需要编辑 screens.rpy 文件，确保 :var:`gui.history_allow_tags` 中包含“noalt”。
+其默认值是：
+
+::
+
+    define gui.history_allow_tags = { "alt", "noalt" }
+
+(该变更在7.4版本中就已添加，只是文档没更新。)
+
+Ren'Py的7.4系列版本中有一些功能反复变更，比如读档后回滚的结果，在 ``after_load`` 脚本标签的变化，
+以及 :var:`config.after_load_callbacks` 配置项。
+如果你的游戏需要读档后做数据迁移，推荐调用 :func:`renpy.block_rollback` 防止数据变化后的回滚问题。
+
+:var:`config.narrator_menu` 配置项默认值改为True。最近的几个版本中，screen.rpy文件设置的默认值就已经是True了。
+若需要改为旧版本：
+
+::
+
+    define config.narrator_menu = False
+
+音效和语音的音频通道将在返回主菜单后自动停止播放。
+如果需要回到旧版(返回主菜单后只有movie通道停止)，在游戏脚本中添加：
+
+::
+
+    define config.main_menu_stop_channels = [ "movie" ]
+
+使用 ``call screen`` 调用的界面，默认不再支持前向滚动。
+详见 :ref:`变更日志 <call-screen-roll-forward>` 中关于可能引发问题的内容。
+前向滚动可以通过所有界面的 `roll_forward` 特性启用：
+
+::
+
+    define config.call_screen_roll_forward = True
+
+用在vbox和hbox中的key和timer语句，不再占据空间。
+showif语句中的子组件隐藏式，也同样不占空间。
+若需要恢复旧版：
+
+::
+
+    define config.box_skip = False
+
+拖拽组件的 :propref:`focus_mask` 样式特性默认值改为None。
+这项改动提升了性能表现，副作用是可视组件的透明像素部分也可以被用于拖动了。
+若要恢复旧版功能，将单个拖拽组件的focus_mask特性值设置为True，或者修改全局设置：
+
+::
+
+    style drag:
+        focus_mask True
+
+不过两种做法都会降低性能。
+
+样式特性 :propref:`outline_scaling` 的默认值改为“linear”。
+窗口缩放系数直接乘以轮廓线大小的值，然后取整。
+这可能会导致同心的相近粗细轮廓线可能会混在一起看不清。
+若要恢复旧版，将单个文本元素的 outline_scaling 特性设置为“step”，或者修改全局设置：
+
+::
+
+    style default:
+        outline_scaling "step"
+
+变换特性 :tpref:`crop_relative` 的默认值改为True，原来为False。
+裁剪是若需要指定像素数，需要使用int型数值或 ``absolute`` 数值。
+若要恢复旧版的功能，把浮点数转换为整数：
+
+::
+
+    define config.crop_relative_default = False
+
+不过，需要警惕本页文档中的其他内容可能会与上一项引发的冲突，有些部分不能与其他新功能特性同时使用。
+比如使用 :tpref:`crop` 特性对 :tpref:`crop_relative` 有用，现在还对 :tpref:`corner1` 和 :tpref:`corner2` 产生影响。
+
+lib/ 目录中针对不同平台的子目录名称发生变化。
+``lib/windows-x86_64`` 目录改为 ``lib/py2-windows-x86_64``。
+这项改动主要是为了使用Python 3的Ren'py 8版本。
+具体的目录名称没有在文档中记录，并且不同的Ren'Py可能会有不同。
+我们可以确定的是 ``sys.executable`` 是设置好的。
+
+vpgrid不再能装载超过单元格数量的元素，将 ``allow_underfull`` 特性或 :var:`config.allow_underfull_grids` 配置项设置为True后，只能装在小于单元格数量的元素。
+
+:doc:`层叠式图像 <layeredimage>` 中放置子组件和调整子组件尺寸的方式发生改变。
+不再以层叠式图像显示占据的区域，而是以整个界面尺寸，计算子组件的大小和位置，
+除非显式指定 :tpref:`xsize`、:tpref:`ysize` 或 :tpref:`xysize` 的值。
+若要恢复旧版：
+
+::
+
+    define config.layeredimage_offer_screen = False
+
+或者可以指定层叠式图像的 ``offer_screen`` 特性值为False。
+
+ATL中的 ``function`` 语句仅在运行超过一次之后才限制其运行。
+若要恢复旧版，ATL中始终限制function语句：
+
+::
+
+    define config.atl_function_always_blocks = True
+
+7.4.11
+------
+
+当前版本Ren'Py将在焦点发生改变，例如界面显示或隐藏时，依然运行某个按钮的unhovered特性。
+若要恢复旧版表现：
+
+::
+
+    define config.always_unfocus = False
+
+
+.. _incompatible-7.4.9:
+
+7.4.9
+-----
+
+当前版本Ren'Py在遇到浮点型数值的 :tpref:`xsize` 和 :tpref:`ysize` 时，认为这两个特性表示可用区域的某个比例。
+若要恢复回去：
+
+::
+
+    define config.relative_transform_size = False
+
+启用自动语音时，图层、界面和可视组件的阅读顺序发生改变，按与用户的距离从近到远依次朗读。
+若要恢复旧的顺序：
+
+::
+
+    define config.tts_front_to_back = False
+
+.. _incompatible-7.4.7:
+
+7.4.7
+-----
+
+:propref:`xminimum` 和 :propref:`xmaximum` 都为浮点型数值时，这两个最小值会当作可用区域的一个比例值。
+这表示 :propref:`xsize` 也需要调整以达到需要的结果。
+这项变更可能会导致某些可视组件的尺寸发生变化。
+若要恢复回去：
+
+::
+
+    define config.adjust_minimums = False
+
+ATL可视组件会在其自身首次显示是开始计算动画时间，而不是其所在界面显示时开始计时。
+若要恢复回去：
+
+::
+
+    define config.atl_start_on_show = False
+
+输入光标默认闪烁。若要修改：
+
+::
+
+    define config.input_caret_blink = False
+
 .. _incompatible-7-4-6:
 
 7.4.6

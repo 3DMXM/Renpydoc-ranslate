@@ -19,15 +19,25 @@ label语句允许使用自定义的标签名声明一个程序点位。这些标
 
 一个label语句可能只跟某一个语句块(block)关联。在那种情况下，主控流程遇到label语句就会进入关联语句块(block)，并顺序执行之后的语句。
 
-总共有两种脚本标签(label)：*global* 和 *local* 。global标签在所有项目文件中都生效，所以每个游戏中都不能重复定义。local标签在逻辑上比global标签有效范围小，仅限于声明local标签的文件。需要声明一个local标签的话，在标签名前缀一个英文句号“.”即可。例如： ::
+总共有两种脚本标签(label)：*global* 和 *local* 。global标签在所有项目文件中都生效，所以每个游戏中都不能重复定义。
+local标签可以同名，但需要与不同的global标签做关联。
+需要声明一个local标签的话，在标签名前缀一个英文句号“.”即可。例如：
+
+::
 
     label global_label:
-        "这是在一个global脚本标签里。"
-    label .local_name:
+        "这在一个global脚本标签里。"
+    label .local_label:
         ".这里属于local脚本标签。"
-        jump .local_name
+        jump .another_local
+    label .another_local:
+        "另一个local脚本标签"
+        jump .local_label
 
-local脚本标签可以在global脚本标签中定义，并被被直接引用，引用时使用该local标签的完整名。一个关于global标签和local标签的例子如下： ::
+local脚本标签在关联的global标签内部可以直接饮用。其他地方则需要使用标签全名，由关联的globle标签和local标签组成。
+一个关于global标签和local标签的例子如下：
+
+::
 
     label another_global:
         "现在让我们跳转进入其他地方的local脚本标签。"
@@ -70,11 +80,16 @@ call语句用于将主控流程转入给定的脚本标签(label)处。call语�
 
 ``from`` 分句是可选的，在label语句后面直接添加入参名和值，并直接在该label下直接使用。一个命名直白的标签(lable)有助于我们能利用栈(stack)回到脚本里合适的地方，就算加载的是修改过的脚本。 
 
+call语句可以使用参数，详见 :pep:`448`。
+
+当我们使用一个带入参列表的调用表达式时，必须在表达式和入参列表之间插入关键词 ``pass`` 。
+否则，入参列表会被当作表达式的一部分，而不是call语句的一部分。
+
 ::
 
     label start:
 
-        e "首先，我们调用一个支线(subroutine)。"
+        e "首先，我们调用一个支线。"
 
         call subroutine
 
@@ -87,13 +102,16 @@ call语句用于将主控流程转入给定的脚本标签(label)处。call语�
     label subroutine(count=1):
 
         e "我来过这里 [count] 次了。"
-        e "接着，我们会从支线(subroutine)返回。"
+        e "接着，我们会从支线返回。"
 
         return
 
-call语句可以带入参的情况，在PEP 3102中有详细说明。
+.. warning::
 
-当我们使用一个带入参列表的调用表达式时，必须在表达式和入参列表之间插入关键词 ``pass`` 。否则，入参列表会被当作表达式的一部分，而不是call语句的一部分。
+    每条 ``call`` 语句后面都不加上 ``from`` 从句就发布游戏是危险的。当然也可以通过发布更新补丁解决。
+    在没有 ``from`` 从句的情况下，编辑 ``call`` 相关的脚本，可能会有存档损坏的风险。
+
+    构建发行版时，将选项“向call语句添加from从句”勾选上就能解决以上问题。
 
 .. _return-statement:
 
@@ -119,6 +137,8 @@ return语句会在调用栈中弹出最顶层的那条语句，并将主控流�
 
 ``after_load``
     若该标签存在，当游戏读档后会调用这个标签内容。其可能被用于游戏内容更新后的数据修复。
+    如果数据从此标签后发生变化，应该调用 :func:`renpy.block_rollback` 函数防止用户从该存档点回滚。
+    
 
 ``splashscreen``
     若该标签存在，游戏首次运行时，在主菜单出现前，该标签内容会被调用。
@@ -176,7 +196,7 @@ return语句会在调用栈中弹出最顶层的那条语句，并将主控流�
 
   附加参数和关键词参数会被传入可调用的(函数)。
 
-  使用这个函数创建的上下文(context)无法执行Ren'Py脚本。会改变Ren'Py脚本流程的函数，比如renpy.jump()，只能在外层上下文(context)下被处理。如果你想要调用的是Ren'Py脚本而不是python函数，就应该使用renpy.call_in_new_context()函数。
+  使用这个函数创建的上下文(context)无法执行Ren'Py脚本。会改变Ren'Py脚本流程的函数，比如 :func:`renpy.jump`，只能在外层上下文(context)下被处理。如果你想要调用的是Ren'Py脚本而不是python函数，就应该使用 :func:`renpy.call_in_new_context` 函数。
 
 .. function:: renpy.jump_out_of_context(label)
 

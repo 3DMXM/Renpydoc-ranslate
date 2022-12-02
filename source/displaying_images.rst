@@ -15,12 +15,14 @@
 
 图像的突然变化显得很突兀，Ren'Py提供了 ``with`` 语句，可以在场景切换时提供各种效果。
 
+本页中出现的大多数语句都会使用 :ref:`lint` 检查，但他们的等效Python语句则不会检查。
+
 .. _concepts:
 
 一些概念
 ========
 
-.. _image:
+.. _concept-image:
 
 图像(image)
 ------------
@@ -32,8 +34,7 @@
 举例来说，假设图像名称为 ``mary beach night happy`` 。图像标签就是 ``mary`` ，而图像属性(attribute)就是 ``beach`` 、 ``night`` 和 ``happy`` 。
 
 可视组件是可以展现在界面上的一类东西的统称。最常用来展现的是静态图像，只需要以字符串形式给定图片文件名称就可以使用了。在上面的样例中，我们可以使用 ``"mary_beach_night_happy.png"`` 这样的文件名
-除了静态图片之外，图像(image)可以使用 :ref:`Ren'Py支持的所有可视组件
-<displayables>` 。 用于显示图像的语句也可以用来显示动画、纯色和其他可视组件。
+除了静态图片之外，图像(image)可以使用 :doc:`Ren'Py支持的所有可视组件 <displayables>` 。 用于显示图像的语句也可以用来显示动画、纯色和其他可视组件。
 
 .. _layer:
 
@@ -57,30 +58,52 @@ screens
 overlay
      当UI函数被覆盖(overlay)函数调用时，默认使用的图层。当一个互动行为重新启动时，该图层会被清空。
 
-若需要定义新的图层，可以编写和更新 :var:`config.layers` 等与图层有关的配置变量。使用
-:func:`renpy.layer_at_list` 函数，可以改变图层的特性。
+若需要定义新的图层，可以调用 :func:`renpy.add_layer` 函数，并设置图层相关 :doc:`配置项 <config>`。
+使用 :ref:`camera statement <camera>`，时，一个图层可以同时应该多个变换。
 
 .. _defining-images:
 
 定义图像(image)
 ===============
 
-有两种定义图像(image)的方式。你可以将图片文件放在images文件夹里，或者使用image语句定义一个图像(image)。图像的定义格式比较简单，只要放入目录中的图片文件命名符合转换规则，就能直接转换为图像并使用，还允许使用非图像文件定义图像。
+有两种定义图像(image)的方式。你可以将图片文件放在images目录里，或者使用image语句定义一个图像(image)。图像的定义格式比较简单，只要放入目录中的图片文件命名符合转换规则，就能直接转换为图像并使用，还允许使用非图像文件定义图像。
 
-使用image语句的优先级高于通过image文件夹定义的图像。
+使用image语句的优先级高于通过image目录定义的图像。
 
 .. _image-directory:
+.. _images-directory:
 
-images文件夹
+images目录
 ----------------
 
-图像文件夹名为“images”，放置在game文件夹下。当一个扩展名为.jpg或者.png的文件被放入这个文件夹时，文件的扩展名会被忽略，文件名的其余部分强制转为小写，最终生成的文件名会被用作图像(image)的名称，前提是那个名称没有在之前其他地方被显示定义过。
+图像目录名为“images”，放置在game目录下。当一个扩展名为.jpg、.jpeg、.jxl、.png或.webp的文件被放入这个目录时，文件的扩展名会被忽略，文件名的其余部分强制转为小写，最终生成的文件名会被用作图像(image)的名称，前提是那个名称没有在之前其他地方被显示定义过。
 
-这种设计会处理所有images文件夹下的子文件夹。例如，以下所有文件都会被定义为图像(image) ``eileen happy`` ：::
+这种设计会处理所有images目录下的子目录。例如，以下所有文件都会被定义为图像(image) ``eileen happy`` ：
+
+::
 
     game/images/eileen happy.png
     game/images/Eileen Happy.jpg
     game/images/eileen/eileen happy.png
+
+.. _oversampling:
+
+过采样
+--------
+
+默认情况下，图片的尺寸决定了实际显示时的大小。
+比如，一个1920×1080像素的图片，使用 :func:`gui.init` 运行在1920×1080分辨率下时，将填满整个屏幕。
+
+启用过采样之后，图片显示时的尺寸会比实际的要小。
+例如，原图片为3480×2160像素，过采样系数为2。
+那么两个轴向的尺寸都会减半，最终图像将显示为1920×1080。
+
+在图片需要缩放同时要求细节时，过采样技术十分有用。
+当使用更高细节的图形重制游戏时，过采样可以用来解决 :var:`config.physical_width` 和 :var:`config.physical_height` 与素材间的矛盾。
+
+图片名出去扩展名，以一个 ‘@’ 符号加数字形式结尾时，将自动启用过采样。
+例如，“eileen happy@2.png”表示2倍过采样，“eileen happy@3x.png”表示3倍过采样。
+使用 :func:`Image` 函数时指定关键字参数 `oversample` 的值也可以启用过采样。
 
 .. _image-statement:
 
@@ -133,8 +156,10 @@ show语句可以使用以下特性(property)：
 ``at``
     at特性(property)使用一个或多个英文逗号分隔的简单表达式。每一个简单表达式必须能换算成一个变换(transform)。变换(transform)被以从左到右的顺序应用到图像上。
 
-    如果没有给定at分句的情况下，Ren'Py会保持之前任何已经存在并应用到图像上的变换(transform)。如果不存在任何变换(transform)，图像会使用默认 :var:`default`
+    如果没有给定at分句的情况下，Ren'Py会保持之前任何已经存在并应用到图像上使用ATL或 :class:`Transform` 创建的变换(transform)。如果没有指定变换(transform)，图像会使用默认 :var:`default`
     变换(transform)显示。
+
+    使用标签(tag)进行变换特性的修改和替换的内容，详见 :ref:`变换替换 <replacing-transforms>` 章节。
 
 ``behind``
     behind特性(property)使用一列英文逗号分隔的变量名。每个变量名都代表一个图像标签(tag)。分句开头变量名指代的图像，显示在带有指定标签(tag)的所有图像之后。
@@ -144,14 +169,19 @@ show语句可以使用以下特性(property)：
 
 ``zorder``
     zorder特性(property)使用一个整数值。该整数指定了同一个图层(layer)内各个图像在z轴上的位置。数值越大，图像距离用户越近。zorder主要不是用于Ren'Py游戏中，而对从其他引擎移植过来的视觉小说可能有用。
+    zorder还有个用处，可以将某些始终要显示在最上层的图像的zorder设置得很大，避免了设置图层的麻烦。
 
-假设我们定义了如下的图像：::
+假设我们定义了如下的图像：
+
+::
 
     image mary night happy = "mary_night_happy.png"
     image mary night sad = "mary_night_sad.png"
     image moon = "moon.png"
 
-show语句样例如下：::
+show语句样例如下：
+
+::
 
     # 最基础的显示
     show mary night sad
@@ -172,15 +202,43 @@ show语句样例如下：::
     # 在用户自定义的图层上显示图像
     show moon onlayer user_layer
 
-**Show expression**
+.. _attributes-management:
+
+属性(attribute)管理
+---------------------
+
+综上所述，属性可以设置、添加和替换。
+
+还可以使用减号移除：
+
+::
+
+     # 显示正常的苏珊
+     show susan
+
+     # 显示高兴的苏珊
+     show susan happy
+
+     # 再次显示正常的苏珊
+     show susan -happy
+
+.. _show-expression:
+
+show expression
+---------------
+
 show语句的一个变种，使用关键词 ``expression`` 代替图像名，后面跟一个简单表达式。表达式必须能解析为一个可视组件，而该可视组件会在图层上显示。若要隐藏该可视组件，必须使用as语句指定一个图像标签(tag)。
 
 举例::
 
     show expression "moon.png" as moon
 
-**Show Layer.**
-``show layer`` 语句跟后面将讨论的 camera 语句相同。
+.. _show-layer:
+
+show layer
+------------
+
+``show layer`` 语句将跟后面的 :ref:`camera 语句 <camera>` 一起讨论。
 
 .. _scene-statement:
 
@@ -240,8 +298,7 @@ with语句用于在场景切换时应用转场(transition)效果，使得图像�
 
 with语句会触发等待一个互动行为。该互动行为存在期间由用户控制，用户可以通过互动更快结束这个过程。
 
-所有可用的转场(transition)效果列表，详见
-:ref:`转场 <transitions>`.
+所有可用的转场(transition)效果列表，详见 :doc:`转场 <transitions>`。
 
 with语句的样例::
 
@@ -298,7 +355,7 @@ with分句等效于在原有语句前面先加了一行 ``with None`` 语句，�
     show lucy mad at right
     with dissolve
 
-.. _camera-and-show-layer-statements:
+.. _camera:
 
 camera和show layer语句
 ================================
@@ -498,3 +555,12 @@ hide和show窗口
 .. function:: renpy.stop_predict(*args)
 
     该函数接受一个或多个可视组件作为入参。该函数触发Ren'Py停止在每次互动行为中预加载入参中的可视组件。
+
+.. _see-also:
+
+其他参考
+========
+
+:doc:`statement_equivalents` ：关于如何在Python中使用本章节提到的大部分功能。
+
+:doc:`displayables` ：其他可显示对象，不限于基本的图片。

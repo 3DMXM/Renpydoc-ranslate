@@ -82,6 +82,9 @@
     `size`
       如果不为None，该值是一个(width, height)元组。如果为空，默认值为(config.screen_width, config.screen_height)，即整个界面的尺寸。
 
+    The same effect can now be achieved using the :func:`Tile`
+    displayable, with ``Tile(im, size=size)``.
+    可以使用 :func:`Tile` 组件时指定 ``Tile(im, size=size)`` 实现同样效果。
 
 .. _im-matrixcolor:
 
@@ -99,7 +102,7 @@ im.MatrixColor图像处理器是使用一个矩阵控制图像色彩变换的图
 样例中，先将图像黑白化，然后提高图像中蓝色的纯度(实际降低了红色和绿色的纯度)。如果处理过程环节中的图片不需要存储，多个矩阵的使用是非常高效的，无论是在处理时间和缓存空间要求方面，都比单独使用两个im.MatrixColor矩阵好。
 
 图像处理器 im.MatrixColor 的功能已经被Transform类和ATL中transform的matrixcolor特性替代了。
-每次生成 `im.matrix` 都会将赋值给一个新的 `Matrix` 对象，详见 :ref:`matrixcolor<matrixcolor>` 。
+每次生成 `im.matrix` 都会将赋值给一个新的 `Matrix` 对象，详见 :doc:`matrixcolor <matrixcolor>` 。
 
 .. warning::
 

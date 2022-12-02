@@ -13,6 +13,7 @@
 * Ajkahn96
 * Aleema
 * Alessio
+* Alex
 * Alexandre Tranchant
 * Alisha Taylor
 * Andrej
@@ -32,6 +33,7 @@
 * Capntrips
 * Caryoscelus
 * CensoredUsername (C)
+* Charles Surett
 * Cherie Davidson
 * Chris Mear
 * Christian Koepp
@@ -57,6 +59,7 @@
 * Edward Betts
 * Edwin
 * Eevee (Lexy Munroe)
+* Elckarow
 * Eliza Velasquez
 * Emmanuel Marty
 * Emmeken
@@ -67,16 +70,19 @@
 * Felix Lampe
 * Franck_v
 * Frédéric Chapoton
+* GanstaKingofSA
 * Gas
 * George Economidis
 * GimmiRuski
-* Gio
+* GiovanH
 * Giuseppe Bertone
+* GNCanva
 * Gouvernathor
 * Gratusfr
 * Gregory Pease
 * Grey
 * Gustavo Carvalho
+* Hanaka
 * Helloise
 * Hentai Senshi
 * Herpior
@@ -87,6 +93,7 @@
 * Hyper Sonic
 * Ian Leslie
 * Jackmcbarn
+* Jacob Kauffmann
 * JaHIY
 * Jake Staines
 * James Broadhead
@@ -98,6 +105,8 @@
 * Joshua Fehler
 * Joshua Stone
 * Julian Uy
+* Julvenzor
+* Jürg Billeter
 * Kalawore
 * Kapil Gain
 * Kathryn
@@ -108,36 +117,46 @@
 * Koichi "vbkaisetsu" Akabe
 * Konstantin Mozheyko
 * Konstantin Nikolayev
+* KorDen
 * Kuroonehalf
 * Kyouryuukunn
 * Lapalissiano
+* LaUwUrence
 * Lee Yunseok
 * Lent1
 * Lezalith
+* LoafyLemon
+* Loliconazter
+* Liu Wenyuan
 * Lore
 * Lucas Ramage
 * Maciej Katafiasz
 * Maissara Moustafa
 * Mal Graty
 * Marcel
-* Mason Chou
 * Markus Koschany
+* Mason Chou
+* Matias B.
+* Matt George
 * Max le Fou
 * Maxwell Paul Brickner
 * Meithal
 * Merumelu
-* Midgetthetree
+* Midgethetree
 * mikey (ATP Projects)
 * Morgan Willcock
 * Moshibit
 * MrStalker
 * Mugenjohncel (Uncle Mugen)
 * Muhammad Nur Hidayat Yasuyoshi
+* Multimokia
 * Neotus
+* Neyunse
 * NetGenSuperstar
 * 逆转咸鱼
 * NoJoker
 * Nolanlemahn
+* Numerlor
 * Nxcrft
 * Nyaatrap
 * Oshi-Shinobu
@@ -152,11 +171,16 @@
 * Pratomo Asta Nugraha
 * Project Gardares
 * Psunbury
+* qTich
+* Raj Singh Chauhan
+* Raspberry-soft
 * Rastagong
 * RangHo Lee
 * Remix
 * Ren
 * Renoa
+* Reptile
+* Ruben Jesus Garcia-Hernandez
 * Ria-kon
 * Ricardo Pérez
 * Rikxz
@@ -170,11 +194,14 @@
 * Shayne Officer
 * Shehriyar Qureshi
 * Shiz
+* Siege-Wizard
 * SleepKirby
 * Spiky Caterpillar
 * Susnux
 * Sylvain Beucler
+* Tey
 * Thuong Nguyen Huu
+* Tichq
 * Tlm-2501
 * Tmrwiz
 * Viliam Búr
@@ -186,6 +213,7 @@
 * Zedraxlo
 * Zhangning
 * Zigmut
+* 琴梨梨
 
 以及你们的首席开发：
 

@@ -82,4 +82,6 @@
 Steamworks API
 ===============
 
-当Steam可用时，基于ctypes库的Steamworks API绑定也将可用，并暴露为 `achievement.steamapi` 。这些绑定是steamapi模块的一个实例，将C++版本的Steamworks API通过机器转换为Python版本。
+当Steam可用时，基于ctypes库的Steamworks API绑定也将可用，并暴露为 `achievement.steamapi` 。
+这些绑定是steamapi模块的一个实例，将C++版本的Steamworks API通过机器转换为Python版本，具体内容可以看
+`这里 <https://github.com/renpy/renpy-build/blob/master/steamapi/steamapi.py>`_。

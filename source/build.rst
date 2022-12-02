@@ -8,16 +8,17 @@ Ren'Py包含了对生成游戏分发版的支持。在启动器(laucher)选择�
 不需要额外设置，Ren'Py就可以生成下列类型的包(package)：
 
 PC: Windows and Linux
-    一个运行在Windows x86、Linux x86和Linux x86_64平台的zip文件。
+    一个运行在Windows x86_64和Linux x86_64平台的zip文件。
 
-Linux x86/x86_64
-    一个运行在Linux x86和Linux x86_64平台的tar.bz2文件。
+Linux
+    一个运行在Linux x86_64平台的tar.bz2文件。
+    包括32位和64位的ARM版本。(如果装了sdkarm的Ren'Py包)
 
-Macintosh x86_64
+Macintosh
     一个运行在使用Intel处理器Macintosh OS X系统的zip文件，文件中包含一个Macintosh可执行文件。游戏数据可以包含在可执行文件中，在用户看来只有一个文件。
 
-Windows x86
-   一个运行在Windows x86平台的zip文件。
+Windows
+   一个运行在Windows x86_64平台的zip文件。
 
 Windows, Mac, and Linux for Markets
    包含软件市场(比如itch.io和Steam)必要信息的分发版。这个版本不用于直接运行(可能在Mac上根本无法启动)，而用于上传到app商店。
@@ -70,7 +71,8 @@ icon.ico
 icon.icns
     Macintosh使用的图标。
 
-这些图标文件必须使用特殊格式。你可能需要使用一个程序或网络服务 (比如 http://iconverticons.com/ ) 转换图片。
+这些图标文件必须使用特殊格式。
+你可能需要使用一个程序或网络服务 (比如 https://anyconv.com/png-to-ico-converter/ 和  https://anyconv.com/png-to-icns-converter/) 转换图片。
 
 .. _classifying-and-ignoring-files:
 
@@ -110,8 +112,15 @@ renpy
     需要Ren'Py引擎文件的包(package)内文件。(Linux、Macintosh和Windows平台。)
 android
     这些文件会包含在安卓版本中。
+
+可以使用 :func:`build.classify` 函数的 ``file_list`` 参数扩展这个合法文件集。
+
+文件也可以使用传统的归档方式。“archive”规定的定义如下：
+
 archive
     这些文件会包含在archive.rpa归档文件中。
+
+归档文件集也可以使用 :func:`build.archive` 函数扩展。
 
 不在任何分类下的文件都会放入“all”文件列表中。
 
@@ -151,6 +160,13 @@ Packages
 
 假设我们想要生成一个游戏的普通版本，以及一个包含奖励材料的版本。我们可以将奖励文件归类到“bonus”文件列表中，然后使用如下语句定义一个“all-premuim”包(package)：::
 
+    # 在“bonus”文件列表中定义一个新的归档。
+    build.archive("bonus_archive", "bonus")
+
+    # 将bonux文件放入新归档中。
+    build.classify("game/bonus/**", "bonus_archive")
+
+    # 定义包文件。
     build.package("all-premium", "zip", "windows mac linux all bonus")
 
 支持生成的包类型包括“zip”和“tar.bz2”格式，以及用于装文件的目录“direcroty”。
@@ -204,7 +220,7 @@ old-game的目录结构会与game目录保持一致，比如game/scripts/day1.rp
 关于在游戏变更后，如何使用.rpyc文件帮助实现存档继承的信息，可以查看下面的链接:
 
 * `Under the hood: .rpyc files <https://www.patreon.com/posts/under-hood-rpyc-23035810>`_
-* `Ren'Py developer update: February 20201 <https://www.patreon.com/posts/renpy-developer-48146908>`_
+* `Ren'Py developer update: February 2021 <https://www.patreon.com/posts/renpy-developer-48146908>`_
 
 .. _requirements:
 
@@ -215,26 +231,28 @@ old-game的目录结构会与game目录保持一致，比如game/scripts/day1.rp
 
 **Windows**
 
-* 版本：Windows XP或以高。
+* 版本：Windows 7或以高。
 * 处理器：2.0 GHz Core 2 Duo
 * 内存：2.0 GB
-* 显卡支持：OpenGL 2.0或DirectX 9.0c
+* 显卡支持：OpenGL 3.0或DirectX 11
 
 **macOS**
 
 * 版本：10.6+
-* 处理器：2.0 GHz Core 2 Duo (只支持64位版本)
+* CPU: 2.0 Ghz 64-bit Intel-compatible (Apple silicon supported through Rosetta 2)
+* 处理器：2.0 GHz 64位英特尔兼容(苹果silicon系列使用Rosetta 2支持)
 * 内存：2.0 GB
-* 显卡支持：OpenGL 2.0
+* 显卡支持：OpenGL 3.0
 
 **Linux**
 
-* 版本：Ubuntu 12.04+
-* 处理器：2.0 GHz Core 2 Duo
+* 版本：Ubuntu 16.04+
+* 处理器：2.0 GHz 64位英特尔兼容
 * 内存：2.0 GB
-* 显卡支持：OpenGL 2.0
+* 显卡支持：OpenGL 3.0
 
 对磁盘空闲空间的大小则完全取决于游戏自身，并且对处理器和内存的要求可能会不同。
+Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
 
 .. _build-functions:
 
@@ -354,6 +372,10 @@ old-game的目录结构会与game目录保持一致，比如game/scripts/day1.rp
     当这项为True时，文件需要在Ren'Py 6.99.9版本之前支持的主题文件会包含在生成的包中。当这项是False时，不会包含这类文件。
 
     调用 :func:`gui.init` 时，这项会被设置为False。
+
+.. var:: build.include_update = False
+
+    若为True，Ren'Py会根据 :doc:`updater <updater>` 的设置生成文件。
 
 .. var:: build.itch_project = None
 

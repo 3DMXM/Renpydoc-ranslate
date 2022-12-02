@@ -40,9 +40,9 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
     Linux/Other
         ~/.renpy/`save_directory`
 
-    这项设置为None的话，将在game目录下创建一个“saves”文件夹。不推荐这样做，因为这无法防止game目录被系统的多用户共享。当某个游戏以管理员身份安装，以普通用户运行时，这种配置也会导致运行问题。
+    该项设置为None的话，将在game目录下创建一个“saves”文件夹。不推荐这样做，因为这无法防止game目录被系统的多用户共享。当某个游戏以管理员身份安装，以普通用户运行时，这种配置也会导致运行问题。
 
-    配置这项时，必须使用define语句或者Python语句块。无论使用哪种，配置项的语句都会在其他任何语句之前运行，所以其应该是一个字符串而不能是表达式。
+    配置该项时，必须使用define语句或者Python语句块。无论使用哪种，配置项的语句都会在其他任何语句之前运行，所以其应该是一个字符串而不能是表达式。
 
     需要打开存档目录时，使用 :var:`config.savedir` 而不是config.save_directory。
 
@@ -108,11 +108,11 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 
 .. var:: config.game_main_transition = None
 
-    从游戏菜单离开显示主菜单时使用的转场效果。从主菜单调用读档和环境设定界面，以及用户在游戏菜单选择返回主菜单也使用这个转场。
+    若非None，使用 :func:`MainMenu` 行为函数从游戏菜单离开显示主菜单时使用的转场效果。
 
 .. var:: config.intra_transition = None
 
-    在游戏菜单的各界面之间使用的转场效果。
+    在游戏菜单的各界面之间使用的转场效果。(即使用 :func:`ShowMenu` 切换界面。)
 
 .. var:: config.main_game_transition = None
 
@@ -163,7 +163,7 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 环境设定默认值
 -------------------
 
-Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境设定变量 <preference-variables>` 部分的内容。
+Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境设定变量 <preferences>` 部分的内容。
 
 .. _occasionally-used:
 
@@ -190,7 +190,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.after_replay_callback = None
 
-    若非None，这项是回放(replay)结束后，不使用入参那调用的函数。
+    若非None，该项是回放(replay)结束后，不使用入参那调用的函数。
 
 .. var:: config.allow_underfull_grids = False
 
@@ -216,7 +216,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.auto_channels = { "audio" : ( "sfx", "", ""  ) }
 
-    这项是用于定义自动音频通道。它将通道名映射为一个3元的元组：
+    该项是用于定义自动音频通道。它将通道名映射为一个3元的元组：
 
     * 混合器使用的通道名。
     * 通道上播放文件的前缀。
@@ -230,11 +230,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.auto_load = None
 
-    若非None，该项表示Ren'Py启动时自动加载的一个存档文件名。这项是提供给针对开发者用户，而不是终端用户用的。将这项设置为1的话，就会自动读取槽位1的存档。
+    若非None，该项表示Ren'Py启动时自动加载的一个存档文件名。该项是提供给针对开发者用户，而不是终端用户用的。将该项设置为1的话，就会自动读取槽位1的存档。
 
 .. var:: config.auto_voice = None
 
-    这项可以是一个字符串、一个函数或者空值(None)。若为None，自动语音功能就被禁用。
+    该项可以是一个字符串、一个函数或者空值(None)。若为None，自动语音功能就被禁用。
 
     若是一个字符串，字符串格式带有与表示对话当前行标识绑定的变量 ``id`` 。如果该项给出了一个存在的文件，那个文件就被作为语音播放。
 
@@ -261,7 +261,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.character_id_prefixes = [ ]
 
-    这项指定了一个可以用于 :func:`Character` 对象的样式特性(property)前缀列表。当某个样式前缀与列表中的前缀匹配，带有那个前缀的可视组件就会应用对应的样式。
+    该项指定了一个可以用于 :func:`Character` 对象的样式特性(property)前缀列表。当某个样式前缀与列表中的前缀匹配，带有那个前缀的可视组件就会应用对应的样式。
 
     例如，给默认GUI添加“namebox”前缀。当某个角色给定了namebox_background特性时，它会将带有id“namebox”的可视组件设置为say界面的 :propref:`background`。
 
@@ -288,7 +288,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.debug = False
 
-    启用调试功能(大多数时候将文件丢失问题转成错误信息)。在发布版本中，这项应该是关闭的。
+    启用调试功能(大多数时候将文件丢失问题转成错误信息)。在发布版本中，该项应该是关闭的。
 
 .. var:: config.debug_image_cache = False
 
@@ -301,15 +301,26 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.debug_sound = False
 
-    启用声音调试功能。这项禁用了声音生成过程中的错误抑制机制。不过，如果声卡丢失或者故障，这样的错误是正常的，启用这个调试项可能会导致Ren'Py的正常功能无法工作。在发布版本中，这项应该是关闭的。
+    启用声音调试功能。该项禁用了声音生成过程中的错误抑制机制。不过，如果声卡丢失或者故障，这样的错误是正常的，启用这个调试项可能会导致Ren'Py的正常功能无法工作。在发布版本中，该项应该是关闭的。
 
 .. var:: config.debug_text_overflow = False
 
-    当这项为True时，Ren'Py会把文本溢出记录到text_overflow.txt文件中。文本组件渲染一个比其自身更大尺寸的区域时，会产生一个文本溢出。该项设置为True，并把样式特性中的 :propref:`xmaximum` 和 :propref:`ymaximum` 设置为对话窗口尺寸，就能在对话长度相对窗口过大时生成溢出报告。
+    当该项为True时，Ren'Py会把文本溢出记录到text_overflow.txt文件中。文本组件渲染一个比其自身更大尺寸的区域时，会产生一个文本溢出。该项设置为True，并把样式特性中的 :propref:`xmaximum` 和 :propref:`ymaximum` 设置为对话窗口尺寸，就能在对话长度相对窗口过大时生成溢出报告。
+
+.. var:: config.default_attribute_callbacks = { }
+
+    当某个含有图像属性(attribute)的语句或函数执行、预加载时，如果发现该属性的图像当前并没有显示，则从该配置项字典寻找对应图像。如果没有找到，则使用None作为键再次搜索。
+
+    如果还是没找到，则需要执行某个函数。此函数会指定一个图像名称，一个包含必要图像标签和属性的元组。
+    次函数会返回一个可迭代数据，包含图像初次显示时应用的额外属性。
+
+    函数的执行结果被认为是附加的，任何显式的冲突和反向的属性都会优先于函数执行结果。
+
+    由于此函数可能在预加载时调用，所以函数必须能在任意状态都响应。
 
 .. var:: config.default_tag_layer = "master"
 
-    图像显示的默认图层(layer)，前提是图像标签(tag)在config.tag_layer不存在。
+    图像显示的默认图层(layer)，前提是图像标签(tag)在 :var:`config.tag_layer` 不存在。
 
 .. var:: config.default_transform = ...
 
@@ -319,9 +330,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.defer_styles = False
 
-    当该项为True时，style语句的执行会推迟到所有“translate python”语句块(block)执行后。这允许多语言支持python语句块更新某些变量。这些变量会用于多语言支持样式之外的style语句中。
+    当该项为True时，style语句的执行会推迟到所有 ``translate python`` 语句块(block)执行后。这允许多语言支持python语句块更新某些变量。这些变量会用于多语言支持样式之外的style语句中。
 
-    该项默认值是False， :func:`gui.init` 被调用时会将这项设置为True。
+    该项默认值是False， :func:`gui.init` 被调用时会将该项设置为True。
 
 .. var:: config.developer = "auto"
 
@@ -347,7 +358,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     当没有列表内的通道播放声音时，所有不在列表内的通道将在
     :var:`config.emphasize_audio_time` 定义的时间(单位为秒)内将自身的音量中值提高到1.0。
 
-    例如，将这项设置为 ``[ 'voice' ]`` 的话，播放语音时所有非语音通道的音量都会被降低。
+    例如，将该项设置为 ``[ 'voice' ]`` 的话，播放语音时所有非语音通道的音量都会被降低。
 
 .. var:: config.emphasize_audio_time = 0.5
 
@@ -359,9 +370,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.empty_window = ...
 
-    当_window项为True且界面上不显示任何窗口时，这项会被调用。(那表示， :func:`renpy.shown_window` 函数没有被调用。)通常用于在界面上显示一个空的窗口，返回后不会触发互动行为。
+    当_window项为True且界面上不显示任何窗口时，该项会被调用。(那表示， :func:`renpy.shown_window` 函数没有被调用。)通常用于在界面上显示一个空的窗口，返回后不会触发互动行为。
 
-    这项的默认用法是，叙述者角色显示一个空白行不使用互动行为。
+    该项的默认用法是，叙述者角色显示一个空白行不使用互动行为。
 
 .. var:: config.enable_language_autodetect = False
 
@@ -377,11 +388,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.fix_rollback_without_choice = False
 
-    这项决定了回退时，菜单和imagemap的构建方式。该项默认值是False，表示只有之前选择的菜单选项是可以点击的。若设置为真(False)，之前的选择会被标记，但所有选项都不是可点击的。用户可以使用点击在回退缓存中处理随意向前。
+    该项决定了回退时，菜单和imagemap的构建方式。该项默认值是False，表示只有之前选择的菜单选项是可以点击的。若设置为真(False)，之前的选择会被标记，但所有选项都不是可点击的。用户可以使用点击在回退缓存中处理随意向前。
 
 .. var:: config.font_replacement_map = { }
 
-    这项是一个从(font, bold, italics)到(font, bold, italics)映射，用来使用指定的粗体或斜体替换默认字体。例如，如果想要“Vera.ttf”版本的斜体使用“VeraIt.ttf”代替，可以这样写：
+    该项是一个从(font, bold, italics)到(font, bold, italics)映射，用来使用指定的粗体或斜体替换默认字体。例如，如果想要“Vera.ttf”版本的斜体使用“VeraIt.ttf”代替，可以这样写：
 
     ::
 
@@ -390,15 +401,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     请注意，这种映射只能用于字体的特定变化。也就是说，请求“Vera”字体的粗体兼斜体版本，会得到一个粗体兼斜体版本的“Vera”字体，而不是斜体“Vera”的粗体版本。
 
-.. var:: config.game_menu = [ ... ]
-
-    这项用于定制化游戏菜单选项。详见主菜单和游戏菜单的中关于此配置项的内容。
-
-    使用界面定义游戏菜单的情况下，这项不会被使用。
-
 .. var:: config.game_menu_music = None
 
-    若非None，这项是在游戏菜单时播放的音乐文件。
+    若非None，该项是在游戏菜单时播放的音乐文件。
 
 .. var:: config.gl_clear_color = "#000"
 
@@ -406,7 +411,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.gl_lod_bias = -0.5
 
-    uniform变量u_lod_bias的默认值，控制Ren'Py使用的mipmap。
+    uniform变量 :ref:`u_lod_bias <u-lod-bias>` 的默认值，控制Ren'Py使用的mipmap。
 
 .. var:: config.gl_test_image = "black"
 
@@ -451,17 +456,18 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     如果设置过大，是浪费内存的行为。如果设置过小，图像从磁盘直接加载，会降低性能。只要
     :var:`config.image_cache_size` 的配置不是空值(None)，就不使用config.image_cache_size_mb。
 
-.. var:: config.key_repeat = (.3, .03)
-
-    控制按键重复频率。如果启用了按键重复，这项应该是一个元组。元组内第一个元素是首次重复的延迟，第二个元素是之后每次重复的延迟。两个元素单位都是秒。如果这项是None，键盘重复功能被禁用。
-
 .. var:: define config.input_caret_blink = 1.0
 
     若非False，将设置默认光标的闪烁间隔时间，单位为秒。
 
 .. var:: config.language = None
 
-    若非None，这项应是一个字符串，指定了多语言支持框架下的默认语言。
+    若非None，该项应是一个字符串，指定了多语言支持框架下的默认语言。
+
+.. var:: config.lint_character_statistics = True
+
+    若为True，并且 :var:`config.developer` 也为True时，lint的分析报告会包含对话段落中每个角色的统计数据。
+    游戏打包后，角色统计数据将禁用，以防止对游戏运行产生干扰。
 
 .. var:: config.load_failed_label = None
 
@@ -477,10 +483,6 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     函数有两个入参，分别为地区(locale)的ISO编码和行政区(region)的ISO编码。
     
     返回值是一个字符串，对应支持的语言名称，或者返回None表示使用默认语言。
-
-.. var:: config.main_menu = [ ... ]
-
-    不使用界面的情况下，默认的主菜单。详见主菜单和游戏菜单章节。
 
 .. var:: config.main_menu_music = None
 
@@ -514,7 +516,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.missing_background = "black"
 
-    当 :var:`config.developer` 为True且某个之前 :ref:`scene语句 <scene-statement>` 使用了未定义的图像时，该项就会作为背景使用。这项的值应该是一个图像名(字符串)，而不是可视组件。
+    当 :var:`config.developer` 为True且某个之前 :ref:`scene语句 <scene-statement>` 使用了未定义的图像时，该项就会作为背景使用。该项的值应该是一个图像名(字符串)，而不是可视组件。
 
 .. var:: config.mode_callbacks = [ ... ]
 
@@ -527,7 +529,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     这个配置项控制用于定义的鼠标指针。若为空，使用系统鼠标，也就是一个黑白色的光标指针。
 
-    否则，这项应该是一个给定多种鼠标类型动画的字典。默认库中使用的键(key)包括“default”、“say”、“with”、“menu”、“prompt”、“imagemap”、“pause”、“mainmenu”和“gamemenu”。键“default”必须存在，它会在其他特定键不存在的情况下使用。
+    否则，该项应该是一个给定多种鼠标类型动画的字典。默认库中使用的键(key)包括“default”、“say”、“with”、“menu”、“prompt”、“imagemap”、“pause”、“mainmenu”和“gamemenu”。键“default”必须存在，它会在其他特定键不存在的情况下使用。
 
     字典中的每个键对应的值都是一个(*image, xoffset, yoffset*)形式元组的列表，按帧排序。
 
@@ -550,9 +552,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     如果该项的值指定为可视组件，鼠标光标将被隐藏，指定的可视组件会显示在其他所有画面元素之上。
     指定的可视组件可以相应所以鼠标光标位置和绘制的事件消息，与 :func:`MouseDisplayable` 等组件类似。
 
-.. var:: config.narrator_menu = False
+.. var:: config.narrator_menu = True
 
-    (默认情况下screen.ryp文件会将这项设置为True。)若为True，菜单内的叙述会使用旁白(narrator)角色。否则，叙述会显示为菜单内的文字说明。
+    (默认情况下screen.ryp文件会将该项设置为True。)若为True，菜单内的叙述会使用旁白(narrator)角色。否则，叙述会显示为菜单内的文字说明。
 
 .. var:: config.nearest_neighbor = False
 
@@ -603,13 +605,13 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     快速存档使用的槽位编号。
 
-.. var:: config.reload_modules = [ ]
-
-    一个字符串列表，表示游戏中会重新加载的所有Python模块名。这些模块的子模块也会重新加载。
-
 .. var:: config.quit_action = ...
 
     当用户点击程序窗口的退出按钮时调用的行为。默认的行为会提示用户确认是否真的想要退出。
+
+.. var:: config.reload_modules = [ ]
+
+    一个字符串列表，表示游戏中会重新加载的所有Python模块名。这些模块的子模块也会重新加载。
 
 .. var:: config.replace_text = None
 
@@ -632,6 +634,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     一个字典，在回放时将默认存储区的变量映射到指定的变量。
 
+.. var:: config.return_not_found_label = None
+
+    若非None，在主控流程返回时无法找到合适脚本标签位置时，则使用该项指定的脚本标签。
+    这次标签跳跃前，调用栈将被清空。
+
 .. var:: config.save_json_callbacks = [ ]
 
     用于创建json对象的一个回调函数列表，创建的json对象可以通过 :func:`FileJson`
@@ -640,6 +647,19 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     每个回调函数都是用某个保存过的Python字典调用。回调函数修改字典内容时，应使用适配json的Python数据类型，比如数值、字符串、列表和字典。在字典结尾的回调函数会作为存档槽位的一部分保存。
 
     字典中的键值可能开始是一个下划线符号(_)。这些键是Ren'Py使用的，并且不应该修改。
+
+    例如：
+
+    ::
+
+        init python:
+            def jsoncallback(d):
+                d["playername"] = player_name
+
+            config.save_json_callbacks.append(jsoncallback)
+
+    ``FileJson(slot)`` 和 ``renpy.slot_json(slot)`` 会在游戏存档时，将 ``d`` 的状态覆盖。
+    游戏存档时，变量 ``player_name`` 的值依然可以通过 ``FileJson(slot, "playername")`` 访问。
 
 .. var:: config.say_arguments_callback = None
 
@@ -666,7 +686,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: define config.single_movie_channel = None
 
-    若非None，当play语句后面使用了Movie()，该配置项决定了影片播放使用的通道。
+    若非None，当play语句后面使用了 :func:`Movie`，该配置项决定了影片播放使用的通道。
     该项不能设置为“movie”，因为“movie”是Ren'Py预留的关键字。
 
 .. var:: define config.skip_sounds = False
@@ -675,7 +695,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.speaking_attribute = None
 
-    若非None，这项是一个字符串，给出了图像属性(attribute)名。图像属性(attribute)会在角色发言时添加到图像上，在角色停止发言时移除。
+    若非None，该项是一个字符串，给出了图像属性(attribute)名。图像属性(attribute)会在角色发言时添加到图像上，在角色停止发言时移除。
 
 .. var:: config.tag_layer = { }
 
@@ -693,17 +713,17 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     游戏存档使用的缩略图高度。读档时，这些缩略图也会显示。请注意，缩略图的会以其生成的尺寸显示，而不是缩略图向用户显示时设置的值。
 
-    默认GUI可以改变这项值。
+    默认GUI可以改变该项值。
 
 .. var:: config.thumbnail_width = 100
 
     游戏存档使用的缩略图宽度。读档时，这些缩略图也会显示。请注意，缩略图的会以其生成的尺寸显示，而不是缩略图向用户显示时设置的值。
 
-    默认GUI可以改变这项值。
+    默认GUI可以改变该项值。
 
 .. var:: config.tts_voice = None
 
-    若非None，这是一个字符串，表示自动语音模式下播放tts语音时使用的非默认声音。可用的选项跟运行的平台有关联，并且需要设置成特定平台对应特定语音的形式。(在多语言支持的情况下最好也修改这项。)
+    若非None，这是一个字符串，表示自动语音模式下播放tts语音时使用的非默认声音。可用的选项跟运行的平台有关联，并且需要设置成特定平台对应特定语音的形式。(在多语言支持的情况下最好也修改该项。)
 
 .. var:: config.webaudio_required_types = [ "audio/ogg", "audio/mp3" ]
 
@@ -718,17 +738,17 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     
     在Safari上使用更快的Web音频系统也类似。
 
-.. var:: config.window_auto_hide = [ 'scene', 'call screen', 'menu' ]
+.. var:: config.window_auto_hide = [ 'scene', 'call screen', 'menu', "say-centered" ]
 
-    一个语句名称列表，列表内的语句会触发 ``window auto`` 隐藏空的对话窗口。
+    一个语句名称列表，列表内的语句会让 ``window auto`` 隐藏空的对话窗口。
 
 .. var:: config.window_auto_show = [ 'say', 'menu-with-caption' ]
 
-    一个语句名称列表，列表内的语句会触发 ``window auto`` 隐藏空的对话窗口。
+    一个语句名称列表，列表内的语句会让 ``window auto`` 显示空的对话窗口。
 
 .. var:: config.window_icon = None
 
-    若非None，这项应该是一个图片的文件名。这个图片用作主窗口的图标。这项不会用作windows平台的执行程序和mac电脑的app缩略图，那些使用 :ref:`特殊文件 <special-files>`。
+    若非None，该项应该是一个图片的文件名。这个图片用作主窗口的图标。该项不会用作windows平台的执行程序和mac电脑的app缩略图，那些使用 :ref:`特殊文件 <special-files>`。
 
 .. var:: config.window_overlay_functions = []
 
@@ -747,7 +767,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.adjust_view_size = None
 
-    若非None，这项应该是一个函数，使用两个入参：物理窗口的宽度和高度。它会返回一个元组，给出OpenGL视点(viewport)的宽度和高度，也就是Ren'Py会绘制图片的一块屏幕区域。
+    若非None，该项应该是一个函数，使用两个入参：物理窗口的宽度和高度。它会返回一个元组，给出OpenGL视点(viewport)的宽度和高度，也就是Ren'Py会绘制图片的一块屏幕区域。
 
     该项配置用于配置Ren'Py只允许使用某些尺寸的屏幕。例如，下列配置值允许使用原始屏幕的整数倍大小(保持宽高比)：
 
@@ -768,7 +788,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.afm_callback = None
 
-    若非None，这是一个Python函数，用于判断启用自动前进是否安全。这项的意义在于，语音系统中播放某个语音途中禁用自动前进功能。
+    若非None，这是一个Python函数，用于判断启用自动前进是否安全。该项的意义在于，语音系统中播放某个语音途中禁用自动前进功能。
 
 .. var:: config.afm_characters = 250
 
@@ -777,10 +797,6 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.afm_voice_delay = .5
 
     语音文件播放完成后，在AFM能进入下一段文本之前，等待的时间值，单位为秒。
-
-.. var:: config.call_screen_roll_forward = False
-
-    当界面的 `roll_forward` 特性值为None时，则使用该配置项的值。
 
 .. var:: config.all_character_callbacks = [ ]
 
@@ -802,6 +818,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     在启动阶段，Ren'Py会检索game目录内的所有归档文件，按照ascii码排序，自动插入到这个列表中。例如，如果Ren'Py找到了文件data.rpa、patch01.rpa和patch02.rpa，最终生成的列表为 ``['patch02', 'patch01', 'data']`` 。
 
+.. var:: config.at_exit_callbacks = [ ]
+
+    一个回调函数列表，当Ren'Py退出或重启游戏时将调用。
+    这些回调函数不应该有用户交互。
+
 .. var:: config.auto_choice_delay = None
 
     若非None，这个变量给定了一个时间值(单位为秒)，这个时间值内Ren'Py会暂停，之后会在游戏内选项中随机选择一个。我们希望这个配置项在发布版本中始终设置为None，不过没有什么人工做互动的情况下可以用来自动演示。
@@ -814,7 +835,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.autosave_frequency = 200
 
-    表示经过多少次互动行为后会发生自动存档。如果要禁用自动存档，将 :var:`config.has_autosave` 设置为False，不需要修改这项的值。
+    表示经过多少次互动行为后会发生自动存档。如果要禁用自动存档，将 :var:`config.has_autosave` 设置为False，不需要修改该项的值。
 
 .. var:: config.autosave_on_choice = True
 
@@ -827,6 +848,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.autosave_on_input = True
 
     若为True，Ren'Py在用户输入文本时自动保存(调用 :func:`renpy.input` 时)。
+
+.. var:: config.call_screen_roll_forward = False
+
+    当界面的 `roll_forward` 特性值为None时，则使用该配置项的值。
 
 .. var:: config.character_callback = None
 
@@ -858,6 +883,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     一个图层(layer)名的列表，当进入一个新的上下文(context)时，会清除列表上所有图层的图像。
 
+.. var:: config.controller_blocklist = [ ... ]
+
+    一个字符串列表，每个字符串都会尝试匹配对应游戏控制器的GUID。
+    当字符串匹配到控制器GUID(可以在log.txt中看到对应日志)或其前缀，将在初始化阶段就禁用对应控制器。
+
 .. var:: config.exception_handler = None
 
     如果不是None，该项应该是一个函数，并带有3个入参：
@@ -866,6 +896,8 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
     * traceback完整文本，同事包含传作者编写和Ren'Py的文件。
     * 包含traceback方法的文件路径。
 
+    该函数用于控制是否向用户展现程序错误。若函数返回True，忽略异常(exception)并将主控流程切换到下一个语句。
+    若函数返回False，启用内建的异常处理机制。
     该函数也可以调用 :func:`renpy.jump` 将主控流程切换至其他文本标签(label)。
 
 .. var:: config.fade_music = 0.0
@@ -874,11 +906,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.fast_skipping = False
 
-    这项设置为True的话，允许在开发者模式之外也使用快速跳过。
+    该项设置为True的话，允许在开发者模式之外也使用快速跳过。
 
 .. var:: config.file_open_callback = None
 
-    若非None，这项是一个函数，当某个文件需要被打开是会调用该函数。函数会返回一个类似文件的对象，或者使用Ren'Py的文件加载机制时返回None。类似文件的对象必须能用使用read、seed、tell和close方法。
+    若非None，该项是一个函数，当某个文件需要被打开是会调用该函数。函数会返回一个类似文件的对象，或者使用Ren'Py的文件加载机制时返回None。类似文件的对象必须能用使用read、seed、tell和close方法。
 
     对应的，还需要定义 :var:`config.loadable_callback` 。
 
@@ -886,32 +918,22 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     当用键盘移动焦点时，这是应用于垂直于所选运动方向的移动的惩罚量。
 
-.. var:: config.gl_enable = True
-
-    将这项设置为False即禁用OpenGL加速。如果检测系统不支持OpenGL加速时，OpenGL加速会自动关闭，所以通常没有必要将这项设置为False。
-
-    启动时持续按住shift键也能手工禁用OpenGL。
-
 .. var:: config.gl_resize = True
 
     决定是否允许用户调整OpenGL绘制窗口的大小。
 
 .. var:: config.hard_rollback_limit = 100
 
-    Ren'Py允许用会回滚的最大步数。这项设置为0则完全不允许回滚。我们不推荐这样做，因为回滚是用户错误使用跳过功能后，回看之前文本的有效途径。
+    Ren'Py允许用会回滚的最大步数。该项设置为0则完全不允许回滚。我们不推荐这样做，因为回滚是用户错误使用跳过功能后，回看之前文本的有效途径。
 
-.. var:: config.help = None
+.. var:: config.help_screen = "help"
 
-    在主菜单和游戏菜单，或者按下f1，或者在命令行界面输入“?”，都会调用配置的帮助页面文件。
-
-    若为None，帮助系统会禁用，不会显示在菜单中。如果在脚本中有一个help脚本标签(label)，调用标签时会使用另一个新的上下文(context)。
-    这允许创作者定义自己的游戏内帮助界面。否则的话，help文本标签(label)会关联一个在基础目录中的文件，能够在web浏览器中打开。
-    如果文件不存在，则请求帮助的操作会被忽略。
+    帮助界面名称，可以通过调用 :func:`Help` 行为函数或按键盘F1键呼出。
 
 .. var:: config.hide = renpy.hide
 
     当 :ref:`hide语句 <hide-statement>`
-    执行时调用的函数。这项使用与renpy.hide一样的入参。
+    执行时调用的函数。该项使用与renpy.hide一样的入参。
 
 .. var:: config.imagemap_auto_function = ...
 
@@ -925,14 +947,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     若为True，Side位置的子串顺序将决定子组件的渲染顺序。
 
-.. var:: config.imagemap_cache = True
-
-    若为True，imagemap的热点(hotspot)会缓存到PNG文件中，减少时间和内存消耗，但会增加整个游戏的磁盘空间大小。设置为False可以禁用该功能。
-
 .. var:: config.implicit_with_none = True
 
     若为True，也就是默认值，等效于每次通过对话、菜单输入和imagemap等互动行为之后都使用了 :ref:`with None <with-none>`
-    语句。这项用于确保在转场之后旧的界面不再显示。
+    语句。该项用于确保在转场之后旧的界面不再显示。
 
 .. var:: config.interact_callbacks = ...
 
@@ -952,7 +970,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.label_overrides = { }
 
-    这项配置给出了在Ren'Py脚本中jump和call脚本标签(label)时，重定向到其他脚本标签(label)的方法。例如，如果你需要添加一个“start”到“mystart”的映射关系，所有jump和call到“start”标签最终都会转到“mystart”。
+    该项配置给出了在Ren'Py脚本中jump和call脚本标签(label)时，重定向到其他脚本标签(label)的方法。例如，如果你需要添加一个“start”到“mystart”的映射关系，所有jump和call到“start”标签最终都会转到“mystart”。
 
 .. var:: config.layer_clipping = { }
 
@@ -960,9 +978,15 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     如果某个图层没有在config.layer_clipping中提及，则假设这个图层使用整个界面。
 
+.. var:: config.layeredimage_offer_screen = True
+
+    该项设置层叠式图像 ``offer_screen`` 特性的默认值。详见 :ref:`the related section <layeredimage-statement>` 。
+
 .. var:: config.layers = [ 'master', 'transient', 'screens', 'overlay' ]
 
-    这个配置项是一个所有Ren'Py已知图层(layer)的列表，按这些图层在界面的显示顺序排列。(列表中第一个元素就是最底部的图层。)Ren'Py内部会使用“master”、“transient”、“screens”和“overlay”图层，所以这些图层应该总是保存在这个列表中。
+    该配置项是一个所有Ren'Py已知图层(layer)的列表，按这些图层在界面的显示顺序排列。(列表中第一个元素就是最底部的图层。)Ren'Py内部会使用“master”、“transient”、“screens”和“overlay”图层，所以这些图层应该总是保存在这个列表中。
+
+    :func:`renpy.add_layer` 函数可以在不需要知道该配置项原始内容的情况下，新增图层到该列表。
 
 .. var:: config.lint_hooks = ...
 
@@ -995,7 +1019,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.log = None
 
-    若非None，这项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :ref:`menu <menu-statement>` 语句展示给用户的文本都会记录在这个文件中。
+    若非None，该项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :ref:`menu <menu-statement>` 语句展示给用户的文本都会记录在这个文件中。
+
+.. var:: config.main_menu_stop_channels = [ "movie", "sound", "voice" ]
+
+    一个音频通道列表名，当进入或返回主菜单时将停止对应音频通道的声音。
 
 .. var:: config.mipmap_dissolves = False
 
@@ -1025,7 +1053,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.mouse_hide_time = 30
 
-    在配置的时间值内没有鼠标操作就隐藏鼠标指针，单位为秒。这项应该配置成比读取一个界面的期望时间长，这样鼠标用户就不会遇到鼠标消失的时间比鼠标显示时间更长的情况。
+    在配置的时间值内没有鼠标操作就隐藏鼠标指针，单位为秒。该项应该配置成比读取一个界面的期望时间长，这样鼠标用户就不会遇到鼠标消失的时间比鼠标显示时间更长的情况。
 
     若为None，鼠标指针永远不会隐藏。
 
@@ -1045,37 +1073,54 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     若为True，Ren'Py会将应用旧形式(百分号)替换(substitution) :ref:`say <say-statement>` 和 :ref:`menu <menu-statement>` 语句中显示的文本。
 
+.. var:: config.open_file_encoding = False
+
+    若非False，:func:`renpy.open_file` 的 `encoding` 参数为None时，则使用该配置项。
+    该配置项主要用于Python 2游戏使用Python 3的 :func:`renpy.file` 函数可以默认以文本模式打开文件。
+
+    该配置项的默认值源自环境变量RENPY_OPEN_FILE_ENCODING。
+
 .. var:: config.overlay_during_with = True
 
     如果我们想要在 :ref:`with 语句 <with-statement>` 覆盖已显示图像就设置为True，如果我们想要在with语句中隐藏重叠部分就设置为False。
 
 .. var:: config.overlay_layers = [ 'overlay' ]
 
-    这项是一个所有可覆盖图层(layer)的列表。可覆盖图层在overlay函数调用前会被清空。“overlay”图层应该总是放在这个列表中。
+    该项是一个所有可覆盖图层(layer)的列表。可覆盖图层在overlay函数调用前会被清空。“overlay”图层应该总是放在这个列表中。
+
+.. var:: config.pause_with_transition = False
+
+    若为False，``pause`` 语句将必定调用 :func:`renpy.pause`。
+    若为True，可以指定一个延迟时间，``pause`` 语句等效于 ``with Pause(...)``。
 
 .. var:: config.per_frame_screens = [ ... ]
 
-    这项是一个界面名字符串的列表，列表内的界面会在每一帧都更新，而不是每次互动后更新。Ren'Py内部使用这个列表。所以创作者需要在这个列表中添加界面名，而不是整个替换原列表。
+    该项是一个界面名字符串的列表，列表内的界面会在每一帧都更新，而不是每次互动后更新。Ren'Py内部使用这个列表。所以创作者需要在这个列表中添加界面名，而不是整个替换原列表。
 
 .. var:: config.periodic_callback = None
 
-    若非None，这项应该是一个函数。这个函数会以20Hz的频率被不断调用，不带任何入参。
+    若非None，该项应该是一个函数。这个函数会以20Hz的频率被不断调用，不带任何入参。
 
 .. var:: config.play_channel = "audio"
 
     被 :func:`renpy.play` 、 :propref:`hover_sound` 和 :propref:`activate_sound` 使用的音频通道名称。
 
-.. var:: config.predict_statements = 10
+.. var:: config.predict_statements = 32
 
-    这是一个语句的数量值，包括当前语句，会被检查是否执行图像预加载。从当前语句开始执行广度优先搜索，直到包含配置数量的语句。在这个范围内的语句引用的图像都会在后台预先加载。将这项设置为0会禁用图像预加载功能。
+    这是一个语句的数量值，包括当前语句，会被检查是否执行图像预加载。从当前语句开始执行广度优先搜索，直到包含配置数量的语句。在这个范围内的语句引用的图像都会在后台预先加载。将该项设置为0会禁用图像预加载功能。
 
 .. var:: config.profile = False
 
     若设置为True，某些档案(profile)信息会输出到stdout标准输出。
 
+.. var:: config.profile_init = 0.25
+
+    ``init`` 和 ``init python`` 语句块执行时间超过该配置项时，将会记录到日志文件中。
+
 .. var:: config.quit_on_mobile_background = False
 
-    若为True，当移动app退出时，就会失去焦点。
+    若为True，当移动app失去焦点时就会退出，而不是在后台保存自身状态。
+    (参考配置项 :var:`config.save_on_mobile_background`，其控制具体表现。)
 
 .. var:: config.rollback_enabled = True
 
@@ -1085,7 +1130,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     当回滚(rollback)日志中存在超过这个配置项数量的语句时，Ren'Py会修剪日志。这也包括脚本改变导致的读取存档时，Ren'Py会回滚的最大步数。
 
-    将这项设置得比默认值更低可能会导致Ren'Py运行不稳定。
+    将该项设置得比默认值更低可能会导致Ren'Py运行不稳定。
 
 .. var:: config.rollback_side_size = .2
 
@@ -1121,11 +1166,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.savedir = ...
 
-    存档目录的完整路径。这只能在前面的Python语句中配置。同样的情况也存在于config.save_directory。
+    存档目录的完整路径。这只能在 ``python early`` 语句块中配置。同样的情况也存在于 :var:`config.save_directory`。
 
 .. var:: config.scene = renpy.scene
 
-    在 :ref:`scene 语句 <scene-statement>` 用于代替renpy.scene的函数。需要注意，这个函数用于清空界面，config.show用于显示某个新图像。这个函数具有与renpy.scene相同的签名(signature)。
+    在 :ref:`scene 语句 <scene-statement>` 中用于代替 :func:`renpy.scene` 的函数。需要注意，这个函数用于清空界面，:var:`config.show` 用于显示某个新图像。这个函数具有与 :func:`renpy.scene` 相同的签名(signature)。
 
 .. var:: config.screenshot_callback = ...
 
@@ -1133,7 +1178,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.screenshot_crop = None
 
-    若非None，这项应是一个(x, y, height, width)元组。截屏会在保存前剪裁为元组描述的矩形。
+    若非None，该项应是一个(x, y, height, width)元组。截屏会在保存前剪裁为元组描述的矩形。
 
 .. var:: config.screenshot_pattern = "screenshot%04d.png"
 
@@ -1145,11 +1190,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     若非None，这被解释为脚本的版本号。库(library)会根据脚本版本号启用适合的特性(feature)。若为None，我们假设脚本版本为最新。
 
-    通常这项是项目构建时由Ren'Py启动器(launcher)自动添加在某个文件中。
+    通常该项是项目构建时由Ren'Py启动器(launcher)自动添加在某个文件中。
 
 .. var:: config.searchpath = [ 'common', 'game' ]
 
-    一个目录列表，用于在这些目录下搜索图片、音乐、归档及其他媒体文件，但不包括脚本文件。这项会初始化为包含“common”和游戏目录的一个列表。
+    一个目录列表，用于在这些目录下搜索图片、音乐、归档及其他媒体文件，但不包括脚本文件。该项会初始化为包含“common”和游戏目录的一个列表。
 
 .. var:: config.search_prefixes = [ "", "images/" ]
 
@@ -1158,7 +1203,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.show = renpy.show
 
     在 :ref:`show
-    <show-statement>` 和 :ref:`scene <scene-statement>` 语句中中用于代替renpy.show的函数。这个函数具有与renpy.show相同的签名(signature)。
+    <show-statement>` 和 :ref:`scene <scene-statement>` 语句中中用于代替 :func:`renpy.show` 的函数。这个函数具有与 :func:`renpy.show` 相同的签名(signature)。
 
 .. var:: config.skip_delay = 75
 
@@ -1174,7 +1219,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.sound_sample_rate = 48000
 
-    声卡运行的采样率。如果你的所有wav文件都使用更低的采样率，修改这项配置可能会改善播放效果。
+    声卡运行的采样率。如果你的所有wav文件都使用更低的采样率，修改该项配置可能会改善播放效果。
 
 .. var:: config.start_callbacks = [ ... ]
 
@@ -1186,18 +1231,21 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
     一个函数列表，当某个互动行为开始后(不带入参)被调用。某个互动行为重新开始的情况下，这些回调函数不会被调用。
 
+.. var:: config.quit_callbacks = [ ... ]
+
+    一个函数列表，在Ren'Py进程终止时将(无参)调用。用于释放资源，例如打开的文件或启动的线程。
+
 .. var:: config.top_layers = [ ]
 
     一个图层(layer)名的列表，该列表中的图层会显示在其他所有图层上面，并且不接受应用于所有图层上的转场(transition)。如果某个图层名位于这里列表中，它就不能再存在于列表config.layers中。
 
 .. var:: config.transient_layers = [ 'transient' ]
 
-    这项变量是一个所有临时(transient)图层的列表。临时图层会在每次互动行为后被清空。“transient”应该总是保留在这个列表中。
+    该项变量是一个所有临时(transient)图层的列表。临时图层会在每次互动行为后被清空。“transient”应该总是保留在这个列表中。
 
 .. var:: config.transform_uses_child_position = True
 
-    若为True，transform会从他们的子类继承 :ref:`position properties
-    <position-style-properties>` 若不是True，就不继承。
+    若为True，transform会从他们的子类继承 :ref:`position properties <position-style-properties>` 。若不是True，就不继承。
 
 .. var:: config.transition_screens = True
 
@@ -1213,11 +1261,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 
 .. var:: config.voice_filename_format = "{filename}"
 
-    这项配置的字符串会自动用voice语句的入参字符串替换“filename”，并作为向用户播放的语音文件名使用。例如，如果这里配置的是“{filename}.ogg”，那么  ``voice "test"`` 语句就会播放“test.ogg”文件。
+    该项配置的字符串会自动用voice语句的入参字符串替换“filename”，并作为向用户播放的语音文件名使用。例如，如果这里配置的是“{filename}.ogg”，那么  ``voice "test"`` 语句就会播放“test.ogg”文件。
 
 .. var:: config.with_callback = None
 
-    若非None，这项应该是一个函数，会在使用 :ref:`with
+    若非None，该项应该是一个函数，会在使用 :ref:`with
     语句 <with-statement>` 时被调用。这个函数可以在转场(transition)过程中对添加在界面上的临时元素做出响应。转场(transition)过程中，调用该函数时使用一个入参。该函数会返回一个转场(transition)，可能就是作为入参的那个转场，也可能不是。
 
 .. _garbage-collection:
@@ -1248,3 +1296,66 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :var:`环境�
 .. var:: config.gc_print_unreachable = False
 
     若为True，Ren'Py会在控制台和日志中打印出触发GC的对象信息。
+
+.. _other0configuration-variables:
+
+其他配置项
+------------
+
+文档中的其他页面也包含很多配置项。可以跳转具体页面查看详情。
+
+:doc:`achievement`:
+
+* :var:`config.steam_appid`
+
+:doc:`custom_text_tags`:
+
+* :var:`config.custom_text_tags`
+* :var:`config.self_closing_custom_text_tags`
+
+:doc:`gesture`:
+
+* :var:`config.dispatch_gesture`
+* :var:`config.gestures`
+
+:doc:`gui`:
+
+* :var:`config.thumbnail_height`
+* :var:`config.thumbnail_width`
+
+:doc:`live2d`:
+
+* :var:`config.log_live2d_loading`
+
+:doc:`model`:
+
+* :var:`config.gl2`
+* :var:`config.gl_blend_func`
+* :var:`config.log_gl_shaders`
+
+:doc:`nvl_mode`:
+
+* :var:`config.nvl_layer`
+* :var:`config.nvl_list_length`
+* :var:`config.nvl_page_ctc`
+* :var:`config.nvl_page_ctc_position`
+* :var:`config.nvl_paged_rollback`
+
+:doc:`preferences`:
+
+* :var:`config.default_music_volume`
+* :var:`config.default_sfx_volume`
+* :var:`config.default_voice_volume`
+
+:doc:`self_voicing`:
+
+* :var:`config.descriptive_text_character`
+
+:doc:`side_image`:
+
+* :var:`config.side_image_change_transform`
+* :var:`config.side_image_null`
+* :var:`config.side_image_only_not_showing`
+* :var:`config.side_image_prefix_tag`
+* :var:`config.side_image_same_transform`
+* :var:`config.side_image_tag`

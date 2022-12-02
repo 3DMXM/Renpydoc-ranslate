@@ -292,8 +292,9 @@ uniform和attribute变量
 ``vec2 u_model_size``
     模型的宽度和高度。
 
-``vec2 u_lod_bias``
-    根据细节偏移等级(level of detail bias)，决定纹理查询精度。
+``float u_lod_bias``
+    纹理查找时细节等级(lod)的bias偏移。可以在一个变换对象中设置。
+    :var:`config.gl` 配置项是其默认值，通常设置为-0.5。这样设置会让Ren'Py使用更高的采样级别，然后缩小。
 
 ``mat4 u_transform``
     此变换(transform)将项目虚拟像素转换为OpenGL的视口(viewport)。
@@ -303,6 +304,11 @@ uniform和attribute变量
 
 ``vec4 u_random``
     4个介于0.0到1.0之间的随机数。每帧生成的随机数都不同(尽管可能比较相近)。
+
+``vec4 u_viewport``
+    该项指定当前绘制的视口(viewport)。
+    u_viewport.xy表示从视口左下角为原点的坐标。
+    u_viewport.pq表示视口的宽度和高度。
 
 ``sampler2D tex0``, ``sampler2D tex1``, ``sampler2D tex2``
     如果纹理可用，对应的sampler2D类型数据可以存入这些变量。

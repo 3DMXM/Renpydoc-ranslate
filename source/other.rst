@@ -74,16 +74,19 @@ Ren'Py包含许多变量需要基于运行的平台进行设置。
 内存分析
 -----------------
 
-.. function:: renpy.diff_memory(update=True)
+.. function:: renpy.(update=True, skip_constants=False)
 
-    分析Ren'Py和游戏使用的对象(object)、贴图(surface)和纹理(texture)内存。将上次调用这个函数时和这次调用这个函数的内容使用差异，并(在memory.txt和stdout)记录下。
+    分析Ren'Py和游戏使用的对象(object)、贴图(surface)和纹理(texture)内存。将上次调用该函数时和这次调用该函数的内容使用差异，并(在memory.txt和stdout)记录下。
 
     计算方式是，按照存储区的名称和Ren'Py实现中所有可达的内存。
     如果某个对象通过多个名称可达，就声明为最短可达路径。
 
-    由于通过这个函数可以扫描所有Ren'Py使用的内存，所以执行完毕相当耗时。
+    `skip_constants`
+        若为True，调试器将不会扫描巨大的Ren'Py容器，因为那些内存在启动后就不会变化。
 
-.. function:: renpy.profile_memory(fraction=1.0, minimum=0)
+    由于通过该函数可以扫描所有Ren'Py使用的内存，所以执行完毕相当耗时。
+
+.. function:: renpy.profile_memory(fraction=1.0, minimum=0, skip_constants=False)
 
     分析Ren'Py和游戏使用的对象(object)、贴图(surface)和纹理(texture)内存。将使用的内存总数写入memory.txt和stdout。
 
@@ -96,11 +99,14 @@ Ren'Py包含许多变量需要基于运行的平台进行设置。
     `minimum`
         如果某个名称的内存使用小于 *minimum* 字长，就不会显示。
 
-    由于通过这个函数会扫描所有Ren'Py使用的内存，所以执行完毕相当耗时。
+    `skip_constants`
+        若为True，调试器将不会扫描巨大的Ren'Py容器，因为那些内存在启动后就不会变化。
+
+    由于通过该函数会扫描所有Ren'Py使用的内存，所以执行完毕相当耗时。
 
 .. function:: renpy.profile_rollback()
 
-    分析回滚系统使用的内存。将回滚系统使用的内存写入到memory.txt和stdout。这个函数尝试计算各种存储变量用于回滚的内存量，以及回滚系统内部使用的内存量。
+    分析回滚系统使用的内存。将回滚系统使用的内存写入到memory.txt和stdout。该函数尝试计算各种存储变量用于回滚的内存量，以及回滚系统内部使用的内存量。
 
 上下文(context)
 ----------------
@@ -219,18 +225,38 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
 .. function:: renpy.add_python_directory(path)
 
-    将 *path* 添加在Python模块(module)和包(package)的路径列表中。这个路劲应该是一个游戏目录相对路劲的字符串。必须在import语句之前调用这个函数。
+    将 *path* 添加在Python模块(module)和包(package)的路径列表中。这个路劲应该是一个游戏目录相对路劲的字符串。必须在import语句之前调用该函数。
+
+.. function:: renpy.add_to_all_stores(name, value)
+
+    在创作者定义的命名空间中，添加名为 `name` 的变量，值为 `value` 。
+    如果同名变量已存在，则不做任何操作。
+    该函数只能在init代码块中运行。游戏启动后再运行该函数将报错。
 
 .. function:: renpy.call_stack_depth()
 
     返回当前上下文(context)调用栈(stack)的深度——这个数表示调用栈中还没有返回或弹出，但依然在运行的调用数量。
 
+.. function:: renpy.capture_focus(name=u'default')
+
+    若某个可视组件当前获得焦点，捕获该组件的包围矩形，并将其存储为 `name`。
+    若没有可视组件获得焦点，移除名为 `name` 的存储内容。
+
+    保存游戏时，捕获的焦点区域不会同时保存。
+
+    `name`
+        该参数应是一个字符串。入参值“tooltip”是特殊的，会自动捕获可视组件提示区域。
+
 .. function:: renpy.choice_for_skipping()
 
-    告诉Ren'Py即将出现一个选项。这个函数当前有两种影响：
+    告诉Ren'Py即将出现一个选项。该函数当前有两种影响：
 
     - 如果Ren'Py正在跳过(skip)，并且“跳过后面选项”设置为停止跳过，那么跳过就会终止。
     - 触发自动保存。
+
+.. function:: renpy.clear_capture_focus(name=u'default')
+
+    清除名为 `name` 的焦点捕获。
 
 .. function:: renpy.clear_game_runtime()
 
@@ -238,11 +264,11 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
 .. function:: renpy.clear_keymap_cache()
 
-    清空快捷键缓存。这个函数允许对 :func:`config.keymap` 的修改立刻生效，而不需要重启Ren'Py。
+    清空快捷键缓存。该函数允许对 :func:`config.keymap` 的修改立刻生效，而不需要重启Ren'Py。
 
 .. function:: renpy.context_dynamic(*vars)
 
-    这个函数可以将一个或多个变量作为入参。函数让变量根据当前上下文(context)动态调整。当调用返回后，变量会重置为原来的值。
+    该函数可以将一个或多个变量作为入参。函数让变量根据当前上下文(context)动态调整。当调用返回后，变量会重置为原来的值。
     
     一个调用的样例如下：
 
@@ -250,35 +276,73 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
         $ renpy.context_dynamic("x", "y", "z")
 
+.. function:: renpy.count_dialogue_blocks()
+
+    返回游戏原生语言的对话段落数量。
+
+.. function:: renpy.count_newly_seen_dialogue_blocks()
+
+    返回本次会话(session)中用户首次看到的对话段落数量。
+
+.. function:: renpy.count_seen_dialogue_blocks()
+
+    返回用户在当前游戏进度中看过的所有对话段落数量。
+
+.. function:: renpy.display_notify(message)
+
+    :func:`renpy.notify` 函数的默认实现方法。
+
+.. function:: renpy.dynamic(*vars, **kwargs)
+
+    可以向该函数传入一个或多个入参。该函数可以通过本地调用生成动态变量作用域。
+    调用该函数并返回时，对应的变量值将会被设置为传入的值。
+
+
+    如果变量以关键词参数传入，会根据变量名匹配并设置对应变量。
+
+    调用样例为：
+
+    ::
+
+        $ renpy.dynamic("x", "y", "z")
+        $ renpy.dynamic(players=2, score=0)
+
+.. function:: renpy.flush_cache_file(fn)
+
+    引用文件fn的所有图片缓存都将被冲洗(flush)。
+    当硬盘上的图片文件都发生了变更后，可以调用该函数强制Ren'Py使用游戏新版本。
+
 .. function:: renpy.focus_coordinates()
 
-    这个函数会尝试找到当前获得焦点可视组件的坐标。如果成功找到，返回一个(x, y, w, h)元组。如果没有找到，返回一个(None, None, None, None)元组。
+    该函数会尝试找到当前获得焦点可视组件的坐标。如果成功找到，返回一个(x, y, w, h)元组。如果没有找到，返回一个(None, None, None, None)元组。
 
-.. function:: renpy.force_autosave(take_screenshot=False)
+.. function:: renpy.force_autosave(take_screenshot=False, block=False)
 
-    强制自动存档。
+    强制后台自动存档。
 
     `take_screenshot`
         若为True，进行新的截屏。若为False，使用已存在的截屏。
 
-.. function:: renpy.force_full_redraw()
-
-    强制界面完全重绘。直接使用pygame重绘界面之后需要调用这个函数。
+    `block`
+        若为True，将屏蔽所有事件和操作，直到自动存档完成。
 
 .. function:: renpy.free_memory()
 
     尝试释放一些内存。在运行基于renpy的minigame前很有用。
 
-.. function:: renpy.full_restart(transition=False, label='_invoke_main_menu', target='_main_menu')
+.. function:: renpy.full_restart(transition=False, label=u'_invoke_main_menu', target=u'_main_menu', save=False)
 
     让Ren'Py重启，将用户带回到主菜单。
 
     `transition`
         如果给定了转场，就运行转场；如果这项是None则不运行转场；如果这项是False，就用 :func:`config.end_game_transition` 。
 
+    `save`
+        若为True，将先存档在 :var:`_quit_slot`，然后让Ren'Py重启，将用户带回到主菜单。
+
 .. function:: renpy.get_adjustment(bar_value)
 
-    传入一个 :class:`BarValue` 对象 *bar_value* ， 返回 :func:`ui.adjustment()` 。adjustment对象定义了下列属性(attribute)：
+    传入一个 :class:`BarValue` 对象 `bar_value` ，返回 :func:`ui.adjustment()` 。adjustment对象定义了下列属性(attribute)：
 
     .. attribute:: value
 
@@ -300,7 +364,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
 .. function:: renpy.get_image_load_log(age=None)
 
-    图像加载激活日志生成器。对最后100项图像加载来说，这个函数返回：
+    图像加载激活日志生成器。对最后100项图像加载来说，该函数返回：
 
     - 图像加载的时间(1970-01-01 00:00:00 UTC开始计算的秒数)。
     - 加载图像文件名。
@@ -312,6 +376,13 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
         如果不是None，只统计经过 *age* 秒之后加载的图像。
 
     在config.developer = True的情况下，才保存图像加载日志。
+
+.. function:: renpy.get_mouse_name(interaction=False)
+
+    返回显示鼠标名称。
+
+    `interaction`
+        若为True，根据互动类型获取鼠标名称。(极少使用)
 
 .. function:: renpy.get_mouse_pos()
 
@@ -329,7 +400,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
         Ren'Py能获得的裸数据，fps向下取整。就是说，如果显示器运行在59.95fps，那么函数返回的就是59fps。
         precision参数进一步降低了实际显示的帧数，只能能pricision的整倍数。
 
-        由于所有显示器帧率都是5的整倍数(25、30、60、75和120)，这个函数可能会提高准确性。将precision设置为1表示禁用这个功能。
+        由于所有显示器帧率都是5的整倍数(25、30、60、75和120)，该函数可能会提高准确性。将precision设置为1表示禁用这个功能。
 
 .. function:: renpy.get_renderer_info()
 
@@ -344,13 +415,16 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
     ``"additive"``
         仅当那个渲染器支持额外混合(blend)的情况下为True。
 
-    另外，键值也可能存在特定渲染器。这个字典应该被认为是不能修改的。可视组件启动后(也就是初始化段落已经结束)，这个函数应该只被调用一次。
+    ``"model"``
+        如果支持基于模型渲染器，则为True。
+
+    另外，键值也可能存在特定渲染器。这个字典应该被认为是不能修改的。可视组件启动后(也就是初始化段落已经结束)，该函数应该只被调用一次。
 
 .. function:: renpy.get_say_attributes()
 
     获得与当前say语句相关的属性(attribute)，如果没有相关属性(attribute)则返回None。
 
-    只有执行或预加载一条say语句时，这个函数才可用。
+    只有执行或预加载一条say语句时，该函数才可用。
 
 .. function:: renpy.get_skipping()
 
@@ -358,7 +432,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
 .. function:: renpy.get_transition(layer=None)
 
-    获取 *lay* 的转场(transition)，如果 *layer* 为None则获取整个场景(scene)的转场。这个函数返回了在下次交互行为中，队列上层的转场(transition)。如果不存在符合条件的转场则返回None。
+    获取 *lay* 的转场(transition)，如果 *layer* 为None则获取整个场景(scene)的转场。该函数返回了在下次交互行为中，队列上层的转场(transition)。如果不存在符合条件的转场则返回None。
 
 .. function:: renpy.iconify()
 
@@ -366,13 +440,24 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
 .. function:: renpy.invoke_in_thread(fn, *args, **kwargs)
 
-    在背景线程调用函数 *fn* ，传入这个函数收到的所有入参。线程返回后重新启动交互行为。
+    在背景线程调用函数 *fn* ，传入该函数收到的所有入参。线程返回后重新启动交互行为。
 
-    这个函数创建一个守护线程(daemon thread)，当Ren'Py关闭后这个线程也会自动停止。
+    该函数创建一个守护线程(daemon thread)，当Ren'Py关闭后这个线程也会自动停止。
+
+    该线程使用Ren'Py的API能做的事情非常受限。可以调用 :func:`renpy.queue_event` 修改存储区的变量。
+    最好在主线程中使用其他Ren'Py的API。
+
+    该函数的主要用途是：通过web API创建第二线程，调用该函数修改存储区变量，通过互动行为在界面上展示变量的变化。
+
+    然而该函数还无法在Web平台运行。
 
 .. function:: renpy.is_init_phase()
 
     当Ren'Py正在执行init代码时返回True，其他情况返回False.
+
+.. function:: renpy.is_mouse_visible()
+
+    如果鼠标光刻可见则返回True，否则返回False。
 
 .. function:: renpy.is_seen(ever=True)
 
@@ -380,13 +465,29 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     如果 *ever* 为True，我们检查用户是否看过该行。如果 *ever* 为False，我们检查改行是否在当前游戏过程中被看过。
 
+.. function:: renpy.is_skipping()
+
+    如果Ren'Py当前正处于跳过(skipping)状态则返回True，否则返回False。
+
 .. function:: renpy.is_start_interact()
 
-    如果在当前交互行为中调用了restart_interaction，就返回True。这个函数可以用于确定是否某个交互行为已经开始，或者已重新开始。
+    如果在当前交互行为中调用了restart_interaction，就返回True。该函数可以用于确定是否某个交互行为已经开始，或者已重新开始。
 
-.. function:: renpy.load_module(name, **kwargs)
+.. function:: renpy.language_tailor(chars, cls)
 
-    这个函数加载名为 *name* 的Ren'Py模块(module)。Ren'Py模块包含的Ren'Py脚本会加载进通用(存储)命名空间。Ren'Py脚本包含在名为name.rpym或name.rpymc的文件中。如果某个.rpym文件存在，并且比对应的.rpymc文件更新，就加载.rpym文件并创建新的.rpymc文件。
+    该函数可用于替换unicode字符的换行类。例如，字符串的换行类可以将其设置为某个象形文字的编码，这个字符的前后就会换行。
+
+    `chars`
+        一个字符串，包含定制的每一个字符。
+
+    `cls`
+        A string giving a character class. This should be one of the classes defined in Table
+        1 of `UAX #14: Unicode Line Breaking Algorithm <http://www.unicode.org/reports/tr14/tr14-30.html>`_.
+        一个字符串，指定字符串类。其须是下表定义中的其中一个类：`UAX #14: Unicode Line Breaking Algorithm <http://www.unicode.org/reports/tr14/tr14-30.html>`_。
+
+.. function:: renpy.load_module(name)
+
+    该函数加载名为 *name* 的Ren'Py模块(module)。Ren'Py模块包含的Ren'Py脚本会加载进通用(存储)命名空间。Ren'Py脚本包含在名为name.rpym或name.rpymc的文件中。如果某个.rpym文件存在，并且比对应的.rpymc文件更新，就加载.rpym文件并创建新的.rpymc文件。
 
     模块中所有的初始化语句块(block)(以及其他初始化代码)都在函数返回前运行。模块名未找到或有歧义的情况下会报错。
 
@@ -396,9 +497,10 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     将 *s* 作为Ren'Py脚本加载。
 
-    返回 *s* 中第一个语句块的名称。
+    返回 *s* 中第一个语句的名称。
 
-    *filename* is the name of the filename that statements in the string will appear to be from.
+    *filename* 是加载 *s* 后生成的所有语句对应的文件名称。
+    (译者注：该函数内部调用renpy.game.script.load_string，要求必须有一个文件名入参。)
 
 .. function:: renpy.maximum_framerate(t)
 
@@ -419,34 +521,21 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     让Ren'Py使用notify界面显示 *message* 。默认情况下，显示的 *message* 消息会以dissolve方式出现，显示2秒，最后以dissolve方式消失。
 
-    对一些不会产生回调函数的行为(action)，比如截屏和快速保存，这个函数很有效。
+    对一些不会产生回调函数的行为(action)，比如截屏和快速保存，该函数很有效。
 
-    一次只能显示一条通知。显示第二条通知时，会直接替换第一条通知。。
-
-.. function:: renpy.pause(delay=None, music=None, with_none=None, hard=False, checkpoint=None)
-
-    让Ren'Py暂停。如果用户点击并结束了这个暂停，暂停超时或被跳过，这个函数会返回True。
-
-    `delay`
-        Ren'Py暂停的时间，单位为秒。
-
-    `music`
-        出于兼容性考量而保留的参数。
-
-    `with_none`
-        决定暂停的结尾是否执行一个“with None”分句。
-
-    `hard`
-        若为True，点击就不会打断暂停。谨慎使用，因为很难区分硬性暂停和程序卡死。
-
-    `checkpoint`
-        若为True，会设置一个检查点(checkpoint)，用户可以回滚到这个语句。若为False，不会设置检查点(checkpoint)。若为None，仅当设置了 *delay* 后才会设置检查点(checkpoint)。
+    一次只能显示一条通知。显示第二条通知时，会直接替换第一条通知。
+    
+    该函数只是调用 :var:`config.notify` 。可以通过配置项重新实现并替换原函数。
 
 .. function:: renpy.pop_call()
 
     从调用栈(stack)弹出当前调用，并不再返回那个位置。
 
-    如果调用方决定不需要返回到那个脚本标签(label)的情况下，可以使用这个函数。
+    如果调用方决定不需要返回到那个脚本标签(label)的情况下，可以使用该函数。
+
+.. function:: renpy.prediction()
+
+    若Ren'Py处于预加载阶段则返回True。
 
 .. function:: renpy.queue_event(name, up=False, **kwargs)
 
@@ -455,13 +544,13 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
     `up`
         当事件开始阶段(例如，键盘按键被按下)时，这项应该是False。当事件结束(比如按键被松开)是，这项才会变成True。
 
-    当调用这个函数时，事件会被同时放入消息队列。这个函数不能替换事件——替换会修改事件的顺序。(替换事件可以使用 :func:`config.keymap` 。)
+    当调用该函数时，事件会被同时放入消息队列。该函数不能替换事件——替换会修改事件的顺序。(替换事件可以使用 :func:`config.keymap` 。)
 
-    这个函数是线程安全的(threadsafe)。
+    该函数是线程安全的(threadsafe)。
 
 .. function:: renpy.quit(relaunch=False, status=0)
 
-    这个函数让Ren'Py完全退出。
+    该函数让Ren'Py完全退出。
 
     `relaunch`
         若为True，Ren'Py会在退出前运行自身的一个副本。
@@ -485,7 +574,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     重新启动当前交互行为。包括以下内容，将显示的图像添加到场景(scene)，重新规划界面(screen)，并启动所有队列中的转场(transition)。
 
-    仅在某个交互行为中，这个函数才会执行所有工作。交互行为之外，这个函数不产生任何效果。
+    仅在某个交互行为中，该函数才会执行所有工作。交互行为之外，该函数不产生任何效果。
 
 .. function:: renpy.screenshot(filename)
 
@@ -514,10 +603,19 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     返回当前语句的scry对象。
 
-    scry对象告知Ren'Py当前语句哪些部分未来必定会是True。目前的版本中，scry对象只有一个字段(field)：
+    scry对象告知Ren'Py当前语句哪些部分未来必定会是True。目前的版本中，scry对象有下列字段：
 
     ``nvl_clear``
-        如果在下一个交互行为之前会执行一个 ``nvl clear`` 则为True。
+        如果在下一个交互行为之前会执行一个 ``nvl clear`` 语句则为True。
+
+    ``say``
+        如果在下一个交互行为之前会执行一个 ``say`` 语句则为True。
+
+    ``menu_with_caption``
+        如果在下一个交互行为之前会执行一个含标题的 ``menu`` 语句则为True。
+
+    ``who``
+        如果在下一个交互行为之前会执行一个 ``say`` 语句或含标题的 ``menu`` 语句，则角色对象将使用该字段。
 
 .. function:: renpy.set_autoreload(autoreload)
 
@@ -536,12 +634,12 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
 .. function:: renpy.shown_window()
 
-    调用这个函数确认窗口已经显示。使用“window show”语句的交互行为，会显示一个空窗口，无论这个函数是否被调用。
+    调用该函数确认窗口已经显示。使用“window show”语句的交互行为，会显示一个空窗口，无论该函数是否被调用。
 
 .. function:: renpy.split_properties(properties, *prefixes)
 
     将 *properties* 切割为多个字典，每一个都带上前缀 *prefix* 。
-    这个函数轮流使用每一个 *prefix* 检查 *properties* 中每一个键(key)。
+    该函数轮流使用每一个 *prefix* 检查 *properties* 中每一个键(key)。
     如果匹配到某个前缀，将就键(key)的前缀部分去掉作为最终字典的键(key)。
 
     如果没有匹配到前缀，会抛出异常。(空字符串，""，可以用作最后一个前缀，创建一个全匹配字典。)
@@ -580,7 +678,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
 .. function:: layout.yesno_screen(message, yes=None, no=None)
 
-    这个函数产生一个yes/no提示界面，并显示给定的提示信息。当用于选择了yes或者no之后，就隐藏界面。
+    该函数产生一个yes/no提示界面，并显示给定的提示信息。当用于选择了yes或者no之后，就隐藏界面。
 
     `message`
         显示的提示消息。

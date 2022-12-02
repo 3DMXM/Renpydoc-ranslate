@@ -48,7 +48,7 @@ Ren'Py语言
 .. _text-displayables-transforms-and-transitions:
 
 文本、可视组件、变换和转场
--------------------------------------------------------------------
+----------------------------
 
 .. toctree::
    :maxdepth: 1
@@ -67,7 +67,7 @@ Ren'Py语言
 .. _customizing-ren-py:
 
 定制化Ren'Py
---------------------------
+---------------
 
 .. toctree::
    :maxdepth: 1
@@ -91,6 +91,7 @@ Ren'Py语言
 .. toctree::
    :maxdepth: 1
 
+   launcher
    developer_tools
    director
 
@@ -113,6 +114,7 @@ Ren'Py语言
    history
    multiple
    splashscreen_presplash
+   lifecycle
 
 .. _python-and-ren-py:
 
@@ -129,7 +131,7 @@ Python和Ren'Py
    gui_advanced
    screen_python
    modes
-   udd
+   cdd
    cds
    custom_text_tags
    character_callbacks
@@ -138,6 +140,7 @@ Python和Ren'Py
    matrix
    model
    other
+   ren_py
 
 .. _building-updating-and-other-platforms:
 
@@ -148,13 +151,14 @@ Python和Ren'Py
    :maxdepth: 1
 
    build
-   updater
    android
-   chromeos
    ios
-   iap
-   gesture
+   web
+   chromeos
    raspi
+   iap
+   updater
+   gesture
 
 .. _end-user-documentation:
 
@@ -164,6 +168,7 @@ Python和Ren'Py
 .. toctree::
    :maxdepth: 1
 
+   security
    problems
    environment_variables
    self_voicing

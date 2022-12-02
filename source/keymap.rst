@@ -3,46 +3,56 @@
 定制按键映射
 ======================
 
-配置项 :var:`config.keymap` 中包含一个事件名称与触发事件的快捷键系统的映射关系。
+配置项 :var:`config.keymap` 中包含一个事件名称与触发事件的keysym的映射关系。
 
 .. note::
 
     许多用户已经学会了Ren'Py的默认按键绑定，并希望各游戏保持一致。
 
-在Ren'Py快捷键系统中，使用字符串表示鼠标按键、游戏手柄按键和键盘按键。
+在Ren'Py的keysym系统中，使用字符串表示鼠标按键、游戏手柄按键和键盘按键。
 
-鼠标按键的快捷键格式是‘mouseup_#’或‘mousedown_#’，其中的 # 符号代表按键的编号。Ren'Py假设鼠标有5个按键，其中按键1、2、3分别表示左、中、右键，按键4和5分别表示滚轮的上滑和下滑。例如，“mousedown_1”代表鼠标左键按下，“mouseup_1”表示鼠标左键弹起，“mousedown_4”表示滚轮上滑。
+鼠标按键的keysym格式是‘mouseup_#’或‘mousedown_#’，其中的 # 符号代表按键的编号。Ren'Py假设鼠标有5个按键，其中按键1、2、3分别表示左、中、右键，按键4和5分别表示滚轮的上滑和下滑。例如，“mousedown_1”代表鼠标左键按下，“mouseup_1”表示鼠标左键弹起，“mousedown_4”表示滚轮上滑。
 
-总共有两种键盘的快捷键。第一种是字符串里只有一个字符，有某个按键被按下时生成。通常用于绑定字母或数字按键。典型的快捷键包括“a”、“A”和“7”等。
+总共有两种键盘的keysym。第一种是字符串里只有一个字符，有某个按键被按下时生成。通常用于绑定字母或数字按键。典型的keysym包括“a”、“A”和“7”等。
 注意这里的字母对大小写敏感，“a”与“A”是不同字母。
+这种keysym只对能生成文本的事件有用——例如，按键释放时无法匹配到 ``keyup_a``，因为没有产生文本。
 
-键盘快捷键也可以是符号或者功能按键。可以是pygame.constants中定义的任意 K\_ 形式常量。这种快捷键字符串类似于
-"K\_BACKSPACE"、 "K\_RETURN"和 "K\_TAB"；完整的快捷键定义详见 `这里 <http://www.pygame.org/docs/ref/key.html>`_。
+键盘keysym也可以是符号或者功能按键。可以是pygame.constants中定义的任意 K\_ 形式常量。这种keysym字符串类似于
+"K\_BACKSPACE"、 "K\_RETURN"和 "K\_TAB"；完整的keysym定义详见 `这里 <http://www.pygame.org/docs/ref/key.html>`_。
 
-键盘快捷键可以使用下列前缀，与后面的字符用下划线分割：
+键盘keysym可以使用下列前缀，与后面的字符用下划线分割：
 
 alt
-    当alt键被同时按下时匹配。不同时按下alt键的快捷键与不带前缀的匹配。
+    当alt键被同时按下时匹配。不同时按下alt键的keysym与不带前缀的匹配。
 
 meta
-    当meta、command或windows键被同时按下时匹配。不同时按下那些键的快捷键与不带前缀的匹配。
+    当meta、command或windows键被同时按下时匹配。不同时按下那些键的keysym与不带前缀的匹配。
 
 ctrl
-    当ctrl键被同时按下时匹配。不同时按下ctrl键的快捷键与不带前缀的匹配。(ctrl键很少用，因为它通常会触发跳过。)
+    当ctrl键被同时按下时匹配。不同时按下ctrl键的keysym与不带前缀的匹配。(ctrl键很少用，因为它通常会触发跳过。)
+
+osctrl
+    针对Mac系统的alt键，和其他系统的ctrl键。
 
 shift
     当shift键被同时按下时匹配。
 
 noshift
-    当shift键没有被按下时匹配。一个 K\_ 形式快捷键忽略shift按键状态。
+    当shift键没有被按下时匹配。一个 K\_ 形式keysym忽略shift按键状态。
 
 repeat
-    由于按键始终处于按下状态时，则匹配为repeat。不带这个前缀的快捷键不会匹配到repeat。
+    由于按键始终处于按下状态时，则匹配为repeat。不带这个前缀的keysym不会匹配到repeat。
 
-例如，快捷键“shift_alt_K_F5”，当shift和alt键一直按下时，按下F5可以匹配到。
+keydown
+    默认情况下，匹配按键被按下状态。
+
+keyup
+    匹配按键被释放状态。
+
+例如，keysym “shift_alt_K_F5”，当shift和alt键一直按下时，按下F5可以匹配到。
 
 
-要修改快捷键和事件的绑定关系，就需要修改 :var:`config.keymap`。下面的脚本将“t”键添加到按键列表中，作用是dismiss某say语句，并从列表中移除了空格键。
+要修改keysym和事件的绑定关系，就需要修改 :var:`config.keymap`。下面的脚本将“t”键添加到按键列表中，作用是dismiss某say语句，并从列表中移除了空格键。
 
 ::
 
@@ -50,7 +60,7 @@ repeat
         $ config.keymap['dismiss'].append('t')
         $ config.keymap['dismiss'].remove('K_SPACE')
 
-默认的按键映射放在renpy/common/00keymap.rpy文件中，下面是7.4版本的配置：
+默认的按键映射放在renpy/common/00keymap.rpy文件中，下面是8.0.2版本的配置：
 
 ::
 
@@ -109,10 +119,14 @@ repeat
         input_up = [ 'K_UP', 'repeat_K_UP' ],
         input_down = [ 'K_DOWN', 'repeat_K_DOWN' ],
         input_delete = [ 'K_DELETE', 'repeat_K_DELETE' ],
-        input_home = [ 'K_HOME' ],
-        input_end = [ 'K_END' ],
-        input_copy = [ 'ctrl_noshift_K_INSERT', 'ctrl_noshift_K_c' ],
-        input_paste = [ 'shift_K_INSERT', 'ctrl_noshift_K_v' ],
+        input_home = [ 'K_HOME', 'meta_K_LEFT' ],
+        input_end = [ 'K_END', 'meta_K_RIGHT' ],
+        input_copy = [ 'ctrl_noshift_K_INSERT', 'ctrl_noshift_K_c', 'meta_noshift_K_c' ],
+        input_paste = [ 'shift_K_INSERT', 'ctrl_noshift_K_v', 'meta_noshift_K_v' ],
+        input_jump_word_left = [ 'osctrl_K_LEFT' ],
+        input_jump_word_right = [ 'osctrl_K_RIGHT' ],
+        input_delete_word = [ 'osctrl_K_BACKSPACE' ],
+        input_delete_full = [ 'meta_K_BACKSPACE' ],
 
         # 视口。
         viewport_leftarrow = [ 'K_LEFT', 'repeat_K_LEFT' ],

@@ -30,12 +30,18 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     结束当前语句，并调用某个脚本标签(label)。入参和关键词参数会传给 :func:`renpy.call` 。
 
-.. function:: Hide(screen, transition=None)
+.. function:: Hide(screen=None, transition=None, _layer=None)
 
     如果名为 *screen* 的界面已经显示，则隐藏这个界面。
+    
+    `screen`
+        若为字符串，表示待隐藏界面的名称。若为None，表示待隐藏界面为当前界面。
 
     `transition`
         如果非None，隐藏界面时使用转场(transition)。
+
+    `_layer`
+        该项将作为layer参数传入 :func:`renpy.hide_screen`。若该项为None则忽略。
 
 .. function:: Jump(label)
 
@@ -515,7 +521,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     这个行为会使用 *args* 和 *kwargs* 调用 *callable* 。
 
     `callable`
-        可调用的对象。
+        可调用的对象。该项假设遇到两个相等的可调用对象，调用任意一个都是相同的。
 
     `args`
         传给 *callable`* 的固定位置入参。
@@ -526,6 +532,9 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     这个行为使用一个可选的 _update_screens 关键词参数，而且这个参数默认为True。参数为True时，函数返回后，互动行动会重新开始，各界面会更新。
 
     如果函数返回一个非空值，互动行为会停止并返回那个值。(使用call screen语句得到的返回值放置在 *_return* 变量中。)
+
+    创作者可以从 :class:`Action` 派生自己的子类，并替代此Function函数。
+    这样就可以自己命名行为，并判断对应组件是否选中和可激活的。
 
 .. function:: Help(help=None)
 

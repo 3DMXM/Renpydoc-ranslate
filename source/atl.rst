@@ -24,17 +24,24 @@ transform语句
 ``transform`` 语句创建了一个变换(transform)效果，可以在某个at分句中使用。transform语句的语法如下：
 
 .. productionlist:: script
-    atl_transform : "transform" `name` "(" `parameters` ")" ":"
+    atl_transform : "transform" `qualname` ( "(" `parameters` ")" )? ":"
                   :    `atl_block`
 
 transform语句必须在初始化时运行。如果在 ``init`` 语句块(block)之外发现transform语句，其会被自动放入一个 ``init`` 语句块中并设置其优先级为0。定义的transform可能需要一些参数，被调用时必须提供。
+最右侧的参数可以使用等号“=”指定默认值(例如，transform a (b, c=0):)。
 
-`name` 必须是一个Python标识符。使用ATL创建出的transform与 *name* 绑定。::
+`qualname` 必须是一个使用英文标点“.”分割的Python标识符。使用ATL创建的transform与 `qualname` 绑定，
+如果存在 :ref:`store <named-stores>` 则保存在对应存储空间中。
 
-   transform left_to_right:
-       xalign 0.0
-       linear 2.0 xalign 1.0
-       repeat
+::
+
+    transform left_to_right:
+        xalign 0.0
+        linear 2.0 xalign 1.0
+        repeat
+
+    transform ariana.left:
+        xcenter .3
 
 .. _atl-image-statement:
 
@@ -108,14 +115,39 @@ interpolation语句
 interpolation语句语句是ATL控制变换的主要方式。
 
 .. productionlist:: atl
-    atl_interp : ( `warper` `simple_expression` | "warp" `simple_expression` `simple_expression` )?
-               : ( `property` `simple_expression` ( "knot" `simple_expression` )*
-               : | "clockwise"
-               : | "counterclockwise"
-               : | "circles" simple_expression
-               : | simple_expression )*
+    atl_properties : ( `property` `simple_expression` ( "knot" `simple_expression` )*
+                   : | "clockwise"
+                   : | "counterclockwise"
+                   : | "circles" simple_expression
+                   : | simple_expression )*
 
-interpolation语句的第一部分用于选择使用的time-warp函数。(即，将线性时间转为非线性时间。)可以使用在ATL注册的warp类函数名，或者使用关键词“warp”开头的某个表达式代表的函数。无论使用的是哪种函数，后面跟着的数字表示整个interpolation过程消耗的时间，单位为秒。
+.. productionlist:: atl
+    atl_interp : ( `warper` `simple_expression` | "warp" `simple_expression` `simple_expression` )? `atl_properties`
+               : | ( `warper` `simple_expression` | "warp" `simple_expression` `simple_expression` )? ":"
+               :    `atl_properties`
+
+interpolation语句的第一部分用于选择使用的time-warp函数。
+(即，将线性时间转为非线性时间。)可以使用在ATL注册的warp类函数名，或者使用关键词“warp”开头的某个表达式代表的函数。
+无论使用的是哪种函数，后面跟着的数字表示整个interpolation过程消耗的时间，单位为秒。
+
+::
+
+    transform builtin_warper:
+        xpos 0
+        ease 5 xpos 520
+
+    init python:
+        def my_warper(t):
+            return t**4.4
+
+    define my_warpers = [my_warper]
+
+    transform accessed_as_function:
+        xpos 0
+        warp my_warpers[0] 5 xpos 520
+        warp my_warper 3 xpos 100
+
+详见 :ref:`warpers` 获取更多关于warper函数的信息。
 
 如果没有给定warp类函数，interpolation过程会瞬间完成。否则就会持续给定的那段时间，至少一帧。
 
@@ -131,32 +163,44 @@ interpolation语句可以包含一些其他分句。若出现了特性(property)
 
 如果出现的是简单表达式，其可以简化为一个变换(transform)，这个变换是一个最简单的interpolate语句，不包含warp、spline或者circular行为。变换(transform)中的各项特性(property)会如同直接包含在interpolation语句中一般被处理。
 
+warper后面可以跟一个英文冒号(:)。
+这种情况下，warper后可以跟一个或多个如上阐述的从句。
+这样做可以让ATL可以同时对多个特性进行插值。
+
 一些interpolation语句样例如下：
 
 ::
 
     show logo base:
-         # 在界面的右上角显示logo。
-         xalign 1.0 yalign 0.0
+        # 在界面的右上角显示logo。
+        xalign 1.0 yalign 0.0
 
-         # 将某物平移到左端，耗时1.0秒。
-         linear 1.0 xalign 0.0
+        # 将某物平移到左端，耗时1.0秒。
+        linear 1.0 xalign 0.0
 
-         # 将某物移动至正中央(truecenter)，耗时1秒。使用ease的warp效果实现。
-         ease 1.0 truecenter
+        # 将某物移动至正中央(truecenter)，耗时1秒。使用ease的warp效果实现。
+        ease 1.0 truecenter
 
-         # 暂停1秒。
-         pause 1.0
+        # 暂停1秒。
+        pause 1.0
 
-         # 设置旋转圆心
-         alignaround (.5, .5)
+        # 设置旋转圆心
+        alignaround (.5, .5)
 
-         # 使用circular运动带着我们旋转并从界面顶端离开。
-         # 耗时2秒钟。
-         linear 2.0 yalign 0.0 clockwise circles 3
+        # 使用circular运动带着我们旋转并从界面顶端离开。
+        # 耗时2秒钟。
+        linear 2.0 yalign 0.0 clockwise circles 3
 
-         # 使用spline运动环绕界面移动。
-         linear 2.0 align (0.5, 1.0) knot (0.0, .33) knot (1.0, .66)
+        # 使用spline运动环绕界面移动。
+        linear 2.0 align (0.5, 1.0) knot (0.0, .33) knot (1.0, .66)
+
+        # 同时修改xalign和yalign。
+        linear 2.0 xalign 1.0 yalign 1.0
+
+        # 在一个语句块中做同样的操作。
+        linear 2.0:
+            xalign 1.0
+            yalign 1.0
 
 一种重要的特殊情况是暂停warper，pause后面只跟一个时间值，触发ATL暂停对应的时间。
 
@@ -200,13 +244,16 @@ time语句也暗示了可以放在pause语句前面，就可以实现暂停无�
 
 第一个简单表达式可能等效的东西有三种：
 
-* 如果是一个变换(transform)，该变换会被执行。with分句会被忽略。
+* 如果是一个ATL变换(transform)，并且该变换没有应用到其子组件(根据调用时是作为变换还是转场，可能分别对应 `child` 或 `old_widget` 参数)的情况下，该变换会包含在表达式中，``with`` 分句会被忽略。
 
-* 如果是一个整数或者浮点数，会执行对应时间(单位为秒)的暂停。
+* 如果是一个整数或者浮点数，会执行对应时间(单位为秒)的暂停。``with`` 分句会被忽略。
 
-* 以上都不是的话，表达式会被看作一个可视组件。当分句执行时，该组件替换变换(transform)的子组件，使其可以用作动画。如果出现了with分句，第二个表达式会被认为一个转场(transition)，并应用于新旧可视组件的替换表现。
+* 以上都不是的话，表达式会被看作一个可视组件。当分句执行时，该组件替换变换(transform)的子组件，使其可以用作动画。如果出现了 ``with`` 分句，第二个表达式会被认为一个转场(transition)，并应用于新旧可视组件的替换表现。
 
 ::
+
+    transform move_right:
+        linear 1.0 xalign 1.0
 
     image atl example:
          # 显示logo_base.png
@@ -475,7 +522,7 @@ animation语句
 .. productionlist:: atl
     atl_animation : "animation"
 
-与普通的现实时间轴相比，在带有相同标签(tag)的图像(image)或界面(screen)开始显示的那一刻，animation时间轴就将进行计时并被所有相同标签(tag)的图像和界面共享。
+与普通的显示时间轴相比，在带有相同标签(tag)的图像(image)或界面(screen)开始显示的那一刻，animation时间轴就将进行计时并被所有相同标签(tag)的图像和界面共享。
 animation时间轴常用于动画过程中的图像替换。例如：
 
 ::
@@ -561,6 +608,8 @@ easeout_quart       easeIn_quart
 easeout_quint       easeIn_quint
 ===============     ===================
 
+这些warper效果可以通过只读模块 ``_warper`` 访问。该模块包含了上述所有函数。
+
 我们可以在一个 ``python early`` 语句块中，使用 ``renpy.atl_warper`` 构造器定义新的warper函数。定义warper函数文件需要在使用那个函数的其他任何文件之前被处理。定义的代码如下：
 
 ::
@@ -645,33 +694,47 @@ transform存在以下特性(property)：
 
     将ypos和yanchor设置为相同的值。
 
+.. transform-property:: offset
+
+    :type: (int, int)
+    :default: (0, 0)
+
+    可视组件在两个方向偏离的像素数。向右和向下偏离时是正数。
+
 .. transform-property:: xoffset
 
-    :type: float
+    :type: int
     :default: 0.0
 
     可视组件在水平方向偏离的像素数。向右偏离时是正数。
 
 .. transform-property:: yoffset
 
-    :type: float
+    :type: int
     :default: 0.0
 
     可视组件在垂直方向偏离的像素数。向下偏离时是正数。
 
+.. transform-property:: xycenter
+
+    :type: (position, position)
+    :default: (0.0, 0.0)
+
+    等效于将pos的值设置为该特性的值，并同时将archor设置为(0.5, 0.5).
+
 .. transform-property:: xcenter
 
-    :type: float
+    :type: position
     :default: 0.0
 
-    将xpos设置为指定的特性值(整个区域xpos最大值的一半)，将xanchor设置为0.5。
+    等效于将pos的值设置为该特性的值，并同时将xanchor设置为0.5。
 
 .. transform-property:: ycenter
 
-    :type: float
+    :type: position
     :default: 0.0
 
-    将ypos设置为指定的特性值(整个区域ypos最大值的一半)，将yanchor设置为0.5。
+    等效于将pos的值设置为该特性的值，并同时将yanchor设置为0.5。
 
 .. transform-property:: rotate
 
@@ -779,30 +842,23 @@ transform存在以下特性(property)：
 
 .. transform-property:: crop
 
-    :type: None 或 (int, int, int, int) 或 (float, float, float, float)
+    :type: None 或 (position, position, position, position)
     :default: None
 
-    若该值非None，会使用给定的矩形剪裁可视组件。指定的矩形是一个(x, y, width, height)形式的元组。如果 ``crop_relative`` 为True并且元组内元素的值是浮点数(float)，width和height用作比例值，与原图像的宽和高分别相乘输出结果。否则，数值代表像素数。
+    若该值非None，会使用给定的矩形剪裁可视组件。指定的矩形是一个(x, y, width, height)形式的元组。
 
     如果各种corner特性与crop特性同时出现，crop的优先级高于各种corner特性。
 
-.. transform-property:: crop_relative
-
-    :type: boolean
-    :default: False
-
-    如果crop_relative为True，crop元组里的width和height用作分数，与原图像的宽和高分别相乘输出结果。
-
 .. transform-property:: corner1
 
-    :type: None 或 (int, int)
+    :type: None 或 (position, position)
     :default: None
 
     若该值非None，给定了剪裁框的左上角坐标。crop优先级高于该项。
 
 .. transform-property:: corner2
 
-    :type: None 或 (int, int)
+    :type: None 或 (position, position)
     :default: None
 
     若该值非None，给定了剪裁框的右下角坐标。crop优先级高于该项。
@@ -961,12 +1017,12 @@ uniforms：
 
 这些特性按照以下顺序应用：
 
-#. tile
 #. mesh, blur
-#. crop, corner1, corner2
-#. size, maxsize
-#. zoom, xzoom, yzoom
+#. tile
 #. pan
+#. crop, corner1, corner2
+#. xysize, size, maxsize
+#. zoom, xzoom, yzoom
 #. rotate
 #. zpos
 #. matrixtransform, matrixanchor
@@ -976,6 +1032,42 @@ uniforms：
 #. matrixcolor
 #. GL Properties, Uniforms
 #. position properties
+
+.. _deprecated-transform-properties:
+
+过期的变换特性
+================
+
+.. warning::
+
+    下列特性不应再使用近期开发的游戏中，可能会与其他功能特性发生冲突。
+    暂时保留这些特性是考虑到兼容性。
+    
+.. transform-property:: crop_relative
+
+    :type: boolean
+    :default: True
+
+    若为False，:tpref:`crop` 的值将作为像素数的值，而不再是原图像的宽度或高度的比例。
+
+    如果需要使用某个指定的数值，就应该使用 :tpref:`crop` property 而不是crop_relative。
+    在必要时，不确定数值类型的情况可以强制转换为 ``absolute`` 。
+
+.. transform-property:: size
+
+    :type: None or (int, int)
+    :default: None
+
+    :tpref:`xysize` 的一个旧版本，将浮点值作为像素数的值进行插值操作。
+
+.. transform-property:: maxsize
+
+    :type: None or (int, int)
+    :default: None
+
+    若该值非None，可以使可视组件在box当中以合适的尺寸放大或缩小显示，同时保持横纵比。（请注意，这意味着长或宽其中一个尺寸可能小于此box的尺寸。）
+
+    若要实现同样结果，可以将 :tpref:`xysize` 设定为同样的值，并把 :tpref:`fit` 设置为“contain”。
 
 .. _circular-motion:
 

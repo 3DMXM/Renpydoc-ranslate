@@ -10,7 +10,7 @@ Chrome OS/Chrome浏览器
 安卓上的Chrome OS
 --------------------
 
-在Chrome OS上运行游戏的最简单方式，是把游戏打包成安卓的应用程序，详见 :ref:`安卓 <android>` 。
+在Chrome OS上运行游戏的最简单方式，是把游戏打包成安卓的应用程序，详见 :doc:`安卓文档 <android>` 。
 Ren'Py在设计之初就考虑了安卓与Chrome OS同步支持。
 
 这个模式只支持运行游戏，而不是开发游戏。
@@ -40,15 +40,20 @@ Ren'Py游戏和SDK也能安装在Chromebook上。这个功能可以让创作者�
 5. 再次重启Chromebook。
 
 安装Ren'Py时，打开一个终端并运行:
+
 ::
 
-    wget https://www.renpy.org/dl/7.4.0/renpy-7.4.0-sdk.tar.bz2
-    tar xaf renpy-7.4.0-sdk.tar.bz2
+    wget https://www.renpy.org/dl/7.4.0/renpy-7.5.0-sdkarm.tar.bz2
+    tar xaf renpy-7.5.0-sdkarm.tar.bz2
 
 运行Ren'Py时，打开一个终端并运行：
+
 ::
 
-    cd ~/ab/renpy-7.4.0-sdk
+    cd ~/ab/renpy-7.5.0-sdkarm
     ./renpy.sh
 
-注意，多个版本的Ren'Py SDK可以共存，运行时注意不同版本的不同路径。
+注意，多个版本的Ren'Py SDK可以共存，运行时注意不同版本的不同路径。此处样例使用的是7.5.0版。
+
+执行上以上SDK安装步骤后，就可以在原生不支持ARM的Chromebook上运行游戏了。
+只要把游戏解包后放入项目目录并刷新，通过Ren'Py启动器运行游戏。(项目目录可以在设置中修改。)

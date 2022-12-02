@@ -220,12 +220,12 @@ group和attribute语句在某个层叠式图像中可以出现多次，所有指
 
 .. _statement-reference:
 
-语句特点
--------------------
+语句参考
+---------
 
-需要注意，当层叠式图像首次定义时， ``if`` 语句中的所有条件表达式都在初始化阶段就会被计算。
+需要注意，当层叠式图像首次定义时，``if`` 语句中的所有条件表达式都在初始化阶段就会被计算。
 
-.. _layeredimage:
+.. _layeredimage-statement:
 
 layeredimage语句
 ^^^^^^^^^^^^^^^^^
@@ -245,6 +245,12 @@ layeredimage语句
 
 `at`
     应用于层叠式图像的一个变换(transform)或变换的列表。
+
+`offer_screen`
+    若为True，层叠式图像将尝试匹配整个界面，对其子组件调整位置和尺寸。
+    若为False，层叠式图像将尝试在更小的包围矩形空间内放置各元素，每次显示的层叠式图像可能并不一样。
+    
+    若为None，即默认值，由配置项 :var:`config.layeredimage_offer_screen` 决定。该配置项的默认值是True。
 
 .. _attribute:
 
@@ -278,36 +284,75 @@ attribute语句使用下列特性(property)：
 `at`
     应用于层叠式图像的一个变换(transform)或变换的列表。
 
+The `if_*` clauses' test is based upon the list of attributes of the resulting
+image, as explained :ref:`here <concept-image>`, but it **does not *change* that
+list.** 
+`if_*` 从句会基于最终图像的属性列表进行尝试，具体方式详见 :ref:`这里 <concept-image>`，
+但它 **不会 *修改* 属性列表**。
+
+::
+
+    layeredimage eileen:
+        attribute a
+        attribute b default if_not "a"
+        attribute c default if_not "b"
+
+在上面的例子中，属性 ``b`` 和 ``c`` *总是* 属性列表的一部分(原因是他们的 ``default`` 从句)。
+调用 ``show eileen a`` 时，属性 ``a`` 根据脚本中写的需求决定是否显示，而属性 ``b`` 不同，因为有 ``if_not`` 特性的约束。
+但是，尽管对显示结果不起作用，属性 ``b`` 始终处于属性列表中，即意味着属性 ``c`` 始终对显示结果不起作用。
+
 .. _group:
 
 Group语句
 ^^^^^^^^^^
 
-``group`` 语句将一些转换后的图层(layer)组成一个组。一个组(group)中不能包含不同的属性(attribute)。
-(不过一个组中可以包含同样的属性两次。使用关键词 ``multiple`` 能解除这个限制。)
+如果某个组中出现了一个属性，除非该组是 ``multiple``，组中在出现其他属性都将报错。
+(不过一个组中可以包含同样的属性多次。)
 
 ``group`` 语句使用一个名称(name)。该名称并不常用，但可以用于生成组内属性的默认名称。
+``multiplay`` 组的名称则真的没什么用处。
 
 这个名称后面可能跟着关键词 ``auto`` 。如果在组内的任意属性后面的确存在auto，Ren'Py会扫描自己的图像列表以匹配组的正则表达式(详见下面内容)。找到的所有图像，如果匹配不到已定义的属性，就会自动在组内添加属性，就像使用attribute语句定义属性一样。
 
-后面还可以跟关键词 ``multiple`` 。出现时，可以同时选中某个组的多个成员。这个功能可以用于某个自动定义多个属性的组，而各个属性是很多图像公用的。但是与关键词 ``default`` 定义的属性会有冲突。
+后面还可以跟关键词 ``multiple`` 。出现时，可以同时选中某个组的多个成员。这个功能可以用于某个自动定义多个属性的组，以便同时对组内成员同时设置相同的特性(property)或属性(attribute)。但是与关键词 ``default`` 定义的属性会有冲突。
 
 特性(property)可以定义在组的第一行，后面带一个语句块，包含特性(property)和属性(attribute)。
 
 有两个特性是专门用于组的：
 
 `variant`
-    这应该是一个字符串。如果存在这项特性，它会添加一个变种元素。这个变种元素最终会成为自动生成图像名的一部分，以及搜索自动定义属性的正则表达式的一部分。
+    这应该是一个字符串。如果存在这项特性，它会添加一个元素。
+    该元素最终会成为自动生成图像名的一部分，以及搜索自动定义属性的正则表达式的一部分，前提是定义在 ``auto`` 组中。
 
 `prefix`
     给定的prefix前缀会加根下划线，并添加到手动或自动定义的属性名称前面。如果 *prefix* 为“leftarm”，遇到的属性名为“hip”，定义的最终属性名就是“leftarm_hip”。
 
 group语句使用的特性(property)与 ``attribute`` 语句相同。应用于组(group)的特性会传给组内的属性(attribute)，除非某项属性自身重写了同名的属性。
 
+定义在同一个层叠式图像中一些同名的 ``group`` 语句块，会被看作同一个组的不同部分。例如：
+
+::
+
+    layeredimage eileen sitting:
+        attribute base default
+        group arms variant "behind":
+            attribute on_hips
+            attribute on_knees
+            attribute mixed
+        attribute table default
+        group arms variant "infront":
+            attribute on_table default
+            attribute holding_margarita
+            attribute mixed
+
+在上面的例子中，``eileen_sitting_arms_behind_mixed.png`` 包含在桌子后面的左手，
+``eileen_sitting_arms_infront_mixed.png`` 包含在桌子前面的右手。
+当调用 ``show eileen sitting mixed`` 时，两个图像同时显示，分别在桌子前后。
+
 **正则表达式** 使用的图像正则表达式由下列部分构成：
 
 * 图像名称，空格使用下划线替换。
-* 组(group)名称。
+* 组(group)名称，若组不是 ``multiple`` 。
 * 变种(variant)名称。
 * 属性(attribute)名称。
 
@@ -592,3 +637,40 @@ Python
 
   `transform`
     若给定了这个入参，表示生成代理对象后，会应用于图像上的某个变换(transform)或变换列表。
+
+.. _selection-attributes-to-display:
+
+选择显示属性
+----------------
+
+有多个因素都会影响 ``show`` 的最终显示结果。
+为了明确说明各因素的作用顺序，本段内容详细说明了从 ``show`` 指令开始到屏幕最终显示的完整流程。
+
+- ``show`` 语句根据后面跟随的图像标签(image tag)，初始化属性(attribute)的集合。
+- 如果 :var:`config.adjust_attributes` 成功匹配到图像标签并调用了相关函数，函数将返回一个处理后的属性集合。
+  此集合将替代上一步的属性集合。
+- If a :var:`config.default_attribute_callbacks` function exists and if its trigger
+  conditions are met, it is called and potentially adds attributes to the set.
+- The two previous stages are not specific to layeredimages, because it is only
+  after this stage that renpy determines which image or layeredimage
+  will be called to display. For that reason, the given set of attributes must
+  lead to one, and only one, defined image (or layeredimage, Live2D...), using
+  the behavior described in the :ref:`show statement section<show-statement>`.
+- Then, the provided attributes are combined with the attributes defined in the
+  layeredimage, discarding some previously shown attributes and conserving others.
+  This is also the point where unrecognized attributes are detected and related
+  errors are raised. If no such error is raised, the new attributes, along with
+  those which were not discarded, will be recognized by renpy as the set of
+  attributes associated with that image tag. This computing takes some of the
+  incompatibility constraints into account, but not all. For instance
+  incompatibilities due to attributes being in the same non-multiple group will
+  trigger at this point in time, but the if_any/if_all/if_not clauses will not.
+  That's why an attribute called but negated by such a clause will be considered
+  active by renpy, and will for example become visible without having to be called
+  again if at some point the condition of the if\_x clause is no longer fulfilled.
+- If an attribute_function has been provided to the layeredimage, it is called
+  with the set of remaining attributes. It returns a potentially different set of
+  attributes.
+- This set is once again confronted with the incompatibility constraints of the
+  layeredimage, this time in full. That is the final stage, and remaining attributes
+  are called into display.
