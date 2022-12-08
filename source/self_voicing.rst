@@ -62,6 +62,20 @@ Alternative text
 
     转换文本会使用Ren'Py的字符串多语言支持机制进行翻译。转换文本的优先级高于从可视组件及其子组件剥离出的文本，不过从文本组件剥离出的问题可以使用“[text]”型字符串替换。其他文本都不允许使用字符串替换。
 
+    例如：
+
+    ::
+
+        screen information(message, planet, badness):
+            text message:
+                color color_from_badness(badness)
+                alt "Information for you : [text]. Badness is " + str(badness)
+
+            text "ORIGIN_OF_MESSAGE_{color=#f00}[planet!u]{/color}":
+                alt "Origin of message is " + planet
+
+    在上例中，变量 ``badness`` 和 ``planet`` 都不能直接使用“[badness]”替换。把所有变量连成一个字符串，是个解决方法。
+
     传入Character对象的 `who_alt` 和 `what_alt` 参数将alt样式特性分别设置为角色的名字文本和身体文本。举个例子，我们定义了一个角色使用斜体表示其内心想法，但通过自动语音显示表现其想法：
 
     ::
@@ -69,7 +83,8 @@ Alternative text
         define thought = Character(None, what_italic=True, what_alt="I think, [text]")
 
 Descriptive Text
-    描述文本是通过旁白显示(或表述)的文本内容。如果禁用自动语音则文本不显示。自动语音文本使用变量 ``sv`` ，与角色的定义过程类似。
+    描述文本是启用自动语音功能后，通过旁白显示(或表述)的文本内容。
+    如果禁用自动语音则文本不显示。自动语音文本使用变量 :var:`alt` ，与角色的定义过程类似。
 
     .. var:: alt = ...
 
@@ -91,6 +106,6 @@ Descriptive Text
 
     .. var:: config.descriptive_text_character = None
 
-        若不是None，该项应该是一个字符对象，用于显示描述文本。
+        若不是None，该项应该是一个用于显示描述文本角色对象，且不是旁白。
 
 使用快捷键shift+alt+V可以启用自动语音的debug模式。debug模式下会显示界面中会播放语音的文本，用于开发需求。

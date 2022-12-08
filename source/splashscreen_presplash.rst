@@ -12,6 +12,7 @@
 “splashscreen”脚本标签会在主菜单之前自动执行。因此，可以在游戏脚本的任何地方使用这个标签使用启动界面。
 
 如果要在游戏启动界面添加文本，可以在脚本中添加如下代码(除了splashscreen标签内部)：
+
 ::
 
     label splashscreen:
@@ -54,7 +55,7 @@
 
         return
 
-.. _add-a-presplash:
+.. _presplash:
 
 添加加载等待画面
 ------------------
@@ -64,6 +65,11 @@
 
 presplash.png
     游戏加载过程中显示的图片。
+
+该项尽在电脑平台上生效，在安卓、iOS和Web平台无效。
+安卓平台需要设置 :ref:`android-presplash`，Web平台需要设置 :ref:`Web Presplash <web-presplash>`。
+
+:var:`config.minimum_presplash_time` 配置项设置了preslash画面的最小显示时间。
 
 .. _adding-a-progress-bar:
 
@@ -107,3 +113,15 @@ presplash_foreground.png
         :width: 100%
 
         一个略精致的进度条前景样例。
+
+.. _mobile-and-web-preslash-screens:
+
+手机端和Web平台的preslash界面
+--------------------------------
+
+安卓、iOS和Web平台拥有各自的preslash界面。
+详见对应文档：
+
+* Android :ref:`android-presplash`
+* iOS :ref:`ios-storyboard`
+* Web :ref:`web-presplash`

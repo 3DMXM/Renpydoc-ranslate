@@ -8,7 +8,7 @@
 
 样式特性名由两部分构成，前缀部分指定了特性的使用场景，后半部分是特性本身。例如，按钮的 ``hover_background`` 特性的使用场景是按钮得到焦点(未被按下)，而按钮的 ``idle_background`` 特性的使用场景是按钮未得到焦点。(设置 ``background`` 特性会同时修改 ``idle_background`` 和 ``hover_background`` 等background类特性。)
 
-由于Ren'Py拥有超过100中的样式特性，本节内容只涉及其中很小一部分。除了 ``background`` 之外，我们还会使用 ``color`` 、 ``font`` 、 ``outlines`` 和 ``size`` 等样式特性。需要完整的样式特性列表的话，可以查看 :ref:`样式特性 <style-properties>`
+由于Ren'Py拥有超过100中的样式特性，本节内容只涉及其中很小一部分。除了 ``background`` 之外，我们还会使用 ``color`` 、 ``font`` 、 ``outlines`` 和 ``size`` 等样式特性。需要完整的样式特性列表的话，可以查看 :doc:`样式特性 <style_properties>`
 文档。
 
 .. _using-styles-and-style-inheritance:

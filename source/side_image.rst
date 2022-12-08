@@ -15,6 +15,8 @@
 
 根据图像标签选择关联的头像时，Ren'Py会尝试在图像属性池中找到带有标签“side”且带有尽可能大的属性值的图片。如果没有找到符合条件的图片，或者找到多个带有相同属性值的图像，就显示 :class:`Null` 。
 
+除了tag标签，在属性池中至少需要有一项属性。如果没有，头像不会显示。
+
 例如，假设我们有如下脚本：
 
 ::
@@ -63,13 +65,14 @@
 
         p concerned "这里会显示 'side player concerned' 。"
 
-.. _variations:
+.. _config-and-store-variables:
 
-变种
-----------
+配置和存储区变量
+--------------------------
 
-头像有一些变换，分别由一些配置项控制。
+有一些头像的属性由配置项控制。
 
+.. var:: _side_image_tag = None
 .. var:: config.side_image_tag = None
 
     若非None，头像会追踪给定的图像标签(tag)，而不是追踪当前发言角色的关联图像。例如：
@@ -78,8 +81,7 @@
 
         define e = Character("艾琳", image="eileen")
 
-        init python:
-             config.side_image_tag = "eileen"
+        define config.side_image_tag = "eileen"
 
     会让头像追踪图像标签“eileen”。这个标签与角色 ``e`` 关联。
 
@@ -87,13 +89,16 @@
 
     当设置为True时，只在带这个标签的某个图像还没有显示在界面上，才会显示头像。
 
+.. var:: _side_image_prefix_tag = None
 .. var:: config.side_image_prefix_tag = 'side'
 
-    搜索头像使用的前缀。
+    若 _side_image_prefix_tag不是None，其使用  config.side_image_prefix_tag 的设置。
+    前缀用于搜索搜索头像。
 
 .. var:: config.side_image_null = Null()
 
-    不显示头像时，显示空的可视组件。空的头像也可以改变，只不过变为其他的空可视组件。一个这样做的原因是，设置了空组件的边界后(例如，Null(width=200, height=150))，能够防止dissolve效果被中途割裂。
+    不显示头像时，显示空的可视组件。空的头像也可以改变，只不过变为其他的空可视组件。
+    一个这样做的原因是，设置了空组件的边界后(例如，Null(width=200, height=150))，能够防止dissolve效果被中途割裂。
 
 .. var:: config.side_image_same_transform = None
 
@@ -129,37 +134,16 @@
 
     define config.side_image_change_transform = change_transform
 
-角色不变的情况下，新旧头像的转场使用dissolve效果。(例如，角色改变情绪时。)为了让Dissolve效果正常工作，两个头像必须有相同的尺寸。
+
+当 :func:`SideImage` 缩小时，最好启用 :func:`Dissolve` 的mipmap功能。
 
 ::
 
     transform same_transform(old, new):
         old
-        new with Dissolve(0.2, alpha=True)
+        new with Dissolve(0.2, alpha=True, mipmap=True)
 
     define config.side_image_same_transform = same_transform
-
-.. _leaving-room-customization:
-
-预留空间 / 定制化
-----------------------------
-
-默认情况下，对话文本区域的宽度与整个界面宽度相同。如果尝试直接显示头像，图像会覆盖在文本上面。要修复这个问题的话，我们需要在文本窗口内划出一块合适的区域使用头像。
-
-::
-
-    style window:
-        left_padding 150
-
-通过定制 ``say`` 和 ``nvl`` 界面可以改变头像的位置。两种界面都需要包含这样一行：
-
-::
-
-    add SideImage() xalign 0.0 yalign 1.0
-
-通过修改xalign和yalign特性(property)，我们可以控制界面上头像的显示位置。
-
-最后， :func:`SideImage` 会返回一个可视组件，也就是当前的头像。这可以用在高级界面定制化中。
 
 .. _side-image-function:
 

@@ -28,9 +28,17 @@ Ren'Py包含了视觉系小说多语言支持的综合框架。有4类要素支�
 
 Ren'Py需要每一个作品都使用一种主语言编写。这种主语言无论具体是哪国的，都被称作 ``None`` 语言。(如果使用英语编写，英语就是 ``None`` 语言。)
 
-当选择使用None语言后，Ren'Py的大多数多语言支持功能都会关闭。
-
 备选语言在作品中出现时，推荐使用原来的Python标识符连写两次。(格式为，以字母或下划线开头，后面跟字母、数字或者下划线。)
+
+当选用None语言后，Ren'Py的大多数多语言支持功能都会关闭，
+例如Ren'Py内建的异常提示字符串和默认菜单项等。
+在你项目代码中找不到这些字符串，也不会放入游戏的最终分发版中。
+你可以在 ``game/tl/None/common.rpym`` 文件中找到这些字符串。
+这些字符串的用处有两点：
+1. 非英语做为None语言时提供多语言支持；
+2. 允许创作者在游戏中自定义翻译。
+
+启动器的语言会作为项目创建时的默认语言。Ren'Py内部的字符串初始化时也会使用同种语言。
 
 .. _generating-translation-files:
 
@@ -156,8 +164,7 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
         e "Eway aimway otay ovidepray away omprehensivecay ameworkfray..."
         e "...orfay anslatingtray ialogueday, ingsstray, imagesway, andway ylesstay."
 
-
-或者某条语句可以移除，并用pass语句代替。::
+或者某条语句可以移除，并用 ``pass`` 语句代替。::
 
     # game/script.rpy:101
     translate piglatin start_9e949aac:
@@ -169,7 +176,7 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
 
 ::
 
-  e "You scored [points] points!"
+    e "You scored [points] points!"
 
 在其他语言中写成：
 
@@ -181,6 +188,17 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
         # e "You scored [points] points!"
         $ latin_points = to_roman_numerals(points)
         e "Ouyay oredscay [latin_points] ointspay!"
+
+有时候，需要修改原语言对话内容中的某一行，但不想要修改所有翻译文件的对应内容。
+例如，英语中修复了个拼写错误，但不想要修改俄语的翻译文件。
+
+此时可以在say语句中使用 ``id`` 从句，指定语言的翻译ID。
+例如：
+
+::
+
+    label start:
+        e "This used to have a typo." id start_61b861a2
 
 .. _tips:
 
@@ -214,47 +232,47 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
 
 ::
 
-  define e = Character(_("Eileen"))
+    define e = Character(_("Eileen"))
 
-  # ...
+    # ...
 
-  menu:
+    menu:
 
-       "Go West":
-          # ...
+        "Go West":
+            # ...
 
-       "Head East":
-          # ...
+        "Head East":
+            # ...
 
 Ren'Py会自动生成：
 
 ::
 
-  translate piglatin strings:
+    translate piglatin strings:
 
-      old "Eileen"
-      new ""
+        old "Eileen"
+        new ""
 
-      old "Go West"
-      new ""
+        old "Go West"
+        new ""
 
-      old "Head East"
-      new ""
+        old "Head East"
+        new ""
 
 完成后的多语言支持内容为：
 
 ::
 
-  translate piglatin strings:
+    translate piglatin strings:
 
-      old "Eileen"
-      new "Eileenway"
+        old "Eileen"
+        new "Eileenway"
 
-      old "Go West"
-      new "Ogay Estway"
+        old "Go West"
+        new "Ogay Estway"
 
-      old "Head East"
-      new "Eadhay Eastway"
+        old "Head East"
+        new "Eadhay Eastway"
 
 字符串的多语言支持用于在对话中内插的某些字符串。那些字符串不能以对话形式支持多语言。
 
@@ -282,12 +300,12 @@ translate字符串语句可以用来对None语言脚本的转换。在使用非�
 
 ::
 
-  if mood_points > 5:
-      $ mood = _("great")
-  else:
-      $ mood = _("awful")
+    if mood_points > 5:
+        $ mood = _("great")
+    else:
+        $ mood = _("awful")
 
-  "I'm feeling [mood!t]."
+    "I'm feeling [mood!t]."
 
 .. _extract-merge-translations:
 
@@ -309,7 +327,7 @@ translate字符串语句可以用来对None语言脚本的转换。在使用非�
 反转语言
     在复用之前反转主备语言类型。例如，使用一个原本英语为主语言俄语为备选语言的项目，复用为“俄语为主语言英语为备选语言”的项目时，就需要勾选该项。
 
-.. _image-and-file-translations:
+.. _image-file-translation:
 
 图片和文件的多语言支持
 ===========================
@@ -317,6 +335,9 @@ translate字符串语句可以用来对None语言脚本的转换。在使用非�
 当让一个游戏支持多语言时，最好替换文件时带一个语言版本号。例如，某个图片包含文本，最好的办法是使用带其他文字的图片替换。而那个新的图片带一个语言版本号。
 
 Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片。例如，假如使用了“piglatin”语言，并加载了“library.png”图片，Ren'Py就会使用“game/tl/piglatin/library.png”图片代替“game/library.png”。
+
+如果文件位置直接在game目录中，该目录应该包含在对应的语言中。
+例如，文件“game/gui/main_menu.png”，可以使用“game/tl/piglatin/gui/main_menu.png”作为多语言替换图。
 
 .. _style-translations:
 
@@ -327,17 +348,19 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 
 ::
 
-  translate piglatin style default:
-      font "stonecutter.ttf"
+    translate piglatin style default:
+        font "stonecutter.ttf"
 
-以及等效的：
+更常见的是，对话使用的字体由 :var:`gui.text_font` 决定，可以这样定制：
 
 ::
 
-  translate piglatin python:
-      style.default.font = "stonecutter.ttf"
+    translate piglatin python:
+        gui.text_font = "stonecutter.ttf"
 
-当某种语言被激活——无论是游戏开始时还是中途修改语言——Ren'Py都会重设初始化环节内所有样式的内容。Ren'Py会运行所有与当前激活语言相关的translate python语句块和translate style语句块，保证文件中这些语句块被优先执行。最后，Ren'Py会重建所有样式，并使语言修改生效。
+当某种语言被激活——无论是游戏开始时还是中途修改语言——Ren'Py都会重设初始化环节内所有样式的内容。
+Ren'Py会运行所有与当前激活语言相关的 ``translate python`` 语句块、style语句块和translate style语句块，保证文件中这些语句块被优先执行。
+最后，Ren'Py会重建所有样式，并使语言修改生效。
 
 样式的多语言支持可以添加在任何.rpy文件中。
 
@@ -364,10 +387,10 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 
 .. function:: Language(language)
 
-  将游戏语言改为  *language* 。
+    将游戏语言改为  *language* 。
 
-  `language`
-    一个字符串，表示切换的目标语言命，若为None表示游戏脚本默认语言。
+    `language`
+        一个字符串，表示切换的目标语言命，若为None表示游戏脚本默认语言。
 
 语言行为函数可以用于在自定义配置界面添加一个语言自定义选项。
 
@@ -385,11 +408,11 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 
 .. function:: renpy.change_language(language)
 
-  一个字符串，表示切换的目标语言命，若为None表示游戏脚本默认语言。
+    一个字符串，表示切换的目标语言命，若为None表示游戏脚本默认语言。
 
 .. function:: renpy.known_languages()
 
-  返回已知语言的集。不包含默认语言None。
+    返回已知语言的集。不包含默认语言None。
 
 此外，还有3个与字符串多语言支持相关的函数：
 
@@ -399,20 +422,20 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 
 .. function:: __(s)
 
-   (双下划线)返回字符串s转换成当前语言后的内容。该函数返回的字符串会被加入到多语言支持字符串列表中。注意字符串可以经历过双重转换。如果其匹配到一个对应的多语言字符串则显示转换后的结果。
+    (双下划线)返回字符串s转换成当前语言后的内容。该函数返回的字符串会被加入到多语言支持字符串列表中。注意字符串可以经历过双重转换。如果其匹配到一个对应的多语言字符串则显示转换后的结果。
 
-   .. function:: _p(s)
+    .. function:: _p(s)
 
-     将一个字符串重新格式化并标记其是支持多语言的。使用文本组件显示的字符串是转换过语言的。该函数的用途是，使用表单格式(form)定义多行字符串：
+        将一个字符串重新格式化并标记其是支持多语言的。使用文本组件显示的字符串是转换过语言的。该函数的用途是，使用表单格式(form)定义多行字符串：
 
-   ::
+    ::
 
-       define config.about = _p("""
-           These two lines will be combined together
-           to form a long line.
+        define config.about = _p("""
+            These two lines will be combined together
+            to form a long line.
 
-           This line will be separate.
-           """)
+            This line will be separate.
+            """)
 
    重新格式化会将整段文本断行，移除每行开头和结尾的空白。整段文本末尾的空白行会被删除。段落中的空白行会被插入段落分割符。{p}文本标签(tag)可以断行，但不会增加新的空白行。
 
@@ -420,13 +443,13 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 
    ::
 
-       old "These two lines will be combined together to form a long line.\n\nThis line will be separate."
-       new _p("""
-           These two lines will be combined together
-           to form a long line. Bork bork bork.
+        old "These two lines will be combined together to form a long line.\n\nThis line will be separate."
+        new _p("""
+            These two lines will be combined together
+            to form a long line. Bork bork bork.
 
-           This line will be separate. Bork bork bork.
-           """)
+            This line will be separate. Bork bork bork.
+            """)
 
 .. function:: renpy.translate_string(s, language=<renpy.object.Sentinel object at 0x7f6d7c3b4810>)
 
@@ -438,7 +461,7 @@ Ren'Py遇到这种情况时，会在translation文件夹里寻找对应的图片
 
 .. var:: _preferences.language
 
-  当前语言名称，如果使用的是默认语言则是None。需要改变语言的话，调用 :func:`renpy.change_language` 函数。
+    当前语言名称，如果使用的是默认语言则是None。需要改变语言的话，调用 :func:`renpy.change_language` 函数。
 
 .. _unsanctioned-translations:
 

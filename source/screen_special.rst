@@ -1,5 +1,7 @@
 .. _screen-special:
 
+.. _special-screen-names:
+
 ====================
 特殊界面名称
 ====================
@@ -170,7 +172,7 @@ NVL
 
     .. attribute:: multiple
 
-        如果使用 :ref:`多角色对话 <multiple-character-dialogue>`，这就是个具有2个元素的元组。第一个元素是个从1开始的对话语句块(block)编号，第二个参数是multiple语句的对话语句块(block)总数。
+        如果使用 :doc:`多角色对话 <multiple>`，这就是个具有2个元素的元组。第一个元素是个从1开始的对话语句块(block)编号，第二个参数是multiple语句的对话语句块(block)总数。
 
 `items`
     这是所有会用在

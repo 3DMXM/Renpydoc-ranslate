@@ -5,7 +5,19 @@ Python语句
 
 Ren'Py使用Python程序语言编写，并且支持在Ren'Py脚本中包含Python语句。对Python的支持可以用在很多方面，从立一个flag到创建新的可视组件等。本节内容主要涵盖Ren'Py脚本如何通过各种python语句直接调用Python的方法。
 
-Ren'Py现在支持Python 2.7。不过我们还是强烈推荐写可以同时在Python2和Python3两个版本正常运行的Python语句。
+Ren'Py 7现在支持Python 2.7。Ren'Py 8支持Python 3.9。
+
+.. note::
+    如果你熟悉Python，将会是一项优势。
+    但并不是任何关于Python的东西都可以直接使用。
+    例如，Ren'Py中没有带的Python包(package)都不能在Ren'Py中使用。
+
+    Python中还有几种数据结构，在存档时可能会有问题。
+    详细信息请阅读 :doc:`存档、读档和回滚 <save_load_rollback>` 页面，尤其是 :ref:`不保存什么 <cant-save>` 部分。
+    (对待文件、socket端口、迭代器、task、future线程和generator生成器需要特别小心。)
+    
+    最后，虽然很多语句都有等效的Python代码，但等效Python往往不如直接用Ren'Py语句。
+    例如，使用Ren'Py中的 ``show`` 语句时，图像可以提前预加载，但如果用 :func:`renpy.show`` 函数则不能预加载。
 
 .. _python-statement:
 
@@ -85,7 +97,7 @@ init python语句
 
     init 1 python:
 
-        # 解锁bad ending。
+        # bad ending始终是解锁状态。
         persistent.endings.add("bad_ending")
 
 在 ``init`` 和 ``python`` 之间可以放一个运行优先级数值。如果没有指定优先级，默认使用0。init语句按照优先级数值从低到高的顺序运行。优先级相同的情况下，按照文件名的unicode字符顺序。文件内，从头到尾顺序运行。
@@ -95,6 +107,13 @@ init python语句
 init python语句也可以使用 ``hide`` 或 ``in`` 分句。
 
 在init python语句中被赋值的变量不会用于存档、读档，且不接受回滚。因此，在初始化完成后，这些变量值就不该改动。
+
+.. warning::
+
+    在Ren'Py内创建的类，没有继承自任何类或显式继承自 ``object`` 类，及其以上类的所有子类，都不支持 ``__slots__`` 属性。
+    在旧版本Ren'Py中回滚以上类的实例会出现奇怪的表现，在新版本中则会报错。
+
+    如果要定义可以存档的类，创作者需要显式继承 ``python_object``，不过那个类不支持回滚。
 
 .. _define-statement:
 
@@ -107,7 +126,7 @@ define语句在初始化时将一个变量赋值。例如：
 
     define e = Character("艾琳")
 
-等价于
+等价于(但会丢失一些好处，详见下文)：
 
 ::
 
@@ -121,6 +140,7 @@ define语句可以选择使用一个命名存储区(详见下面的例子)，将
     define character.e = Character("艾琳")
 
 define语句可选择带一个索引值，使其可以在一个字典中设置元素：
+
 ::
 
     define config.tag_layer["eileen"] = "master"
@@ -134,8 +154,10 @@ define语句可选择带一个索引值，使其可以在一个字典中设置�
     define endings |= { "best_ending }
 
 使用define语句的一个优点是，在声明时它会记录下文件名和该行脚本编号，供启动器(launcher)的导航(navigation)特性使用。
+另一个优点是，:ref:`lint` 可以检查define后面的值，例如是否重复定义为不同的值。
 
-通过define语句定义的变量会被当作一个常数，不会保存或读取，也不该被修改。(Ren'Py不做强制要求，但修改那些参数会导致不可预见的情况出现。)
+通过define语句定义的变量会被当作一个常数，不会保存或读取，也不该被修改。
+(Ren'Py不做强制要求，但修改那些参数会导致不可预见的情况出现。)
 
 .. _default-statement:
 
@@ -162,12 +184,15 @@ default语句给一个变量赋值，前提是该变量在游戏启动或者新�
     label after_load:
         $ points = 0
 
-default语句可以选择使用一个命名存储区(详见下面的例子)，将存储区名放在变量前面，用英文句号(.)连接。举例：
+default语句可以选择使用一个命名存储区(详见下面的例子)，将存储区名放在变量前面，用英文句号(.)连接。
+如果存储区名称不存在，则创建该名称的存储区。
+举例：
 
 ::
 
     default schedule.day = 0
 
+与 ``define`` 语句相同，:ref:`lint` 会对 ``default`` 语句进行检查和优化。
 
 .. _init-offset-statement:
 
@@ -222,14 +247,24 @@ define语句将一个值声明为一个变量，也可用作定义一个角色�
 
 其他也常常需要放入存储区的对象是转场(transition)和变换(transform)。
 
-以下划线 (\_) 开头的变量名是预留给Ren'Py内部使用。详情可以查看 :ref:`预留变量名目录 <reserved-names>` 。
+以下划线 (\_) 开头的变量名是预留给Ren'Py内部使用。详情可以查看 :doc:`预留变量名目录 <reserved>` 。
 
-.. _other-named-stores:
+.. _named-stores:
 
 其他的命名存储区
 ------------------
 
 命名存储区提供了一种将Python函数和变量有效组织成模块(module)的方法。利用Python的模块化功能，你可以将命名冲突的可能性降到最小。
+每个存储区都对应一个Python模块。默认的存储区名为 ``store``，使用 ``store.named`` 可以访问对应名称的存储区。
+
+使用 ``python in`` (``init python`` 或 ``python early``) 语句块，
+或者 ``default``、``define`` 及 :ref:`transform <transform-statement>` 语句，都可以创建命名存储区。
+使用 ``from store.named import variable`` 可以将变量导入存储区。
+存储区自身可以使用 ``from store import named`` 导入脚本中。
+
+Named stores can be accessed by supplying the ``in`` clause to
+``python`` or ``init python`` (or ``python early``), all of which
+run the Python they contain in the given named store.
 
 命名存储区可以可以通过 ``python`` 或 ``init python`` 语句中的 ``in`` 分句接入。python和init python语句都在命名存储区内运行Python。每个存储区相当于一个Python模块(module)。默认存储区就是  ``store`` ，接入该存储区内的变量名格式为 ``store.name`` 。这些python模块可以通过使用Python import语句导入(import)，模块中的变量和函数名可以使用Python ``from`` 语句导入(import)。
 
@@ -247,16 +282,62 @@ define语句将一个值声明为一个变量，也可用作定义一个角色�
             serial_number += 1
             return serial_number
 
-    init python:
-        import store.mystore as mystore
+    default character_stats.chloe_substore.friends = {"Eileen",}
 
     label start:
         $ serial = mystore.serial()
 
+        if "Lucy" in character_stats.chloe_substore.friends:
+            chloe "露西是我的朋友！"
+        elif character_stats.chloe_substore.friends:
+            chloe "我有很多朋友，但露西并不是其中之一。"
 
-命名存储区与默认存储区在存档、读档和回滚方面的情况一样。define语句也可以在命名存储区内定义变量或函数名。
+        python in character_stats.chloe_substore:
+            friends.add("Jeremy")
 
-.. _first-and-third-party-python-modules-and-packages:
+``python in`` 语句块中，默认的“outer”存储区可以使用 ``renpy.store`` 或 ``import store`` 读写数据。
+
+命名存储区与默认存储区在存档、读档和回滚方面的情况一样。
+特殊命名空间，比如 ``persistent``、``config``、``renpy`` 等，不支持在其内部再创建子存储空间。
+
+.. _constant-stores:
+
+常量存储区
+---------------
+
+定义存储区时，可以将内置变量 ``_constan`` 设置为True，这样存储区就会变成常量存储区：
+
+::
+
+    init python in mystore:
+        _constant = True
+
+存储区为常量时，其内部存储的所有变量都不会存档时保存，并在不参与回滚。
+
+常量存储区中的变量仅能在初始化阶段修改。
+在init语句块(包括 ``define``、``transform`` 等语句)中完成初始化后，存储区内所有数据都被当作常量。
+
+Ren'Py没有办法强制保证常量存储区内的数据不会发生改变，所以创作者需要自己想办法确保初始化阶段之后不再会修改常量存储区的数据。
+
+定义和使用常量存储区，可以将部分不会变化的数据分离出来，减少存档、读档和回滚时的数据操作，降低系统开销。
+
+以下存储区默认为常量存储区：
+
+::
+
+    _errorhandling
+    _gamepad
+    _renpysteam
+    _warper
+    audio
+    achievement
+    build
+    director
+    iap
+    layeredimage
+    updater
+
+.. _python-modules:
 
 第一方和第三方Python模块(module)和包(package)
 -------------------------------------------------

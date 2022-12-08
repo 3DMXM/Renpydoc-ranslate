@@ -43,6 +43,7 @@ Ren'Py二进制文件中可能包含以下项目的代码：
 * urllib3 (MIT 许可证)
 * chardet (GNU LGPL)
 * libusb (GNU LGPL)
+* tinyfiledialogs (Zlib 许可证)
 
 为了遵循LGPL的要求，所有Ren'Py的依赖源代码都放在下列代码仓库中：
 

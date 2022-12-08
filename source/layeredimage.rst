@@ -261,7 +261,9 @@ Attribute语句
 
 attribute语句使用一个属性(attribute)名称。其可以使用两个关键词。 ``default`` 关键词表示，在没有同组冲突属性出现的情况下作为默认的属性。 ``null`` 关键词防止Ren'Py自动搜索对应属性的可视组件，对某些有使用条件 `if_all`， `if_any`， 或 `if_not` 的属性时很有用。
 
-如果没有直接给出可视组件(displayable)，Ren'Py会将图层(layer)、组(group)、组变种(group variant)和属性(attribute)用下划线连接，算出一个可视组件的名称。所以如果我们有一个名为“augustina”的图像，组名“eyes”，属性名“closed”，那么最终使用的图像名为“augustina_eyes_closed”。
+如果没有直接给出可视组件(displayable)，Ren'Py会根据层叠式图像名称、组(group)、组变种(group variant)和属性(attribute)，
+用下划线连接碧昂将空格也替换为下划线，算出一个可视组件的名称。
+所以如果我们有一个名为“augustina”的图像，组名“eyes”，属性名“closed”，那么最终使用的图像名为“augustina_eyes_closed”。
 (层叠式图像的格式化函数就负责处理这个工作，默认的格式化函数是 :func:`layeredimage.format_function`。)
 
 如果某个属性(attribute)不在某个组(group)里，就会使用相同的属性名放入那个组中，但那个组并不会用于计算可视组件的名称。(Ren'Py会搜索“image_attribute”，而不是“image_attribute_attribute”。)
@@ -284,9 +286,6 @@ attribute语句使用下列特性(property)：
 `at`
     应用于层叠式图像的一个变换(transform)或变换的列表。
 
-The `if_*` clauses' test is based upon the list of attributes of the resulting
-image, as explained :ref:`here <concept-image>`, but it **does not *change* that
-list.** 
 `if_*` 从句会基于最终图像的属性列表进行尝试，具体方式详见 :ref:`这里 <concept-image>`，
 但它 **不会 *修改* 属性列表**。
 
@@ -424,8 +423,7 @@ If语句
 
 .. var: layeredimage.predict_all = None
 
-    Sets the value of `predict_all` for the ConditionSwitches produced
-    by layered image if statements.
+    层叠式图像中的if语句生成的条件语句都 会给据该配置项，把 `predict_all` 设置为对应的值。
 
 ``predict_all`` 不为True时，应该避免修改if语句的条件表达式。因为层叠式图像要么显示要么即将显示，修改if语句条件表达式会导致没有预加载的图像就被使用。
 这种设计主要用于很少变化的角色自定义选项。
@@ -649,28 +647,17 @@ Python
 - ``show`` 语句根据后面跟随的图像标签(image tag)，初始化属性(attribute)的集合。
 - 如果 :var:`config.adjust_attributes` 成功匹配到图像标签并调用了相关函数，函数将返回一个处理后的属性集合。
   此集合将替代上一步的属性集合。
-- If a :var:`config.default_attribute_callbacks` function exists and if its trigger
-  conditions are met, it is called and potentially adds attributes to the set.
-- The two previous stages are not specific to layeredimages, because it is only
-  after this stage that renpy determines which image or layeredimage
-  will be called to display. For that reason, the given set of attributes must
-  lead to one, and only one, defined image (or layeredimage, Live2D...), using
-  the behavior described in the :ref:`show statement section<show-statement>`.
-- Then, the provided attributes are combined with the attributes defined in the
-  layeredimage, discarding some previously shown attributes and conserving others.
-  This is also the point where unrecognized attributes are detected and related
-  errors are raised. If no such error is raised, the new attributes, along with
-  those which were not discarded, will be recognized by renpy as the set of
-  attributes associated with that image tag. This computing takes some of the
-  incompatibility constraints into account, but not all. For instance
-  incompatibilities due to attributes being in the same non-multiple group will
-  trigger at this point in time, but the if_any/if_all/if_not clauses will not.
-  That's why an attribute called but negated by such a clause will be considered
-  active by renpy, and will for example become visible without having to be called
-  again if at some point the condition of the if\_x clause is no longer fulfilled.
-- If an attribute_function has been provided to the layeredimage, it is called
-  with the set of remaining attributes. It returns a potentially different set of
-  attributes.
-- This set is once again confronted with the incompatibility constraints of the
-  layeredimage, this time in full. That is the final stage, and remaining attributes
-  are called into display.
+- 如果配置项 :var:`config.default_attribute_callbacks` 中定义了回调函数，当该函数的触发条件达成时，
+  调用函数并将执行结果的属性加入到上一步的集合中。
+- 前面两个步骤不对层叠式图像产生效果。Ren'Py在此步骤决定显示普通图像还是层叠式图像。
+  使用之前获得的图像属性集，根据 :ref:`show语句<show-statement>` 中描述的逻辑，必须指向唯一的图像(或层叠式图像、Live2D)
+- 接着，丢弃属性集合中的之前显示的同名属性，保留其他属性，将属性名与层叠式图像定义中的属性合并。
+  此时可能会检测到无法识别的属性并报错。如果没有报错，合并后的属性作为图像标签(tag)。
+  这步计算将会使用某些不兼容的约束条件，但不是所有约束。
+  相同“非multiple”组中的属性不兼容检查将在此时处理，但 if_any/if_all/if_not 从句部分则不做检查。
+  也就是说，明明某些属性在 if\x 从句中不满足判断前提，但如果不再次显式调用整个show语句的话，
+  依然会被Ren'Py认为该属性值需要显示。
+- 如果层叠式图像指定了一个 attribute_function，将使用经过上述几步处理后的属性集合。
+  返回值是另一个略有不同的属性集合。
+- 再来一次不兼容检查，此次是全量检查。
+  这是最后一步处理，剩余的属性决定最终显示效果。

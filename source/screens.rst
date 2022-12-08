@@ -1,5 +1,7 @@
 .. _screens:
 
+.. _screens-and-screen-language:
+
 ===========================
 界面和界面语言
 ===========================
@@ -19,7 +21,7 @@
 
 界面的另一个功能是允许用户与游戏交互。按钮和条(bar)允许用户触发某些行为(action)和调整数值。Ren'Py包含一个预定义行为的池，允许用户快进、个性化控制、读档和存档等。创作者还可以使用Python编写新的行为。
 
-每次交互行为的启动或重启，都会更新界面。
+每次交互行为的启动或重启，都会更新界面。注意 ``with None`` 语句不会触发互动，也不会更新界面。
 
 **界面的改变不应该引发界面之外可视区域的副作用。** Ren'Py会根据需要多次运行同一个界面。Ren'Py会在界面显示之前运行一些运行图像预加载进程。因此，如果界面有副作用，在预加载阶段就会发生。
 
@@ -95,9 +97,18 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 `layer`
     该特性是一个字符串，给定了显示界面的默认图层(layer)名。
 
+`roll_forward`
+    若为True，使用 ``call screen`` 语句时将启用前向滚动。
+    若为False，禁用前向滚动。
+    若为None或没有指定，则使用 :var:`config.call_screen_roll_forward` 的值。
+
+    使用 ``call screen`` 语句启用前向滚动后，将保留返回值和待跳转标签，但不会引发副作用。
+    这意味着，如果界面中只包含 :func:`Jump` 和 :func:`Return` 行为，启用 `roll-forward` 是安全的。
+    其他行为则在前向更难懂时可能会引发副作用。
+
 ::
 
-   screen hello_world():
+    screen hello_world():
         tag example
         zorder 1
         modal False
@@ -108,8 +119,12 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 
 ::
 
-   screen center_text(s, size=42):
+    screen center_text(s, size=42):
         text s size size
+
+如果界面不带任何参数，依然需要给一堆空的圆括号。
+如果其他界面用 ``use`` 语句直接引用该界面并不带参数，详细的差异在 :ref:`use语句 <sl-use>` 中有说明。
+其实不是用 ``use`` 语句引用界面或不带圆括号的界面，都会是Ren'Py内部效率降低，详见 :doc:`界面优化 <screen_optimization>` 章节。
 
 .. _user-interface-statements:
 
@@ -144,6 +159,8 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 
 `default_focus`
     如果出现了该特性，并且值为True，默认情况下该可视组件会得到焦点。只有一个可视组件可以拥有该特性。
+
+    只有当最后一次互动不是鼠标点击、鼠标移动或触控点击时，才会使用默认焦点。
 
 `id`
     用户接口语句的标识号。当某个界面显示时，特性值可以通过给定的标识符提供给可视组件。某些界面会根据创建的标识号请求某个可视组件。
@@ -190,30 +207,8 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 
 许多用户接口语句使用样式特性类或者transform特性。这些特性可以使用相关联的样式前缀，前缀决定了特性被应用的时机。例如，如果带有 ``hover_size`` 特性，就会设置文本在鼠标悬停状态时的文本字号。
 
-User interface statements take an ``as`` clause, which takes a variable
-name, without any quotes. The displayable that the statement creates is
-assigned to the variable. (An example can be found in :ref:`the drag and drop
-documentation <as-example>`.)
-UI语句可以使用 ``as`` 分句，后面带一个变量名，不需要引号。
+UI语句可以使用 ``as`` 从句，后面带一个变量名，不需要引号。
 语句创建的可视组件对象将声明为变量。(在这里可以找到一个样例 :ref:`拖拽组件 <as-example>`.)
-
-
-.. _sl-add:
-
-add
----
-
-在界面上添加一个图像或其他的可视组件。添加时可以选择使用 :ref:`transform特性列表 <transform-properties>`。如果至少使用了一项 :class:`Transform` 特性，用于wrap图像的transform就会被创建，特性值会赋予这个transform。
-
-如果可视组件为None，那不会有任何东西添加到界面上。
-
-add语句不使用任何子组件。
-
-::
-
-    screen add_test():
-        add "logo.png" xalign 1.0 yalign 0.0
-
 
 .. _sl-bar:
 
@@ -259,7 +254,7 @@ bar
         frame:
             has vbox
 
-            bar value Preference("sound volume")
+            bar value Preference("sound volume") released Play("sound", "audio/sample_sound.ogg")
             bar value Preference("music volume")
             bar value Preference("voice volume")
 
@@ -290,10 +285,10 @@ bar
     决定按钮是否被启用的表达式。每次交互行为时，该表达式都至少会被计算一次。如果该特性没有提供，用户行为会最终决定按钮是否被启用。
 
 `keysym`
-    给定了一个 :ref:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的行为。
+    给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的行为。
 
 `alternate_keysym`
-    给定了一个 :ref:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的可选变换行为。
+    给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的可选变换行为。
 
 它还可以使用下列特性：
 
@@ -520,10 +515,10 @@ UI可视组件的子组件会被添加到方框(box)中。
     决定按钮是否被启用的表达式。每次交互行为时，该表达式都至少会被计算一次。如果该特性没有提供，用户行为会最终决定按钮是否被启用。
 
 `keysym`
-    给定了一个 :ref:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的行为。
+    给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的行为。
 
 `alternate_keysym`
-    给定了一个 :ref:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的变换行为。
+    给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的变换行为。
 
 它还可以使用下列特性：
 
@@ -550,6 +545,8 @@ UI可视组件的子组件会被添加到方框(box)中。
 --------------
 
 创建一个文本输入区域，允许用户输入文本。当用户按下回车键，输入的文本会通过交互行为返回。(如果界面是通过 ``call screen`` 唤起的，输入结果会存放在 ``_return`` 变量中。)
+
+受限于支持的库，在安卓和Web平替上，输入框只支持英文字母。
 
 input语句不接受参数，可以跟下列特性：
 
@@ -618,7 +615,7 @@ key语句
 
 key语句创建一个键盘按键绑定，可以通过按键运行某个行为。key语句的应用场景比较宽泛，可以支持手柄和鼠标事件。
 
-key语句有一个固定位置参数，一个需要绑定的按键名字符串。详见 :ref:`keymap` 。key语句使用两个特性：
+key语句有一个固定位置参数，一个需要绑定的按键名字符串。详见 :doc:`keymap` 。key语句使用两个特性：
 
 `action`
     这个特性给定了按键(keypress)事件发生后触发的行为。该特性必须存在。
@@ -746,7 +743,6 @@ nearrect组件使用下列特性：
 
 * :ref:`通用特性 Common Properties <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
-
 
 nearrect与其他组件布局的位置计算方式不同，不把其子组件放在指定矩形区域内，而是放在指定矩形区域附近。
 子组件首先计算可用宽度，然后计算矩形区域上方和下方分别可能的最大可用高度。最后根据下面的原则计算结果确定y轴方向的位置。
@@ -929,10 +925,10 @@ textbutton
     决定按钮是否被启用的表达式。每次交互行为时，该表达式都至少会被计算一次。如果该特性没有提供，用户行为会最终决定按钮是否被启用。
 
 `keysym`
-    给定了一个 :ref:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的行为。
+    给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的行为。
 
 `alternate_keysym`
-    给定了一个 :ref:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的变换行为。
+    给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的变换行为。
 
 `text_style`
     用于按钮文本的样式名。如果未提供并且样式特性是一个字符串的话， ``"_text"`` 会自动添加到字符串后面作为默认的文本样式。
@@ -1063,6 +1059,7 @@ viewport
 
 `draggable`
     若为True，鼠标拖动就能滚动视口。
+    该项可以设置为 :ref:`variant <screen-variants>`，这样视口也可以拖动。(例如，设置为 ``draggable "touch"``。)
 
 `edgescroll`
     当鼠标到达视口边缘时，控制滚动行为。若该值非空，应该是一个2元或者3元的元组。
@@ -1089,7 +1086,15 @@ viewport
     若不为None，滚动条会添加到视口上。scrollbar会创建一个单边布局(layout)，并把视口放在单边的中间。如果 `scrollbars` 的值是 "horizontal"，就在视口上创建一个水平的滚动条。如果 `scrollbars`
     的值是 "vertical"，就在视口上创建一个垂直的滚动条。如果 `scrollbars` 的值是 "both"，水平和垂直滚动条都会被创建。
 
-    若 `scrollbars` 不为None，视口会使用前缀为 "side_". 的特性。这些特性会传给创建的单边布局(layout)。
+    若 `scrollbars` 不为None，`viewport` 将使用以下特性前缀：
+
+    * 前缀为 ``viewport_`` 的特性穿给视口。
+    * 前缀为 ``side_`` 的特性传给side。
+    * 前缀为 ``scrollbar_`` 传给水平滚动条。
+    * 前缀为 ``vscrollbar_`` 传给垂直滚动条。
+
+    没有前缀的特性也会被接受。
+    :ref:`position-style-properties` 会传给side，其他无前缀特性会应用到视口。
 
 `arrowkeys`
     若为True，视口可以使用上下左右方向键进行滚动。这种情况下方向键的作用优先于方向键的其他功能。当视口到达限制时，方向键会改变焦点。
@@ -1130,7 +1135,7 @@ vpgrid(viewport grid)将视口与网格(grid)结合为单个的可视组件。vp
 
 vpgrid假设是由子组件都是相同尺寸，该尺寸来源于第一个子组件。若某个vpgrid渲染结果不正确，请检查并确保所有子组件的尺寸是相同的。
 
-vpgrid必须至少给定  `cols` 和 `rows` 特性。如果有其中之一省略或者是None，另一个特性就会根据子组件的尺寸、空间和数量自动决定。如果没有足够的子组件填充所有网格单元，就会渲染为空的网格单元。
+vpgrid必须至少给定  `cols` 和 `rows` 特性。如果有其中之一省略或者是None，另一个特性就会根据子组件的尺寸、空间和数量自动决定。
 
 vpgrid使用下列特性：
 
@@ -1149,6 +1154,9 @@ vpgrid使用下列特性：
 * :ref:`位置样式特性 <position-style-properties>`
 * :ref:`网格样式特性 <grid-style-properties>`
 
+当指定 `scrollbar` 特性时，有前缀的特性会以类似视口(viewport)的方式传给vpgrid。
+(前缀为 `viewport_`` 的特性也会传给vpgrid。)
+
 ::
 
     screen vpgrid_test():
@@ -1163,15 +1171,13 @@ vpgrid使用下列特性：
             scrollbars "vertical"
 
             # 由于我们有scrollbar，所以我们必须设置“边”的位置，而不需要设置vpgrid。
-            side_xalign 0.5
+            xalign 0.5
 
-            for i in range(1, 100):
+            for i in range(1, 101):
 
                 textbutton "Button [i]":
                     xysize (200, 50)
                     action Return(i)
-
-
 
 .. _sl-window:
 
@@ -1300,10 +1306,10 @@ hotspot是由imagemap内一部分图像组成的按钮。其使用一个参数�
     一个决定按钮是否被启用的表达式。每次交互行为，这个表达式都会至少被计算一次。如果没有提供表达式，这个行为会用于决定按钮启用。
 
 `keysym`
-    给出一个 :ref:`keysym <keymap>` ，当对应键盘的按键被按下后，调用对应的按键行为。
+    给出一个 :doc:`keysym <keymap>` ，当对应键盘的按键被按下后，调用对应的按键行为。
 
 `alternate_keysym`
-    给出一个 :ref:`keysym <keymap>` ，当对应键盘的按键被按下后，调用对应的变换按键行为。
+    给出一个 :doc:`keysym <keymap>` ，当对应键盘的按键被按下后，调用对应的变换按键行为。
 
 hotspot使用下列特性：
 
@@ -1339,6 +1345,22 @@ hotbar必须给定一个 `value` 或者一个 `adjustment` 对象。除此之外
 hotbar没有子组件。
 
 hotbar可以被赋予 ``alt`` 样式特性，允许Ren'Py的自动语音特性能工作。
+
+.. _sl-add:
+
+add
+---
+
+在界面上添加一个图像或其他的可视组件。添加时可以选择使用 :ref:`transform特性列表 <transform-properties>`。如果至少使用了一项 :class:`Transform` 特性，用于wrap图像的transform就会被创建，特性值会赋予这个transform。
+
+如果可视组件为None，那不会有任何东西添加到界面上。
+
+add语句不使用任何子组件。
+
+::
+
+    screen add_test():
+        add "logo.png" xalign 1.0 yalign 0.0
 
 .. _sl-advanced-displayables:
 
@@ -1424,7 +1446,7 @@ default
 for
 ---
 
-``for`` 语句类似于Python中的 ``for`` 语句，差别在于这里的for语句不支持 ``else`` 分句。for语句支持使用数组型表达式，效果与使用变量一样。
+``for`` 语句类似于Python中的 ``for`` 语句，差别在于这里的for语句不支持 ``else``、``continue`` 和 ``break`` 分句。for语句支持使用数组型表达式，效果与使用变量一样。
 
 ::
 
@@ -1500,7 +1522,9 @@ use
 
 ``use`` 语句允许一个界面包含另一个界面。其使用待use的界面名作为参数，也可以使用圆括号内的一个参数列表。
 
-如果被use语句使用的界面包含参数，入参声明后时会初始化为参数的值。另外，当前界面传入的参数，会更新相同关键词参数的值。
+
+如果被use语句使用的界面没有需要插入的参数，其只会读写当前界面的变量作用域，并根据 ``use`` 语句中的关键词入参。
+否则，其作用域内的变量将会将使用对应入参的值进行初始化。
 
 ::
 
@@ -1712,7 +1736,7 @@ show screen
 ``show screen`` 语句会触发某个界面的显示。其使用一个界面名作为参数，后面还有一个可选的Pythone入参列表。如果入参列表出现，这些参数用作初始化界面作用域(scope)内的变量。
 还有几个特殊关键词会传入 :func:`show_screen` 和 :func:`call_screen` 函数。
 
-如果出现关键词 ``expression``，后面的表达式会计算实际显示的界面名称。
+如果指定了关键词 ``expression``，后面的表达式会计算实际显示的界面名称。
 为了将表达式关键词和入参同时传入界面，需要使用 ``pass`` 关键词分割。
 
 ::
@@ -1744,7 +1768,6 @@ show screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面
 
     show screen clock_screen with dissolve
 
-
 .. _hide-screen:
 
 hide screen
@@ -1772,16 +1795,10 @@ call screen
 
 这可以用来显示一个imagemap。imagemap可以使用 :func:`Return` 行为将一个值放入 ``_return`` 变量，或者使用 :func:`Jump` 行为跳转到某个脚本标签(label)。
 
-call screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面前缀出现。当界面含有前缀时，传入界面的入参会被计算。请确保作为界面入参的表达式不会引起不希望出现的副作用。
+call screen语句使用一个可选的 ``nopredict`` 关键词，以防止界面预加载。当界面尝试预加载时，传入界面的参数会被计算。请确保作为界面入参的表达式不会引起不希望出现的副作用。
 
 call screen语句使用一个可选的 ``with`` 关键词，后面跟一个转场(transition)。
 
-Since calling a screen is an interaction, and interactions trigger
-an implicit ``with None``, using a ``with`` statement after the
-``call screen`` instruction won't make the screen disappear using the
-transition, as the screen will already will be gone. To disable the
-implicit ``with None`` transition, pass the ``_with_none=False``
-special keyword argument to the screen, as in the example below.
 由于调用一个界面属于一个交互行为，交互触发器需要显式带有 ``with None`` ，因为在 ``call screen`` 后面使用 ``with`` 语句将不能使原界面正确使用转场消失，毕竟之前的界面已经没了。
 若要禁用 ``with None`` 转场，则使用 ``_with_none=False`` 特殊关键词作为参数传入对应界面，详见后面的样例。
 
@@ -1825,6 +1842,13 @@ Ren'Py通过顺序搜索 :var:`config.variants` 中的variant项来选择使用�
 
 如果环境变量不存在，变种列表会自动建立。建立时，会按顺序搜索下表，找到匹配项后选择对应平台的入口。
 
+``"steam_deck"``
+    在Steam Deck或相同的硬件上运行时为True。
+
+``"steam_big_picture"``
+    True if running in Steam Big Picture mode.
+    在Steam大屏幕模式运行时为True.
+
 ``"large"``
    屏幕足够大，字体小的文本也能轻松阅读，按钮可以被很容易点中。这主要用于电脑屏幕。
 
@@ -1846,11 +1870,11 @@ Ren'Py通过顺序搜索 :var:`config.variants` 中的variant项来选择使用�
 ``"tv"``
    电视机设备。
 
-``"ouya"``
-   OUYA主机。(表示同时为 ``"tv"`` 和 ``"small"``)
-
 ``"firetv"``
    亚马逊的Fire TV主机。(表示同时为 ``"tv"`` 和 ``"small"``)
+
+``"chromeos"``
+    在Chromebook设备上运行安卓app。
 
 ``"android"``
    安卓设备。
@@ -1882,3 +1906,14 @@ Ren'Py通过顺序搜索 :var:`config.variants` 中的variant项来选择使用�
         variant "small"
 
         text "Hello, World." size 30
+
+.. _see-also:
+
+其他参考
+========
+
+:doc:`screen_actions` ：一个综合行为和其他工具的综合列表，可以被界面调用。
+
+:doc:`screen_optimization` ：让界面尽可能高效运行的某些方案。
+
+:doc:`screen_python` ：使用Ren'Py预定义的工具，扩展Ren'Py。

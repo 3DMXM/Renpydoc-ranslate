@@ -57,7 +57,7 @@ Ren'Py有两套系统可实现定制鼠标光标。
 
 ::
 
-    image "mouse spin":
+    image mouse spin:
         "gui/spin0.png"
         rotate 0.0
         linear 1.0 rotate 360.0
@@ -68,7 +68,7 @@ Ren'Py有两套系统可实现定制鼠标光标。
         repeat
 
     define config.mouse_displayable = MouseDisplayable(
-        "gui/arrow.png", 0, 0).add("spin", "spin mouse", 9.9, 9.9)
+        "gui/arrow.png", 0, 0).add("spin", "mouse spin", 9.9, 9.9)
 
 .. function:: MouseDisplayable(cursor, x, y)
 

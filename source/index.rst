@@ -15,191 +15,147 @@
 
   http://ja.renpy.org/doc/html/
 
-.. _getting-started:
-
-起步
------------------------
-
 .. toctree::
-   :maxdepth: 3
+    :maxdepth: 3
+    :caption: 起步
  
-   quickstart
-   gui
-
-.. _the-ren-py-language:
-
-Ren'Py语言
--------------------------------
+    quickstart
+    gui
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
+    :caption: Ren'Py语言
    
-   language_basics
-   label
-   dialogue
-   displaying_images
-   menus
-   python
-   conditional
-   audio
-   movie
-   voice
-
-.. _text-displayables-transforms-and-transitions:
-
-文本、可视组件、变换和转场
-----------------------------
+    language_basics
+    label
+    dialogue
+    displaying_images
+    menus
+    python
+    conditional
+    audio
+    movie
+    voice
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
+    :caption: 文本、可视组件、变换和转场
 
-   text
-   translation
-   displayables
-   transforms
-   transitions
-   atl
-   matrixcolor
-   layeredimage
-   3dstage
-   live2d
-
-.. _customizing-ren-py:
-
-定制化Ren'Py
----------------
+    text
+    translation
+    displayables
+    transforms
+    transitions
+    atl
+    matrixcolor
+    layeredimage
+    3dstage
+    live2d
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
+    :caption: 定制化Ren'Py
 
-   style
-   style_properties
-   screens
-   screen_actions
-   screen_special
-   screen_optimization
-   config
-   preferences
-   store_variables
-   mouse
-
-.. _tools:
-
-工具
----------
+    style
+    style_properties
+    screens
+    screen_actions
+    screen_special
+    screen_optimization
+    config
+    preferences
+    store_variables
+    mouse
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
+    :caption: 工具
 
-   launcher
-   developer_tools
-   director
-
-.. _other-functionality:
-
-其他功能
----------------------------
+    launcher
+    developer_tools
+    director
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
+    :caption: 其他功能
 
-   nvl_mode
-   input
-   side_image
-   rooms
-   drag_drop
-   sprites
-   keymap
-   achievement
-   history
-   multiple
-   splashscreen_presplash
-   lifecycle
-
-.. _python-and-ren-py:
-
-Python和Ren'Py
------------------------------
+    nvl_mode
+    input
+    side_image
+    rooms
+    drag_drop
+    sprites
+    keymap
+    achievement
+    history
+    multiple
+    splashscreen_presplash
+    lifecycle
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
+    :caption: Python和Ren'Py
 
-   statement_equivalents
-   save_load_rollback
-   persistent
-   trans_trans_python
-   gui_advanced
-   screen_python
-   modes
-   cdd
-   cds
-   custom_text_tags
-   character_callbacks
-   file_python
-   color_class
-   matrix
-   model
-   other
-   ren_py
-
-.. _building-updating-and-other-platforms:
-
-生成、更新及其他平台
------------------------------------------------------------
+    statement_equivalents
+    save_load_rollback
+    persistent
+    trans_trans_python
+    gui_advanced
+    screen_python
+    modes
+    cdd
+    cds
+    custom_text_tags
+    character_callbacks
+    file_python
+    color_class
+    matrix
+    model
+    other
+    ren_py
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
+    :caption: 生成分发版、更新和其他平台
 
-   build
-   android
-   ios
-   web
-   chromeos
-   raspi
-   iap
-   updater
-   gesture
-
-.. _end-user-documentation:
-
-终端用户文档
-------------------------------
+    build
+    android
+    ios
+    web
+    chromeos
+    raspi
+    iap
+    updater
+    gesture
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
+    :caption: 终端用户文档
 
-   security
-   problems
-   environment_variables
-   self_voicing
-
-.. _engine-developer-documentation:
-
-引擎开发者文档
-------------------------------------------
+    security
+    problems
+    environment_variables
+    self_voicing
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
+    :caption: 引擎开发者文档
 
-   editor
-   skins
-   translating_renpy
-
-.. _changes-license-and-credits:
-
-变更、许可和制作人员
----------------------------------------------
+    editor
+    skins
+    translating_renpy
 
 .. toctree::
-   :maxdepth: 1
+    :maxdepth: 1
+    :caption: 变更、许可和制作人员
 
-   changelog
-   changelog6
-   incompatible
-   distributor
-   license
-   credits
-   sponsors
+    changelog
+    changelog6
+    incompatible
+    distributor
+    license
+    credits
+    sponsors
 
 .. _indices:
 
@@ -218,8 +174,5 @@ Python和Ren'Py
 脚本样例
 -----------------------
 
-.. toctree::
-   :maxdepth: 1
-
-   thequestion
-   thequestion_nvl
+* :doc:`thequestion`
+* :doc:`thequestion_nvl`

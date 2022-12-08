@@ -6,8 +6,6 @@
 
 Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同作用。
 
-(译者注：在2021年3月之前，action翻译为“动作”。于2021年4月起，action修改为“行为函数”或“行为”。)
-
 .. _screen-action:
 
 行为(action)
@@ -17,7 +15,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 与这些行为一样，某个行为可以是一个不带任何入参的函数。当行为被唤起时，对应的函数就会调用。如果那个行为返回某个值，返回的值就会传到来源交互动作。
 
-一个行为也可能是个行为(action)列表，列表内的行为会顺序运行。
+需要使用行为的地方也可能出现的是一个行为的列表，列表内的行为会顺序运行。
 
 .. _control-actions:
 
@@ -389,6 +387,8 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 音频行为
 -------------
 
+关于音频通道(channel)的概念和工作机制，大多数信息都可以在 :doc:`audio` 中找到解释。
+
 .. function:: PauseAudio(channel, value=True)
 
     音频通道 *channel* 设置暂停标识(flag)。
@@ -653,6 +653,12 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 .. function:: With(transition)
 
     触发 *transition* 生效。
+
+还有一些行为记录在文档的其他页面，比如 :class:`Language`、:class:`Replay`、:class:`EndReplay`、
+:class:`gui.SetPreference`、:class:`gui.TogglePreference`、
+:class:`StylePreference` 和 :ref:`voice actions <voice-actions>`。
+
+可以通过 :class:`Action` 类创建新的行为。
 
 .. _bar-values:
 
@@ -1065,13 +1071,15 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 
     如果没有当前屏幕截图，对应的位置上显示 *empty* 的图像。(如果 *empty* 是空值None，默认为 :func:`Null()` 。)
 
-.. function:: FileJson(name, key=None, empty=None, missing=None, page=None)
+.. function:: FileJson(name, key=None, empty=None, missing=None, page=None, slot=False)
 
-    截图与文件 *name* 关联的Json信息。
+    根据 `name` 参数读取对应的Json数据。
 
-    如果 *key* 为None，返回整个Json对象。如果存档槽位为空，则返回 *empty* 。
+    如果存档槽位是空的，则返回 *empty* 。
 
-    如果 *key* 不为空，则返回json[key]，前提是 *key* 在存档json对象中有定义。如果存档存在但不包含 *key* ，就返回 *missing* 。如果存档槽位为空，则返回 *empty* 。
+    如果存档槽位不是空的，并且 *key* 为None，返回包含Json数据的整个目录
+
+    如果 *key* 不为None，则返回json[key]，前提是 *key* 在存档json对象中有定义。如果存档存在但不包含 *key* ，就返回 *missing* 。如果存档槽位为空，则返回 *empty* 。
 
     使用 :func:`config.save_json_callbacks` 注册的回调函数可以用于在存档槽位中添加Json。
 
@@ -1153,9 +1161,13 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 Tooltips
 --------
 
-所有可视组件上可用的tooltip特性和GetTooltip函数都可以接入tooltip。当可视组件获得焦点时，GetTooltip函数会返回这个组件的tooltip特性的值。
+所有可视组件上可用的 ``tooltip`` 特性和GetTooltip函数都可以读写tooltip。当可视组件获得焦点时，GetTooltip函数会返回这个组件的tooltip特性的值。
 
-这里是一个样例：::
+提醒一下，传入 ``tooltip`` 特性的值需要支持是否相等的判断。
+
+这里是一个样例：
+
+::
 
     screen tooltip_example():
         vbox:
@@ -1180,6 +1192,48 @@ Tooltips
             if tooltip:
                 text "[tooltip]"
 
+可视组件 :ref:`sl-nearrect` 可用于显示“弹窗型”tooltip，并且可以获取一个特殊的“tooltip”焦点名，
+会将最后获取焦点的位置设置为tooltip对象：
+
+::
+
+    screen tooltip_example2():
+        frame:
+
+            padding (20, 20)
+            align (.5, .3)
+
+            has vbox
+
+            textbutton "北":
+                action Return("n")
+                tooltip "去约见北极熊。"
+
+            textbutton "南":
+                action Return("s")
+                tooltip "前往热带。"
+
+            textbutton "东":
+                action Return("e")
+                tooltip "我们可以拥抱黎明。"
+
+            textbutton "西":
+                action Return("w")
+                tooltip "去欣赏最美的日落。"
+
+        # 这是界面上最后显示的内容。
+
+        $ tooltip = GetTooltip()
+
+        if tooltip:
+
+            nearrect:
+                focus "tooltip"
+                prefer_top True
+
+                frame:
+                    xalign 0.5
+                    text tooltip
 
 .. function:: GetTooltip(screen=None)
 

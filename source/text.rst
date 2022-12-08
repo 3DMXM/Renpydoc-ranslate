@@ -5,8 +5,8 @@
 ====
 
 Ren'Py内涵多种方式用于显示文本。 :ref:`say <say-statement>`
-和 :ref:`menu <menu-statement>` 语句就会用到文本显示。 用户接口通常都包含文本，显示时使用 :ref:`text <sl-text>`， :ref:`textbutton <sl-textbutton>`，
-和 :ref:`label <sl-label>` screen语言语句。这些screen语句加上其他的函数，可以创建 :func:`Text()` 文本组件，并在界面上展示出来。
+和 :doc:`menu <menus>` 语句就会用到文本显示。 用户接口通常都包含文本，显示时使用 :ref:`text <sl-text>`， :ref:`textbutton <sl-textbutton>`，
+和 :ref:`label <sl-label>` screen语言语句。这些screen语句加上其他的函数，可以创建 :func:`Text` 文本组件，并在界面上展示出来。
 
 文本组件用于管理显示给用户的文本内容。文本组件按以下顺序执行行为：
 
@@ -36,13 +36,18 @@ Ren'Py内涵多种方式用于显示文本。 :ref:`say <say-statement>`
         两端用单引号标识的字符串中含有一个单引号。
 
     \\\  (双引号空格)
-          在Ren'Py字符串中含有一个额外的空格。默认情况下，Ren'Py脚本会将一段连续的空白转为一个空格字符。
+        在Ren'Py字符串中含有一个额外的空格。默认情况下，Ren'Py脚本会将一段连续的空白转为一个空格字符。
 
     \\n (反斜杠-字符n)
         文本含有一个换行符。
 
     \\\\ (反斜杠-反斜杠)
         文本含有一个反斜杠字符。
+
+    \\% (反斜杠-百分号)
+        文本中包含一个百分号字符。
+        也可以写作 %%。
+        两种写法都会显示为一个百分号。
 
 [ (左方括号)
     左方括号用于转义在文本中内插的值。如果要在文本中包含左方括号，需要写两个左方括号 —— ``[[`` 。
@@ -109,12 +114,31 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 ``!c`` 标识将首字母大写。
 这些标识可以联用，比如使用 ``!cl`` 可以将首字母大写，后面所有文本强制小写。
 
+It should be noted that:
+有几个点需要注意：
+
+- 标记的使用顺序不会影响最终结果： ``!cl`` 与 ``!lc`` 是一样的。
+- Supplementarly exclamation marks will be ignored, and will not circumvent
+  the previuous rule : ``!l!c`` will do the same as ``!c!l`` or ``!cl``.
+- 各标记前补充感叹号将被忽略，并且依然遵循上一条规则：
+  ``!l!c`` 和 ``!c!l`` 和 ``!cl`` 的结果都是一样的。
+
+具体变换遵照以下顺序进行：
+
+#. ``r``/``s`` (替换字符串)
+#. ``t`` (多语言)
+#. ``i`` (循环插值)
+#. ``q`` (引用)
+#. ``u`` (将字母大写)
+#. ``l`` (将字母小写)
+#. ``c`` (首字母大写)
+
 .. _styling-and-text-tags:
 
 样式化和文本标签(tag)
 =====================
 
-在Ren'Py中，文本有两种方式获取样式(style)信息。第一种是，根据整个文本段落(block)应用的样式获取。请详见 :ref:`样式系统 <styles>` 及 :ref:`文本样式特性 <text-style-properties>` 部分的内容。
+在Ren'Py中，文本有两种方式获取样式(style)信息。第一种是，根据整个文本段落(block)应用的样式获取。请详见 :doc:`样式系统 <style>` 及 :ref:`文本样式特性 <text-style-properties>` 部分的内容。
 
 第二种是，通过使用文本标签(tag)。文本标签(tag)可用于一个文本段落(block)中一部分的样式化，也可以用于程序中所有文本段落中一部分的样式化。如果你发现自己在文本的每一行里都应用了同样的文本标签，可以考虑使用样式代替这种做法。
 
@@ -187,7 +211,7 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
 .. text-tag:: alt
 
-    alt文本标签(tag)将阻止文本内容被渲染，不过TTS系统依然有效。
+    alt文本标签(tag)将阻止文本内容被渲染，不过TTS系统依然有效：
 
     ::
 
@@ -226,21 +250,21 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
 .. text-tag:: i
 
-   斜体标签将自身及其闭合标签之间的文本渲染为斜体。 ::
+    斜体标签将自身及其闭合标签之间的文本渲染为斜体。 ::
 
-       "游览 {i}比萨斜塔{/i}。"
+        "游览 {i}比萨斜塔{/i}。"
 
 .. text-tag:: image
 
-   图片标签是一个自闭合标签，作用是在文本中内插一个图片。内插的图片高度应该和单行文本的高度一致。入参可以是图片文件名，或者使用image语句定义的图像名。 ::
+    图片标签是一个自闭合标签，作用是在文本中内插一个图片。内插的图片高度应该和单行文本的高度一致。入参可以是图片文件名，或者使用image语句定义的图像名。 ::
 
-       g "见到你真好！ {image=heart.png}{alt}heart{/alt}"
+        g "见到你真好！ {image=heart.png}{alt}heart{/alt}"
 
 .. text-tag:: k
 
-   字偶距标签调整文本字偶距，作用范围为其自身及其闭合标签之间的文本。其使用一个浮点数值作为入参，该值给定了字符之间增加的距离，单位是像素(该值也可以是负值，表示字符之间缩小的距离)。 ::
+    字偶距标签调整文本字偶距，作用范围为其自身及其闭合标签之间的文本。其使用一个浮点数值作为入参，该值给定了字符之间增加的距离，单位是像素(该值也可以是负值，表示字符之间缩小的距离)。 ::
 
-       "{k=-.5}Negative{/k} Normal {k=.5}Positive{/k}"
+        "{k=-.5}Negative{/k} Normal {k=.5}Positive{/k}"
 
 .. text-tag:: noalt
 
@@ -248,7 +272,7 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
     ::
 
-       g "见到你真好！ {noalt}<3{/noalt}{alt}heart{/alt}"
+        g "见到你真好！ {noalt}<3{/noalt}{alt}heart{/alt}"
 
 .. text-tag:: outlinecolor
 
@@ -258,53 +282,61 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
 .. text-tag:: plain
 
-   plain标签保证文本没有任何加粗、斜体、下划线或删除线样式。 ::
+    plain标签保证文本没有任何加粗、斜体、下划线或删除线样式。 ::
 
-       "{b}加粗。{plain}没有效果。{/plain} 加粗。{/b}"
+        "{b}加粗。{plain}没有效果。{/plain} 加粗。{/b}"
 
 .. text-tag:: rb
 
-   可选的下标字符标识了标签自身及其闭合标签范围内文本。详情参考 :ref:`Ruby Text <ruby-text>` 。
+    可选的下标字符标识了标签自身及其闭合标签范围内文本。详情参考 :ref:`Ruby Text <ruby-text>` 。
 
 .. text-tag:: rt
 
-   可选的上标字符标识了标签自身及其闭合标签范围内文本。详情参考 :ref:`Ruby Text <ruby-text>` 。
+    可选的上标字符标识了标签自身及其闭合标签范围内文本。详情参考 :ref:`Ruby Text <ruby-text>` 。
 
 .. text-tag:: s
 
-   删除线标签在其自身及其闭合标签之间的文本上画一条删除线。 ::
+    删除线标签在其自身及其闭合标签之间的文本上画一条删除线。 ::
 
-       g "很高兴 {s}见到你{/s}。"
+        g "很高兴 {s}见到你{/s}。"
 
 .. text-tag:: size
 
-   字号标签改变了其自己及其闭合标签内的文本字号。入参应该是一个整数，可前缀+或者-。如果入参只是一个整数，那么字体高度就是那个整数的值，单位为像素。如果带有+或者-的话，字号在原值基础上进行增缩。 ::
+    字号标签改变了其自己及其闭合标签内的文本字号。入参应该是一个整数，可前缀+或者-。如果入参只是一个整数，那么字体高度就是那个整数的值，单位为像素。如果带有+或者-的话，字号在原值基础上进行增缩。 
 
-       "{size=+10}变大{/size} {size=-10}变小{/size} {size=24}24 px{/size}."
+    ::
+
+        "{size=+10}变大{/size} {size=-10}变小{/size} {size=24}24 px{/size}."
+
+    还可以在字号后面加一个星号 \* 和一个浮点数，表示字号乘以一个系数并向下取整。
+
+    ::
+   
+        "{size=*2}两倍大{/size} {size=*0.5}一半大{/size}"
 
 .. text-tag:: space
 
-   空白标签是一个自闭合标签，在一行文本内内插一段水平的空白。入参是一个整数，表示内插的空白宽度，单位为像素。 ::
+    空白标签是一个自闭合标签，在一行文本内内插一段水平的空白。入参是一个整数，表示内插的空白宽度，单位为像素。 ::
 
-       "空白之前。{space=30}空白之后。"
+        "空白之前。{space=30}空白之后。"
 
 .. text-tag:: u
 
-   下划线标签在其自身及其闭合标签之间的文本添加下划线。 ::
+    下划线标签在其自身及其闭合标签之间的文本添加下划线。 ::
 
-      g "很高兴 {u}见到{/u} 你。"
+        g "很高兴 {u}见到{/u} 你。"
 
 .. text-tag:: vspace
 
-   垂直空白标签是一个自闭合标签，在文本的两行之间内插一段竖直的空白。入参是一个整数，表示内插的空白高度，单位为像素。 ::
+    垂直空白标签是一个自闭合标签，在文本的两行之间内插一段竖直的空白。入参是一个整数，表示内插的空白高度，单位为像素。 ::
 
-      "第一行{vspace=30}第二行"
+        "第一行{vspace=30}第二行"
 
 .. text-tag:: #
 
-   以#符号开头的文本标签会被忽略，可以用于脚本调试。 ::
+    以#符号开头的文本标签会被忽略，可以用于脚本调试。 ::
 
-      "New{#playlist}"
+        "New{#playlist}"
 
 .. _dialogue-text-tags:
 
@@ -357,7 +389,7 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
         "Line 1{w} Line 1{w=1.0} Line 1"
 
-也可以使用Python定义出 :ref:`custom text tags <custom-text-tags>` 。
+也可以使用Python定义出 :doc:`定制文本标签 <custom-text-tags>` 。
 
 .. _style-text-tags:
 
@@ -443,20 +475,23 @@ Ruby文本(较常用来标明假名或者注音)是一种在某个字符或单�
 1. :propref:`line_leading` 特性必须为Ruby文本预留足够的高度。
 2. 创建一个新的自定义名的样式(style)。该样式的特性，比如 :propref:`size` 需要适合Ruby文本。
 3. 新样式的yoffset必须特别设置，这是为了将Ruby文本升到一般文本基线之上。
-4. 文本样式的 :propref:`ruby_style` 域应该被设置为上面新创建的样式。
+4. 无论是在对话还是历史记录中，文本样式的 :propref:`ruby_style` 字段都应该被设置为上面新创建的样式。
 
 举例：
 
 ::
 
-  init python:
-      style.default.line_leading = 12
+    style ruby_style is default:
+        size 12
+        yoffset -20
 
-      style.ruby_style = Style(style.default)
-      style.ruby_style.size = 12
-      style.ruby_style.yoffset = -20
+    style say_dialogue:
+        line_leading 12
+        ruby_style style.ruby_style
 
-      style.default.ruby_style = style.ruby_style
+    style history_text:
+        line_leading 12
+        ruby_style style.ruby_style
 
 完成Ren'Py的相关配置后，我们就可以使用rt和rb文本标签，在脚本中包含Ruby文本了。rt标签用于标识一些字符将被显示为Ruby文本。如果在Ruby文本前面出现了rb标签，Ruby文本会与rb标签内的所有文本中央对齐。如果没有rb标签，Ruby文本会与对应的字符左对齐。
 
@@ -686,7 +721,7 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 文本组件
 =================
 
-文本也可以用作一个 :ref:`displayable <displayables>`，这意味着你可以在文本上应用各种变换(transform)，可以当作一个图片显示并在界面上移动它的位置。
+文本也可以用作一个 :doc:`可视组件 <displayables>`，这意味着你可以在文本上应用各种变换(transform)，可以当作一个图片显示并在界面上移动它的位置。
 
 .. function:: renpy.ParameterizedText(style='default', `properties)
 
@@ -708,6 +743,9 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 
         image top_text = ParameterizedText(xalign=0.5, yalign=0.0)
 
+        label start:
+            show top_text "这段文字显示在界面正中"
+
 .. function:: Text(text, slow=None, scope=None, substitute=None, slow_done=None, **properties)
 
     创建一个可视组件，在界面上显示文本。
@@ -724,9 +762,16 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
     `substitute`
         若该值为True，则应用文本内插(interpolation)。若该值为False，不应用文本内插。若该值为None，由config.new_substitutions控制文本内插表现。
 
+    `slow_done`
+        若非None，并且启用了慢速文本模式(参见 `slow` 参数)，该参数应该是一个无参数的函数或可调用对象。
+        当文本完成显示后调用参数对应的函数或可调用对象。
+
+    **properties
+        与其他可视组件类似，文本组件可以使用样式特性，包括 :propref:`mipmap` 。
+
 .. _text-utility-functions:
 
-文本功用函数
+文本功能函数
 ======================
 
 .. function:: renpy.filter_text_tags(s, allow=None, deny=None)
@@ -776,8 +821,8 @@ Ren'Py允许创作者或者用于指示某些文本以慢速显示。这种情�
 
 Ren'Py可以记录文本溢出所在区域的日志。要启用文本溢出日志功能的话，需要经过以下步骤：
 
-1. 将 :var:`config.debug_text_overflow` 配置项设为true。
+1. 将 :var:`config.debug_text_overflow` 配置项设为True。
 2. 设置 :propref:`xmaximum` 和 :propref:`ymaximum` 样式特性，该样式特性配置在文本组件上，或者包含文本组件的容器上。
 3. 运行游戏。
 
-一旦文本显示溢出了可用区域，Ren'Py就会把错误记录在 ``text_overflow.txt`` 文件中。
+一旦文本显示溢出了可用区域，Ren'Py就会把错误记录在 text_overflow.txt 文件中。

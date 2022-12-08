@@ -1263,6 +1263,18 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
     该项配置的字符串会自动用voice语句的入参字符串替换“filename”，并作为向用户播放的语音文件名使用。例如，如果这里配置的是“{filename}.ogg”，那么  ``voice "test"`` 语句就会播放“test.ogg”文件。
 
+.. var:: config.web_video_base = "./game"
+
+    在Web浏览器中播放影片时，该项是一个URL链接，与影片文件名相连后得到完整的视频播放链接地址。
+    可以包括子目录，比如 “https://share.renpy.org/movies-for-mygame/” 。
+
+    这样做可以让文件比较大的视频文件与游戏其内容放在不同的服务器上。
+
+.. var:: config.web_video_prompt = _("Touch to play the video.")
+
+    iOS系统手机版Safari上运行时，用户需要点击后才能播放带音频的影片。
+    该配置项是提示用户点击的消息。
+
 .. var:: config.with_callback = None
 
     若非None，该项应该是一个函数，会在使用 :ref:`with
@@ -1329,7 +1341,6 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 :doc:`model`:
 
-* :var:`config.gl2`
 * :var:`config.gl_blend_func`
 * :var:`config.log_gl_shaders`
 

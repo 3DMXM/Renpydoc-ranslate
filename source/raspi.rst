@@ -27,9 +27,12 @@ Ren'Py提供了对树莓派的有限支持。目前已经验证可以在树莓�
 配置Ren'Py
 ------------------
 
-由于树莓派原生无法支持Ren'Py，所以需要下载两个文件。第一个文件是SDK的Linux版本，第二个文件是树莓派支持文件。
+在树莓派上运行Ren'Py需要ARM-Linux SDK。
+当前版本的Ren'Py支持所有平台，也可以在Ren'Py 7.5以上版本的下载界面找到下载链接。
 
-将SDK的Linux版本用untar命令解压后，进入解压后的目录，然后用untar解压树莓派支持文件。正确完成这些操作后，SDK会有分别有lib/linux-armv7l、lib/linux-i686和lib/linux-x86_64目录。
+下载了ARM-Linux SDK后，使用untar命令解压，并放在新创建的目录中。
+
+由于树莓派原生无法支持Ren'Py，所以需要下载两个文件。第一个文件是SDK的Linux版本，第二个文件是树莓派支持文件。
 
 .. _running-a-game:
 
@@ -41,3 +44,5 @@ Ren'Py提供了对树莓派的有限支持。目前已经验证可以在树莓�
 ::
 
     ./renpy.sh /path/to/project
+
+这个步骤也可以用于处理在树莓派上无法运行的Ren'Py游戏。

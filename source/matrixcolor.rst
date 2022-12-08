@@ -128,6 +128,28 @@ ColorMatrix类可以被子类继承，需要重写 ``__call__`` 方法。
                             0, 0, b, 0,
                             0, 0, 0, a ])
 
+.. _structural-similarity:
+
+结构相似原则
+^^^^^^^^^^^^^
+
+在ATL中，对 :tpref:`matrixcolor` 特性进行插值，要求使用的ColorMatrix对象具有相似结构。
+这表示相同类型的ColorMatrix，使用相同顺序相乘。
+
+As an example, the following will interpolate from normal to a desaturated
+blue tint, and then return to normal. 
+下面的样例中，会对图像插值并转成低饱和度的淡蓝色，然后再转回去：
+
+::
+
+    show eileen happy at center:
+        matrixcolor TintMatrix("#ffffff") * SaturationMatrix(1.0)
+        linear 2.0 matrixcolor TintMatrix("#ccccff") * SaturationMatrix(0.0)
+        linear 2.0 matrixcolor TintMatrix("#ffffff") * SaturationMatrix(1.0)
+
+对matrixcolor的第一步设置看起来似乎是多余的，但实际并非如此，这步确定了后续插值使用的矩阵结构。
+如果不在第一步设置矩阵结构，后面的插值都将略过。
+
 .. _built-in-colormatrix-subclasses:
 
 内建的ColorMatrix派生类

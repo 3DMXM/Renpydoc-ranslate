@@ -6,7 +6,7 @@
 
 (译者注：property一词通常翻译成“属性”。鉴于文档中的attribute也可以翻译成“属性”。为了防止混淆，将property翻译为“特性”。)
 
-样式特性与 :ref:`样式 <styles>` 相关，控制可视组件的显示方式。样式特性出现时可以没有前缀，这种情况下样式特性应用于所有状态的可视组件；带前缀的样式特性则限制了应用组件的状态。
+样式特性与 :doc:`样式 <styles>` 相关，控制可视组件的显示方式。样式特性出现时可以没有前缀，这种情况下样式特性应用于所有状态的可视组件；带前缀的样式特性则限制了应用组件的状态。
 
 .. _style-property-prefixes:
 
@@ -201,7 +201,7 @@
 
 .. style-property:: alt string or None
 
-    当self-voicing启用时，备选文本会用于可视组件。详见 :ref:`自动语音 <self-voicing>` 章节内容。
+    当self-voicing启用时，备选文本会用于可视组件。详见 :doc:`自动语音 <self_voicing>` 章节内容。
 
 .. style-property:: xpos position
 
@@ -254,6 +254,10 @@
 .. style-property:: yoffset int
 
     给出了垂直方向的偏移值，单位为像素。
+
+.. style-property:: offset tuple of (int, int)
+
+    将元祖的第一和第二元素分别设为xoffset和yoffset的值。
 
 .. style-property:: offset tuple of (position, position)
 
@@ -474,6 +478,8 @@
     这段脚本产生了1像素宽的边界。
 
     轮廓线只对全真(truetype)字体有效。
+    轮廓线只能对整个文本组件应用时才生效。
+    无法应该用在超链接、文本标签和文本的部分内容。
 
 .. style-property:: outline_scaling string
 
@@ -661,6 +667,7 @@
 .. style-property:: activate_sound
 
     当按钮被激活(点击)时，将播放一个音效。
+    也会在条(bar)和拖拽组件激活时播放该音效。
 
 .. style-property:: mouse string
 
@@ -677,7 +684,13 @@
         按钮自身用作可视组件(按钮的非透明区域可以让按钮获得焦点)。
 
     **callable**
-        如果一个不可视组件被调用(像函数、方法或者带有__call__方法的对象)，该该函数被使用两个入参调用，从对应可视组件左上角算起，x和y轴的两个偏移量。若函数返回结果为True，可视组件获得焦点。
+        如果一个不可视组件被调用(像函数、方法或者带有__call__方法的对象)，该该函数被使用两个入参调用，从对应可视组件左上角算起，x和y轴的两个偏移量。
+        
+        如果使用两个入参调用该函数，则函数返回一个可调用对象。
+        返回对象可以使用4个参数调用，x和y的偏移值，以及可视组件的宽度和高度。
+        
+        
+        若函数返回结果为True，可视组件获得焦点。
 
     **None**
         如果该值为None，整个按钮都可以获得焦点。
@@ -815,6 +828,10 @@
     当box_wrap为True时，box_wrap_spacing项用于指定被wrap的行或列的间距。
     (行间距就是被warp的hbox在垂直方向空间，列间距就是被warp的vbox在水平方向的空间。)
 
+.. style-property:: order_reverse boolean
+
+    若为False，也就是默认值，方框内元素会从前往后绘制，第一个元素下面是第二个元素。若为True，顺序会倒过来，第一个元素会在方框最底层。
+
 .. _grid-style-properties:
 
 网格(grid)样式特性
@@ -846,6 +863,8 @@
 
     若为True，固定宽度的布局所有单元尺寸都会严格等于第一个单元内元素的尺寸。如果是“width”，只有单元格宽度能改变(固定布局会在垂直方向上填满界面)。类似的，“height”值能改变单元跟高度。
 
+    由于 fit\_first 的原因，子组件的位置将被忽略。
+
 .. style-property:: xfit boolean
 
     若为True，固定布局的尺寸在水平方向会严格匹配最右侧子组件的尺寸。
@@ -854,9 +873,7 @@
 
     若为True，固定布局的尺寸在垂直方向会严格匹配最底部子组件的尺寸。
 
-.. style-property:: order_reverse boolean
-
-    若为False，也就是默认值，方框内元素会从前往后绘制，第一个元素下面是第二个元素。若为True，顺序会倒过来，第一个元素会在方框最底层。
+提供了以上特性时，固定布局的子组件们会首先根据指定整块区域。一旦获得子组件的尺寸和位置，再根据固定布局的尺寸应该对应的特性。
 
 .. _margin-style-properties:
 

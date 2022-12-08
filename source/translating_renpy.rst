@@ -56,6 +56,35 @@ script.rpym
 style.rpy
     默认情况下这个文件不存在，有需要时可以创建。它配置了启动器样式(style)，及生成游戏的默认字体。
 
+.. _language-specific-translations:
+
+指定语言
+--------
+
+还有一种非直接替换的多语言实现方式。
+"{#language name and font}" 在翻译文件中会被替换为对应语言的名称，
+如果使用的是非ASCII码字符，可以选择转为启动器字体。
+例如：
+
+::
+
+    translate french strings:
+
+        old "{#language name and font}"
+        new "{font=fonts/Roboto-Light.ttf}Français{/font}"
+
+如果启动器语言与翻译文件中指定的语言不一致时，可以使用这种方式显示语言名称。
+
+翻译文件中，其他以“{#in language font}”开头的内容都需要以类似方式转换。
+例如：
+
+::
+
+    translate french strings:
+
+        old "{#in language font}Start using Ren'Py in [lang_name]"
+        new "{font=fonts/Roboto-Light.ttf}Commencez à utiliser Ren'Py en [lang_name]{/font}"
+
 .. _changing-fonts:
 
 修改字体

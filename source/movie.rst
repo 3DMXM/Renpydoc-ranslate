@@ -32,6 +32,16 @@ Ren'Py可以使用FFmpeg解码器(已内置)播放以下视频编码格式的影
 
 影片可以全屏播放，也可以在一个可视组件内播放。全屏播放更省事。
 
+Ren'Py的视频解码器不支持alpha通道，但可视组件 :func:`Movie` 的 `side_mask` 参数可以。
+下面的例子展示了如何利用ffmpeg库，使用带alpha通道的mov文件创建webm文件的水平并排(side-by-side)mask。
+
+::
+
+    ffmpeg -i original.mov -filter:v alphaextract mask.mov
+    ffmpeg -i original.mov -i mask.mov -filter_complex "hstack" -codec:v vp8 -crf 10 output.webm
+
+(译者注，ffmpeg命令用于在操作系统shell或命令行模式中运行，对视频文件重编码。而不是用于Ren'Py脚本中。)
+
 .. _fullscreen-movies:
 
 全屏播放影片
@@ -74,7 +84,7 @@ Web平台不支持播放影片。
 
 ::
 
-    image eileen movie = Movie(play="eileen_movie.webm", mask="eileen_mask.webm")
+    image eileen movie = Movie(play="eileen_movie.webm", side_mask=True)
 
 影片精灵可以使用show语句显示，并自动启动影片播放。如果可视组件被隐藏时，影片播放会自动停止。
 
@@ -121,7 +131,7 @@ python函数
 
     若影片播放被用户停止则返回True，若在delay定义的预计时间内由于其他原因中断播放则返回False。
 
-.. function:: Movie(fps=24, size=None, channel='movie', play=None, mask=None, mask_channel=None, image=None, play_callback=None, **properties)
+.. function:: Movie(fps=24, size=None, channel=u'movie', play=None, mask=None, mask_channel=None, image=None, play_callback=None, side_mask=False, loop=True, start_image=None, **properties)
 
     该函数创建了一个可视组件用于显示当前影片。
 
@@ -132,10 +142,18 @@ python函数
         该值有两种情况：指定一个包含指定影片宽度和高度的元组，或空值(None)自适应影片原尺寸。(如果这里设置为空值(None)，可视组件在不播放影片时的值就是(0, 0)。)
 
     `channel`
-        与播放影片相关联的音频通道名。当某个影片在该通道上播放时，就会在对应的影片组件上显示。若未指定该值，并且入参play提供了播放文件名的情况下，会自动选择可用的通道名。
+        与播放影片相关联的音频通道名。当某个影片在该通道上播放时，就会在对应的影片组件上显示。
+        如果该参数为默认值“movie”，并且 `play` 参数提供了播放文件名的情况下，
+        会根据 :var:`config.single_movie_channel` 和 var:`config.auto_movie_channel` 自动选择可用的通道名。
 
     `play`
         若给定入参play，其应该是某个影片文件的路径。显示影片时，入参channel通道上的影片文件将会自动播放。当影片被隐藏时，影片文件会自动停止播放。
+
+    `side_mask`
+        若为True，Ren'Py会将该Movie对象设置为水平并排(side-by-side)mask模式。
+        Movie对象将被对等分割为两部分。左半为颜色信息，右半为alpha通道信息。对应的可视组件宽度也为该视频文件的一半。
+        
+        尽可能使用 `mask` 而不是 `side_mask` ，除非有帧同步问题。
 
     `mask`
         若给定入参mask，其应是某个影片文件的路径，而这个影片用作可视组件的alpha通道。影片被显示时，在mask_channel通道上的影片文件将会自动播放。当影片被隐藏时，影片文件会自动停止播放。
@@ -155,7 +173,7 @@ python函数
         `new`
             新的Movie对象。
 
-        Movie对象中包含的播放参数分别对应 ``channel`` 、 ``mask`` 和 ``mask_channel`` 字段(field)的入参。
+        Movie对象中的 `play` 参数值如果为 ``_play`` ，则 ``channel``、``loop``、``mask`` 和 ``mask_channel`` 字段则与同名参数一一对应。
 
         如果想要使用 :func:`renpy.music.play()` 在指定的通道启动影片播放的话，带上synchro_start=True。最小化实现代码如下：
 
@@ -163,10 +181,10 @@ python函数
 
             def play_callback(old, new):
 
-                renpy.music.play(new._play, channel=new.channel, loop=True, synchro_start=True)
+                renpy.music.play(new._play, channel=new.channel, loop=new.loop, synchro_start=True)
 
                 if new.mask:
-                    renpy.music.play(new.mask, channel=new.mask_channel, loop=True, synchro_start=True)
+                    renpy.music.play(new.mask, channel=new.mask_channel, loop=new.loop, synchro_start=True)
 
     `loop`
         若为False，不会循环播放影片。如果 `image` 已定义，影片播放结束后将显示对应图片。否则，影片播放结束后将变成透明画面。

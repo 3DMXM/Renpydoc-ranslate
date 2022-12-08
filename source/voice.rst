@@ -75,6 +75,25 @@ Ren'Py提供了自动匹配语音文件并播放的功能，不用在每行对�
 
 对话标识号是 ``demo_minigame_03fc91ef`` ，那么当对应的对话显示时，Ren'Py会寻找文件 ``voice/demo_minigame_03fc91ef.ogg`` 。如果文件存在，Ren'Py会播放这个文件。
 
+.. _multilingual-voice:
+
+包含多种语言的语音
+------------------
+
+得益于Ren'Py的多语言支持系统，游戏可以使用 :ref:`image-file-translation` 在多种语言中进行转换。
+原生语言为英语的游戏可以翻译为法语：
+
+::
+
+    voice "omelette.ogg"
+    e "I like scrambled eggs with cheese..."
+
+放好英语版本的语音文件“game/omelette.ogg”和法语版本“game/tl/french/omelette.ogg”，
+就能在Ren'Py启用法语版后，播放法语的语音了。
+
+自动语音时的效果也类似，只要翻译文件的路径以“game/tl/<language>/”开头，
+会自动匹配“game/”目录中的同名文件。
+
 .. _voice-functions:
 
 语音函数

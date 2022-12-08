@@ -21,8 +21,7 @@
 .. var:: preferences.afm_enable = False
 
     若为True，自动前进移动启用。否则禁用。
-    等效于“auto-forward”环境设定。
-    
+    等效于“auto-forward time”环境设置。
 
 .. var:: preferences.afm_time = 15
 
@@ -110,14 +109,16 @@
 .. var:: preferences.audio_when_minimized = True
 
     若为Fasel，窗口最小化后音频通道停止，当窗口恢复后音频通道恢复。
-    若为True，窗口状态与音频无关。等效于“最小话窗口保持声音”选项。
+    若为True，窗口状态与音频无关。等效于“audio when minimized”选项。
 
 .. _mixer-functions:
 
 混音器函数
 ---------------
 
-.. function:: preferences.set_volume(mixer, volume)
+广域混音器的内容详见 :ref:`volume`。
+
+.. function:: preferences.set_mixer(mixer, volume)
 
     将混音器 `mixer` 的音量值设置为 `volume` 。
 
@@ -127,7 +128,7 @@
     `volume`
         介于0.0到1.0之间的数值。
 
-.. function:: preferences.get_volume(mixer):
+.. function:: preferences.get_mixer(mixer):
 
     获取混音器 `mixer` 的音量。如果该混音器被静音了，则返回0.0。
 
@@ -149,12 +150,12 @@
 
 .. var:: config.default_music_volume = 1.0
 
-    音乐混合器的默认音量，用于音乐和视频中的音频通道。这项值位于0.0和1.0的闭区间内，1.0表示最大音量。
+    音乐混合器的默认音量，用于music和movie音频通道。这项值位于0.0和1.0的闭区间内，1.0表示最大音量。
 
 .. var:: config.default_sfx_volume = 1.0
 
-    sfx混合器的默认音量，用于音效的音频通道。这项值位于0.0和1.0的闭区间内，1.0表示最大音量。
+    sfx混合器的默认音量，用于sound音频通道。这项值位于0.0和1.0的闭区间内，1.0表示最大音量。
 
 .. var:: config.default_voice_volume = 1.0
 
-    语音混合器的默认音量，用于语音的音频通道(包括voice语句和自动语音)。这项值位于0.0和1.0的闭区间内，1.0表示最大音量。
+    语音混合器的默认音量，用于voice音频通道(包括voice语句和自动语音)。这项值位于0.0和1.0的闭区间内，1.0表示最大音量。

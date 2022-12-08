@@ -17,9 +17,15 @@ Ren'Py有一些存储区配置项，控制存储区的功能。存储区配置�
 
     这项决定了退出游戏时是否需要确认。在splashscreeen上这个值是False，在主菜单则会被忽略。
 
+.. var:: _constant
+
+    某存储区中该项设置为True时，表示该存储区为常量存储区。
+    详见 :ref:`constant-stores`。
+
 .. var:: default_mouse
 
     该项默认不做定义。如果定义该项，并且 :var:`config.mouse` 有设置过，而且游戏启动后在 config.mouse 中没有找到对应的图片资源，该项将作为鼠标光标图片的默认值。
+    该项被用于 :var:`config.mouse` 和 :func:`MouseDisplayable`。
 
 .. var:: _dismiss_pause = True
 
@@ -37,7 +43,7 @@ Ren'Py有一些存储区配置项，控制存储区的功能。存储区配置�
 
 .. var:: _history_list = [ ]
 
-    这是一个历史对象列表，分别对应从历史记录中从最早到最新的每一行。详见 :ref:`History <history>` 章节内容。
+    这是一个历史对象列表，分别对应从历史记录中从最早到最新的每一行。详见 :doc:`历史记录 <history>` 章节内容。
 
 .. var:: _ignore_action = None
 

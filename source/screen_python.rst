@@ -4,31 +4,9 @@
 界面与Python
 ==================
 
-Ren'Py支持使用Python定义界面(screen)，与使用Ren'Py界面语言能实现一样的效果。将一个界面函数传入函数 :func:`renpy.define_screen` ，就可以创建一个Python界面。创建的Python界面可以跟其他任何界面一样使用。
+下列函数支持对界面的各种操作。
 
-这个界面函数应该包含需求变量的对应参数，并忽略额外的关键词入参(也就是，函数的入参列表结尾是 `**kwargs` 。)。然后需要调用UI函数在界面上添加可视组件。界面函数需要能在任何互动行为开始后都能被调用。
-
-为了确保函数重新运行时无缝的用户体验(并不导致某些东西重置)，每次调用UI函数都提供 `id` 入参就很重要。如果重新创建了某个界面，Ren'Py会使用原可视组件内容的id更新每一个新的可视组件。id通过界面语言自动生成，但是手工处理界面时也许需要人工指定id。
-
-.. warning:: 不赞成也不推荐使用UI函数作为界面函数。
-
-这是一个Python界面的样例：
-
-::
-
-    init python:
-        def say_screen(who, what, **kwargs):
-            ui.window(id="window")
-            ui.vbox(id="say_vbox")
-
-            ui.text(who, id="who")
-            ui.text(what, id="what")
-
-            ui.close()
-
-        renpy.define_screen("say", say_screen)
-
-
+.. _screen-function:
 
 界面函数
 ================
@@ -37,253 +15,174 @@ Ren'Py支持使用Python定义界面(screen)，与使用Ren'Py界面语言能实
 
 .. function:: renpy.call_screen(_screen_name, *args, **kwargs)
 
-  在程序上等效于call screen语句。
+    在程序上等效于call screen语句。
 
-  该函数将 *_screen_name* 做为一个界面显示，并触发某个互动行为。互动结束后界面隐藏，并返回互动结果。
+    该函数将 *_screen_name* 做为一个界面显示，并触发某个互动行为。互动结束后界面隐藏，并返回互动结果。
 
-  不以下划线“_”开头的关键词入参都会传入界面的作用域。
+    不以下划线“_”开头的关键词入参都会传入界面的作用域。
 
-  如果关键词入参 *_with_none* 的值是False，互动结束后结尾的“with None”分句不会运行。
+    如果关键词入参 *_with_none* 的值是False，互动结束后结尾的“with None”分句不会运行。
 
 .. function:: renpy.define_screen(name, function, modal="False", zorder="0", tag=None, variant=None)
 
-  定义一个名为 *name* 的界面。
+    定义一个名为 *name* 的界面。
 
-  `function`
-    调用该函数可以显示界面。调用该函数时，使用界面作用域(scope)作为需要的关键词入参。它会忽略其他的关键词入参。
+    `function`
+        调用该函数可以显示界面。调用该函数时，使用界面作用域(scope)作为需要的关键词入参。它会忽略其他的关键词入参。
 
-    这个函数需要调用ui函数将组件添加到界面上。
+        这个函数需要调用ui函数将组件添加到界面上。
 
-  `modal`
-    一个字符串，根据计算后的值决定创建的界面是否模态(modal)。一个模态(modal)界面会防止它的子界面接受输入事件消息。
+    `modal`
+        一个字符串，根据计算后的值决定创建的界面是否模态(modal)。一个模态(modal)界面会防止它的子界面接受输入事件消息。
 
 
-  `zorder`
-    一个字符串，最终计算后的值应该是一个整数。这个证书控制界面显示顺序。zorder值大的界面显示在zorder值小的界面上方。
+    `zorder`
+        一个字符串，最终计算后的值应该是一个整数。这个证书控制界面显示顺序。zorder值大的界面显示在zorder值小的界面上方。
 
-  `tag`
-    界面关联的图像标签(tag)。显示界面时，所有带有同样标签的其他界面都会被替换。标签默认与界面名相同。
+    `tag`
+        界面关联的图像标签(tag)。显示界面时，所有带有同样标签的其他界面都会被替换。标签默认与界面名相同。
 
-  `predict`
-    若为True，界面启用图像预加载。若为False，不使用预加载。默认值是Trues,
+    `predict`
+        若为True，界面启用图像预加载。若为False，不使用预加载。默认值是Trues,
 
-  `variant`
-    字符串。表示使用的界面变种(variant)。
+    `variant`
+        字符串。表示使用的界面变种(variant)。
 
 .. function:: renpy.get_screen(name, layer=None)
 
-  返回在图层(layer)上名为 *name* 的界面可视组件。*name* 首先被看作是一个图像标签(tag)名，其次是一个界面名。如果那个界面不被显示，就返回None。
+    返回在图层(layer)上名为 *name* 的界面可视组件。*name* 首先被看作是一个图像标签(tag)名，其次是一个界面名。如果那个界面不被显示，就返回None。
 
-  根据 *name* 可能得到一个界面名的列表，第一正在显示的界面作为最终结果返回。
+    根据 *name* 可能得到一个界面名的列表，第一正在显示的界面作为最终结果返回。
 
-  该函数可以用于检查某个界面是否正在显示：
+    该函数可以用于检查某个界面是否正在显示：
 
-  ::
+    ::
 
-      if renpy.get_screen("say"):
-          text "The say screen is showing."
-      else:
-          text "The say screen is hidden."
+        if renpy.get_screen("say"):
+            text "The say screen is showing."
+        else:
+            text "The say screen is hidden."
 
 .. function:: renpy.get_widget(screen, id, layer=None)
 
-  返回图层 *layer* 上的界面 *screen* 中带有 *id* 的组件(widget)。如果界面不存在或界面中不存在带有那个id的组件，则返回None。
+    返回图层 *layer* 上的界面 *screen* 中带有 *id* 的组件(widget)。如果界面不存在或界面中不存在带有那个id的组件，则返回None。
 
 .. function:: renpy.get_widget_properties(id, screen=None, layer=None)
 
-  返回图层 *layer* 上界面 *screen* 中带有 *id* 的组件(widget)的特性(property)。如果 *screen* 为None，返回当前界面的特性(property)。该函数可以用在某个界面的Python或特性(property)代码中。
+    返回图层 *layer* 上界面 *screen* 中带有 *id* 的组件(widget)的特性(property)。如果 *screen* 为None，返回当前界面的特性(property)。该函数可以用在某个界面的Python或特性(property)代码中。
 
-  需要注意的是，这个函数返回结果是组件特性的字典。想要得到单个特性的值，就要进入字典取值。
+    需要注意的是，这个函数返回结果是组件特性的字典。想要得到单个特性的值，就要进入字典取值。
 
 .. function:: renpy.hide_screen(tag, layer=None)
 
-  等效于“hide screen”语句。
+    等效于“hide screen”语句。
 
-  隐藏图层 *layer* 上带图像标签 *tag* 的界面。
-
-.. function:: renpy.predicting()
-
-  Ren'Py正在预加载界面的情况下返回True。
+    隐藏图层 *layer* 上带图像标签 *tag* 的界面。
 
 .. function:: renpy.set_focus(screen, id, layer=u'screens')
 
-  该函数会将界面screen中指定id的可视组件指定为获得焦点。
-  如果可视组件未找到，或整个窗口没有获得焦点或其他强制无法更改焦点的情况下，该函数将不会有实际效果。
+    该函数会将界面screen中指定id的可视组件指定为获得焦点。
+    如果可视组件未找到，或整个窗口没有获得焦点或其他强制无法更改焦点的情况下，该函数将不会有实际效果。
 
-The focus may change if the mouse moves, even slightly, after this call is processed.
+    对该函数的调用结束后，轻微的鼠标移动就可能会改变焦点，
 
 .. function:: renpy.show_screen(_screen_name, *_args, **kwargs)
 
-  等效于show screen语句。
+    等效于show screen语句。
 
-  这个函数使用下列关键词入参：
+    这个函数使用下列关键词入参：
 
-  `_screen_name`
-    想要显示的界面的名称。
+    `_screen_name`
+        想要显示的界面的名称。
 
-  `_layer`
-    界面显示使用的图层名。
+    `_layer`
+        界面显示使用的图层名。
 
-  `_zorder`
-    界面显示的zorder值。未赋值情况下，zorder值与关联界面相同。默认值是0。
+    `_zorder`
+        界面显示的zorder值。未赋值情况下，zorder值与关联界面相同。默认值是0。
 
-  `_tag`
-    界面显示使用的图像标签(tag)。如果没有指定，就使用界面的图像标签关联的默认标签。如果那也没有指定，默认使用界面的名称做为标签名。
+    `_tag`
+        界面显示使用的图像标签(tag)。如果没有指定，就使用界面的图像标签关联的默认标签。如果那也没有指定，默认使用界面的名称做为标签名。
 
-  `_widget_properties`
-    从组件(widget)的id到某个“特性名->特性值”映射的映射关系。当带那个id的组件(widget)在界面上显示时，就能为其添加指定的特性(property)。
+    `_widget_properties`
+        从组件(widget)的id到某个“特性名->特性值”映射的映射关系。当带那个id的组件(widget)在界面上显示时，就能为其添加指定的特性(property)。
 
-  `_transient`
-    若为True，界面会在当前互动结束后自动隐藏。
+    `_transient`
+        若为True，界面会在当前互动结束后自动隐藏。
 
-  不以下划线(_)开头的关键词入参用于初始化界面的作用域。
+    不以下划线(_)开头的关键词入参用于初始化界面的作用域。
 
 .. function:: renpy.start_predict_screen(_screen_name, *args, **kwargs)
 
-  触发Ren'Py开始缓存名为 *_screen_name* 的界面，那个界面之后会使用给定的入参显示。这个函数会替换之前 *_screen_name* 的缓存。需要停止缓存某个界面的话，调用 :func:`renpy.stop_predict_screen()` 。
+    触发Ren'Py开始缓存名为 *_screen_name* 的界面，那个界面之后会使用给定的入参显示。这个函数会替换之前 *_screen_name* 的缓存。需要停止缓存某个界面的话，调用 :func:`renpy.stop_predict_screen()` 。
 
 .. function:: renpy.stop_predict_screen(name)
 
-  触发Ren'Py停止缓存名为 *name* 的界面。
+    触发Ren'Py停止缓存名为 *name* 的界面。
 
 .. function:: renpy.variant(name)
 
-  如果 *name* 是Ren'Py中可用的某个界面变种(variant)，就返回True。详见:ref:`界面变种 <screen-variants>`。这个函数可以用做条件表达式，在Python的if语句中根据界面变种选择使用对应的样式(style)。
+    如果 *name* 是Ren'Py中可用的某个界面变种(variant)，就返回True。详见:ref:`界面变种 <screen-variants>`。这个函数可以用做条件表达式，在Python的if语句中根据界面变种选择使用对应的样式(style)。
 
-  *name* 也可以是一个界面变种列表，只要列表中任何变种被选择就返回True。
+    *name* 也可以是一个界面变种列表，只要列表中任何变种被选择就返回True。
 
-UI Functions
-============
+.. function:: ui.adjustment(range=1, value=0, step=None, page=None, changed=None, adjustable=None, ranged=None, force_step=False)
 
-.. note::
+    adjustment对象表示可以通过某个条(bar)或视口(viewport)调整的值。Adjustment对象包括值的信息，值的范围，以及修改这个对象使用的最小步长和最大页面(page)。
 
-    Ren'Py的执行机制已经改变过，创建可视组件的UI函数现在可能比它们的等效界面语言效率要慢得多。
+    下列参数分别对应Adjustment对象的字段(field)或者特性(property)。
 
-UI函数是界面语言语句的等效Python语句。每条界面语言语言都有一个同名的UI函数。例如，ui.text函数对应text语句，而ui.add函数对应add语句。
+    `range`
+        调整范围，一个数值。
 
-这里有一个界面语言的参数与Python入参之间的简单映射关系。界面语言参数变成固定位置入参，特性(property)变成关键词入参。举例，界面语言语句： ::
+    `value`
+        调整为这个值，一个数值。
 
-   text "Hello, World" size 40 xalign 0.5
+    `step`
+        调整的步长，一个数值。若为None，默认值是一个页面(page)的1/10大小，前提是设置了页面大小。否则默认为 *range* 大小的1/20。
 
-变成了： ::
+        使用鼠标滚轮滚动一个视口(viewport)时会用到这个值。
 
-   ui.text("Hello, World", size=40, xalign=0.5)
+    `page`
+        Adjustment对象的页面(page)大小。若为None，会通过视口(viewport)自动设置。如果没有设置，默认值是 *range* 大小的1/10。
 
-(实际上要加一个 `id` 参数。)
+        当点击一个滚动条(scrollbar)时，这项值会被用到。
 
-根据使用的子组件数量分，总共有三组UI函数。
+    下列参数控制Adjustment对象的行为。
 
-下列UI函数不使用任何子组件。
+    `adjustable`
+        若为True，条(bar)可以修改Adjustment对象。若为False，则不能修改。
 
-* ui.add
-* ui.bar
-* ui.imagebutton
-* ui.input
-* ui.key
-* ui.label
-* ui.null
-* ui.text
-* ui.textbutton
-* ui.timer
-* ui.vbar
-* ui.hotspot
-* ui.hotbar
-* ui.spritemanager
+        如果给定了 *changed* 函数或者Adjustment对象有一个关联的视口(viewport)，那这项的默认值是True。否则默认值是False。
 
-下列UI函数只使用一个子组件。子组件必须给定——如果不存在则使用ui.null()空对象。
+    `changed`
+        当Adjustment的值发生改变时，会用新的值调用这个函数。
 
-* ui.button
-* ui.frame
-* ui.transform
-* ui.window
-* ui.drag
+    `ranged`
+        当通过一个视口(viewport)设置了Adjustment的范围时，会用Adjustment对象调用这个函数。
 
-下列UI函数使用多个子组件。它们持续使用这些子组件，直到调用  :func:`ui.close()` 。
-
-* ui.fixed
-* ui.grid
-* ui.hbox
-* ui.side
-* ui.vbox
-* ui.imagemap
-* ui.draggroup
-
-有几个UI函数没有对应的界面语言语句，因为他们对应界面语言中没有的概念。
-
-.. function:: ui.adjustment(range=1, value=0, step=None, page=None, changed=None, adjustable=None, ranged=None)
-
-  adjustment对象表示可以通过某个条(bar)或视口(viewport)调整的值。Adjustment对象包括值的信息，值的范围，以及修改这个对象使用的最小步长和最大页面(page)。
-
-  下列参数分别对应Adjustment对象的字段(field)或者特性(property)。
-
-  `range`
-    调整范围，一个数值。
-
-  `value`
-    调整为这个值，一个数值。
-
-  `step`
-    调整的步长，一个数值。若为None，默认值是一个页面(page)的1/10大小，前提是设置了页面大小。否则默认为 *range* 大小的1/20。
-
-    使用鼠标滚轮滚动一个视口(viewport)时会用到这个值。
-
-  `page`
-    Adjustment对象的页面(page)大小。若为None，会通过视口(viewport)自动设置。如果没有设置，默认值是 *range* 大小的1/10。
-
-    当点击一个滚动条(scrollbar)时，这项值会被用到。
-
-  下列参数控制Adjustment对象的行为。
-
-  `adjustable`
-    若为True，条(bar)可以修改Adjustment对象。若为False，则不能修改。
-
-    如果给定了 *changed* 函数或者Adjustment对象有一个关联的视口(viewport)，那这项的默认值是True。否则默认值是False。
-
-  `changed`
-    当Adjustment的值发生改变时，会用新的值调用这个函数。
-
-  `ranged`
-    当通过一个视口(viewport)设置了Adjustment的范围时，会用Adjustment对象调用这个函数。
-
-.. function:: ui.change(value)
-
-  将Adjustment的值修改为 *value* ，并更新所有使用该Adjustment对象的条(bar)和视口(viewport)。
-
-.. function:: ui.at(transform)
-
-  指定创建的下一个可视组件使用的变换(transform)。这个做法已经淘汰，现在所有UI函数都会使用一个at入参。
-
-.. function:: ui.close()
-
-  关闭一个通过UI函数创建的可视组件。当可视组件关闭后，我们可以给它的父组件添加新的可视组件，如果没有可用的父组件则为其所在图层添加新的可视组件。
-
-.. function:: ui.detached()
-
-  不在任何图层或容器内添加下一个可视组件。如果你想要将某个UI函数的结果赋值给某个变量的话，就使用这个函数。
+    `force_step`
+        若为True且该adjustment函数用于视口中的拖拽组件或条(bar)时，数值将是离散的，且只能分步修改。
+        释放拖拽组件或条的滑块时，最终结果会调整为最接近的某个步进值。
+        若为False，adjustment函数会忽略步进值，直接使用拖拽后的结果。
 
 .. function:: ui.interact(roll_forward=None, mouse='default')
 
-  触发某个与用户的交互动作，并返回交互的结果。这个函数让Ren'Py重绘界面并开始处理输入事件。当某个可视组件对应某个事件返回了一个值，那个值会从ui.interact返回，然后互动结束。
+    触发某个与用户的交互动作，并返回交互的结果。这个函数让Ren'Py重绘界面并开始处理输入事件。当某个可视组件对应某个事件返回了一个值，那个值会从ui.interact返回，然后互动结束。
 
-  这个函数极少被直接调用。通常会被Ren'Py的其他部分调用，包括say语句、menu语句、with语句、pause语句、call screen语句、 :func:`renpy.input()` 等等。不过，必要的时候也可以直接调用。
+    这个函数极少被直接调用。通常会被Ren'Py的其他部分调用，包括say语句、menu语句、with语句、pause语句、call screen语句、 :func:`renpy.input()` 等等。不过，必要的时候也可以直接调用。
 
-  当某个互动结束，transient图层和所有“transient=True”的界面都会从场景(scene)列表中清除。
+    当某个互动结束，transient图层和所有“transient=True”的界面都会从场景(scene)列表中清除。
 
-  下列入参有文档说明。其他没有文档说明的入参属于Ren'Py内部使用。请都用关键词入参。
+    下列入参有文档说明。其他没有文档说明的入参属于Ren'Py内部使用。请都用关键词入参。
 
-  `roll_forward`
-    当前向滚动发生时，这个函数会返回相应的信息。(若为None，前向滚动会被忽略。)这项应该总是传入 :func:`renpy.roll_forward_info()` 函数的结果。
+    `roll_forward`
+        当前向滚动发生时，这个函数会返回相应的信息。(若为None，前向滚动会被忽略。)这项应该总是传入 :func:`renpy.roll_forward_info()` 函数的结果。
 
-  `mouse`
-    这个函数中鼠标指针使用的样式。
+    `mouse`
+        这个函数中鼠标指针使用的样式。
 
-.. function:: ui.layer(name)
-
-  为名为 *name* 的图层添加可视组件。图层的关闭必须使用  :func:`ui.close()` 。
-
-.. function:: ui.screen_id(id_, d)
-
-  如果使用了 *id* 和一个screen语句创建了界面组件(widget)，则将可视组件 *d* 声明为界面组件 *id* 。
+.. _actions:
 
 行为(action)
 =============
@@ -298,73 +197,67 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
 
 .. class:: Action
 
-   要定义一个新的action，需要从这个类继承。 重写此类中的方法以更改action的行为。
+    要定义一个新的action，需要从这个类继承。 重写此类中的方法以更改action的行为。
 
-   .. method:: __call__(self)
+    .. method:: __call__(self)
 
-       当行为激活状态下，这个方法会被调用。在很多情况下，行为会返回一个非None值，并让当前的互动结束。
+        当行为激活状态下，这个方法会被调用。在很多情况下，行为会返回一个非None值，并让当前的互动结束。
 
-       继承后的类必须重写这个方法，使用默认方法会出现“未实现(NotImplemented)”错误(并被Ren'Py阻止直接报出这个错误)。
+        继承后的类必须重写这个方法，使用默认方法会报“未实现(NotImplemented)”错误(并被Ren'Py阻止直接报出这个错误)。
 
-   .. method:: get_sensitive(self)
+    .. method:: get_sensitive(self)
 
-       调用这个方法判断使用这个行为的按钮是否可用。如果按钮可用，则返回True。
+        调用这个方法判断使用这个行为的按钮是否可用。如果按钮可用，则返回True。
 
-       注意，在这个方法返回False的情况下， __call__ 依然会被调用。
+        注意，在这个方法返回False的情况下， __call__ 依然会被调用。
 
-       默认的实现会返回True。
+        默认的实现会返回True。
 
-   .. method:: get_selected(self)
+    .. method:: get_selected(self)
 
-       如果按钮渲染为被选中的按钮就返回True，否则返回False。
+        如果按钮渲染为被选中的按钮就返回True，否则返回False。
 
-       默认的实现会返回False。
+        默认的实现会返回False。
 
-   .. method:: get_tooltip(self)
+    .. method:: get_tooltip(self)
 
-       没有指定提示框(tooltip)的情况下，将为按钮获取一个默认的提示框。返回值是提示框的值，或者提示框未知的情况下返回None。
+        没有指定提示框(tooltip)的情况下，将为按钮获取一个默认的提示框。返回值是提示框的值，或者提示框未知的情况下返回None。
 
-       默认返回None。
+        默认返回None。
 
-   .. method:: periodic(self, st)
+    .. method:: periodic(self, st)
 
-       在每次互动的开头这个方法都会被调用一次，之后周期性调用。如果方法返回一个数值，就会在这个数值(单位为秒)的时间后再次调用，但其间也可以被很快直接调用。
+        在每次互动的开头这个方法都会被调用一次，之后周期性调用。如果方法返回一个数值，就会在这个数值(单位为秒)的时间后再次调用，但其间也可以被很快直接调用。
 
-       这个方法的主要用途是调用
-       :func:`renpy.restart_interaction` ，前提是需要改变get_selected或get_sensitive的值。
+        这个方法的主要用途是调用
+        :func:`renpy.restart_interaction` ，前提是需要改变get_selected或get_sensitive的值。
 
-       方法使用一个入参：
+        方法使用一个入参：
 
-       `st`
-           这个行为关联的界面或可视组件首次显示后经过的时间(单位为秒)。
+        `st`
+            这个行为关联的界面或可视组件首次显示后经过的时间(单位为秒)。
 
-   .. method:: unhovered(self):
+    .. method:: unhovered(self):
 
-       如果某个按钮(或类似对象)处于鼠标悬垂(hovered)状态下，当对象失去焦点时会调用这个方法。
+        如果某个按钮(或类似对象)处于鼠标悬垂(hovered)状态下，当对象失去焦点时会调用这个方法。
 
-想要在Python环境下运行某个行为(action)，需要使用renpy.run。
+想要在Python环境下运行某个行为(action)，需要使用 :func:`renpy.run`。
 
 .. function:: renpy.is_selected(action)
 
-  *action* 表示selected时返回True，否则返回False。
+    *action* 表示selected时返回True，否则返回False。
 
 .. function:: renpy.is_sensitive(action)
 
-  *action* 表示sensitive时返回True，否则返回False。
+    *action* 表示sensitive时返回True，否则返回False。
 
 .. function:: renpy.run(action)
 
-  运行一个行为或者行为列表。单个行为调用时不带入参，行为列表按顺序执行，None则忽略。
+    运行一个行为或者行为列表。单个行为调用时不带入参，行为列表按顺序执行，None则忽略。
 
-  行为列表中第一个行为执行结果作为函数的返回值。
+    行为列表中第一个行为执行结果作为函数的返回值。
 
-.. function:: ui.is_selected(action)
-
-  *action* 表示selected时返回True，否则返回False。
-
-.. function:: ui.is_sensitive(action)
-
-  *action* 表示sensitive时返回True，否则返回False。
+.. _barvalues:
 
 条值(barvalue)
 ===============
@@ -381,7 +274,7 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
         调用这个方法可以获得一个针对条(bar)的adjustment对象。这个方法使用
         :func:`ui.adjustment` 创建Adjustment对象，并返回创建的对象。
 
-        继承后的类必须重写这个方法，使用默认方法会出现“未实现(NotImplemented)”错误(并被Ren'Py阻止直接报出这个错误)。
+        继承后的类必须重写这个方法，使用默认方法会报“未实现(NotImplemented)”错误(并被Ren'Py阻止直接报出这个错误)。
 
     .. method:: get_style(self)
 
@@ -408,6 +301,8 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
        它可以用于在某段时间内更新条(bar)的值，就像
        :func:`AnimatedValue` 一样。为了实现这点，get_adjustment应该存储Adjustment对象，并周期性调用Adjustment的修改方法。
 
+.. _inputvalue:
+
 输入值(inputvalue)
 ====================
 
@@ -420,7 +315,7 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
 
     .. attribute: editable
 
-        If true, this field is editable at all.
+        若为True，该字段始终是可以编辑的。
 
     .. attribute:: default
 
@@ -456,7 +351,7 @@ UI函数是界面语言语句的等效Python语句。每条界面语言语言都
 .. _creator-defined-sl:
 
 创作者定义的界面语言语句
-==========================================
+=========================
 
 Ren'Py支持定义定制化界面语言语句。创作者定义的界面语言语句本质上是变相使用了界面语言中的 :ref:`use语句 <sl-use>` 。固定位置入参不变，特性(property)变成了关键词参数。如果自定义的语句后面有一个语句块(block)，use语句也支持。例如，下面的定制化界面语言语句：
 
@@ -474,7 +369,7 @@ Ren'Py支持定义定制化界面语言语句。创作者定义的界面语言�
     use titledwindow("Test Window", icon="icon.png"):
         text "This is a test."
 
-创作者定义的界面语言语句必须在python early语句块(block)中注册。还有，包含创作者定义的界面语言语句的文件必须在使用这个语句的文件之前加载。由于Ren'Py按照unicode顺序加载文件，通常合理的做法是，在注册创作者自定义语句的文件加上前缀“01”之类一个不大的数字。
+创作者定义的界面语言语句必须在 ``python early`` 语句块(block)中注册。还有，包含创作者定义的界面语言语句的文件必须在使用这个语句的文件之前加载。由于Ren'Py按照unicode顺序加载文件，通常合理的做法是，在注册创作者自定义语句的文件加上前缀“01”之类一个不大的数字。
 
 创作者定义的界面语言语句使用renpy.register_sl_statement函数进行注册：
 

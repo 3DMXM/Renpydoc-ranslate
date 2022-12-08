@@ -112,12 +112,12 @@ ADV模式下，默认的菜单显示方式会占据整个界面。NVL模式下�
 显示和隐藏NVL窗口
 --------------------------------------
 
-使用标准的 ``window show`` 和 ``window hide`` 语句就可以控制NVL模式窗口。需要启用这项功能的话，可以在脚本中使用如下配置：
+使用标准的 ``window show`` 和 ``window hide`` 语句就可以控制NVL模式窗口。
+如果需要在显示和隐藏窗口是选用默认转场，可以在脚本中使用如下配置：
 
 ::
 
     init python:
-        config.empty_window = nvl_show_core
         config.window_hide_transition = dissolve
         config.window_show_transition = dissolve
 
@@ -263,5 +263,4 @@ Paged Rollback
 “The Question”的脚本(NVL模式版本)
 -----------------------------------------
 
-你可以在
-:ref:`这里 <thequestion_nvl>` 查看MVL模式版本的“The Question”。
+你可以在:doc:`这里 <thequestion_nvl>` 查看MVL模式版本的“The Question”。

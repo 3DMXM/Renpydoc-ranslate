@@ -219,10 +219,10 @@ Ren'Py将矩阵变换应用到图像上时，首先将图像锚点设置(0, 0, 0
 
 .. _structural-similarity:
 
-结构上的相似
+结构相似原则
 ^^^^^^^^^^^^^^^^
 
-在ATL中，对 :tpref:`matrixtransform` 特性进行插值，要求使用的TransformMatrixes对象具有相似结构。
+在ATL中，对 :tpref:`matrixtransform` 特性进行插值，要求使用的TransformMatrix对象具有相似结构。
 这表示相同类型的TransformMatrix，使用相同顺序相乘。
 
 下面的样例中，会对图像进行旋转和平移，然后再转回去：

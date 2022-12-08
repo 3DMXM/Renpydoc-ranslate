@@ -101,12 +101,12 @@ Xcode的项目名会自动选用启动器中显示的项目名称。项目可以
 
 大多数定制化都在Xcode项目中实现。例如，图标、启动图片和横竖屏选项等。
 
-.. _launch-storyboard:
+.. _ios-storyboard:
 
 启动故事板
 -------------
 
-当应用程序运行时，会显示启动图片(不是在Ren'Py而是在Xcode项目中配置)，直到Ren'Py准备好显示游戏UI。
+当应用程序运行时，启动故事板(Launch Storyboard)会显示启动图片(不是在Ren'Py而是在Xcode项目中配置)，直到Ren'Py准备好显示游戏UI。
 
 当Ren'Py完成初始化后，它会恢复当前游戏，或者运行splash界面和主菜单。
 

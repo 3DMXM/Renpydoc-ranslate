@@ -135,199 +135,210 @@
          show bg washington
          with annoytheuser
 
+time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多个转场对象，
+详见 :ref:`warpers <warpers>` 。
 
 .. function:: AlphaDissolve(control, delay=0.0, alpha=False, reverse=False)
 
- 返回一个转场(transition)效果，其使用一个控制组件(大多数情况下是某些动画)实现新旧界面的转场。transform表达式会进行计算。当transform完全不透明时新界面被启用，而transform完全透明时依然使用旧界面。
+    返回一个转场(transition)效果，其使用一个控制组件(大多数情况下是某些动画)实现新旧界面的转场。transform表达式会进行计算。当transform完全不透明时新界面被启用，而transform完全透明时依然使用旧界面。
 
- `control`
-   控制transform。
+    `control`
+        控制transform。
 
- `delay`
-   转场效果使用时间。
+    `delay`
+        转场效果使用时间。
 
- `alpha`
-   若该值为真(true)，图像会与其后面的图像混合。若该值为假(false)，图像完全不透明，并会覆盖在后面的图像上。
+    `alpha`
+        若该值为真(true)，图像会与其后面的图像混合。若该值为假(false)，图像完全不透明，并会覆盖在后面的图像上。
 
- `reverse`
-   若该值为真(true)，alpha通道值反转。不透明区域来自旧图像，而透明区域来自新图像。
+    `reverse`
+        若该值为真(true)，alpha通道值反转。不透明区域来自旧图像，而透明区域来自新图像。
+
+    如果溶解转场会将图片缩小至原尺寸的一半以下，可以将 :propref:`mipmap` 样式特性设置为True。
+    生成mipmap会消耗更多GPU资源，但能减少显示瑕疵。
 
 .. function:: ComposeTransition(trans, before, after)
 
- 返回由三种转场合成的一个转场效果。 *before* 和 *after* 转场会分别应用在旧场景和新场景，前提是这两个参数非空。被更新后的旧场景和新场景最后还会应用 *trans* 转场效果。
+    返回由三种转场合成的一个转场效果。 *before* 和 *after* 转场会分别应用在旧场景和新场景，前提是这两个参数非空。被更新后的旧场景和新场景最后还会应用 *trans* 转场效果。
 
- ::
+    ::
 
-     # 旧场景图像从左侧移出，新场景图像从右侧移入，同时使用溶解效果。(这是一个系统消耗比较大的转场。)
-     define moveinoutdissolve = ComposeTransition(dissolve, before=moveoutleft, after=moveinright)
+        # 旧场景图像从左侧移出，新场景图像从右侧移入，同时使用溶解效果。(这是一个系统消耗比较大的转场。)
+        define moveinoutdissolve = ComposeTransition(dissolve, before=moveoutleft, after=moveinright)
 
 .. function:: CropMove(time, mode="slideright", startcrop=(0.0, 0.0, 0.0, 1.0), startpos=(0.0, 0.0), endcrop=(0.0, 0.0, 1.0, 1.0), endpos=(0.0, 0.0), topnew=True)
 
-  返回一个转场效果，其会剪裁一个场景并将其放置在界面中指定位置。其可以模板化处理一堆效果，这些效果的共通点是将界面分割成矩形条(slice)。
+    返回一个转场效果，其会剪裁一个场景并将其放置在界面中指定位置。其可以模板化处理一堆效果，这些效果的共通点是将界面分割成矩形条(slice)。
 
-  `time`
-    转场效果耗时。
+    `time`
+        转场效果耗时。
 
-  `mode`
-    转场模式名。转场模式总共有3大类：wipes、slides、其他。也可以是“custom”，是一个用户自己定义的模式。
+    `mode`
+        转场模式名。转场模式总共有3大类：wipes、slides、其他。也可以是“custom”，是一个用户自己定义的模式。
 
-    在wipe模式下，原图像先保持不变，然后逐渐使用转场效果全部擦除。例如，在“wiperight”模式下，一个刷子会从左到右擦除原图像，即先擦除界面最左边的图像，接着擦除界面中间，最后擦除界面最右边。其他的wipe包括“wipeleft”、“wipedown”和“wipeup”。
+        在wipe模式下，原图像先保持不变，然后逐渐使用转场效果全部擦除。例如，在“wiperight”模式下，一个刷子会从左到右擦除原图像，即先擦除界面最左边的图像，接着擦除界面中间，最后擦除界面最右边。其他的wipe包括“wipeleft”、“wipedown”和“wipeup”。
 
-    在slide模式下，图像会移动。在“slideright”模式下，图像的右边从界面的左边开始，平移至界面右边，完成整个转场过程。其他slide模式包括“slideleft”、“slidedown”和“slideup”。
+        在slide模式下，图像会移动。在“slideright”模式下，图像的右边从界面的左边开始，平移至界面右边，完成整个转场过程。其他slide模式包括“slideleft”、“slidedown”和“slideup”。
 
-    还有slideaway模式，这个模式下原图像在新图像上层，平移出界面。slideaway模式包括“slideawayright”、“slideawayleft”、“slideawayup”和“slideawaydown”。
+        还有slideaway模式，这个模式下原图像在新图像上层，平移出界面。slideaway模式包括“slideawayright”、“slideawayleft”、“slideawayup”和“slideawaydown”。
 
-    我们还支持矩形iris，包括“irisin”和“irisout”。
+        我们还支持矩形iris，包括“irisin”和“irisout”。
 
-  下列参数值在模式为“custom”的情况下才会使用。位置信息与界面尺寸相关，剪裁大小与图像尺寸相关。一个(0.25, 0.0, 0.5, 1.0)的剪裁会使用某个图像的中间一小块。
+    下列参数值在模式为“custom”的情况下才会使用。位置信息与界面尺寸相关，剪裁大小与图像尺寸相关。一个(0.25, 0.0, 0.5, 1.0)的剪裁会使用某个图像的中间一小块。
 
-  `startcrop`
-    顶层图像的剪裁起始矩形。一个4元素的元组，包含x、y、width和height。
+    `startcrop`
+        顶层图像的剪裁起始矩形。一个4元素的元组，包含x、y、width和height。
 
-  `startpos`
-     顶层图像绘制在界面上起始坐标。一个2元素的元组，包含x和y。
+    `startpos`
+        顶层图像绘制在界面上起始坐标。一个2元素的元组，包含x和y。
 
-  `endcrop`
-     顶层图像的剪裁结束矩形。一个4元素的元组，包含x、y、width和height。
+    `endcrop`
+        顶层图像的剪裁结束矩形。一个4元素的元组，包含x、y、width和height。
 
-  `endpos`
-     顶层图像绘制在界面上结束坐标。一个2元素的元组，包含x和y。
+    `endpos`
+        顶层图像绘制在界面上结束坐标。一个2元素的元组，包含x和y。
 
-  `topnew`
-     若该值为真(true)，被剪裁和移动的是新场景。若该值为假(false)，被剪裁和移动的是旧场景。
+    `topnew`
+        若该值为真(true)，被剪裁和移动的是新场景。若该值为假(false)，被剪裁和移动的是旧场景。
 
-  ::
+    ::
 
-      define wiperight = CropMove(1.0, "wiperight")
-      define wipeleft = CropMove(1.0, "wipeleft")
-      define wipeup = CropMove(1.0, "wipeup")
-      define wipedown = CropMove(1.0, "wipedown")
+        define wiperight = CropMove(1.0, "wiperight")
+        define wipeleft = CropMove(1.0, "wipeleft")
+        define wipeup = CropMove(1.0, "wipeup")
+        define wipedown = CropMove(1.0, "wipedown")
 
-      define slideright = CropMove(1.0, "slideright")
-      define slideleft = CropMove(1.0, "slideleft")
-      define slideup = CropMove(1.0, "slideup")
-      define slidedown = CropMove(1.0, "slidedown")
+        define slideright = CropMove(1.0, "slideright")
+        define slideleft = CropMove(1.0, "slideleft")
+        define slideup = CropMove(1.0, "slideup")
+        define slidedown = CropMove(1.0, "slidedown")
 
-      define slideawayright = CropMove(1.0, "slideawayright")
-      define slideawayleft = CropMove(1.0, "slideawayleft")
-      define slideawayup = CropMove(1.0, "slideawayup")
-      define slideawaydown = CropMove(1.0, "slideawaydown")
+        define slideawayright = CropMove(1.0, "slideawayright")
+        define slideawayleft = CropMove(1.0, "slideawayleft")
+        define slideawayup = CropMove(1.0, "slideawayup")
+        define slideawaydown = CropMove(1.0, "slideawaydown")
 
-      define irisout = CropMove(1.0, "irisout")
-      define irisin = CropMove(1.0, "irisin")
+        define irisout = CropMove(1.0, "irisout")
+        define irisin = CropMove(1.0, "irisin")
 
 .. function:: Dissolve(time, alpha=False, time_warp=None)
 
-  返回一个使用溶解效果切换新旧场景的转场效果。
+    返回一个使用溶解效果切换新旧场景的转场效果。
 
-  `time`
-    溶解效果持续时间。
+    `time`
+        溶解效果持续时间。
 
-  `alpha`
-    若该值为真(true)，溶解效果会使用alpha通道。若该值为假(false)，直接替换原界面，这样效率比较高。
+    `alpha`
+        若该值为真(true)，溶解效果会使用alpha通道。若该值为假(false)，直接替换原界面，这样效率比较高。
 
-  `time_warp`
-    一个调整时间线的功能函数。若不为空值(None)，其应该是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
+    `time_warp`
+        一个调整时间线的功能函数。若不为空值(None)，其应该是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
+
+    如果溶解转场会将图片缩小至原尺寸的一半以下，可以将 :propref:`mipmap` 样式特性设置为True。
+    生成mipmap会消耗更多GPU资源，但能减少显示瑕疵。
 
 .. function:: Fade(out_time, hold_time, in_time, color="#000")
 
-  返回一个转场效果，其使用 *out_time* 入参时间(单位为秒)，逐渐将整个界面填充为 *color* 指定的颜色，维持这个界面 *hold_time* 指定的时间(单位为秒)，最后使用 *in_time* 入参时间(单位为秒)逐渐切换为新界面。
+    返回一个转场效果，其使用 *out_time* 入参时间(单位为秒)，逐渐将整个界面填充为 *color* 指定的颜色，维持这个界面 *hold_time* 指定的时间(单位为秒)，最后使用 *in_time* 入参时间(单位为秒)逐渐切换为新界面。
 
-  ::
+    ::
 
-      # 逐渐变黑并还原。
-      define fade = Fade(0.5, 0.0, 0.5)
+        # 逐渐变黑并还原。
+        define fade = Fade(0.5, 0.0, 0.5)
 
-      # 保持全黑界面1秒。
-      define fadehold = Fade(0.5, 1.0, 0.5)
+        # 保持全黑界面1秒。
+        define fadehold = Fade(0.5, 1.0, 0.5)
 
-      # 镜头闪光——快速且为纯白，然后恢复原界面。
-      define flash = Fade(0.1, 0.0, 0.5, color="#fff")
+        # 镜头闪光——快速且为纯白，然后恢复原界面。
+        define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 
-.. function:: ImageDissolve(image, time, ramplen=8, reverse=False, alpha=True, time_warp=None)
+.. function:: ImageDissolve(image, time, ramplen=8, reverse=False, alpha=True, time_warp=None, **properties)
 
-  返回一个转场效果，其使用溶解特效切换新旧界面，并利用某个图像控制溶解过程。这意味着纯白的像素首先被溶解，而纯黑的像素最后溶解。
+    返回一个转场效果，其使用溶解特效切换新旧界面，并利用某个图像控制溶解过程。这意味着纯白的像素首先被溶解，而纯黑的像素最后溶解。
 
-  `image`
-    使用的控制图像。其必须是一个图片文件或者图像控制器。控制图像需要与待溶解场景的尺寸一致。
+    `image`
+        使用的控制图像。其必须是一个图片文件或者图像控制器。控制图像需要与待溶解场景的尺寸一致。
 
-  `time`
-    溶解效果持续时间。
+    `time`
+        溶解效果持续时间。
 
-  `ramplen`
-    色彩蔓延(ramp)步长。其必须是一个2的整次幂。默认值是8，当纯白像素全部溶解之后，下一步溶解的像素是在灰度上比纯白色低8度的颜色。
+    `ramplen`
+        色彩蔓延(ramp)步长。其必须是一个2的整次幂。默认值是8，当纯白像素全部溶解之后，下一步溶解的像素是在灰度上比纯白色低8度的颜色。
 
-  `reverse`
-    若该值为真(true)，黑色像素反而先于白色像素溶解。
+    `reverse`
+        若该值为真(true)，黑色像素反而先于白色像素溶解。
 
-  `alpha`
-    若该值为真(true)，溶解效果会使用alpha通道。若该值为假(false)，直接替换原界面，这样效率比较高。
+    `alpha`
+        若该值为真(true)，溶解效果会使用alpha通道。若该值为假(false)，直接替换原界面，这样效率比较高。
 
-  `time_warp`
-    一个调整时间线的功能函数。若不为空值(None)，其应该是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
+    `time_warp`
+        一个调整时间线的功能函数。若不为空值(None)，其应该是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
 
-  ::
+    ::
 
-      define circirisout = ImageDissolve("circiris.png", 1.0)
-      define circirisin = ImageDissolve("circiris.png", 1.0, reverse=True)
-      define circiristbigramp = ImageDissolve("circiris.png", 1.0, ramplen=256)
+        define circirisout = ImageDissolve("circiris.png", 1.0)
+        define circirisin = ImageDissolve("circiris.png", 1.0, reverse=True)
+        define circiristbigramp = ImageDissolve("circiris.png", 1.0, ramplen=256)
+
+    如果溶解转场会将图片缩小至原尺寸的一半以下，可以将 :propref:`mipmap` 样式特性设置为True。
+    生成mipmap会消耗更多GPU资源，但能减少显示瑕疵。
 
 .. function:: MoveTransition(delay, enter=None, leave=None, old=False, layers=['master'], time_warp=None, enter_time_warp=None, leave_time_warp=None)
 
-  返回一个转场效果，其插入了新旧场景中(使用相同的图像标签tag)图像的坐标。
+    返回一个转场效果，其插入了新旧场景中(使用相同的图像标签tag)图像的坐标。
 
-  `delay`
-    插入效果耗时。
+    `delay`
+        插入效果耗时。
 
-  `enter`
-    若该值非空，图像所进入的场景会一同移动。 *enter* 的值应是一个应用在图像行的变换(transform)，该变换可以获取其起始坐标。
+    `enter`
+        若该值非空，图像所进入的场景会一同移动。 *enter* 的值应是一个应用在图像行的变换(transform)，该变换可以获取其起始坐标。
 
-  `leave`
-    若该值非空，图像所离开的场景会一同移动。 *leave* 的值应是一个应用在图像行的变换(transform)，该变换可以获取其结束坐标。
+    `leave`
+        若该值非空，图像所离开的场景会一同移动。 *leave* 的值应是一个应用在图像行的变换(transform)，该变换可以获取其结束坐标。
 
-  `old`
-    若该值为真(true)，旧图像会被使用而不是新图像。
+    `old`
+        若该值为真(true)，旧图像会被使用而不是新图像。
 
-  `layers`
-    移动的图层(layer)列表。
+    `layers`
+        移动的图层(layer)列表。
 
-  `time_warp`
-    应用于插入效果的时间warp函数。其是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
+    `time_warp`
+        应用于插入效果的时间warp函数。其是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
 
-  `enter_time_warp`
-    应用于图像进入场景的时间warp函数。
+    `enter_time_warp`
+        应用于图像进入场景的时间warp函数。
 
-  `leave_time_warp`
-    应用于图像离开场景的时间warp函数。
+    `leave_time_warp`
+        应用于图像离开场景的时间warp函数。
 
 .. function:: MultipleTransition(args)
 
-  返回一个转场效果，其是多个转场效果顺序显示之后的集。
+    返回一个转场效果，其是多个转场效果顺序显示之后的集。
 
-  `args`
-    一个包含奇数个物件的列表。列表中奇数序号的物件必须是场景，偶数序号的物件必须是转场效果。这里说的场景可以是如下类别之一：
+    `args`
+        一个包含奇数个物件的列表。列表中奇数序号的物件必须是场景，偶数序号的物件必须是转场效果。这里说的场景可以是如下类别之一：
 
-    - 可视组件。
-    - false值，表示使用旧场景。
-    - true值，表示使用新场景。
+        - 可视组件。
+        - False值，表示使用旧场景。
+        - True值，表示使用新场景。
 
-    大多数情况下，第一个入参会是false而最后一个是true。
+    大多数情况下，第一个入参会是False而最后一个是True。
 
-  *args* 中的转场按顺序执行。对每一个转场效果而言，其前面的参数就是旧场景，其后面的参数就是新场景。举例：
+    `args` 中的转场按顺序执行。对每一个转场效果而言，其前面的参数就是旧场景，其后面的参数就是新场景。举例：
 
-  ::
+    ::
 
-     define logodissolve = MultipleTransition([
-          False, Dissolve(0.5),
-          "logo.jpg", Pause(1.0),
-          "logo.jpg", dissolve,
-          True])
+        define logodissolve = MultipleTransition([
+            False, Dissolve(0.5),
+            "logo.jpg", Pause(1.0),
+            "logo.jpg", dissolve,
+            True])
 
-  这个例子中，首先会使用溶解效果切换到logo.jpg文件，等待1秒钟后，再使用溶解效果切换至新场景。
+    这个例子中，首先会使用溶解效果切换到logo.jpg文件，等待1秒钟后，再使用溶解效果切换至新场景。
 
 .. function:: Pause(delay)
 
-  返回一个转场效果，其会在 *delay* 秒后显示新的场景。这个转场效果可以用作MultipleTransition的一部分。
+    返回一个转场效果，其会在 *delay* 秒后显示新的场景。这个转场效果可以用作MultipleTransition的一部分。
 
 .. function:: Pixellate(time, steps)
 
@@ -420,11 +431,15 @@
 
 当用到dict时，不会发生转场时通常发生的暂停。相反的是，dict语句立即返回字典，并且转场在下一次交互时开始执行。
 
-这可以与main图层一起使用，以便在界面(screen)上显示对话时发生转场。举个例子，如果我们写成::
+这可以与main图层一起使用，以便在界面(screen)上显示对话时发生转场。举个例子，如果我们写成：
+
+::
 
     define dis = { "master" : Dissolve(1.0) }
 
-和::
+和：
+
+::
 
     show eileen happy
     with dis
@@ -445,3 +460,11 @@
     define config.window_hide_transition = { "screens" : Dissolve(.25) }
 
 因为对话窗口整个都在界面(screen)层上所以可以修复这个问题。
+
+.. _see-also:
+
+其他参考
+========
+
+:ref:`atl-transitions`、:ref:`使用Python的转场 <transitions-python>` ：
+两部分分别阐述了如何使用ATL系统和Python创建转场。
