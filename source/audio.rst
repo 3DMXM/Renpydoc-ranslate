@@ -366,6 +366,20 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件，并�
 
     该函数会清空对应通道上所有的pause标记。
 
+.. function:: renpy.music.pump()
+
+    “pump”是指对音频系统的操作。
+    通常来说，使用 ``play``、``queue`` 和 ``stop`` 语句及等效函数后，会在下次互动时才正式生效。
+    在某些情况下，多个语句之间会互相取消。例如，play语句后面跟随一个stop从句，会使得音频无法播放。
+
+    如果在play和stop语句之间调用该函数，音频会该函数返回结果前播放音频，并随后淡出。
+
+    ::
+
+        play music "mytrack.opus"
+        $ renpy.music.pump()
+        stop music fadeout 4
+
 .. function:: renpy.music.queue(filenames, channel='music', loop=None, clear_queue=True, fadein=0, tight=None)
 
     该函数将文件名为filenames的文件加入指定通道channel的播放队列。

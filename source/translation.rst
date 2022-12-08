@@ -404,11 +404,15 @@ Ren'Py会运行所有与当前激活语言相关的 ``translate python`` 语句�
         textbutton "English" action Language(None)
         textbutton "Igpay Atinlay" action Language("piglatin")
 
-总共有两个与多语言支持相关的函数：
+总共有三个与多语言支持相关的函数：
 
 .. function:: renpy.change_language(language)
 
     一个字符串，表示切换的目标语言命，若为None表示游戏脚本默认语言。
+
+.. function:: renpy.get_translation_identifier()
+
+    返回当前语句的翻译文件标识符。
 
 .. function:: renpy.known_languages()
 

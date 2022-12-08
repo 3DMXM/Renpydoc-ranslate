@@ -13,7 +13,8 @@ mkdir -p source/inc
 find ../renpy -name \*.pyo -delete
 
 # Run a Ren'Py game that generates documentation.
-../renpy.sh .
+#../renpy.sh .
+python ../renpy.py . || ../renpy.sh .
 
 # Clear out generated images.
 rm -Rf ../doc-web/_images || true

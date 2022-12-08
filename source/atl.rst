@@ -999,6 +999,14 @@ transform存在以下特性(property)：
     使用 `blur` 像素数模糊图像的子组件， `blur` 数值不超过可视组件的边长。
     Ren'Py不同版本的模糊细节可能存在差异。模糊的结果可能存在瑕疵，尤其是模糊数值不断发生修改的情况下。
 
+.. transform-property:: show_cancels_hide
+
+    :type: boolean
+    :default: True
+
+    通常，某个同名或带同名标签(tag)的可视组件或界面，从隐藏状态转为显示状态时，将移除组件或界面的隐藏属性，变换中hide部分的效果将取消。
+    如果该特性为False，则不会中断和取消hide变换，而是会将hide变换的效果处理完。
+
 此外，其他几组变换特性可以在文档其他地方找到：
 
 3D舞台特性：
@@ -1030,6 +1038,7 @@ uniforms：
 #. matrixcolor
 #. GL Properties, Uniforms
 #. position properties
+#. show_cancels_hide
 
 .. _deprecated-transform-properties:
 

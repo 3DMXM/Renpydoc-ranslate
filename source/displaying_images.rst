@@ -450,6 +450,14 @@ hide和show窗口
 
     根据给定的tag和attributes检查是否存在唯一图像。若存在，按顺序返回图像属性(attribute)。否则返回None。
 
+.. function:: renpy.clear_attributes(tag, layer=None)
+
+    清楚带有 `tag` 标签的图像属性(attribute)。
+    如果tag不带任何图像属性，则无事发生。
+
+    `layer`
+        待检查的图层。若为None，则使用 `tag` 对应的默认图层。
+
 .. function:: renpy.copy_images(old, new)
 
     复制图像，并更换新图像的前缀名。样例：

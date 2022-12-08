@@ -676,13 +676,26 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
         config.say_arguments_callback = say_arguments_callback
 
+.. var:: config.scene_callbacks = [ ]
+
+    一个回调函数列表。当运行scene语句或调用 :func:`renpy.scene` 函数时，将调用该配置项的函数列表。
+    调用时使用一个入参，即调用scene语句作用的图层名称。
+    当对应图层清空后，在scene语句中指定的图像添加前，设置的函数列表将被调用。
+
+    Ren'Py may call renpy.scene for its own purposes, so it's recommended
+    to check the layer name before acting on these callbacks.
+
 .. var:: config.screen_height = 600
 
-    界面高度。通常使用 :func:`gui.init` 进行设置。
+    游戏窗口的虚拟高度，单位为像素。
+    如果没有设置 :var:`config.physical_height` 的值，默认与游戏窗口尺寸相同。
+    通常会该项设置为比 :func:`gui.init` 更大的数值。
 
 .. var:: config.screen_width = 800
 
-    界面宽度。通常使用 :func:`gui.init` 进行设置。
+    游戏窗口的虚拟宽度，单位为像素。
+    如果没有设置 :var:`config.physical_height` 的值，默认与游戏窗口尺寸相同。
+    通常会该项设置为比 :func:`gui.init` 更大的数值。
 
 .. var:: define config.single_movie_channel = None
 
@@ -964,9 +977,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
     这个配置项是一个字典，包含了键盘按键和鼠标按键跟每个操作之间的映射关系。详见Keyman章节内容。
 
-.. var:: config.label_callback = None
+.. var:: config.label_callbacks = []
 
-    若非None，这是到达某个脚本标签(label)后会调用的函数。调用时使用两个参数。第一个参数是脚本标签(label)名。第二个参数在通过jump、call或创建新上下文(context)的情况下为True，其他情况下为False。
+    这是到达某个脚本标签(label)后会调用的函数列表。调用时使用两个参数。第一个参数是脚本标签(label)名。第二个参数在通过jump、call或创建新上下文(context)的情况下为True，其他情况下为False。
 
 .. var:: config.label_overrides = { }
 

@@ -4,6 +4,137 @@
 变更日志(Ren'Py 7.x-)
 =====================
 
+*其他内容记录在* :doc:`不兼容的变更 <incompatible>`
+
+.. _renpy-8.1.0:
+.. _renpy-7.6.0:
+
+8.1 / 7.6
+=========
+
+.. _7.6-mixer-volume-changes:
+
+混音器音量变更项
+--------------------
+
+Ren'Py更改了混音器音量的计算方式。原本，混音器音量存储为一个0.0到1.0之间的数值。
+该数值会乘以采样率得到应用到扬声器或耳机上的电压值，最后计算平方决定实际音量。
+
+现在混音器以分贝(音量)计算，类似于音频设备和电脑计算音量的方式。
+混音器滑块在最小值位置时表示最大音量的-60dB，在最大值位置时表示0dB即最大音量。
+
+几个控制默认混音器音量的配置项，比如 :var:`config.default_music_volume`、:var:`config.default_sfx_volume`
+和 :var:`config.default_voice_volume`，都已经改为0.0表示-60dB而1.0表示0dB模式。
+:func:`SetCharacterVolume`、:func:`preferences.set_mixer` 和 :func:`preferences.get_mixer` 函数的计算方式也一样。
+
+这项更改的优点是可以让音量滑块更灵活。
+以前只有在音量滑块接近底部时才会有明显效果。
+现在音量的调整会更符合人的感官直觉。
+
+.. _7.6-draggable-viewports:
+
+可拖拽的视口
+-------------------
+
+视口(viewport)可以被用户拖拽，在视口内的按钮或其他可视组件获得焦点时依然可以进行拖拽操作。
+Ren'Py会检测用户是否进行拖拽操作，并把焦点切换到视口组件，然后移动视口。
+
+:ref:`视口 <sl-viewport>` 和 :ref:`vpgrids <sl-vpgrid>` 的 `draggable` 特性可以设置为新增的 :ref:`界面变种 <screen-variants>` “touch”，
+这样仅在启用触控的设备上才能拖拽视口。
+
+.. _7.6-renpy-in-python:
+
+\_ren.py文件 - Python中的Ren'Py
+---------------------------------
+
+:doc:`\_ren.py 文件格式 <ren_py>` 可以在Ren'Py脚本中嵌入Python文件。
+例如：
+
+::
+
+    """renpy
+    init python:
+    """"
+
+    flag = True
+
+is equivalent to::
+
+    init python:
+
+        flag = True
+
+这项新格式的设计意图是，允许以原生Python为主的脚本文件可以在专门编辑Python代码的工具中更方便。
+
+.. _7.6-constant-stores:
+
+常量存储区
+---------------
+
+Ren'Py中可以通过设置 ``_constant`` 将某个 :ref:`命名存储区 <named-stores>` 标记为常量存储区。
+如果 ``_constant`` 的值为True，则常量存储区中的对象不参与存档，只能通过存储区访问，并且不参与回滚操作。
+
+设置常量存储区的考量是，剥离部分不需要回滚的存储区和变量，以降低性能开销。
+
+下列存储区默认是常量存储区：
+
+    _errorhandling
+    _gamepad
+    _renpysteam
+    _warper
+    audio
+    achievement
+    build
+    director
+    iap
+    layeredimage
+    updater
+
+常量存储区中的变量只能初始化阶段更新，之后就不允许修改。
+
+.. _7.6-new-features:
+
+新功能特性
+------------
+
+通常，某个同名或带同名标签(tag)的可视组件或界面，从隐藏状态转为显示状态时，将移除组件或界面的隐藏属性，
+变换中hide部分的效果将取消。新的 :propref:`show_cancels_hide` 变换特性可以控制这种情况的效果。
+
+控制台(快捷键Shift+O)的 ``help`` 命令可以加表达式。表达式会显示匹配到的函数或类的说明。
+
+新增 :func:`renpy.get_translation_identifier` 函数，返回对话当前行的唯一标识符。
+
+新增 :var:`config.scene_callbacks` 配置项，可以设置为一个回调函数列表。
+当运行scene语句或调用 :func:`renpy.scene` 函数时，将调用该配置项的函数列表。
+
+文本标签 ``size`` 可以使用乘号“*”，用法如下：
+
+::
+
+    "{size=*2}两倍大{/size} {size=*0.5}一半大{/size}"
+
+可视组件 :ref:`dismiss <sl-dismiss>` 可以使用 `keysym` 特性，指定dismiss的keysym。
+
+新增配置项 :var:`config.autosave_callback`，在后台自动存档时运行对应的回调函数。
+
+新增 :func:`renpy.music.pump` 函数，调用后可以让音频播放更改立即生效，而不需要等待下一次互动。
+主要用户播放某个音效，然后淡出。
+(默认情况下，``play`` 语句后面跟的 ``stop`` 从句会将音频停止但没有淡出。)
+
+新增 :func:`renpy.clear_attributes` 函数，可以移动某个图像的所有标签(tag)。
+以前要实现效果的方式是隐藏并在此显示图像，同时会导致图像在界面中的位置也被重置。
+使用该函数则没有这个问题。
+
+.. _7.6-other-changes:
+
+其他变更项
+-------------
+
+:func:`renpy.register_statement` 函数中的 `execute_init` 参数会受 `init_priority` 参数的影响。
+之前的版本中，所有 `execute_init` 中指定的函数始终在优先级0级别运行。
+
+config.label_callback 配置项改名为 :var`config.label_callbacks`，并且可以设置为一个回调函数列表。
+
 .. _renpy-7.5.3:
 .. _renpy-8.0.3:
 
