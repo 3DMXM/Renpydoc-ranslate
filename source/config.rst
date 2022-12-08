@@ -199,7 +199,10 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 .. var:: config.always_shown_screens = [ ]
 
     Ren'Py中始终强制显示的界面列表。该列表中的界面在UI隐藏时或打开菜单时，依然会显示。
-    该项通常由Ren'Py内部使用。对创作者来说，:var:`config.overlay_screens` 更合适。
+    列表中的某个界面就算尝试隐藏或不显示，依然会被强制显示。
+    一般只被Ren'Py内部使用，也可以根据需求修改该列表。
+
+    通常直接设置 :var:`config.overlay_screens` 更合适。
 
 .. var:: define config.audio_filename_callback = None
 
@@ -216,7 +219,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.auto_channels = { "audio" : ( "sfx", "", ""  ) }
 
-    该项是用于定义自动音频通道。它将通道名映射为一个3元的元组：
+    该项用于定义自动音频通道。它将通道名映射为一个3元的元组：
 
     * 混合器使用的通道名。
     * 通道上播放文件的前缀。
@@ -520,10 +523,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.mode_callbacks = [ ... ]
 
-    进入某个模式(mode)时调用的回调函数列表。详见 :ref:`模式(mode) <modes>` 章节的内容。
+    进入某个模式(mode)时调用的回调函数列表。详见 :doc:`modes` 章节的内容。
 
-    默认值是定义在 :var:`config.adv_nvl_transition`
-    and :var:`config.nvl_adv_transition`.
+    其默认值由 :var:`config.adv_nvl_transition` 和 :var:`config.nvl_adv_transition` 共同构成。
 
 .. var:: config.mouse = None
 
@@ -554,7 +556,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.narrator_menu = True
 
-    (默认情况下screen.ryp文件会将该项设置为True。)若为True，菜单内的叙述会使用旁白(narrator)角色。否则，叙述会显示为菜单内的文字说明。
+    若为True，菜单内的叙述会使用旁白(narrator)角色。否则，叙述会显示为菜单标题。
 
 .. var:: config.nearest_neighbor = False
 
@@ -567,7 +569,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
     该配置还可以让创作者拦截通知。
     
 
-.. var:: config.optimize_texture_bounds = False
+.. var:: config.optimize_texture_bounds = True
 
     当该项为True，Ren'Py会扫描图像并找到所有不透明像素的绑定框(box)，并加载这些像素转为一张纹理(texture)。
 
@@ -583,6 +585,16 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
     若为False，即默认值，回滚将跳过所有暂停，只在某些对话和菜单选项才会停止。
     若为True，Ren'Py在回滚时，所有用户可能遇到的没有设置时间的暂停都会停止。
+
+.. var:: config.physical_height = None
+
+    若设置后，该项表示Ren'Py游戏窗口的默认高度，单位为像素。
+    若没有设置，窗口的默认高度为 :var:`config.screen_height`。
+
+.. var:: config.physical_width = None
+
+    若设置后，该项表示Ren'Py游戏窗口的默认宽度，单位为像素。
+    若没有设置，窗口的默认宽度为 :var:`config.screen_width`。
 
 .. var:: config.preload_fonts = [ ]
 
@@ -682,8 +694,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
     调用时使用一个入参，即调用scene语句作用的图层名称。
     当对应图层清空后，在scene语句中指定的图像添加前，设置的函数列表将被调用。
 
-    Ren'Py may call renpy.scene for its own purposes, so it's recommended
-    to check the layer name before acting on these callbacks.
+    Ren'Py处于自身的原因可能也会调用 renpy.scene。所以建议在运行这些回调函数前检查图层名。
 
 .. var:: config.screen_height = 600
 
@@ -712,7 +723,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.tag_layer = { }
 
-    一个字典，将图像标签(tag)字符串映射为图层(layer)名称字符串。当某个图像显示时没有指定图层，就可以根据图像标签在这个字典中找对应的图层。如果图像标签没有在字典中找到，就是用 :var:`config.default_tag_name` 配置的值。
+    一个字典，将图像标签(tag)字符串映射为图层(layer)名称字符串。当某个图像显示时没有指定图层，就可以根据图像标签在这个字典中找对应的图层。如果图像标签没有在字典中找到，就使用 :var:`config.default_tag_name` 配置的值。
 
 .. var:: config.tag_transform = { }
 
@@ -720,7 +731,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.tag_zorder = { }
 
-    一个字典，将图像标签(tag)字符串映射为zorder值。当某个不带zorder分句的新鲜事图像出现时，就会根据图像标签在这个字典中找对应的zorder值并应用。如果没有找到zorder值，就是用0。
+    一个字典，将图像标签(tag)字符串映射为zorder值。当某个不带zorder分句的新鲜事图像出现时，就会根据图像标签在这个字典中找对应的zorder值并应用。如果没有找到zorder值，就使用0。
 
 .. var:: config.thumbnail_height = 75
 
@@ -751,7 +762,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
     
     在Safari上使用更快的Web音频系统也类似。
 
-.. var:: config.window_auto_hide = [ 'scene', 'call screen', 'menu', "say-centered" ]
+.. var:: config.window_auto_hide = [ "scene", "call screen", "menu", "say-centered", "say-bubble" ]
 
     一个语句名称列表，列表内的语句会让 ``window auto`` 隐藏空的对话窗口。
 
@@ -814,6 +825,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 .. var:: config.all_character_callbacks = [ ]
 
     可以通过所有角色调用的回调函数列表。这个列表会前向添加到指定角色回调函数列表。
+    Ren'Py会把自身用到的回调函数添加到该列表中。
 
 .. var:: config.allow_skipping = True
 
@@ -975,7 +987,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.keymap = dict(...)
 
-    这个配置项是一个字典，包含了键盘按键和鼠标按键跟每个操作之间的映射关系。详见Keyman章节内容。
+    这个配置项是一个字典，包含了键盘按键和鼠标按键跟每个操作之间的映射关系。详见 :doc:`定制按键映射 <keymap>` 章节内容。
 
 .. var:: config.label_callbacks = []
 
@@ -993,7 +1005,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.layeredimage_offer_screen = True
 
-    该项设置层叠式图像 ``offer_screen`` 特性的默认值。详见 :ref:`the related section <layeredimage-statement>` 。
+    该项设置层叠式图像 ``offer_screen`` 特性的默认值。详见 :ref:`相关章节 <layeredimage-statement>` 。
 
 .. var:: config.layers = [ 'master', 'transient', 'screens', 'overlay' ]
 
@@ -1032,7 +1044,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.log = None
 
-    若非None，该项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :ref:`menu <menu-statement>` 语句展示给用户的文本都会记录在这个文件中。
+    若非None，该项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :doc:`menu <menus>` 语句展示给用户的文本都会记录在这个文件中。
 
 .. var:: config.main_menu_stop_channels = [ "movie", "sound", "voice" ]
 
@@ -1082,9 +1094,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
     若为True，Ren'Py会将应用新形式(圆括号)替换(substitution)所有显示的文本上。
 
-.. var:: config.old_substitutions = False
+.. var:: config.old_substitutions = True
 
-    若为True，Ren'Py会将应用旧形式(百分号)替换(substitution) :ref:`say <say-statement>` 和 :ref:`menu <menu-statement>` 语句中显示的文本。
+    若为True，Ren'Py会将应用旧形式(百分号)替换(substitution) :ref:`say <say-statement>` 和 :doc:`menu <menus>` 语句中显示的文本。
 
 .. var:: config.open_file_encoding = False
 
@@ -1159,7 +1171,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.say_menu_text_filter = None
 
-    若非None，这是一个函数，返回 :ref:`say <say-statement>` 和 :ref:`menu <menu-statement>` 语句中的指定文本。这个函数用于返回新的(或者相同的)字符串替换原来的字符串。
+    若非None，这是一个函数，返回 :ref:`say <say-statement>` 和 :doc:`menu <menus>` 语句中的指定文本。这个函数用于返回新的(或者相同的)字符串替换原来的字符串。
 
 .. var:: config.say_sustain_callbacks = ...
 
@@ -1290,8 +1302,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.with_callback = None
 
-    若非None，该项应该是一个函数，会在使用 :ref:`with
-    语句 <with-statement>` 时被调用。这个函数可以在转场(transition)过程中对添加在界面上的临时元素做出响应。转场(transition)过程中，调用该函数时使用一个入参。该函数会返回一个转场(transition)，可能就是作为入参的那个转场，也可能不是。
+    若非None，该项应该是一个函数，会在使用 :ref:`with语句 <with-statement>` 时被调用。
+    这个函数可以在转场(transition)过程中对添加在界面上的临时元素做出响应。
+    转场(transition)过程中，调用该函数时使用两个入参：当前正使用的转场，以及后续要使用的转场。
+    第二个入参通常为None，除了在with语句中显式声明。
+    该函数会返回一个转场(transition)，可能就是作为入参的那个转场，也可能不是。
 
 .. _garbage-collection:
 
