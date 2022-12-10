@@ -389,7 +389,7 @@ It should be noted that:
 
         "Line 1{w} Line 1{w=1.0} Line 1"
 
-也可以使用Python定义出 :doc:`定制文本标签 <custom-text-tags>` 。
+也可以使用Python定义出 :doc:`定制文本标签 <custom_text_tags>` 。
 
 .. _style-text-tags:
 
@@ -766,7 +766,7 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
         若非None，并且启用了慢速文本模式(参见 `slow` 参数)，该参数应该是一个无参数的函数或可调用对象。
         当文本完成显示后调用参数对应的函数或可调用对象。
 
-    **properties
+    `**properties`
         与其他可视组件类似，文本组件可以使用样式特性，包括 :propref:`mipmap` 。
 
 .. _text-utility-functions:

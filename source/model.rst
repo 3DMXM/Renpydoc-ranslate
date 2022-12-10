@@ -280,6 +280,8 @@ uniform和attribute变量
 ``vec2 u_model_size``
     模型的宽度和高度。
 
+.. _u-lod-bias:
+
 ``float u_lod_bias``
     纹理查找时细节等级(lod)的bias偏移。可以在一个变换对象中设置。
     :var:`config.gl` 配置项是其默认值，通常设置为-0.5。这样设置会让Ren'Py使用更高的采样级别，然后缩小。

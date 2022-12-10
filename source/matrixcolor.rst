@@ -128,7 +128,7 @@ ColorMatrix类可以被子类继承，需要重写 ``__call__`` 方法。
                             0, 0, b, 0,
                             0, 0, 0, a ])
 
-.. _structural-similarity:
+.. _mc-structural-similarity:
 
 结构相似原则
 ^^^^^^^^^^^^^

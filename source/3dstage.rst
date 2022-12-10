@@ -217,7 +217,7 @@ Ren'Py将矩阵变换应用到图像上时，首先将图像锚点设置(0, 0, 0
 
 图像将向上平移300像素，然后沿X轴旋转45度。
 
-.. _structural-similarity:
+.. _3dstage-structural-similarity:
 
 结构相似原则
 ^^^^^^^^^^^^^^^^

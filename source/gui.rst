@@ -6,7 +6,7 @@ GUI(图形用户接口)定制化指导
 
 Ren'Py的一个特色是，看起来挺萌的GUI系统。有需要的话还可以根据喜好完全替换成定制的GUI。本页内容阐述了如何制作出简单和中级的定制化GUI。
 
-如果需要做更深度的定制化，请参阅 :doc:`样式 <styles>` (包括 :doc:`样式特性 <style-properties>`)
+如果需要做更深度的定制化，请参阅 :doc:`样式 <style>` (包括 :doc:`样式特性 <style_properties>`)
 和 :doc:`界面 <screens>` (包括 :doc:`界面行为 <screen_actions>`
 和 :doc:`特殊界面 <screen_special>` )。
 
@@ -1255,7 +1255,7 @@ GUI整体替换
 
 高级创作者可能会部分甚至全部替换screen.rpy文件的内容。这样做的话，gui.rpy的部分或全部内容都会失效。调用 :func:`gui.init` 重置样式(style)可能是个好主意 - ——之后，创作者可能就可以为所欲为了。通常需要保证，在部分或所有的 :doc:`特殊界面 <screen_special>` 中，用户能使用Ren'Py本身提供的各种基础功能。
 
-.. _see-also:
+.. _gui-see-also:
 
 更多
 ========

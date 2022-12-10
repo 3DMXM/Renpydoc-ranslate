@@ -266,7 +266,7 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件，并�
 
 某些文件名无法使用这种方式，因为这些文件名不符合Python变量命名规范。例如，“my song.mp3”、“8track.opus”和“this-is-a-song.ogg”就有这种情况。
 
-.. _actions:
+.. _a-actions:
 
 行为函数
 --------

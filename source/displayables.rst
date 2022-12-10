@@ -427,7 +427,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
     `text`
          若指定了该项，显示占位符时会使用此项文本。若没有指定，则会使用对应占位符自带的文本。
 
-.. _displayable-prefix:
+.. _displayable-prefixes:
 
 可视组件前缀
 --------------------
@@ -455,7 +455,7 @@ At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms
 
 或者其他需要显示可视组件的地方。
 
-.. _see-also:
+.. _displayable-see-also:
 
 其他参考
 --------

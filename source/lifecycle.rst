@@ -41,7 +41,7 @@ including the :ref:`init-python-statement`, the :ref:`define-statement`, the
 from -999 to 999. Contrary to what the term may imply, epochs of lower priority are executed before
 epochs of higher priority.
 
-.. image define default transform (init) screen (testcase) (translation) style
+image define default transform (init) screen (testcase) (translation) style
 By default, these statements are executed at init offset 0. However, they can be offset using
 the :ref:`init-offset-statement` or by other means. The :ref:`image-statement` is an exception to
 both of these rules, as it executes at an init priority of 500 by default, and the init offset

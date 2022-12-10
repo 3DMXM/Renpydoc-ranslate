@@ -285,7 +285,7 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
 
         将一个新的图像添加至当前按钮。该图像由一个或多个可视组件构成。
         
-        前缀 show_ 会被剔除，然后作为额外关键词参数传入gallery.image_screen界面。
+        前缀 `show_` 会被剔除，然后作为额外关键词参数传入gallery.image_screen界面。
 
     .. method:: make_button(name, unlocked, locked=None, hover_border=None, idle_border=None, **properties)
 

@@ -461,7 +461,7 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
 
 因为对话窗口整个都在界面(screen)层上所以可以修复这个问题。
 
-.. _see-also:
+.. _transition-see-also:
 
 其他参考
 ========

@@ -141,7 +141,7 @@ config.label_callback 配置项改名为 :var`config.label_callbacks`，并且�
 8.0.3 / 7.5.3
 =============
 
-.. _7.5.3-changes-and-fixes:
+.. _7.5.3-security:
 
 安全
 -----
@@ -428,7 +428,7 @@ Web版导入存档文件后，Ren'Py将立刻刷新存档文件列表，而不�
 
 ARM版本的Chromebook上可以运行Ren'Py SDK。
 
-.. _7.5-android-and-ios
+.. _7.5-android-and-ios:
 
 安卓和iOS
 ---------------

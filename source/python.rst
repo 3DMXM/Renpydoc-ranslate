@@ -194,7 +194,7 @@ default语句可以选择使用一个命名存储区(详见下面的例子)，�
 
 与 ``define`` 语句相同，:ref:`lint` 会对 ``default`` 语句进行检查和优化。
 
-.. _init-offset-statement:
+.. _python-init-offset-statement:
 
 init offset语句
 ---------------------

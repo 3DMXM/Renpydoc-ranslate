@@ -210,7 +210,7 @@ emscripten模块仅在Web浏览器端才会被使用。
 
 * 将下载的 ``bytecode-311.rpyb`` 文件放在 ``game/cache`` 目录中，然后重新构建游戏。
 
-.. _hamberger-menu
+.. _hamberger-menu:
 
 汉堡包菜单
 --------------

@@ -1907,7 +1907,7 @@ Ren'Py通过顺序搜索 :var:`config.variants` 中的variant项来选择使用�
 
         text "Hello, World." size 30
 
-.. _see-also:
+.. _screen-see-also:
 
 其他参考
 ========

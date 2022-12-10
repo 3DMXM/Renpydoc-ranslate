@@ -240,7 +240,7 @@ Ren'Py会在images目录下搜索图像文件，可以通过启动器(launcher)�
 
 image语句于初始化阶段就会运行，早于label标签开始以及其他的游戏脚本与玩家交互。
 
-image语句也用于比较复杂的任务，但我们会在 :doc:`其他地方 <displaying_images>`_ 讨论这部分。
+image语句也用于比较复杂的任务，但我们会在 :doc:`其他地方 <displaying_images>` 讨论这部分。
 
 .. _quickstart-transitions:
 

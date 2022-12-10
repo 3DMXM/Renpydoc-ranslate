@@ -355,7 +355,7 @@ with分句等效于在原有语句前面先加了一行 ``with None`` 语句，�
     show lucy mad at right
     with dissolve
 
-.. _camera:
+.. _camera-and-show-layer-statements:
 
 camera和show layer语句
 ================================
@@ -564,7 +564,7 @@ hide和show窗口
 
     该函数接受一个或多个可视组件作为入参。该函数触发Ren'Py停止在每次互动行为中预加载入参中的可视组件。
 
-.. _see-also:
+.. _di-see-also:
 
 其他参考
 ========

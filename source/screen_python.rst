@@ -182,7 +182,7 @@
     `mouse`
         这个函数中鼠标指针使用的样式。
 
-.. _actions:
+.. _sp-actions:
 
 行为(action)
 =============
