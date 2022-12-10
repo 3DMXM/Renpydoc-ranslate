@@ -898,7 +898,7 @@ As always, it's necessary to create a new iOS project each time Ren'Py is
 updated.
 如之前一样，Ren'Py更新之后每次需要重新创建iOS项目。
 
-文档中添加 :ref:`Pyobjus <Pyobjus>` 。Pyobjus库允许游戏在iOS和macOS平台调用系统API。
+文档中添加 :ref:`Pyobjus <pyobjus>` 。Pyobjus库允许游戏在iOS和macOS平台调用系统API。
 
 .. _7-4-9-updater:
 
