@@ -128,15 +128,15 @@
     `volume`
         介于0.0到1.0之间的数值。
 
-.. function:: preferences.get_mixer(mixer):
+.. function:: preferences.get_mixer(mixer)
 
     获取混音器 `mixer` 的音量。如果该混音器被静音了，则返回0.0。
 
-.. function:: preferences.set_mute(mixer, mute):
+.. function:: preferences.set_mute(mixer, mute)
 
     设置混音器 `mixer` 静音状态。如果 `mute` 的值是True，则将混音器 `mixer` 静音。
 
-.. function:: preferences.get_mute(mute):
+.. function:: preferences.get_mute(mute)
 
     获取混音器 `mixer` 的静音设置。
 
