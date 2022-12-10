@@ -915,20 +915,6 @@ transform存在以下特性(property)：
        * - ``scale-up``
          - 类似 ``cover``，但不会增加可视组件的尺寸。
 
-.. transform-property:: size
-
-    :type: None 或 (int, int)
-    :default: None
-
-    若该值非None，将可视组件伸缩至给定的尺寸。
-
-.. transform-property:: maxsize
-
-    :type: None 或 (int, int)
-    :default: None
-
-    若该值非None，可以使可视组件在box当中以合适的尺寸放大或缩小显示，同时保持横纵比。（请注意，这意味着长或宽其中一个尺寸可能小于此box的尺寸。）
-
 .. transform-property:: subpixel
 
     :type: boolean

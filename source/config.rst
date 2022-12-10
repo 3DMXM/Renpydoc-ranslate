@@ -459,7 +459,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
     如果设置过大，是浪费内存的行为。如果设置过小，图像从磁盘直接加载，会降低性能。只要
     :var:`config.image_cache_size` 的配置不是空值(None)，就不使用config.image_cache_size_mb。
 
-.. var:: define config.input_caret_blink = 1.0
+.. var:: config.input_caret_blink = 1.0
 
     若非False，将设置默认光标的闪烁间隔时间，单位为秒。
 
@@ -708,12 +708,12 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
     如果没有设置 :var:`config.physical_height` 的值，默认与游戏窗口尺寸相同。
     通常会该项设置为比 :func:`gui.init` 更大的数值。
 
-.. var:: define config.single_movie_channel = None
+.. var:: config.single_movie_channel = None
 
     若非None，当play语句后面使用了 :func:`Movie`，该配置项决定了影片播放使用的通道。
     该项不能设置为“movie”，因为“movie”是Ren'Py预留的关键字。
 
-.. var:: define config.skip_sounds = False
+.. var:: config.skip_sounds = False
 
     若非False，Ren'Py处于跳过(skipping)状态时将不会播放非循环播放的音频。
 
@@ -733,13 +733,13 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
     一个字典，将图像标签(tag)字符串映射为zorder值。当某个不带zorder分句的新鲜事图像出现时，就会根据图像标签在这个字典中找对应的zorder值并应用。如果没有找到zorder值，就使用0。
 
-.. var:: config.thumbnail_height = 75
+.. var:: config.thumbnail_height = 216
 
     游戏存档使用的缩略图高度。读档时，这些缩略图也会显示。请注意，缩略图的会以其生成的尺寸显示，而不是缩略图向用户显示时设置的值。
 
     默认GUI可以改变该项值。
 
-.. var:: config.thumbnail_width = 100
+.. var:: config.thumbnail_width = 384
 
     游戏存档使用的缩略图宽度。读档时，这些缩略图也会显示。请注意，缩略图的会以其生成的尺寸显示，而不是缩略图向用户显示时设置的值。
 

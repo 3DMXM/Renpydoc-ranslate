@@ -876,7 +876,7 @@ Ren'Py支持在安卓11版本设备上无线debug.
 当前版本Ren'Py会搜索external文件目录，并自动寻找匹配的归档。
 这样用户就可以构建补丁、更新和追加额外资源。
 
-文档中新增 :ref:`Pyjnius <pyjinus>` ，这是一个安卓API的调用库。
+文档中新增 :ref:`Pyjnius <pyjnius>` ，这是一个安卓API的调用库。
 
 新增变量 :var:`build.android_permissions`，函数 :func:`renpy.check_permission` 和 :func:`renpy.request_permission`，
 可以向安卓系统申请权限许可。Ren'Py自身不需要那些权限。
@@ -894,8 +894,6 @@ iOS
 
 iOS版本生成应用程序的流程已更新。在启动器界面进行一些设置后即可使用，不再需要某些未使用的schemas对象。
 
-As always, it's necessary to create a new iOS project each time Ren'Py is
-updated.
 如之前一样，Ren'Py更新之后每次需要重新创建iOS项目。
 
 文档中添加 :ref:`Pyobjus <pyobjus>` 。Pyobjus库允许游戏在iOS和macOS平台调用系统API。
