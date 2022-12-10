@@ -638,6 +638,7 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
         字体的字符集。这是一个字符串，可以按照字符串中包含的字符顺序在图像文件中找到对应的字符。more的SFont字符集如下：
 
     .. code-block:: none
+
         ! " # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ?
         @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _
         ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~

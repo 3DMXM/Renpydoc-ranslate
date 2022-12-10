@@ -470,7 +470,7 @@
 
     默认情况下， `size`, `xoffset` 和 `yoffset` 会随文本一同拉伸。当我们给定absolute类型时，就能禁止拉伸。举例：
 
-::
+    ::
 
         style default:
             outlines [ (absolute(1), "#000", absolute(0), absolute(0)) ]
