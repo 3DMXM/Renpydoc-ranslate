@@ -92,6 +92,32 @@ Ren'Py中可以通过设置 ``_constant`` 将某个 :ref:`命名存储区 <named
 
 常量存储区中的变量只能初始化阶段更新，之后就不允许修改。
 
+.. _lenticular-bracket-ruby-text:
+
+方头凹形括号Ruby文本
+-----------------------------
+
+:ref:`Ruby text <ruby-text>`, small text above the main characters used
+for readings and translations, can now be written be written by enclosing it in
+full-width lenticular brackets (【】), with the full-width or half-width
+vertical line character (｜ or |) separating the bottom text from the top text.
+For example
+:ref:`Ruby文本 <ruby-text>`，即用于阅读或翻译的上下双层文本，可以使用全角方头凹形括号(【】)与竖线符号(｜或|)结合的语法编写。
+全角或半角的竖线符号(｜或|)用来分隔Ruby文本的上半与下半内容。
+
+::
+
+    e "Ruby 可以用来标识假名(【東｜とう】 【京｜きょう】)。"
+
+    e "也可以用来翻译 (【東京｜Tokyo】)."
+
+在某些地方，可能需要直接显示左方头凹形括号(【)。此时需要连续两个左括号"【【"的形式转义。
+例如：
+
+::
+
+    e "【【这不是一段 | Ruby文本。】"
+
 .. _7.6-new-features:
 
 新功能特性

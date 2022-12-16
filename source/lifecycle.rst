@@ -1,71 +1,75 @@
-==========================
-Lifecycle of a Ren'Py game
-==========================
+.. _lifecycle-of-a-renpy-game:
 
-When launching a Ren'Py game, be it from the executable or from the launcher, it follows a series
-of steps up until the point where it is closed. This page exposes the various phases of this
-lifecycle, and various related statements.
+===============================
+Ren'Py游戏的生命周期(lifecycle)
+===============================
 
-Boot Time
+无论是直接运行可执行程序或使用启动器，运行一个Ren'Py时整个程序会执行一系列预订的步骤，直到游戏进程关闭。
+本页旨在揭示整个生命周期(lifecycle)的各个步骤，以及相关的各语句。
+
+.. _boot-time:
+
+启动期
 =========
 
-There are a lot of things happening before the game window appears. This is the boot time. The
-only thing that's possibly visible at that point is the :ref:`presplash <presplash>`.
+在游戏窗口显示出来前，就已经处理了很多工作，即启动期。
+启动阶段唯一能看到的内容只有 :ref:`presplash <presplash>`。
 
 .. _early-phase:
 
-Script Parsing Phase
+脚本处理阶段
 --------------------
 
-To read the games's code, Ren'Py reads each of the game's ``.rpy`` (and ``_ren.py``) files one by
-one, in the unicode order of their filepaths. That's the "parsing" phase, or "early" phase.
+Ren'Py会读取每个游戏中的 ``.rpy`` 文件(以及 ``_ren.py`` 文件)。读取时按照Unicode编码，根据路径和文件名顺序读取。
+这就是脚本处理阶段，或者说“early”阶段。
 
-The first creator-written code being executed is what's written in ``python early`` blocks. These
-are executed after the file they're in has been read and parsed, but before the next file gets
-read. This is why statements which modify how parsing works, like :doc:`cds`,
-:ref:`creator-defined-sl` or new custom :ref:`warpers`, must be written in ``python early``
-blocks.
+创作者写的脚本中，最早被执行的代码是写在 ``python early`` 代码块的内容。
+执行这些代码的前提是，代码所在的脚本文件已被读取和处理。
+这就是修改处理机制的语句需要写在 ``python`` 中的原因，比如 :doc:`cds`、:ref:`creator-defined-sl` 和自定义的 :ref:`warpers`.
 
-The ``init python early`` syntax is sometimes encountered, but it's redundant and doesn't change
-anything in how the code gets executed.
+有时候可能会看到 ``init python early``，语法是正确的但多余。不会影响代码实际运行的顺序和结果。
 
 .. _init-phase:
 
-Init Phase
+初始化阶段
 ----------
 
-After parsing/early phase, the "init" phase starts. Several statements are executed at that time,
-including the :ref:`init-python-statement`, the :ref:`define-statement`, the
-:ref:`transform-statement`, the :ref:`image-statement`, the :ref:`screen-statement`, and the
-:doc:`style <style>` statement. The init phase is divided in successive epochs, or init priorities,
-from -999 to 999. Contrary to what the term may imply, epochs of lower priority are executed before
-epochs of higher priority.
+在脚本处理阶段之后，就轮到“init”阶段。某些语句在该阶段运行，包括 :ref:`init-python-statement`、:ref:`define-statement`、
+:ref:`transform-statement`、:ref:`image-statement`、:ref:`screen-statement` 和 :doc:`style <style>`。
+初始化阶段又可以细分为多个连续时间段，或者说初始化优先级，分别使用-999到999间的整数作为标记。
+标记数值越小，对应的时间段越早执行，即优先级越高。
 
 image define default transform (init) screen (testcase) (translation) style
-By default, these statements are executed at init offset 0. However, they can be offset using
-the :ref:`init-offset-statement` or by other means. The :ref:`image-statement` is an exception to
-both of these rules, as it executes at an init priority of 500 by default, and the init offset
-statement adds or substracts from this 500, rather than replacing it.
 
-Automatic image definition from the :ref:`image-directory` occurs at init priority 0.
+默认情况下，以上语句会以“init优先级偏移量(offset)0”执行。
+不过，也可以使用 :ref:`init-offset-statement` 等方式修改执行优先级偏移量。
+:ref:`image-statement` 语句不遵循以上规则，其默认值在优先级500时间段执行。
+``init offset`` 语句修改优先级都会自动避开500这个值，而不是替换这个时间段执行的内容。
 
-Note that while the :ref:`default <default-statement>` statements are not executed at init time,
-the priority of the statements influences the order in which they will be executed, relative to
-one another.
+使用 :ref:`image-directory` 根据图片文件名称自动生成图像定义的过程，发生在优先级0时间段。
+
+注意，:ref:`default语句 <default-statement>` 不在初始化阶段执行，与变量相关的过程可能会相互影响。
 
 .. _init-offset-statement:
 
-Init Offset Statement
+init offset语句
 ^^^^^^^^^^^^^^^^^^^^^
 
 The ``init offset`` statement sets a priority offset for all statements
 that run at init time. It should be placed at the top of the file, and it applies to all following
 statements in the current block and child blocks, up to the next
-init priority statement. The statement::
+init priority statement. The statement
+``init offset`` 语句为所有在初始化阶段运行的语句设置了优先级偏移量(offset)。
+该语句应该写在脚本文件开头，指定的偏移量(offset)对之后同一个语句块(block)及其子语句块的所有语句均生效，
+除非期间出现一个init priority语句。下面这条语句：
+
+::
 
     init offset = 42
 
-sets the priority offset to 42. In::
+将优先级偏移量(offset)设置为42。而在下面段脚本中：
+
+::
 
     init offset = 2
     define foo = 2
@@ -75,56 +79,54 @@ sets the priority offset to 42. In::
 
     init offset = 0
 
-The first define statement is run at priority 2, which means it runs
-after the second define statement, and hence ``foo`` winds up with
-a value of 2.
+第一条define语句运行在优先级2，这意味着其会在第二条define语句后运行，因此变量 ``foo`` 的最终值为2。
 
-Script Execution
-================
+.. _script-execution:
 
-This is what happens once the game window becomes visible. This is when normal Ren'Py statements
-execute, and when the rules described in :doc:`label` apply. This is also the time when the
-variables from :ref:`default statements <default-statement>` are set for the first time - as
-opposed to :ref:`define statements <define-statement>` which are set at init time.
+脚本执行
+========
 
-Config variables should not be changed once normal game execution starts.
+当游戏窗口显示后，就进入了脚本执行阶段。
+普通的Ren'Py语句在此阶段执行，:doc:`label` 中描述的各类规则开始生效。
+:ref:`default语句 <default-statement>` 也在此阶段运行，首次对变量赋值。
+有类似功能的 :ref:`define语句 <define-statement>` 则在初始化阶段进行赋值操作。
 
-Splashscreen
+游戏正常启动后，配置项变量的值就不该再发生改变。
+
+.. _splashscreen:
+
+启动界面
 ------------
 
-If it exists, the :ref:`splashscreen <adding-a-splashscreen>` label is executed until it returns.
+若设置了启动界面，则执行 :ref:`splashscreen <adding-a-splashscreen>` 标签直到返回。
 
-A splashscreen is only displayed once per time Ren'Py is run, and is skipped when
-script execution restarts.
+启动界面仅在Ren'Py运行时显示一次，之后重新运行脚本时会自动跳过。
 
-Main Menu
+.. _main-menu:
+
+主菜单
 ---------
 
-If it exists, the ``before_main_menu`` label is executed. Then, once it returns, the
-:ref:`main_menu <main-menu-screen>` screen is shown, unless a ``main_menu`` label exists, in which
-case it is executed instead. See :ref:`special-labels` for more information.
+若设置了主菜单，则先执行 ``before_main_menu`` 脚本标签。
+该标签返回后，如果脚本中存在 ``main_menu`` 脚本标签则执行标签内容，否则直接显示 :ref:`主菜单 <main-menu-screen>` 界面。
+详见 :ref:`special-labels` 部分。
 
-The main menu itself is run in it's own :ref:`context <context>`.  Ren'Py can leave this
-context by calling the :class:`Start` action, which also jumps to a label, or the ``start`` label
-if none is specified. Returning from the ``main_menu`` label also enters the in-game phase at the
-``start`` label, while loading a game enters the in-game phase at the spot where the game was saved.
+主菜单运行在其自己的 :ref:`context <context>` 中。
+Ren'Py可以通过调用 :class:`Start` 行为函数跳转到指定标签或默认 ``start`` 标签，同时保留主菜单的上下文。
+从 ``main_menu`` 标签返回后，依然会进入游戏阶段的 ``start`` 标签。
+游戏读档后也会直接跳转到游戏阶段的对应标签位置。
 
-In-Game Phase
+.. _in-game-phase:
+
+游戏阶段
 -------------
 
-This is the phase in which an actual playthrough of the game occurs, and this is
-the mode in which players generally spend most of their time. This phase continues
-until the game quits, or the game restarts and the player returns to the main menu.
+游戏阶段是实际可以进行游戏内容。用户花时间也主要是运行这部分内容。
+该阶段在退出游戏、重启游戏或返回主菜单后结束。
 
-During the in-game phase, the :class:`ShowMenu` action can be used to display a
-screen in a new context.
+在游戏阶段中，:class:`ShowMenu` 行为可用于在一个新的上下文(context)中显示某个界面。
 
-The In-game phase continues until either the player quits or restarts the game
-to return to the main menu. The game may be restarted by returning when no
-call is on the stack, as explained explained in :doc:`label`. The game may
-also be restarted by the :class:`MainMenu` action or the :func:`renpy.full_restart`
-function.
+调用栈为空时，游戏将返回到开头并重新开始，具体解释在 :doc:`label` 章节。
+:class:`MainMenu` 行为和 :func:`renpy.full_restart` 函数也都可以用于重启游戏。
 
-When the game restarts, all non-persistent data is reset to what it was at the
-end of the script execution phase, and then the script execution phase begins
-again, skipping the splashscreen.
+游戏重头开始时，所有非持久化数据都会重置为脚本处理阶段最后设置的值，然后脚本从头开始执行，跳过启动界面。

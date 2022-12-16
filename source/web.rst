@@ -177,6 +177,7 @@ Javascript
 
 Ren'Py可以通过 ``emscripten`` 模块中的3个函数运行Javascript。
 emscripten模块仅在Web浏览器端才会被使用。
+可以使用 :var:`renpy.emscripten` 的值测试，根据结果决定在使用前是否还需要引入emscripten模块。
 
 .. function:: emscripten.run_script(script)
 
