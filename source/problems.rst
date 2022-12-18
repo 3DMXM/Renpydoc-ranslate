@@ -3,7 +3,7 @@
 处理故障
 =====================
 
-(此处原文为空)
+.. include:: display_problems.rst
 
 .. _dealing-with-display-problems:
 
