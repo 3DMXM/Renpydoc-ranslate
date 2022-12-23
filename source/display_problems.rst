@@ -5,15 +5,12 @@
 
 .. _on-startup:
 
-On Startup
+运行环境
 ^^^^^^^^^^
 
 Ren'Py预设运行设备包含图形加速硬件，比如独立显卡或集成显卡。
 Ren'Py会按下面描述的顺序，自动选择渲染器。
 
-These are the classic renderers that were used from Ren'Py 6.13 to Ren'Py
-7.4. These may not be available in 7.4 and later games that require
-model-based rendering.
 这些是Ren'Py 6.13至7.4版本使用的渲染器。
 7.4及以上版本要求基于模型渲染，因此无法使用这些渲染器。
 
