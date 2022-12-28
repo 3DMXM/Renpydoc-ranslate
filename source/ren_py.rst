@@ -68,7 +68,6 @@ Python中的Ren'Py文件包含三类内容：
             strength += 10
             renpy.restart_interaction()
 
-This file is transformed into (with some blank lines removed)
 格式转换后的文件会变成(某些空行被删除)：
 
 ::
