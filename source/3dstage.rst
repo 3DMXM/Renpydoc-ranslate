@@ -40,7 +40,7 @@ Ren'Py在3D舞台中渲染可视组件时将计算合适的透视效果，并启
 摄像机
 ------
 
-摄像机的初始位置由参数 :func:`gui.init 控制。
+摄像机的初始位置由参数 :func:`gui.init` 控制。
 Ren'Py会根据 `width` 和 `fov` 计算出默认的 `z` 轴坐标。在 `fov` 默认值为75的情况下：
 
 * 当 width = 1280，z轴坐标大约为834
@@ -172,8 +172,7 @@ Ren'Py提供了一个简单方式修复这个问题—— :tpref:`zzoom` 。
 默认情况下，Ren'Py根据声明顺序显示图像，最后声明的图像覆盖在其他所有图像之上。
 这个机制会导致一些小问题，比如距离摄像机更近的图像(使用透视效果)被远处的图像遮挡住。
 
-如果不想要在游戏中的图像显示层级出现类似问题，可以让GPU根据深度排列图像顺序，使用
-If your game shows images out of order like this, you can tell the GPU :tpref:`gl_depth` ：
+如果不想要在游戏中的图像显示层级出现类似问题，可以让GPU根据深度 :tpref:`gl_depth` 排列图像顺序，使用：
 
 ::
 

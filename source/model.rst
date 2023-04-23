@@ -114,8 +114,6 @@ Ren'Py已经占用了“renpy.”和“live2d.”两个命名空间，所有以�
 
 .. function:: renpy.register_shader(name, **kwargs)
 
-    This registers a shader part. This takes `name`, and then
-    keyword arguments.
     该函数注册一个着色器名。入参 `name`，其他关键词入参如下：
 
     `name`
@@ -141,12 +139,12 @@ Ren'Py已经占用了“renpy.”和“live2d.”两个命名空间，所有以�
     着色器函数相关的两个关键词入参应该以 ``vertex_`` 或 ``fragment_`` 开头，结尾带一个整数表示优先级，比如“fragment_200”和“vertex_300”。
     这些优先级数值会决定着色器的应用方式，优先级数值低的函数会插入到优先级数值高的函数前面执行。
 
-Ren'Py只支持一下变量类型：
+Ren'Py只支持以下变量类型：
 
 * float (Python中的浮点数)
-* vec2 (两个浮点数组成的元组)
-* vec3 (三个浮点数组成的元组)
-* vec4 (四个浮点数组成的元组)
+* vec2 (两个浮点数组成的向量)
+* vec3 (三个浮点数组成的向量)
+* vec4 (四个浮点数组成的向量)
 * mat4 ( :class:`Matrix` 类)
 * sampler2D (Ren'Py提供)
 
@@ -326,10 +324,8 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
 这些特性可以与Transform对象一起使用，或者 :func:`Render.add_property` 函数一起使用。
 
 ``gl_blend_func``
-    该特性应是一个6元元组，分别用作功能调节像素、原像素、遮罩像素和功能条件像素相关参数。
-    If present, this is expected to be a six-component tuple, which is
-    used to set the equation used to blend the pixel being drawn with the
-    pixel it is being drawn to, and the parameters to that equation.
+    该特性应是一个6元元组，用作一个方程的计算。此方程会根据遮罩像素、被遮罩像素等信息算出最终结果。
+    分别用作功能调节像素、原像素、遮罩像素和功能条件像素相关参数。
 
     一个例子是(`rgb_equation`, `src_rgb`, `dst_rgb`, `alpha_equation`, `src_alpha`, `dst_alpha`)。
     调用方式如下：
@@ -375,7 +371,7 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
     该项决定纹理是否提供了网格用于创建mipmap。默认值为True.
 
 ``gl_texture_wrap``
-    该项决定了将纹理提高到网格的方式。其值应该是一个2元元组，
+    该项决定了将纹理映射到网格的方式。其值应该是一个2元元组，
     第一个元素用于设置GL_TEXTURE_WRAP_S，第二个元素用于设置GL_TEXTURE_WRAP_T，
     这两项通常用作纹理的X和Y轴信息。
 
