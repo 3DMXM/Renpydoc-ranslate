@@ -118,7 +118,7 @@
 
 广域混音器的内容详见 :ref:`volume`。
 
-.. function:: preferences.set_mixer(mixer, volume)
+.. function:: preferences.set_volume(mixer, volume)
 
     将混音器 `mixer` 的音量值设置为 `volume` 。
 
@@ -128,7 +128,7 @@
     `volume`
         介于0.0到1.0之间的数值。
 
-.. function:: preferences.get_mixer(mixer)
+.. function:: preferences.get_volume(mixer)
 
     获取混音器 `mixer` 的音量。如果该混音器被静音了，则返回0.0。
 
