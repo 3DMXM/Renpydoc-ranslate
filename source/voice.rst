@@ -172,7 +172,8 @@ Voice Actions
 
 .. function:: ToggleVoiceMute(voice_tag, invert=False)
 
-    切换 *voice_tag* 的静音状态。This is selected if the given voice tag is muted, unless *invert* is true, in which case it's selected if the voice is unmuted.
+    切换 *voice_tag* 的静音状态。
+    默认情况下，指定 *voice_tag* 处于静音状态时将选择对应的语音tag对象。如果 *invert* 值是True，则会选择不处于静音状态时语言tag对象。
 
 .. function:: VoiceReplay(*args, **kwargs)
 

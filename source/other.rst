@@ -469,7 +469,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     如果用户已经看过当前的行，则返回True。
 
-    如果 *ever* 为True，我们检查用户是否看过该行。如果 *ever* 为False，我们检查改行是否在当前游戏过程中被看过。
+    如果 *ever* 为True，我们检查用户是否看过该行。如果 *ever* 为False，我们检查该行是否在当前游戏过程中被看过。
 
 .. function:: renpy.is_skipping()
 

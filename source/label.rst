@@ -34,7 +34,7 @@ local标签可以同名，但需要与不同的global标签做关联。
         "另一个local脚本标签"
         jump .local_label
 
-local脚本标签在关联的global标签内部可以直接饮用。其他地方则需要使用标签全名，由关联的globle标签和local标签组成。
+local脚本标签在关联的global标签内部可以直接引用。其他地方则需要使用标签全名，由关联的globle标签和local标签组成。
 一个关于global标签和local标签的例子如下：
 
 ::
