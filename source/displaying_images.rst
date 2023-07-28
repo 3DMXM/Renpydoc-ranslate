@@ -432,6 +432,28 @@ hide和show窗口
 图像(image)函数
 ===============
 
+.. function:: renpy.add_layer(layer, above=None, below=None, menu_clear=True, sticky=None)
+
+    界面中添加一个新的图层。如果已存在同名图层，则该函数没有任何效果。
+
+    *behind* 或 *above* 参数至少一项不能为None。
+
+    `layer`
+        一个字符串，指定待添加图层的名称。
+
+    `above`
+        若不是None，应该是一个字符串，表示待添加的新图层需要在对应图层的上层。
+
+    `below`
+        若不是None，应该是一个字符串，表示待添加的新图层需要在对应图层的下层。
+
+    `menu_clear`
+        若为True，进入游戏菜单上下文时该图层将清空，离开游戏菜单上下文时恢复图层显示内容。
+
+    `sticky`
+        若为True，所有实用tag标签在该图层显示的内容都可将该图层设置为默认图层，直到该图层隐藏。
+        若为None，仅当其他粘滞图层存在时，该图层才会替换其他粘滞图层并成为新的粘滞图层。
+
 .. function:: renpy.can_show(name, layer=None, tag=None)
 
     该函数判断入参 *name* 代表的图像是否能显示。函数把入参 *name* 看做一个图像标签(tag)和属性(attribute)。该函数依据目前正显示在 *图层* 上的所有 *tag* 来尝试确认唯一的图像。若存在唯一可显示图像，则以元组形式返回图像名。否则返回None。
@@ -474,12 +496,40 @@ hide和show窗口
     `new`
         新图片名的字符串，图片名各部分以空格分隔。
 
+.. function:: renpy.flush_cache_file(fn)
+
+    该函数会将所以引用文件 *fn* 的图像缓存都清空。
+    需要Ren'Py强制更新图像文件时可以调用该函数。
+
 .. function:: renpy.get_attributes(tag, layer=None)
 
     根据入参图片标签 *tag* ，返回对应图像属性(attribute)的元组。若图像整在显示，则返回None。
 
     `layer`
         待检图层(layer)。若为空，使用 *tag* 所在的默认图层。
+
+.. function:: renpy.get_available_image_tags()
+
+    返回一个列表，包含所有已定义的图像标签。
+
+.. renpy.get_hidden_tags(layer='master')
+
+    返回指定图层上，当前处于隐藏状态却依然有相关属性信息的图像标签的集合。
+
+.. renpy.get_image_bounds(tag, width=None, height=None, layer=None)
+
+    如果带有指定 *tag* 的图像显示在图层 *lay* 上，则返回图像的包围盒。
+    如果符合条件的图像不存在，则返回None。
+
+    包围盒是一个 (x, y, width, height) 形式的元组。
+    每个元素都表示像素数量，有可能是浮点值。
+
+    `width, height`
+        包含目标图像的矩形区域的宽度和高度。
+        若为None，则默认值分别是界面的宽度和高度。
+
+    `layer`
+        若为None，使用tag对应的默认图层。
 
 .. function:: renpy.get_ordered_image_attributes(tag, attributes=(), sort=None)
 
@@ -489,7 +539,8 @@ hide和show窗口
         若该值不为空，只寻找与给定属性(attribute)兼容的结果。(兼容的意思是，各类属性在同一时间里能找到对应唯一图像。)
 
     `sort`
-        若不为None，返回的属性(attribute)列表就是排序后的。该函数应当用作中断器(tiebreaker)。
+        若不为None，返回的属性(attribute)列表就是排序后的。该单入参函数应当用作中断器(tiebreaker)。
+        详见 `这篇教程 <https://docs.python.org/3/howto/sorting.html#key-functions>`_ 。
 
 .. function:: renpy.get_placement(d)
 
@@ -497,13 +548,21 @@ hide和show窗口
 
     该函数返回的对象包含以下字段(field)，每一个都对应一项样式特性(property)：
 
+    **- pos**
     **- xpos**
-    **- xanchor**
-    **- xoffset**
     **- ypos**
+    **- anchor**
+    **- xanchor**
     **- yanchor**
+    **- offset**
+    **- xoffset**
     **- yoffset**
     **- subpixel**
+
+.. function:: renpy.get_registered_image(name)
+
+    如果有 :ref:`已注册 <defining-images>` 的同名图像则返回图像对象。
+    否则返回None。
 
 .. function:: renpy.get_say_image_tag()
 
@@ -526,6 +585,14 @@ hide和show窗口
 
     `exact`
         只有跟name全匹配的图像名存在时才返回真(true)——部分匹配则返回假(false)。
+
+.. function:: renpy.mark_image_seen(name)
+
+    将对应名称的图像在当前用户系统上标记为显示过。
+
+.. function:: renpy.mark_image_unseen(name)
+
+    将对应名称的图像在当前用户系统上标记为未显示过。
 
 .. function:: renpy.seen_image(name)
 

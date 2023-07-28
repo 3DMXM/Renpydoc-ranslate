@@ -111,6 +111,23 @@
     若为Fasel，窗口最小化后音频通道停止，当窗口恢复后音频通道恢复。
     若为True，窗口状态与音频无关。等效于“audio when minimized”选项。
 
+.. var:: preferences.audio_when_unfocused = True
+
+    若为False，音频通道会在游戏窗口失去焦点时停止播放声音，在重新获得焦点后恢复。
+    若为True，游戏窗口是否获得焦点都不影响声音。等效于设置“audio when unfocused”选项。
+
+.. var:: preferences.web_cache_preload = False
+
+    若为True，游戏文件可以下载到浏览器缓存中，允许游戏离线运行。
+    若为False，游戏文件不能下载到浏览器缓存中，必须保持互联网连接才能运行游戏。
+    等效于设置“web cache preload”选项。
+
+.. var:: preferences.voice_after_game_menu = False
+
+    若为True，显示游戏菜单时继续播放语音。
+    若为False，显示游戏菜单时立刻停止语音。
+    等效于设置“voice after menu”选项。
+
 .. _mixer-functions:
 
 混音器函数

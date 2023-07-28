@@ -286,6 +286,65 @@ Ren'Py会预测未来使用的图像，加载文件后先放入图像缓存备�
                 )
             )
 
+.. _layer-displayables:
+
+图层可视组件
+------------------
+
+图层可视组件会基于游戏的某些状态值在某个图层上显示内容。
+图层可视组件设计为与 :var:`config.detached_layers` 协同使用。
+
+图层可视组件与动态可视组件类似，图层显示的内容由当前状态值决定。
+因此，图层可视组件不受转场效果的影响。除非某个转场指定目标就是图层可视组件对应的图层。
+
+.. include:: inc/disp_layer
+
+.. class:: Layer(layer, **properties)
+
+    该类可以让某个图层像可视组件一样覆盖在其他图层上。设计为与独立图层(detached layer)协同使用。
+    
+    不能把图层覆盖在自身上。
+    
+    `layer`
+        需要显示的图层。
+
+    `clipping`
+        若为False，图层内容可以超过自身范围的部分依然显示。否则超出范围的部分将被剪裁。
+
+::
+
+    # 定义一个新的名为broadcast的独立图层
+    define config.detached_layers += [ "broadcast" ]
+
+    # 定义一个新的名为tv的图层可视组件，用于显示图层broadcast的内容
+    image tv = Window(Layer("broadcast"), background='#000', padding=(10, 10))
+
+    image living_room = Placeholder('bg', text='living_room')
+    image studio = Solid('7c7')
+    image eileen = Placeholder('girl')
+
+    label example:
+        pause
+
+        # 设置broadcast图层的场景
+        scene studio onlayer broadcast
+        with None
+
+        # 开启新场景living_room
+        scene living_room
+
+        # 在屏幕右下角显示图层可视组件tv
+        show tv:
+          align (.75, .75) zoom .3
+
+        # 在broadcast图层显示Eileen
+        show eileen onlayer broadcast
+
+        # 以dissolve转场进入living room场景，同时Eillen从画面右侧进入。
+        with {'master': dissolve, 'broadcast': moveinright}
+        pause
+
+
 .. _applying-transforms-to-displayables:
 
 应用于可视组件的变换(transform)

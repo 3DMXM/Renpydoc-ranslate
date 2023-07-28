@@ -382,6 +382,19 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `newest`
         设置为True用于标记快速存档为最新的存档。
 
+.. _sync-actions:
+
+同步行为
+---------
+
+.. function:: DownloadSync()
+
+    该行为会从Ren'Py同步服务器端下载数据并同步。
+
+.. function:: UploadSync()
+
+    该行为会将最后存档文件上传到Ren'Py同步服务器端。
+
 .. _audio-actions:
 
 音频行为
@@ -615,6 +628,9 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     `amount`
         滚动数量。可以使用像素数，也可以写“step”或“page”。
+
+    `delay`
+        若非零，表示延迟时间值。
 
 .. function:: SelectedIf(expression)
 
@@ -1016,6 +1032,21 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
     * Preference("system cursor", "enable") - 使用系统贯标，忽略 config.mouse。
     * Preference("system cursor", "disable") - 使用config.mouse的光标。
     * Preference("system cursor", "toggle") - 切换系统光标。
+    * Preference("high contrast text", "enable") - 启用黑背景白文字。
+    * Preference("high contrast text", "disable") - 禁用高对比文本。
+    * Preference("high contrast text", "toggle") - 切换高对比文本。
+    * Preference("audio when minimized", "enable") - 窗口最小化后保持声音播放。
+    * Preference("audio when minimized", "disable") - 窗口最小化后停止声音播放。
+    * Preference("audio when minimized", "toggle") - 切换窗口最小化后的声音播放设置。
+    * Preference("audio when unfocused", "enable") - 窗口失去焦点后保持声音播放。
+    * Preference("audio when unfocused", "disable") - 窗口失去焦点后停止声音播放。
+    * Preference("audio when unfocused", "toggle") - 切换窗口失去焦点后的声音播放设置。
+    * Preference("web cache preload", "enable") - 启用web缓存预加载。
+    * Preference("web cache preload", "disable") - 禁用web缓存预加载，并删除预加载的数据。
+    * Preference("web cache preload", "toggle") - 切换web缓存预加载设置。
+    * Preference("voice after game menu", "enable") - 进入游戏设置菜单界面时继续播放声音。
+    * Preference("voice after game menu", "disable") - 进入游戏设置菜单界面时停止播放声音。
+    * Preference("voice after game menu", "toggle") - 切换进入游戏设置菜单界面时的播放声音设置。
 
     可以与条(bar)一起使用的值如下：
 
@@ -1030,7 +1061,13 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
     * Preference("font size")
     * Preference("font line spacing")
 
-  *range* 参数可以指定某个条(bar)的数值范围。例如，“text speed”的默认值是200cps。“auto-forward time”的默认值是每段文本30秒。
+    *range* 参数可以指定某个条(bar)的数值范围。例如，“text speed”的默认值是200cps。“auto-forward time”的默认值是每段文本30秒。(这些是最大值，而不是默认值。)
+
+    可以被按钮使用的行为包括：
+    * Preference("renderer menu") - 显示渲染器(renderer)菜单。
+    * Preference("accessibility menu") - 显示数据(accessibility)读写菜单
+    
+    上面的界面是内部定义的，无法定制化。
 
 .. function:: GetCharacterVolume(voice_tag)
 

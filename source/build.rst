@@ -377,6 +377,23 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
 
     若为True，Ren'Py会根据 :doc:`updater <updater>` 的设置生成文件。
 
+.. var:: build.itch_channels = { ... }
+
+    该项将一个文件名通配表达式(比如 \*-win.zip)映射为一个字符串，对应 itch 平台对应的上传通道。
+    默认值如下：
+    
+    ::
+
+        {
+            "*-all.zip" : "win-osx-linux",
+            "*-market.zip" : "win-osx-linux",
+            "*-pc.zip" : "win-linux",
+            "*-win.zip" : "win",
+            "*-mac.zip" : "osx",
+            "*-linux.tar.bz2" : "linux",
+            "*-release.apk" : "android",
+        }
+
 .. var:: build.itch_project = None
 
     配置了这项后，就允许Ren'Py启动器将项目上传感到itch.io。这项应该设置为在itch上注册的项目名。(例如，“renpytom/the-question”。)

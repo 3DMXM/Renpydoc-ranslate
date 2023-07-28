@@ -8,11 +8,11 @@ Ren'Py支持定义你自己的文本标签(tag)。文本标签系统可以操作
 
 可以在 :var:`config.custom_text_tags` 或 :var:`config.self_closing_custom_tags` 字典中，通过声明一个文本标签函数的入口(entry)，创建定制文本标签。
 
-.. var:: config.custom_text_tags
+.. var:: config.custom_text_tags = { }
 
-    将文本标签名映射到文本标签函数。
+    将文本标签名映射到文本标签的函数。
 
-.. var:: config.self_closing_custom_text_tags
+.. var:: config.self_closing_custom_text_tags = { }
 
     将文本标签名映射到自闭合文本标签函数，而文本标签内部不含有其他文本。
 

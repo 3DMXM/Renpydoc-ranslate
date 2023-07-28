@@ -131,7 +131,7 @@ python函数
 
     若影片播放被用户停止则返回True，若在delay定义的预计时间内由于其他原因中断播放则返回False。
 
-.. function:: Movie(fps=24, size=None, channel=u'movie', play=None, mask=None, mask_channel=None, image=None, play_callback=None, side_mask=False, loop=True, start_image=None, **properties)
+.. function:: Movie(fps=24, size=None, channel='movie', play=None, mask=None, mask_channel=None, image=None, play_callback=None, side_mask=False, loop=True, start_image=None, group=None, **properties)
 
     该函数创建了一个可视组件用于显示当前影片。
 
@@ -161,6 +161,9 @@ python函数
     `mask_channel`
         alpha遮罩视频播放使用的通道。若未给定，默认会在入参channel后面加上 ``_mask`` 后缀，注册一个新的通道。(例如，若入参channel名为“sprite”，那么自动生成的mask_channel值就是“sprite_mask”。)
 
+    `start_image`
+        当影片开始播放，但第一帧画面还未解码时，会使用此图像顶替。
+
     `image`
         若入参play给定，但文件可能并不存在或不能播放的情况下，则会显示入参image给定的图片文件。(例如，这个功能可以用于创建一个精简的移动版本，其不包含影片精灵。)当用户遇到系统负荷过重时，也能在特性中选择降低为显示图片而不是播放影片。
 
@@ -188,3 +191,9 @@ python函数
 
     `loop`
         若为False，不会循环播放影片。如果 `image` 已定义，影片播放结束后将显示对应图片。否则，影片播放结束后将变成透明画面。
+
+    `group`
+        若不是None，此入参应该是一个字符串。当某个影片还未开始播放时，
+        如果前一帧同组的其他影片还处于播放状态，那就会把前一帧的画面作为当前影片的初始画面。
+        该功能用于避免影片切换时导致的透明闪烁。
+

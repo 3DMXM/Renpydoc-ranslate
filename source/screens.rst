@@ -591,6 +591,8 @@ input语句不接受参数，可以跟下列特性：
 `caret_blink`
     若非False，指定光标闪烁间隔时间。此项将覆盖 :var:`config.input_caret_blink` 配置项。
 
+`multiline`
+    若为True，可以使用键盘将光标移动到下一行(默认键盘输入为Shift+Enter换行，可以修改config.keymap['input_next_line']来改为其他按键方式)。
 
 
 输入框还使用下列特性：
@@ -1374,13 +1376,64 @@ add语句不使用任何子组件。
 
 高级可视组件语句包括：
 
-``drag``
-    创建一个 :class:`Drag` 对象。drag对象可以给定一个可选的子组件，或者可以用于这个子组件的 :propref:`child` 样式特性，以及子组件获得变相获得焦点的行为。drag也能使用 :propref:`focus_mask`
-    样式特性。
+.. _sl-areapicker:
 
-``draggroup``
-    创建一个 :class:`DragGroup` 组。drag组可以有任意个drag作为其子组件。
+areapicker
+----------
 
+设计为一个开发工具，能让用户在界面中框选一个矩形区域。其能够使用以下特性：
+
+.. screen-property:: cols
+
+    若不是默认值None，会将界面均分为指定数量的若干列。
+
+.. screen-property:: rows
+
+    若不是默认值None，会将界面均分为指定数量的若干行。
+
+.. screen-property:: position
+
+    若不是默认值None，该项是一个函数。当用户首次点击时，会将点击坐标的x和y值四舍五入后传入并调用此函数。
+
+.. screen-property:: changed
+
+    当用户选择区域发生变化时调用此项，入参为一个(x, y, width, height)元组。
+
+.. screen-property:: finished
+
+    当用户完成区域选择后调用此项，入参为一个(x, y, width, height)元组。
+
+.. screen-property:: persist
+
+    若为True，最终选定的区域会显示为对应的子组件。若为False，即默认值，子组件在完成选定区域之后自动隐藏。
+
+areapicker可以使用以下特性：
+
+* :ref:`通用特性 <common-properties>`
+
+areapicker包含一个子组件。子组件用作显示界面中选定的区域。
+
+Drag
+----
+
+创建一个可以在界面内拖拽的 :class:`Drag` 对象。使用界面语言传入的子组件 `d` 可以使用起所有特性。
+
+该类还可以使用以下特性：
+
+* :ref:`通用特性 <common-properties>`
+* :propref:`hover_sound` 和 :propref:`activate_sound` 样式特性
+* :propref:`focus_mask` 样式特性
+
+drag组件包含一个子组件，可以使用 :propref:`child` 样式特性指定对应的子组件和其获得焦点时的变种。
+
+Draggroup
+---------
+
+创建一个 :class:`DragGroup` 对象。除了使用 :class:`DragGroup` 相同的特性外，还可以使用以下特性：
+
+* :ref:`通用特性 <common-properties>`
+
+draggroup对象可以包含任意多个drag对象作为其子组件，甚至还可以将非drag对象作为子组件，比如将fixed作为子组件实现某些功能。
 
 .. _sl-has:
 

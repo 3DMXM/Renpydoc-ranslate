@@ -12,24 +12,185 @@
 8.1 / 7.6
 =========
 
-.. _7.6-mixer-volume-changes:
+.. _7.6-documentation-improvements-and-fixes:
+
+文档提升与修复
+---------------
+
+文档提升与修复了多处，很多内容并没有记录在变更日志中。
+
+文档使用了新的主题，以及夜间模式。
+
+.. _7.6-renpy-sync:
+
+Ren'Py同步
+-----------
+
+Ren'Py同步是一个新特性。其可以将某个服务器作为整个Ren'Py项目的一部分，使同一个Ren'Py项目可以在不同设备间更便利地传输文件。
+举例来说，某个用户在自己电脑上点击“Upload Sync”上传存档并得到一个验证码。
+之后可以在自己手机上选择“Download Sync”并输入验证码，就可以下载最新存档，并在出门时继续玩游戏。
+
+Ren'Py同步被设计为能保障隐私。存档需要加密，并且只有游戏标题的哈希值被传送到服务器端。
+
+Ren'Py同步功能可以通过新增的两个类 :class:`UploadSync` 和 :class:`DownloadSync` 来实现。
+
+.. _7.6-speech-bubble-dialogue:
+
+气泡式对话
+-------------
+
+当前版本的Ren'Py包含了一个全新的 :doc:`气泡式 <bubble>` 对话系统。
+气泡式对话系统可以让角色以类似于漫画对话的形式展示，并包含一个可交互编辑器用于对话气泡调整位置和根据互动调整气泡形状。
+
+如要要在某个已经完成的游戏中添加气泡式对话，需要在游戏中添加一些文件和脚本。
+气泡章节文档详述了需要修改的内容。
+
+.. _7.6-platform-improvements:
+
+各平台提升
+-----------
+
+.. _7.6-web:
+
+web
+^^^^
+
+Ren'Py 8.1可以创建直接运行在Web浏览器上的游戏。
+在Web浏览器上运行游戏时，Ren'Py使用Python 3.11版本(其他平台则使用Python 3.9版本)。
+
+从Ren'Py 8.1开始，Ren'Py可以直接创建在浏览器上运行的web应用。
+创建的web应用可以与原生应用程序类似的方式安装在设备上，当然实际过程也取决于具体的浏览器和系统平台。
+其他平台则可以在Home界面生成对应web应用的快捷运行路径。
+
+在 :func:`Preference` 中新增“web cache preload”设置项。
+启用该设置项后，游戏运行前将会从web服务端下载所有游戏数据到设备本地。
+在线运行时，游戏会见车可下载数据，并只下载增量数据。
+离线运行时，游戏可以直接使用下载好的数据。
+
+在web平台的Ren'Py项目可以播放视频文件了。前提是浏览器支持对应的视频文件格式。
+
+.. _7.6-macintosh:
+
+Mac
+^^^^
+
+在Mac电脑上，Ren'Py使用统一的二进制格式，可以在Intel和苹果Silicon处理上都运行。
+
+.. _7.6-android:
+
+安卓
+^^^^^^^
+
+安卓平台做了一些调整。``android.keystore`` 和 ``bundle.keystore`` 文件移动到项目根目录中，而不再放在rapt目录中。
+这样便于项目使用不同的密钥(key)进行构建，以及使用相同的密钥(key)在多个安卓版本进行构建。
+
+新增“生成密钥”按钮。点击该按钮后，如果存在旧的keystore文件，Ren'Py会将原文件复制到项目中。
+
+安卓配置文件 ``.android.json`` 改名为 ``android.json``。
+Ren'Py遇到旧文件时会自动创建对应的新文件。
+
+.. _7.6-sticky-layers:
+
+粘滞图层
+-------------
+
+粘滞图层(sticky layer)是一种图层的临时性质。
+当使用tag标签指定某个图层显示具体图像时，该图层就具有了粘滞图层性质。
+粘滞图层的性质将持续到该图层隐藏，或有其他图层指定为粘滞图层。
+
+
+具体来说，某个图像显示在其默认图层之外的图层上时，对应的图层就会设置为粘滞图层了。
+后续的show和say语句都不需要指定图层名称，即可在该粘滞图层上显示对应内容。
+
+下面的样例中，假设 ``eileen`` 默认使用 ``master`` 图层，那么在指定在 ``near`` 图层显示后，``near`` 图层就成为了粘滞图层：
+
+::
+
+    show eileen onlayer near
+    eileen happy "Hello there!"  # 粘滞图层已生效，不需要指定图层名
+    show eileen excited          # 省略onlayer near
+    hide eileen                  # 省略onlayer near
+    show eileen                  # 省略onlayer master，master图层是eileen的默认显示图层
+
+该新增的特性默认是将 ``master`` 图层设置为粘滞图层。
+如果使用 :func:`renpy.add_layer` 函数创建的任意图层也会被附加粘滞图层性质，除非将入参设置为 ``sticky=False`` 。
+
+.. _7.6-detached-layers-layer-displayable:
+
+独立图层和图层可视组件
+-----------------------
+
+独立图层(detached layer)是由创作者定义的图层，不会自动添加到场景中。
+独立图层使用新增的可视组件类 :class:`Layer` 定义，覆盖在其他图层之上。
+
+开发这个功能的深层原因是，可以让着色器和其他变换效果应用到一组标签(tag)上，同时保持其他系统能正常使用，比如show和say语句。
+该功能也可以让同一图层显示多次，用在反射效果或某些电视的同频道复用。
+
+将独立图层应用到场景中时，需要在配置项 :var:`config.detached_layers` 中添加对应图层名。
+其他典型图层则使用 :func:`add_layer` 函数。并且独立图层固定具有粘滞图层性质。
+
+.. _7.6-new-image-formats-and-image-oversampling:
+
+新的图片格式和图像过采样方式
+----------------------------------------
+
+此次的版本新增两种图片格式的支持：
+
+* AV1图片文件格式(AVIF)是一种全新的图片格式，使用了现代压缩技术，压缩后可以获得比常见的JPEG、PNG和WebP之类存储空间更小的图片文件。
+  在很多情况下，将图片转换为AVIF格式可以在不损失画质的情况下减少文件的大小。
+
+* SVG文件是一种网上常用的矢量图形格式。
+  Ren'Py支持的SVG文件是SVGs的一个子集。(Ren'Py不支持SVG文件中带文本。)
+  游戏内容出现缩放时，Ren'Py会自动对SVG文件过采样(或降采样)，以保证任意分辨率下的图像边界依然锐利。
+  该功能类似于Ren'Py对文本的过采样。
+  对于需要保证锐度的UI元素，SVG文件是个不错的选择。
+
+当前版本Ren'Py新增了对栅格化后图片的过采样支持，包括PNG、JPEG、WebP和AVIF格式文件。
+遇到需要对这类图片进行过采样的情况时，可以在文件名结尾加一个 @ 符号和一个过采样率数字。
+例如，“eileen happy@2.png”表示过采样系数为2。这样做可以更方便地把老游戏以更高清晰度重置，减少很多代码层面的修改。
+图像处理器(image manipulator)也支持图片的过采样。
+
+对栅格化后图片，过采样会加载图片的完整尺寸，但除以过采样系数后当作图片的实际尺寸。
+例如，某个图片的尺寸是1000×1000，过采样系数为2，就会当作500×500的图片用于各种布局的计算。
+当游戏画面放大后，所有图像数据都会等比放大，但依然能保持相当的锐度。
+
+图片过采样也可以与新增的配置项 :var:`config.physical_width` 和 :var:`config.physical_height` 协同使用，
+修改游戏分辨率后也不必调整游戏内元素的布局。
+
+.. _7.6-av1-video:
+
+AV1视频
+---------
+
+Ren'Py现在支持AV1编码的视频。
+AV1可以支持WEBM和MKV容器。
+同等视频质量下，AV1编码的视频可以比VP9编码的视频文件再小30%左右，而VP9可能是之前最好的编码格式。
+
+需要注意，比较新的AV1格式可能要求更好的CPU性能实现解码。
+对某些硬件来说可能VP9编码的视频反而更流畅。
+
+.. _7.6-audio:
 
 混音器音量变更项
 --------------------
 
-Ren'Py更改了混音器音量的计算方式。原本，混音器音量存储为一个0.0到1.0之间的数值。
-该数值会乘以采样率得到应用到扬声器或耳机上的电压值，最后计算平方决定实际音量。
-
 现在混音器以分贝(音量)计算，类似于音频设备和电脑计算音量的方式。
-混音器滑块在最小值位置时表示最大音量的-60dB，在最大值位置时表示0dB即最大音量。
+混音器滑块在最小值位置时表示最大音量的-40dB，在最大值位置时表示0dB即最大音量。
+这样使混音器有更大的调整范围。之前的音量计算方法，会使音量滑块非常接近底部才有明显效果。
+现在音量的调整会更符合人的感官直觉。
 
 几个控制默认混音器音量的配置项，比如 :var:`config.default_music_volume`、:var:`config.default_sfx_volume`
-和 :var:`config.default_voice_volume`，都已经改为0.0表示-60dB而1.0表示0dB模式。
+和 :var:`config.default_voice_volume`，都已经改为0.0表示-40dB而1.0表示0dB模式。
 :func:`SetCharacterVolume`、:func:`preferences.set_mixer` 和 :func:`preferences.get_mixer` 函数的计算方式也一样。
 
-这项更改的优点是可以让音量滑块更灵活。
-以前只有在音量滑块接近底部时才会有明显效果。
-现在音量的调整会更符合人的感官直觉。
+音频的淡入淡出功能也根据音量做了修改。
+音量淡化效果会作用时间范围更大，而不仅限于原本淡入淡出的一小段。
+重新实现了超短时间的淡化效果，解决的之前淡化时间太短导致的错误。
+
+配置项 :var:`config.fadeout_audio` (即原来的config.fade_music)控制音频停止播放或使用 ``play`` 语句切换时的默认淡出时间。
+默认时长为0.016秒，正好清楚突然停止音频可能导致的爆音。
+
+音频声像(:func:`renpy.music.set_pan`)改为一个常数音量，这样修改声像不会改变音量。
 
 .. _7.6-draggable-viewports:
 
@@ -54,11 +215,13 @@ Ren'Py会检测用户是否进行拖拽操作，并把焦点切换到视口组�
 
     """renpy
     init python:
-    """"
+    """
 
     flag = True
 
-is equivalent to::
+等效于：
+
+::
 
     init python:
 
@@ -81,6 +244,7 @@ Ren'Py中可以通过设置 ``_constant`` 将某个 :ref:`命名存储区 <named
     _errorhandling
     _gamepad
     _renpysteam
+    _sync
     _warper
     audio
     achievement
@@ -113,10 +277,168 @@ Ren'Py中可以通过设置 ``_constant`` 将某个 :ref:`命名存储区 <named
 
     e "【【这不是一段 | Ruby文本。】"
 
-.. _7.6-new-features:
+.. _7.6-accessibility:
 
-新功能特性
-------------
+可读性
+-------
+
+新增配置项 :var:`config.tts_substitutions`，用于自动语音中的分词规则。
+这样创作者可以修正语音引擎对某些文本的发音问题。
+
+例如：
+
+::
+
+    define config.tts_substitutions = [
+        ("Ren'Py", "Ren Pie"),
+    ]
+
+就可以让自动语音把特殊词“Ren'Py”的发音改为“Ren Pie”。
+
+自动语音可以受语音音量混音器的影响。
+
+.. _7.6-save-token-security:
+
+存档令牌安全机制
+-------------------
+
+用户在不同设备间迁移存档时，当前版本Ren'Py会使用令牌(token)提示用户，
+防止用户误操作导致的各类问题。详见 :doc:`security documentation <security>`。
+
+Ren'Py在某台电脑上首次运行时，将生成一个令牌(token)。所有存档和持久化数据都将包含该令牌。
+如果来自不同电脑的存档中发现了与本机不同的令牌，用户会收到警示和询问是否继续。
+如果用户选择“是”，会继续受到询问，是否自动许可来自那台电脑的所有存档。
+
+只有当前电脑和获得许可令牌中的持久化数据才可以加载。
+
+第一次运行支持存档令牌机制的Ren'Py时，Ren'Py将检查对应游戏的存档文件中是否存档令牌。
+如果存档中没有令牌则添加令牌。
+在Ren'Py 8.1/7.6及以后的版本中执行此步骤不会有提示。
+
+无法禁用该特性，因为对终端用户来说这是重大安全问题。
+
+.. _7.6-new-search-paths:
+
+新的搜索路径
+----------------
+
+当前版本Ren'Py如果在game目录下没有找到对应的音频或字体文件时，
+会从 ``game/audio`` 目录中搜索音频文件，从 ``game/fonts`` 目录中搜索字体文件。
+图片文件依然会从 ``game/images`` 目录搜索，但其他类型的文件不会搜索该目录。
+
+.. _7.6-new-3d-stage-properties:
+
+新的3D舞台特性
+---------------
+
+3D舞台新增了几项特性：
+
+:tpref:`point_to`
+    指定一个点作为摄像机朝向，或者精灵(sprite)的朝向。
+
+:tpref:`xrotate`, :tpref:`yrotate`, :tpref:`zrotate`
+    使精灵(sprite)或摄像机安指定的坐标轴旋转。
+
+:tpref:`orientation`
+    使精灵(sprite)或摄像机同时在3个轴向旋转，一般按球面最短路径计算旋转。
+
+.. _7.6-live2d:
+
+Live2D
+------
+
+当前版本Ren'Py支持Live2D Cubism Editor 4.2的新特性。
+如果要使用这些新特性，需要安装Cubism 4 Sdk for Native R6_2或更高版本。
+
+Live2D可以在x86_64安卓平台运行了。
+
+新的Live2D.blend_opacity方法结合update_function函数可以修改Live2D模型的不透明度。
+
+.. _7.6-launcher-and-engine-translations:
+
+启动器和引擎的多语言支持
+-------------------------
+
+如果可能的话，各类机器翻译的文本将用于启动器和引擎，特别是更新长久以来都没有支持的一些语种。
+
+如果你想要提升翻译质量，可以这样做。
+编辑启动器目录 launcher/game/tl/`language` 中的各种 .rpy 文件，然后发送给我们。
+记得请删除标记“Automatic translation”的内容。
+
+以下语种的翻译启用了自动更新：
+
+* Finnish
+* French
+* German
+* Greek
+* Indonesian
+* Italian
+* Japanese
+* Korean
+* Polish
+* Portuguese
+* Russian
+* Simplified Chinese
+* Turkish
+* Ukrainian
+
+以下语种包含人工更新：
+
+* French
+* Portuguese
+* Spanish
+* Japanese
+* Ukrainian
+
+.. _7.6-more-new-features:
+
+更多新功能特性
+---------------
+
+:ref:`输入框 <sl-input>` 组件可以支持多行输入了。
+
+新增的 :ref:`JSONDB <jsondb>` 系统允许开发者在游戏脚本中读取Json文件存储的数据。
+例如，JSONDB用于存储气泡式对话信息。
+
+新增可视组件类型 :ref:`areapicker <sl-areapicker>`，提供了让用户可以框选一个屏幕区域的工具。
+
+:class:`Movie` 新增入参 `group` 。在某个组内的Movie对象可以衔接同组的上一个Movie对象最后一帧画面。
+此设计用于影片精灵直接的无缝衔接。
+
+新增配置项 :var:`config.file_slotname_callback` 允许开发者自定义存档槽位名的生成方式。
+该项的一种用法是可以在存档槽加前缀(比如，区别dlc存档和非dlc存档)。
+新增配置项 :var:`config.autosave_prefix_callback` 可以让自动存档也有一个前缀。
+
+新增一种工具，在开发者菜单中(Shift+D)可以查看持久化数据。
+
+互动式编导器可以创建语句时移除某个image对象的属性(attribute)。
+
+``show screen``、``hide screen`` 和 ``call screen`` 语句可以跟 ``expression``、``as``、``onlayer``、``zorder`` 和 ``with`` 从句。
+效果和语法与 ``show`` 和 ``hide`` 语句后面的从句相同。
+
+:func:`renpy.include_module` 函数可以加载 rpym 文件，穿插加载初始化语句块的内容。
+
+新增环境设定配置 “voice after game menu”，用于控制是否在显示游戏菜单时继续播放语音。
+
+创作者自定义语句可以与 ``default`` 语句相同的执行时机执行一个函数。
+此实际在初始化阶段之后，但早于游戏运行之前，以及加载存档时、回滚后、lint检查前等类似时间点。
+
+新增配置项 :var:`config.after_default_callbacks` 可以在 default 语句执行后立刻运行某些回调函数。
+
+互动式编导器中可以使用鼠标右键点击某个属性名称来取消该属性。
+
+:func:`Text` 组件新增入参 `tokenized`。若该入参为True，文本组件会从 :ref:`定制文本标签 <custom-text-tags>` 获取一个token列表。
+
+Ren'Py新增两个内置图层。“top”图层会显示在其他所有图层之上，并且不受转场效果影响。通常用于显示常驻信息。
+“bottom”图层显示在其他所有图像之下。通常用于处理总是激活状态的按键事件。
+
+Ren'Py支持C90编码的泰文字体。
+
+鼠标的按键映射也可以支持多按键事件。
+例如，“shift_mouseup_1”会在鼠标按键1释放并且shift键按下时触发对应的事件。
+
+重做了keysym系统，可以在NumLock键关闭状态时绑定小键盘按键(几个箭头和Home键)。
+重做了 :doc:`按键映射 <keymap>`，便于更好利用小键盘按键。
 
 通常，某个同名或带同名标签(tag)的可视组件或界面，从隐藏状态转为显示状态时，将移除组件或界面的隐藏属性，
 变换中hide部分的效果将取消。新的 :propref:`show_cancels_hide` 变换特性可以控制这种情况的效果。
@@ -139,22 +461,123 @@ Ren'Py中可以通过设置 ``_constant`` 将某个 :ref:`命名存储区 <named
 新增配置项 :var:`config.autosave_callback`，在后台自动存档时运行对应的回调函数。
 
 新增 :func:`renpy.music.pump` 函数，调用后可以让音频播放更改立即生效，而不需要等待下一次互动。
-主要用户播放某个音效，然后淡出。
+主要用于播放某个音效，然后淡出。
 (默认情况下，``play`` 语句后面跟的 ``stop`` 从句会将音频停止但没有淡出。)
 
 新增 :func:`renpy.clear_attributes` 函数，可以移动某个图像的所有标签(tag)。
 以前要实现效果的方式是隐藏并在此显示图像，同时会导致图像在界面中的位置也被重置。
 使用该函数则没有这个问题。
 
+新增配置项 :var:`config.check_conflicting_properties`，默认对已存在的游戏禁用而对新创建的游戏启用。
+可以让创作者检查样式和变换特性的当前设置是否会有冲突。
+原因是不同平台和版本的Ren'Py运行相同的代码可能会有不同的结果。
+
+新增配置项 :var:`config.font_name_map`，可以让创作者对字体文件和 :ref:`fontgroup` 重命名，使用在 {font} 文本标签时更方便。
+在此之前的版本中，{font} 文本标签无法使用字体组(fontgroup)。
+
+:class:`Scroll` 行为新增入参 `delay`，可以让滚动动画增加一段延迟。
+
+新增环境设置 :var:`preferences.audio_when_unfocused`，可以让用户切换应用窗口时暂停游戏内音频播放。
+
+界面中的 ``for`` 循环支持 ``continue`` 和 ``break`` 语句。
+
+可以在需要的文件开头使用 ``rpy monologue none`` 语句，禁用对话的 :ref:`monologue-mode`。
+
 .. _7.6-other-changes:
 
 其他变更项
 -------------
 
+极坐标运动的特性(:tpref:`around`、:tpref:`radius` 和 :tpref:`angle`)改为圆周运动，而不再是椭圆运行。
+圆周运动的半径会选取宽度和高度中较小的一方，并按比例换算。
+新增的 :tpref:`anchoraround`、:tpref:`anchorradius` 和 :tpref:`anchorangle` 特性可以在极坐标下指定锚点。
+
+当某个界面中设置两项互相冲突的特性时，Ren'Py会报错。
+比如，同时设置 :propref:`align` 和 :propref:`xalign` 就会报错。
+之前的版本中这属于未定义的情况。
+
+lint工具会检查游戏中永远无法抵达的语句，并在生成的报告中列出这些语句。
+
+lint工具会检查游戏中没有用到的多语言支持内容，并在生成的报告中列出这些内容。
+
+可以使用 :var:`build.itch_channels` 指定上传到 itch.io 的通道。
+
+连续三个双引号的转义字符串与单个双引号的用法一致。
+这样在界面中也可以使用连续三个双引号的文本了。例如：
+
+::
+
+    screen example():
+        text """\
+    line 1
+    line 2
+    line 3"""
+
+就可以在文本组件中创建出一行三个双引号的文本。
+
+在环境设置中存储着最大化窗口的状态，当游戏窗口最大化并关闭后，下次启动游戏将直接最大化窗口。
+
+界面语言定义可视组件时，可以直接在第一行使用 ``at transform`` ：
+
+::
+
+    text "Spinny text" at transform:
+        rotate 0.0
+        linear 2.0 rotate 360.0
+        repeat
+
+在界面语言中可以同时具有 `at` 特性并带有 ``at transform`` 语句块，应用顺序与脚本中的顺序一致。
+
+本地变量(前缀为 __ )可以用于f-string。
+
+在启用自动语言功能后，文本标签 {nw} 会等待自动语言说完某句台词再继续下一句。
+
+使用样式特性 ``selected_insensitive`` 后，``selected`` 和 ``selected_insensitive`` 事件将在合适的时机发送给变换(transform)。
+
+带有 `id` 特性的可视组件可以指定 `prefer_screen_to_id` 特性，控制是否接受界面中对应可视组件id的特性覆盖。
+默认情况下，组件自身特性覆盖界面中定义的特性。
+
+``fadein`` 从句可以用于音轨列队中。
+
+在Steam Deck上运行时，Ren'Py会限制BOverlayNeedsPresent的调用次数，防止卡死。
+
+Dialogue is now present in the history list (and hence the history screen)
+during the statement in which the dialogue is shown. Previously, it was only
+present at the end of the statement.
+
+When :var:`config.steam_appid` is not set, Ren'Py will delete any existing
+``steam_appid.txt`` file in the game directory. This is to prevent the wrong
+app id from being used.
+
+Audio volumes are now preserved when muted. (This means that the volume will
+not drop to 0 when the game is muted.)
+
+It is now explicitly documented that non-self-closing tags will be closed at
+the end of a block of text. This was the behavior of many versions of Ren'Py,
+but would produce lint warnings. Now, the following is explicitly valid::
+
+    e "{size+=20}This is big!"
+
+Self-voicing and auto-forward mode may now be enabled at the same time. When
+this is the case, auto-forward will only occur when the dialogue is focused.
+
+Ren'Py no longer requires grids or vpgrids to be full - it will now pad these
+grids with nulls as required.
+
 :func:`renpy.register_statement` 函数中的 `execute_init` 参数会受 `init_priority` 参数的影响。
 之前的版本中，所有 `execute_init` 中指定的函数始终在优先级0级别运行。
 
 config.label_callback 配置项改名为 :var`config.label_callbacks`，并且可以设置为一个回调函数列表。
+
+A number of documented functions, classes and Actions have seen their signatures
+(meaning the arguments they take) corrected in the documentation, making them
+safer to use.
+
+Ren'Py used to normalize all whitespace to standard spaces, and now
+supports non-standard spaces such as \\u3000, the full-width ideographic space.
+
+
+
 
 .. _renpy-7.5.3:
 .. _renpy-8.0.3:

@@ -337,6 +337,64 @@ Ren'Py没有办法强制保证常量存储区内的数据不会发生改变，�
     layeredimage
     updater
 
+.. _jsondb:
+
+JSONDB
+------
+
+.. class:: JSONDB(filename, default=None)
+
+    JSONDB是一个两级数据库，使用Json存储数据。
+    其可以被游戏开发者在数据库中存储数据，用于游戏脚本的版本控制。
+    例如，可以存储每一条say语句的相关信息，控制对应say语句显示的内容。
+
+    JSONDB不适合存储用户行为导致的数据变化。 :doc:`persistent` 或普通存档文件更适合那种需求。
+
+    数据库应该只包含在Python中可以序列化为Json的数据类型，包括列表、字典(字符串作为键)、字符串、数值、True、False和None。
+    请参阅 `Python文档 <https://docs.python.org/3/library/json.html#encoders-and-decoders>`_ ，
+    了解不同数据类型间的可互操性(interoperability)，以及数据格式转换的方法和各种可能遇到的坑。
+    
+    两级数据库即使用字符串作为键(key)的字典结构。
+    第一级字典是只读的，当使用某个键查询第一级字典时，第二级字典才会被创建，创建时可以选择默认的内容。
+    第二级字典是可读写的，当第二级字典的某个键发生改变时，游戏中对应的内容会在数据库中保存。
+
+    与其他持久化数据类似，JSONDB不受回滚操作的影响。
+
+    JSONDB实例应该在初始化阶段(在init python语句库或使用define语句)创建，并自动保存在硬盘上。
+    该实例创建后至少会是至少包含一个键值对的字典。例如：
+    
+    ::
+
+        define balloonData = JSONDB("balloon.json", default={ "enabled" : False })
+
+    以上代码创建了一个JSONDB实例，并以默认值存储在文件balloon.json中。
+    第二级字典的数据能直接作为普通字典使用。
+    
+    ::
+
+        screen say(who, what):
+
+            default bd = balloonData[renpy.get_translation_identifier()]
+
+            if bd["enabled"]:
+                use balloon_say(who, what)
+            else:
+                use adv_say(who, what)
+
+            if config.developer:
+                textbutton "Dialogue Balloon Mode":
+                    action ToggleDict(bd, "enabled")
+
+    JSONDB构造器使用以下入参：
+
+    `filename`
+        数据库实际存储的对应文件名。默认以game目录作为基础路径。
+        推荐文件扩展名为“.json”。
+
+    `default`
+        若该入参不是None，其应该是一个字典性数据。当第二级字典创建时，该入参的数据会浅拷贝作为新字典的初始值。
+        仅当至少有一个键值对发生改变时，新字典才会作为整个数据库的一部分而保存。
+
 .. _python-modules:
 
 第一方和第三方Python模块(module)和包(package)

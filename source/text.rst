@@ -768,7 +768,7 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
         label start:
             show top_text "这段文字显示在界面正中"
 
-.. function:: Text(text, slow=None, scope=None, substitute=None, slow_done=None, **properties)
+.. function:: Text(text, slow=None, scope=None, substitute=None, slow_done=None, *, tokenized=False, **properties)
 
     创建一个可视组件，在界面上显示文本。
 
@@ -782,11 +782,14 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
         若不为None，该值应该是一个字典型数值，提供了额外的作用域(scope)供文本内插(interpolation)的使用。
 
     `substitute`
-        若该值为True，则应用文本内插(interpolation)。若该值为False，不应用文本内插。若该值为None，由config.new_substitutions控制文本内插表现。
+        若该值为True，则应用文本内插(interpolation)。若该值为False，不应用文本内插。若该值为None，由 :var:`config.new_substitutions` 控制文本内插表现。
 
     `slow_done`
         若非None，并且启用了慢速文本模式(参见 `slow` 参数)，该参数应该是一个无参数的函数或可调用对象。
         当文本完成显示后调用参数对应的函数或可调用对象。
+
+    `tokenized`
+        若为True，`text` 参数需要是一个token列表而不是一个字符串。token内容参见 :doc:`custom_text_tags` 页面。
 
     `**properties`
         与其他可视组件类似，文本组件可以使用样式特性，包括 :propref:`mipmap` 。

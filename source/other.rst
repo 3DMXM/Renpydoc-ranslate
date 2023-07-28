@@ -444,6 +444,15 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     游戏窗口最小化。
 
+.. function:: renpy.include_module(name)
+
+    类似于 :func:`renpy.load_module` ，但不会直接加载对应模块，而是根据当前AST码穿插进入初始化队列。
+
+    加载初始化优先级数值不能比包含模块的代码块更小。
+    比如，你的模块包含一个优先级为init 10的代码块，那加载的最低优先级数值也至少是10.
+
+    加载模块的部分只能用在初始化代码块(init block)中。
+
 .. function:: renpy.invoke_in_thread(fn, *args, **kwargs)
 
     在背景线程调用函数 *fn* ，传入该函数收到的所有入参。线程返回后重新启动交互行为。

@@ -81,8 +81,8 @@ Phone
 Tablet
     这个模式模拟一台安卓平板。触控模式通过鼠标实现，但是不过仅在鼠标左键按下的情况下有效。Esc键映射为menu按键，PageUp键映射为back按键。
 
-Television / OUYA
-    这个模式模拟一台基于电视的安卓设备，比如OUYA主机。按键映射为远程或控制器输入，方向键提供了导航功能。select键是回车，Esc键是菜单，PageUp键是back。
+Television
+    这个模式模拟一台基于电视的安卓设备。按键映射为远程或控制器输入，方向键提供了导航功能。select键是回车，Esc键是菜单，PageUp键是back。
 
     这个模式会在“电视机盲区”区域显示一个轮廓。所有“电视机盲区”区域的画面在所有电视上都不能显示。
 
@@ -102,11 +102,13 @@ Ren'Py包含一些工具能帮助创作者以包(package)为中心进行安卓�
 
 1. 下载和安装Java Development Kit和安卓USB驱动(下载链接在后面)。
 
-2. 使用启动器(launcher)安装安卓SDK并创建密钥(key)。
+2. 使用启动器(launcher)安装安卓SDK。
 
-3. 使用启动器进行安卓生成配置。
+3. 使用启动器(launcher)创建密钥(key)。
 
-4. 使用启动器生成安卓应用程序。
+4. 使用启动器进行安卓生成配置。
+
+5. 使用启动器生成安卓应用程序。
 
 一旦你完成了这些步骤，就能得到一个可以运行的安卓包。当你修改了某个游戏的配置或者完整配置一个新游戏时，只需要执行步骤3；如果你要重新生成一个包，通常只需要执行步骤4。
 
@@ -146,38 +148,43 @@ RAPT需要使用这些工具，包括用于生成密钥(key)和签名包的工�
 * 检查JDK是否正确安装。
 * 安装安卓SDK。
 * 使用安卓SDK安装合适的开发工具包。
-* 创建一个签名密钥，使用这个密钥给包签名。签名后的包就可以发布在应用市场上了。(android.keystore：这个文件生成在RAPT目录下。)
 
 这步需要接入互联网。
 
-执行这个步骤时，选择Ren'Py启动器中安卓界面的“安装SDK并创建密钥”。
+执行这个步骤时，选择Ren'Py启动器中安卓界面的“安装SDK”。
+RAPT会实时报告它正在做的工作。它还会将各类许可证信息。
 
-RAPT会实时报告它正在做的工作。它还会将各类许可的警告信息，并询问你是否需要生成一个密钥。
+如果不想每次都下载SDK，可以创建一个名为“sdk.txt”的文件，把已安装的SDK路径写在该文件中。
+
+.. _step-3-generate-keys:
+
+完成以上步骤后，点击“生成密钥”，以生成对应的安卓和Bundle需要的密钥(key)。
 
 .. warning::
 
-   RAPT生成的密钥使用一个标准密码创建。你应该使用密钥工具生成自己的签名密钥。
+    RAPT生成的密钥使用一个标准密码创建。你需要确保自己拥有这些文件的权限。
+   
+    你应该将android.keystore和bundle.keystore文件保存在一个安全的地方。
+    你还应该将保存这个密钥的备份，因为没有这个密钥的话，你就不能上传生成的应用程序。
 
-    https://developer.android.com/studio/publish/app-signing?hl=fr#generate-key
-
-   至少，你应该将android.keystore和bundle.keystore文件保存在一个安全的地方。你还应该将保存这个密钥的备份，因为没有这个密钥的话，你就不能上传生成的应用程序。
 
 创建安卓密钥时，Ren'Py会把密钥文件备份在脚本文件的相同备份目录下。避免你每次都自己额外备份。
 
-如果你不想每次都下载SDK，可以创建一个名为“sdk.txt”的文本文件，文件里写上已安装SDK的所在路径。
+如果你想要使用自己的密钥，配置游戏时，编辑 ``android.json`` 文件，将update_keystores设置为false。
+然后编辑 ``rapt/project`` 中的 ``local.properties`` 和 ``bundle.properties``，指向你自己的对应文件。
 
-.. _step-3-configure-your-game:
+.. _step-4-configure-your-game:
 
-步骤3：配置游戏
+步骤4：配置游戏
 ---------------------------
 
 生成一个包(package)之前，你必须向Ren'Py提供一些关于游戏安卓版本的信息。在Ren'Py启动器的安卓界面，选择“配置”。
 
 如果你需要修改这些信息——例如，你做了一个游戏的新版本——你可以重新运行配置命令。之前你配置的选项已经被记住了。
 
-.. _step-4-build-and-install-the-package:
+.. _step-5-build-and-install-the-package:
 
-步骤4：生成应用包并安装
+步骤5：生成应用包并安装
 -------------------------------------
 
 最后，你可以生成应用包并安装了。
@@ -261,7 +268,7 @@ Pyjnius
     init python:
         if renpy.android:
             import jinus
-            mActivity = jnius.autoclass("org.renpy.android.PythonSDLActivity")
+            mActivity = jnius.autoclass("org.renpy.android.PythonSDLActivity").mActivity
         else:
             mActivity = None
 
@@ -296,18 +303,3 @@ Ren'Py包含一个变量和两个函数，用于与安卓选线系统交互。
         表示具体权限许可名称的字符串，例如“android.permission.WRITE_EXTERNAL_STORAGE”。
 
     如果已授权则返回True，如果未授权或运行平台并非安卓则返回False.
-
-.. _transferring-files-to-and-from-android:
-
-与安卓设备互传文件
-===================
-
-使用USB线将你的安卓设备与电脑接连后，将连接方式设置为文件存储，可以看到各目录中保存着的文件。
-(这里假设你的游戏目录为 org.renpy.mygame ，当然实际目录名是各种各样的)
-
-Android/data/org.renpy.mygame/files/saves
-    该目录保存游戏存档文件。
-
-Android/data/org.renpy.mygame/files/game
-    该目录不一定存在。若不存在你可以主动创建一个。
-    在该目录内的文件可能由安卓安装包中各文件加载。各类补丁可以放置在这个目录中。
