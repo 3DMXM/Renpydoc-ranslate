@@ -80,6 +80,7 @@
     :caption: 其他功能
 
     nvl_mode
+    bubble
     input
     side_image
     rooms

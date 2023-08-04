@@ -9,11 +9,150 @@
 
 关于GUI方面的不兼容变更，详见 :ref:`gui-changes` 部分，只有重新生成GUI才会让这些变更生效。
 
+.. _pending-deprecations:
+
+待定的弃用内容
+--------------
+
+这里记载的东西可能是未来Ren'Py版本中可能会发生的。
+
+Ren'Py 8.1发布1年后，即2024年5月，将停止对Python2和Ren'Py 7的支持。
+
+Ren'Py 8.1发布1年后，即2024年5月，将移除原生OpenGL渲染器。
+如果你的游戏中将config.gl2设置为False，需要将这项设置为True并确保游戏依然能正常运行。
+如果游戏运行出问题了，请报告相应的事件(issue)。报告事件时，需要包含硬件(设备和GPU)信息、操作系统和驱动版本号和对应的年份。
+
+.. _incompatible-8.1.1:
+.. _incompatible-7.6.1:
+
+8.1.1 / 7.6.1
+-------------
+
+.. _android-key-migration:
+
+**安卓密钥迁移** 我们收到了一些报告，表示一些游戏由于使用了不同的密钥而被Google Play商店拒绝包含APK的Bundle上架申请。
+该现象是由某个老版本的Ren'Py造成的，该版本可以使用APK密钥生成Bundle。在控制台中可能会受到如下错误信息：
+
+::
+
+
+    You uploaded an APK that is not signed with the upload certificate. You must use
+    the same certificate. The upload certificate has fingerprint:
+
+        SHA1: ...
+
+    and the certificate used to sign the APK you uploaded has fingerprint:
+
+        SHA1: ...
+
+这种报错可能是由其他问题引发的(比如只是使用了完全错误的密钥)。一种可能的解决方案如下：
+
+1. 游戏根目录中的 ``bundle.keystore`` 文件重命名为 ``bundle.keystore.bak``。
+2. 将 ``android.keystore`` 复制到游戏根目录，并改名为 ``bundle.keystore``。
+
+最后尝试生成并上传Bundle。
+
 .. _incompatible-8.1.0:
 .. _incompatible-7.6.0:
 
 8.1.0 / 7.6.0
 -------------
+
+**气泡式台词** 在之前的游戏项目中添加气泡式台词的支持前，需要添加一些文件和脚本内容。
+详见 :doc:`bubble` 部分。
+
+**Live2D** 当前版本Ren'Py对Live2D Cubism 4 SDK版本的要求为Native R6_2或之后的版本。
+使用旧版本可能会被Ren'Py拒绝。
+
+**纹理内存** 当前版本Ren'Py计算纹理缓存时更精确。
+总体来说，大概提升了 :var:`config.image_cache_size_mb` 容量的33%，以及等量的内存。
+
+**音频淡出** 停止音频播放或使用 ``play`` 语句更改播放内容后，默认有0.016秒的淡出效果，防止爆音问题。
+可以通过配置项 :var:`config.fadeout_audio` 修改淡出时间。如果要禁用默认淡出效果：
+
+::
+
+    define config.fadeout_audio = 0.0
+
+
+淡出的音量值以对数形式递减，能让音频更顺滑，符合人类耳朵的听觉习惯。
+之前则是线性递减。如果要切换为以前的淡出算法：
+
+::
+
+    define config.linear_fades = True
+
+**Translate None** Ren'Py在遇到显式的 ``translate None`` 语句用以标注不进行语言转换的字符串、样式和Python代码时将报错。
+这种情况很少见。推荐修改下列代码：
+
+::
+
+    translate None start_abcd1234:
+        e "This is a test"
+
+改为：
+
+::
+
+    e "This is a test" id start_abcd1234
+
+也可以直接设置配置项：
+
+::
+
+    define config.check_translate_none = False
+
+**按键映射** :doc:`按键映射 <keymap>` 文档部分大量修改。因此游戏做修改时使用默认的按键映射方案不是个好主意。
+不然就要更新或处理原来没有的按键事件。
+
+**文件搜索** 当前版本Ren'Py只会在game/images目录中搜索图片文件，而不管其他类型文件。
+如果要在game/images目录中存放其他类型文件，需要设置：
+
+::
+
+    define config.search_prefixes += [ "images/" ]
+
+搜索文件时选用的路径主要考虑文件的用途，而不是文件类型和扩展名。
+因此，``renpy.loadable("dlc.jpg")`` 不会搜索game/images/dlc.jpg文件。
+如果想要寻找该文件，需要写 ``renpy.loadable("images/dlc.jpg")``。
+如果要同时在game和game/images两个路径搜索文件，需要写 ``renpy.loadable("dlc.jpg", "images")``
+
+**安卓** 安卓中需要用到的 ``android.keystore`` 和 ``bundle.keystore`` 文件需要放在项目根目录中，而不再是rapt目录。
+这项修改是为了构建不同版本时能使用不同的密钥(key)，或者在不同的安卓版本中使用同一个密钥。
+
+如果想要使用自己拥有的密钥，需要编辑 ``android.json``，把update_keystore设置为False。
+然后再编辑 ``rapt/project`` 中的 ``local.properties`` 和 ``bundle.properties``，指向自己的密钥。
+
+安卓配置文件从 ``.android.json`` 改名为 ``android.json``。在旧文件存在的情况下，Ren'Py会自动创建新的文件。
+
+**对话历史** 当前正在显示的对话将进入历史列表(和history界面)。之前的版本中，只有对话完全显示后才会进入历史列表。
+正在显示的对话类型会被标记为“current”。
+
+在少数情况下，游戏需要使用旧版本的表现形式，可以修改配置项：
+
+::
+
+    define config.history_current_dialogue = False
+
+**Steam appid** 没有设置 :var:`config.steam_appid` 的情况下，Ren'Py会删除game目录下所有存在的 ``steam_appid.txt`` 文件。
+这可以防止使用错误的appid。
+
+**粘滞图层** 新版本引入了粘滞图层的概念，可以根据图像标签(tag)设置显示的图层，而不再是图像定义的默认图层。
+在少数情况下，游戏可能要求相同图像标签(tag)的内容同时显示在多个不同的图层上。这种需求是无法实现的。
+
+若要完全禁用粘滞图层，可以修改配置项：
+
+::
+
+    define config.sticky_layers = [ ]
+
+此外，还可以在定义图层时就声明 ``sticky=False``：
+
+::
+
+    init python:
+        renpy.add_layer("ptfe", sticky=False)
+
 
 **方头凹形括号表示Ruby文本**
 此版本的Ren'Py引入方头凹形括号表示Ruby文本的语法。
@@ -26,8 +165,7 @@
 
     define config.lenticular_bracket_ruby = False
 
-**常量存储区**。
-此版本的Ren'Py引入了 :ref:`常量存储区 <constant-stores>`，并把某些内建的存储常量化了。
+**常量存储区** 此版本的Ren'Py引入了 :ref:`常量存储区 <constant-stores>`，并把某些内建的存储常量化了。
 常量存储在初始化阶段后不会再改变。以下为存储的常量：
 
     _errorhandling
@@ -48,15 +186,47 @@
 
     define audio._constant = False
 
-**混音器音量** 必须使用新的格式，0.0表示-60dB(电平)，1.0表示0dB(电平)。
+**混音器音量** 必须使用新的格式，0.0表示-40dB(电平)，1.0表示0dB(电平)。
 若要使用旧版格式：
 
 ::
 
-    define config.quadratic_volume = True
+    define config.quadratic_volumes = True
 
 同时，还要将 :var:`config.default_music_volume`、:var:`config.default_sfx_volume` 和 :var:`config.default_voice_volume`
 都修改。如果任何一个的值为0.0或1.0，都没效果。
+
+**at transform和全局变量** 在at transform语句块中使用的全局变量不会在变量发生改变时重新计算。
+该情况适用于界面中没有用到的ATL。
+
+The recommended fix is to capture the global variable into a local, by changing
+推荐的修复方法是，新增一个本地变量，从全局变量赋值。
+原脚本：
+
+::
+
+    screen test():
+        test "Test":
+            at transform:
+                xpos global_xpos
+
+需要修改为：
+
+::
+
+    screen test():
+        $ local_xpos = global_xpos
+
+        test "Test":
+            at transform:
+                xpos local_xpos
+
+若要使用原本的设计，需要修改配置项：
+
+::
+
+    define config.at_transform_compare_full_context = True
+
 
 .. _incompatible-8.0.2:
 .. _incompatible-7.5.2:

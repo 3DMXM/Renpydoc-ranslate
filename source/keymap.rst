@@ -20,7 +20,7 @@
 键盘keysym也可以是符号或者功能按键。可以是pygame.constants中定义的任意 K\_ 形式常量。这种keysym字符串类似于
 "K\_BACKSPACE"、 "K\_RETURN"和 "K\_TAB"；完整的keysym定义详见 `这里 <http://www.pygame.org/docs/ref/key.html>`_。
 
-键盘keysym可以使用下列前缀，与后面的字符用下划线分割：
+键盘和鼠标keysym可以使用下列前缀，与后面的字符用下划线分割：
 
 alt
     当alt键被同时按下时匹配。不同时按下alt键的keysym与不带前缀的匹配。
@@ -53,7 +53,7 @@ nonum
     当Num Lock键处于Off状态时匹配。
 
 repeat
-    由于按键始终处于按下状态时，则匹配为repeat。不带这个前缀的keysym不会匹配到repeat。
+    按键长按状态时，则匹配为repeat。不能长按的keysym或者不带这个前缀的keysym不会匹配到repeat。(鼠标按键无效)
 
 any
     匹配任意按键的按下或持续按下状态。
@@ -64,16 +64,16 @@ keydown
 keyup
     匹配按键被释放状态。
 
-例如，keysym “shift_alt_K_F5”，当shift和alt键一直按下时，按下F5可以匹配到。
+例如，keysym “shift_alt_K_F5”，当shift和alt键长按时，再按下F5可以匹配到。
 
 
 要修改keysym和事件的绑定关系，就需要修改 :var:`config.keymap`。下面的脚本将“t”键添加到按键列表中，作用是dismiss某say语句，并从列表中移除了空格键。
 
 ::
 
-    init:
-        $ config.keymap['dismiss'].append('t')
-        $ config.keymap['dismiss'].remove('K_SPACE')
+    init python:
+        config.keymap['dismiss'].append('K_t')
+        config.keymap['dismiss'].remove('K_SPACE')
 
 默认的按键映射放在renpy/common/00keymap.rpy文件中，下面是8.1.0版本的配置：
 

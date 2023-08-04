@@ -18,9 +18,9 @@
 
 .. function:: renpy.loadable(filename)
 
-    如果 *filename* 表示的文件可以加载就返回True。可以加载表示可以从磁盘上或者某个归档文件内读取。如果不能加载则返回False。
+    如果 *filename* 表示的文件可以加载就返回True。可以加载表示可以从磁盘上或者某个归档文件内读取数据。如果不能加载则返回False。
 
-.. function:: renpy.open_file(fn, encoding=None)
+.. function:: renpy.open_file(fn, encoding=None, directory=None)
 
     接入名为 `fn` 的文件并返回一个只读的类文件对象。使用Ren'Py的标准搜索方法，我们可以进行文件读写。还可以在RPA归档文件内部进行读写操作，或者以安卓asset形式读写。
 
@@ -30,6 +30,10 @@
         若指定，则根据对应编码方式以文本模式打开文件。
         若为None，即默认值，根据配置项 :var:`config.open_file_encoding` 决定编码方式。
         若为False，以二进制形式打开文件。
+
+    `directory`
+        若不是None，则会在game目录中没有找到对应文件时，再次在该入参指定的目录中搜索对应文件。
+        This will be prepended to filename, and the search tried again.(译者注：不知道这句什么意思……)
 
 .. _rarely-used:
 

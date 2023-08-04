@@ -15,7 +15,9 @@ Linux
     包括32位和64位的ARM版本。(如果装了sdkarm的Ren'Py包)
 
 Macintosh
-    一个运行在使用Intel处理器Macintosh OS X系统的zip文件，文件中包含一个Macintosh可执行文件。游戏数据可以包含在可执行文件中，在用户看来只有一个文件。
+    一个运行在使用Intel或苹果Silicon处理器Macintosh OS X系统的zip文件，文件中包含一个Macintosh可执行文件。
+    游戏数据可以包含在可执行文件中，在用户看来只有一个文件。
+    更新器无法对这个包没用。
 
 Windows
    一个运行在Windows x86_64平台的zip文件。
@@ -167,7 +169,7 @@ Packages
     build.classify("game/bonus/**", "bonus_archive")
 
     # 定义包文件。
-    build.package("all-premium", "zip", "windows mac linux all bonus")
+    build.package("all-premium", "zip", "windows mac linux renpy all bonus")
 
 支持生成的包类型包括“zip”和“tar.bz2”格式，以及用于装文件的目录“direcroty”。
 
@@ -377,6 +379,12 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
 
     若为True，Ren'Py会根据 :doc:`updater <updater>` 的设置生成文件。
 
+.. var:: build.itch_project = None
+
+    配置了这项后，就允许Ren'Py启动器将项目上传到itch.io。这项应该设置为在itch上注册的项目名。(例如，“renpytom/the-question”。)
+
+    一旦设置了这项，你可以点击“生成分发版”，然后选择“上传到itch.io”，将生成的版本上传。
+
 .. var:: build.itch_channels = { ... }
 
     该项将一个文件名通配表达式(比如 \*-win.zip)映射为一个字符串，对应 itch 平台对应的上传通道。
@@ -393,12 +401,6 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
             "*-linux.tar.bz2" : "linux",
             "*-release.apk" : "android",
         }
-
-.. var:: build.itch_project = None
-
-    配置了这项后，就允许Ren'Py启动器将项目上传感到itch.io。这项应该设置为在itch上注册的项目名。(例如，“renpytom/the-question”。)
-
-    一旦设置了这项，你可以点击“生成分发版”，然后选择“上传到itch.io”，将生成的版本上传。
 
 .. var:: build.mac_info_plist = { }
 

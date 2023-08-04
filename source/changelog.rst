@@ -36,14 +36,14 @@ Ren'Py同步功能可以通过新增的两个类 :class:`UploadSync` 和 :class:
 
 .. _7.6-speech-bubble-dialogue:
 
-气泡式对话
+气泡式台词
 -------------
 
-当前版本的Ren'Py包含了一个全新的 :doc:`气泡式 <bubble>` 对话系统。
-气泡式对话系统可以让角色以类似于漫画对话的形式展示，并包含一个可交互编辑器用于对话气泡调整位置和根据互动调整气泡形状。
+当前版本的Ren'Py包含了一个全新的 :doc:`气泡式台词 <bubble>` 系统。
+气泡式台词系统可以让角色以类似于漫画对话的形式展示，并包含一个可交互编辑器用于对话气泡调整位置和根据互动调整气泡形状。
 
-如要要在某个已经完成的游戏中添加气泡式对话，需要在游戏中添加一些文件和脚本。
-气泡章节文档详述了需要修改的内容。
+如要要在某个已经完成的游戏中添加气泡式台词，需要在游戏中添加一些文件和脚本。
+气泡式台词章节文档详述了需要修改的内容。
 
 .. _7.6-platform-improvements:
 
@@ -541,43 +541,32 @@ lint工具会检查游戏中没有用到的多语言支持内容，并在生成�
 
 在Steam Deck上运行时，Ren'Py会限制BOverlayNeedsPresent的调用次数，防止卡死。
 
-Dialogue is now present in the history list (and hence the history screen)
-during the statement in which the dialogue is shown. Previously, it was only
-present at the end of the statement.
+对话框中正在显示的内容将进入对话历史记录(以及历史记录界面)中。之前的版本中，只有对话达到结尾处才会进入对话历史记录。
 
-When :var:`config.steam_appid` is not set, Ren'Py will delete any existing
-``steam_appid.txt`` file in the game directory. This is to prevent the wrong
-app id from being used.
+如果没有设置 :var:`config.steam_appid`，Ren'Py会删除game目录下所有存在的 ``steam_appid.txt`` 文件。
+此举是为了防止启用错误的steam app id。
 
-Audio volumes are now preserved when muted. (This means that the volume will
-not drop to 0 when the game is muted.)
+音频的音量值与静音设置做了隔离。(也就是说，游戏静音并不等于音量值就一定是0。)
 
-It is now explicitly documented that non-self-closing tags will be closed at
-the end of a block of text. This was the behavior of many versions of Ren'Py,
-but would produce lint warnings. Now, the following is explicitly valid::
+文档中明确了非自闭合的文本标签会自动在对应的文本段落结尾添加闭合标签。
+在之前的很多Ren'Py版本中，lint检查只是出现warning信息。从此版本开始，下面的脚本是合法的。
 
-    e "{size+=20}This is big!"
+::
 
-Self-voicing and auto-forward mode may now be enabled at the same time. When
-this is the case, auto-forward will only occur when the dialogue is focused.
+    e "{size+=20}这段文字加大！"
 
-Ren'Py no longer requires grids or vpgrids to be full - it will now pad these
-grids with nulls as required.
+自动语音和自动前进可以同时启用。同时启用后，仅当对话框获得焦点时，自动前进才会起效。
+
+Ren'Py不再要求grid和vpgrid组件必须填满——子组件数量不足时将使用null组件填充。
 
 :func:`renpy.register_statement` 函数中的 `execute_init` 参数会受 `init_priority` 参数的影响。
 之前的版本中，所有 `execute_init` 中指定的函数始终在优先级0级别运行。
 
 config.label_callback 配置项改名为 :var`config.label_callbacks`，并且可以设置为一个回调函数列表。
 
-A number of documented functions, classes and Actions have seen their signatures
-(meaning the arguments they take) corrected in the documentation, making them
-safer to use.
+文档中一系列函数、类和行为函数的签名(即入参列表)做了修正，使用起来更安全。
 
-Ren'Py used to normalize all whitespace to standard spaces, and now
-supports non-standard spaces such as \\u3000, the full-width ideographic space.
-
-
-
+之前Ren'Py会将所有空白字符都转为标准空格。当前版本可以支持非标准空白，比如 \\u3000 这种全角空格。
 
 .. _renpy-7.5.3:
 .. _renpy-8.0.3:

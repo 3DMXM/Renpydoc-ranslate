@@ -58,21 +58,36 @@ Ren'Py会自动给摄像机坐标设置一个坐标偏移量(`width` / 2, `heigh
 增大摄像机的z轴坐标可以让所有显示内容变小，相反则会让显示内容变大。
 
 最后一点， :tpref:`perspective` 和 :var:`config.perspective` 设置了摄像机可视范围，默认的最近和最远距离分别是100和10000.
-当图像与摄像机的z轴距离小于100或大于10000时，图像将不会显示。
+当图像与摄像机的z轴距离小于100或大于100000时，图像将不会显示。
+
+.. var:: config.perspective = (100, z, 100000)
+
+    当 :tpref:`perspective` 没有设置为一个3元的元组时使用的默认值。
+    ``z`` 的值取决于游戏对三维空间的需求。
 
 .. _using-the-3d-stage:
 
 使用3D舞台
 ------------------
 
-使用3D舞台时，首先需要使用 ``camera`` 语句指定图层。常用方法是：
+使用3D舞台时，首先需要使用 ``camera`` 语句启用一个图层。如果没有指定具体图层的名称，则默认使用 ``master`` 图层。
+常用方法是：
 
 ::
 
+    # 启用master图层作为3D舞台图层
     camera:
         perspective True
 
 创作者可能还会想要设置一个默认的摄像机位置。详见下面的内容。
+
+相应的，也可以指定一个别的图层并仅在该图层启用3D舞台。
+
+::
+
+    # 启用background图层作为3D舞台图层
+    camera background:
+        perspective True
 
 显示图像(背景和sprite)则与2D坐标系中相同：
 
@@ -127,7 +142,7 @@ Ren'Py提供了一个简单方式修复这个问题—— :tpref:`zzoom` 。
 ::
 
     transform zbg:
-        zpos -100 zzoom False
+        zpos -100 zzoom True
 
 使用ATL也可以调整zpos的值，如同调整xpos和ypos一样：
 
@@ -308,7 +323,81 @@ TransformMatrix的子类必须要实现 ``__call__`` 方法。该方法需要两
     该特性指定图像关联的锚点位置矩阵。
     如果变量是浮点数，是与子组件尺寸相关的比例值；否则，表示像素数。
 
+    应用其他变换特性，比如point_to、orientation、xrotate、yrotate、zrotate和matrixtransform，必须设置的原点(0, 0, 0)的坐标。
     该特性会将matrixtransform应用的变换对象的值设置为原点(0, 0, 0)的位置。
+
+.. transform-property:: point_to
+
+    :type: (float, float, float), Camera, or None
+    :default: None
+
+    该特性给定了一个坐标，表示指向。相机或可视组件经过变换后，可能发生旋转并面向指定的坐标，并且相机或可视组件移动后始终保持面向此坐标。
+
+    若该值为None，就不会发生旋转。
+
+    若该值不是None，可能是一个三元元组或 :func:`Camera` 的实例。
+    (x, y, z)格式的元组表示目标兴趣点坐标。Camera实例表示相机坐标。
+
+    Note point_to isn't updated automatically. so, you should write like below if
+    you want it is updated
+    注意point_to的值不会自动更新。想要更新的话，请按下列方式写脚本：
+
+    ::
+
+        # 艾琳总是正面朝向相机。
+        show eileen happy at center:
+            point_to Camera()
+            0
+            repeat
+
+    .. class:: Camera(layer='master')
+
+        该类的实例可以用作point_to特性的值，表示指定图层上的相机坐标。
+
+        `layer`
+            图层名。
+
+.. transform-property:: orientation
+
+    :type: (float, float, float) or None
+    :default: None
+
+    该特性会旋转相机或可视组件。三个数值分辨表示围绕x、y和z轴的旋转，单位是度(degree)。
+    应用在可视组件上顺序分别为x、y、z轴。应用在相机上顺序分别是z、y、x轴。
+
+    当需要对旋转的值进行插值计算时，会使用最短路径算法，在新旧两个值之间的计算结果。
+
+    若该特性值为None，不应用任何旋转。
+
+.. transform-property:: xrotate
+
+    :type: float or None
+    :default: None
+
+    该特性表示相机或可视组件绕着x轴旋转。数值表示旋转角度，单位是度(degree)。
+    应用在可视组件上顺序分别为x、y、z轴。应用在相机上顺序分别是z、y、x轴。
+
+    若该特性值为None，不绕x轴方向旋转。
+
+.. transform-property:: yrotate
+
+    :type: float or None
+    :default: None
+
+    该特性表示相机或可视组件绕着y轴旋转。数值表示旋转角度，单位是度(degree)。
+    应用在可视组件上顺序分别为x、y、z轴。应用在相机上顺序分别是z、y、x轴。
+
+    若该特性值为None，不绕y轴方向旋转。
+
+.. transform-property:: zrotate
+
+    :type: float or None
+    :default: None
+
+    该特性表示相机或可视组件绕着z轴旋转。数值表示旋转角度，单位是度(degree)。
+    应用在可视组件上顺序分别为x、y、z轴。应用在相机上顺序分别是z、y、x轴。
+
+    若该特性值为None，不绕z轴方向旋转。
 
 .. transform-property:: matrixtransform
 
@@ -325,7 +414,7 @@ TransformMatrix的子类必须要实现 ``__call__`` 方法。该方法需要两
     :type: True or False or Float or (Float, Float, Float)
     :default: None
 
-    该特性应用到某个变换时，启用透视渲染效果。    
+    该特性应用到某个变换时，启用透视渲染效果。
     特性值应该是个3元元组，分别表示最近平面、1:1平面z轴距离和最远平面。
 
     如果值是一个浮点数，最近和最远平面从配置项 :var:`config.perspective` 获取。

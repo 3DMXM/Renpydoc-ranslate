@@ -43,7 +43,7 @@ play语句
 音频通道名(通常就是“sound”、“music”、“voice”或者“audio”)需要跟在关键词 ``play`` 后面。通道名后面是音频文件。音频文件可以是单个文件，也可以是文件列表。如果是文件列表的话，列表内元素顺序播放。
 
 
-``fadein`` 和 ``fadeout`` 分句是可选的。 fadeout指定了正在播放音乐需要停止时的淡出时间，单位为秒。fadein指定了播放新音乐的开头淡入时间。如果没有fadeout时间没有指定，就使用 :var:`config.fade_music` 的配置值。
+``fadein`` 和 ``fadeout`` 分句是可选的。 fadeout指定了正在播放音乐需要停止时的淡出时间，单位为秒。fadein指定了播放新音乐的开头淡入时间。如果没有fadeout时间没有指定，就使用 :var:`config.fadeout_audio` 的配置值。
 
 ``loop`` 和 ``noloop`` 分句也是可选的。 loop分句表示音乐循环播放，noloop分句表示音乐只播放一次。如果这两个分句都没有出现，根据通道的默认配置决定实际播放情况。
 
@@ -99,6 +99,7 @@ stop语句
 --------------
 
 stop语句以关键词 ``stop`` 开头，后面跟需要静音的音频通道名。最后有一个可选的 ``fadeout`` 分句。
+如果没有fadeout时间没有指定，就使用 :var:`config.fadeout_audio` 的配置值。
 
 ::
 
@@ -209,7 +210,7 @@ layer_2.opus播放时将会与music_1通道的循环保持同步，即music_1从
 例如，main音量值80%(0.8)，混音器音量值100%，音频通道音量值50%(0.5)，音频自身音量25%(0.25)。
 最终音量为 .8\*1.\*.5\*.25 = .1，即10% 。
 
-混音器音量可以使用 :func:`preferences.set_volume` 函数、:func:`SetMixer` 行为和 :func:`Preference` 行为指定“mixer <mixer> volume”进行设置。
+混音器音量可以使用 :func:`preferences.set_mixer` 函数、:func:`SetMixer` 行为和 :func:`Preference` 行为指定 ``"mixer <mixer> volume"`` 进行设置。
 audio和sound音频通道相关的混音器为“sfx”，music音频通道相关的混音器为“music”，而voice音频通道相关的混音器为“voice”。
 每个音频通道都与“main”混音器相关。
 
@@ -238,8 +239,8 @@ audio和sound音频通道相关的混音器为“sfx”，music音频通道相�
 
 .. _audio-namespace:
 
-音频命名空间
----------------
+音频命名空间和目录
+-------------------
 
 ``play`` 和 ``queue`` 语句在音频命名空间内计算入参的值。这意味着可以使用define语句，为音频文件提供一个别名(alias)。
 
@@ -265,6 +266,17 @@ Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件，并�
     play music opening_song
 
 某些文件名无法使用这种方式，因为这些文件名不符合Python变量命名规范。例如，“my song.mp3”、“8track.opus”和“this-is-a-song.ogg”就有这种情况。
+
+Ren'Py搜索音频文件时，如果在game目录中没有对应的匹配文件，会再次在audio目录中寻找。
+例如：
+
+::
+
+    play music "opening.ogg"
+
+Will first look for ``game/opening.ogg``. If not found, Ren'Py will look for
+``game/audio/opening.ogg``.
+会先寻找 ``game/opening.ogg``。若未果则会寻找 ``game/audio/opening.ogg`` 。
 
 .. _a-actions:
 

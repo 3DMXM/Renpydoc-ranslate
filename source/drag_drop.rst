@@ -14,6 +14,19 @@ Ren'Py含有一些拖放组件，这些组件允许使用鼠标在界面上任�
 
 拖放系统可以通过 :doc:`界面语言 <screens>` 使用，或者直接用作可视组件。当你创建Drag对象后不再需要引用这些对象，最好使用界面语言。典型的情况是，可拖拽组件显示了一个用于放置在界面里的窗口。如果你在创建Drag对象后还需要引用，通常更好的做法是直接创建Darg对象并把它们添加到一个DragGroup对象中。
 
+.. _dropping:
+
+组件掉落
+--------
+
+Ren'Py有两种处理的组件掉落(drop)事件的方式：
+
+* 如果 `mouse_drop` 的值为True，拖拽组件会直接掉落在当前鼠标位置的可承接组件掉落的组件上。
+* 如果 `mouse_drop` 的值为False，即默认值，拖拽组件掉落后会调整位置到正好完全覆盖在背后的组件上。
+
+与开始拖动组件事件不同，当启用 `focus_mask` 后，组件掉落时会同时考虑上下两个组件整个区域是否可拖拽和是否可承接掉落，包括区域内的透明像素。
+创作者设计时就需要把这些问题纳入考量，保证矩形边缘的锐度。
+
 .. _drag-drop-displayables:
 
 可视组件
@@ -201,12 +214,14 @@ Ren'Py含有一些拖放组件，这些组件允许使用鼠标在界面上任�
                 droppable False
                 dragged detective_dragged
                 xpos 100 ypos 100
+                add "ivy.png"
             drag:
                 drag_name "Zack"
                 child "zack.png"
                 droppable False
                 dragged detective_dragged
                 xpos 150 ypos 100
+                add "zack.png"
 
             # 可选的城市。
             drag:
@@ -214,11 +229,13 @@ Ren'Py含有一些拖放组件，这些组件允许使用鼠标在界面上任�
                 child "london.png"
                 draggable False
                 xpos 450 ypos 140
+                add "london.png"
             drag:
                 drag_name "Paris"
                 draggable False
                 child "paris.png"
                 xpos 500 ypos 280
+                add "paris.png"
 
     label send_detective:
         "我们需要调查！应该派谁去哪里？"

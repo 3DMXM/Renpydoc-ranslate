@@ -86,6 +86,8 @@ images目录
     game/images/Eileen Happy.jpg
     game/images/eileen/eileen happy.png
 
+如果指定图片名后没有在game目录中找到，则会再次在images目录搜索。
+
 .. _oversampling:
 
 过采样

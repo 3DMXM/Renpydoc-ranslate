@@ -15,7 +15,7 @@ Ren'Py 7现在支持Python 2.7。Ren'Py 8支持Python 3.9。
     Python中还有几种数据结构，在存档时可能会有问题。
     详细信息请阅读 :doc:`存档、读档和回滚 <save_load_rollback>` 页面，尤其是 :ref:`不保存什么 <cant-save>` 部分。
     (对待文件、socket端口、迭代器、task、future线程和generator生成器需要特别小心。)
-    
+
     最后，虽然很多语句都有等效的Python代码，但等效Python往往不如直接用Ren'Py语句。
     例如，使用Ren'Py中的 ``show`` 语句时，图像可以提前预加载，但如果用 :func:`renpy.show`` 函数则不能预加载。
 
@@ -120,7 +120,7 @@ init python语句也可以使用 ``hide`` 或 ``in`` 分句。
 define语句
 ----------------
 
-define语句在初始化时将一个变量赋值。例如：
+define语句在初始化时将一个变量赋值。此变量视为一个常量，初始化之后不应再改变。例如：
 
 ::
 
@@ -194,30 +194,12 @@ default语句可以选择使用一个命名存储区(详见下面的例子)，�
 
 与 ``define`` 语句相同，:ref:`lint` 会对 ``default`` 语句进行检查和优化。
 
-.. _python-init-offset-statement:
+.. note::
 
-init offset语句
----------------------
-
-init offset语句为所有在初始化阶段运行的语句设置了优先级偏移量(offset)。(init、init python、define、default、screen、transform、style等语句。)init offset语句中给定的偏移量(offset)对之后同一个语句块(block)及其子语句块的所有语句均生效，除非期间出现一个init priority语句。下面这条语句：
-
-::
-
-    init offset = 42
-
-将优先级偏移量(offset)设置为42。而在下面段脚本中：
-
-::
-
-    init offset = 2
-    define foo = 2
-
-    init offset = 1
-    define foo = 1
-
-    init offset = 0
-
-第一条define语句运行在优先级2，这意味着其会在第二条define语句后运行，因此变量 ``foo`` 的最终值为2。
+    强烈推荐使用 ``default`` 设置游戏中可能发生变化的每一个变量。
+    如果使用 ``init python`` 或 ``define`` 定义某个变量，玩家在游戏过程中该变量发生了变化，
+    如果回到主菜单或开启新游戏后，该变量与 ``init python`` 中的设置不一致，可能会导致一些游戏内容提前“泄漏”。
+    若有在start脚本标签(label)中定义变量，又出现读档后某些变量不存在的问题。
 
 .. _names-in-the-store:
 
@@ -353,7 +335,7 @@ JSONDB
     数据库应该只包含在Python中可以序列化为Json的数据类型，包括列表、字典(字符串作为键)、字符串、数值、True、False和None。
     请参阅 `Python文档 <https://docs.python.org/3/library/json.html#encoders-and-decoders>`_ ，
     了解不同数据类型间的可互操性(interoperability)，以及数据格式转换的方法和各种可能遇到的坑。
-    
+
     两级数据库即使用字符串作为键(key)的字典结构。
     第一级字典是只读的，当使用某个键查询第一级字典时，第二级字典才会被创建，创建时可以选择默认的内容。
     第二级字典是可读写的，当第二级字典的某个键发生改变时，游戏中对应的内容会在数据库中保存。
@@ -362,14 +344,14 @@ JSONDB
 
     JSONDB实例应该在初始化阶段(在init python语句库或使用define语句)创建，并自动保存在硬盘上。
     该实例创建后至少会是至少包含一个键值对的字典。例如：
-    
+
     ::
 
         define balloonData = JSONDB("balloon.json", default={ "enabled" : False })
 
     以上代码创建了一个JSONDB实例，并以默认值存储在文件balloon.json中。
     第二级字典的数据能直接作为普通字典使用。
-    
+
     ::
 
         screen say(who, what):

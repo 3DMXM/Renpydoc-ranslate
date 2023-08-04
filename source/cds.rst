@@ -65,7 +65,7 @@ Ren'Py的处理器并不预先知道这段代码的功能和执行结果。Ren'P
         )
 
 
-``random`` 已经可以直接当一个语句使用：
+``random`` 可以直接作为语句使用：
 
 ::
 
@@ -350,7 +350,7 @@ Lexer对象
     .. method:: renpy_statement()
 
         调用该方法后，将当前代码行当作Ren'Py脚本语句处理，如果处理失败则生成一个错误。
-        该方法返回一个不透明对象。这种不透明对象也可以从get_next()方法返回，可以传给 :func:`renpy.jump` 和 :func:`renpy.call` 函数处理。
+        该方法返回一个不透明对象。这种不透明对象也可以从 :func:`renpy.register_statement` 方法返回，可以传给 :func:`renpy.jump` 和 :func:`renpy.call` 函数处理。
         除非这种不透明需要作为语句处理结果的一部分，一般不进行存储。
 
         包含该方法的语句执行完毕后，主控流程会切换为CDS语句之后的语句。(很可能是使用post_execute创建的语句。)

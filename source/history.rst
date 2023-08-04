@@ -14,7 +14,7 @@ Ren'Py包含一个对话历史系统，存放着每一行向用户显示过的�
 
     .. attribute:: kind
 
-        创建这段对话历史的角色类型，Ren'Py中只能是“adv”或“nvl”。
+        创建这段对话历史的角色类型。Ren'Py中会先将当前正在显示对话的该属性设置为“current”，之后再改为“adv”或“nvl”。
 
     .. attribute:: who
 

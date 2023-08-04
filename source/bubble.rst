@@ -1,43 +1,35 @@
-Speech Bubbles
+.. _speech-bubbles:
+
+气泡式台词
 ==============
 
-Ren'Py supports dialogue that's displayed in speech bubbles, which can be
-interactively positioned on the screen. This provides an alternative to
-the textboxes used by ADV-style games, and the full screen dialogue used
-by NVL-mode.
+Ren'Py支持将对话以气泡式台词形式显示。气泡式台词可以使用交互式设计，指定在界面上显示的位置。
+该功能可以是ADV模式游戏下文本框或NVL模式下全屏对话框之外，一种新的对话表现形式。
 
 To use speech bubbles your game, you'll have to define Characters with
-an image tag, a kind of ``bubble``. For example, ::
+an image tag, a kind of ``bubble``. For example, 
+如果要在游戏中使用气泡式台词，需要在定义角色对象是将类似改为 ``bubble``。比如：
 
-    define e = Character(None, image="eileen", kind=bubble) # Eileen
-    define l = Character(None, image="lucy", kind=bubble)   # Lucy
+::
 
-While a name is supported, in general the speaking character will be
-implied by the tails of the bubble, so the name can be omitted.
+    define e = Character(None, image="eileen", kind=bubble) # 艾琳
+    define l = Character(None, image="lucy", kind=bubble)   # 露西
 
-You may then use these characters to write dialogue normally.
+可以把说话角色的名字显示出来。不过一般说话角色会用气泡的小尾巴来指示，所以就省略角色名了。
 
-To position the balloons, hit shift+B to display the speech bubble editor.
-For each character that has a speech balloon, this will have two buttons
-in it.
+定义角色后可以按照正常流程编写角色对话内容。
 
-Pressing the area button will launch the speech bubble editor. This editor
-lets you drag to select the area where the speech bubble will be placed,
-on a grid. When you complete the drag, the speech bubble will will change
-locations.
+如果要修改气泡位置，可以按shift+B，显示气泡式对话编辑器。
+每个启用对话框的角色，都会在编辑器中有两个按钮。
 
-Pressing the properties buttons will select between sets of properties
-associated with the speech bubble. For the default speech bubble, the
-different properties control the position of the speech bubble tail.
+点击area按钮进入气泡区域编辑模式。此时在屏幕内点击鼠标并拖拽后可以指定一个区域，松开鼠标后气泡就会显示在该区域内。
 
-Once you've changed the area or properties for a character (or group of
-characters with the same image tage), those properties remain set until
-changed again, or until the next scene statement.
+点击properties按钮可以选择气泡式对话样式。默认的样式主要控制气泡尾部的位置和朝向。
 
-When the area or properties are being set on the current line of dialogue,
-the corresponding line is brighter. If the values are being inherited from
-a prior line of dialogue or the default, the button is dimmed out. Right
-clicking on a button will prevent the current line from setting the value.
+一旦修改了绝对某个角色(或具有相同图像标签的一组角色)的气泡区域或特性后，对应特性将一直生效，除非再次修改或遇到下一个scene语句。
+
+当前对话那行台词的气泡设置区域或特性时，对应的台词会高亮显示。如果台词文本的样式继承自dialogue或默认样式，按钮颜色会被调暗。
+鼠标右键点击按钮会阻止当前那行台词应用区域或特性的值。
 
 .. _retained-bubbles:
 
@@ -56,70 +48,60 @@ need to be placed individually, so bubbles don't overlap. In the bubble editor,
 pressing the "(clear retained bubbles)" button will remove all of the
 retained bubbles from the screen, except for the most recent.
 
-Tips
-----
+.. _tips:
 
-The speech bubbles use the same identifiers used by the translation system,
-see the :ref:`Translation Tips <translation-tips>` for more information
-about them. These identifiers can change if:
+小贴士
+------
 
-* The text of a line changes.
-* Another line with the same text inside the same label is added or removed.
-* A label before the line is added or removed (however, adding or removing
-  a label with the ``hide`` clause will not change the translation identifier).
+气泡式对话使用多语言系统相同的标识符，详见 :ref:`多语言支持贴士 <translation-tips>`。
+在下列情况下，对应的标识符会发生改变：
 
-If you edit a scene, it's suggested that you replay through it to make sure
-the changes did not affect speech bubble placement.
+* 该行台词的文本修改。
+* 同一脚本标签(label)下新增或删除了同样内容的一行台词。
+* 该行台词前新增或删除了一个脚本标签(label)，但新增或删除带有 ``hide`` 从句的脚本标签并不会更改多语言标识符。
 
+如果创作者修改过某个场景的脚本，建议回看检查以确保不会影响气泡式对话的效果。
 
-Configuration Variables
------------------------
+.. _configuration-variables:
 
-The speech bubble system is controlled by variables in the ``bubble`` namespace,
-and by the ``bubble`` screen and its associated styles.
+配置项
+-------
 
-The ``bubble`` namespace contains the following variables:
+气泡式对话系统的控制参数分布在 ``bubble`` 命名空间、``bubble`` 界面定义和相关的样式中。
+
+``bubble`` 命名空间包含下列配置项：
 
 .. var:: bubble.db_filename = "bubble.json"
 
-    The database file, stored in the game directory, that contains the
-    speech bubble information.
-
+    数据库文件，存储在game目录下，包含气泡式对话配置信息。
 
 .. var:: bubble.cols = 24
 
-    The granularity of the grid that's used to position and size speech bubbles,
-    in the horizontal direction.
+    更改气泡位置时，用于定位的位置和大小的横向分割数，即列数。
 
 .. var:: bubble.rows = 24
 
-    The granularity of the grid that's used to position and size speech bubbles,
-    in the vertical direction.
+    更改气泡位置时，用于定位的位置和大小的纵向分割数，即行数。
 
 .. var:: bubble.default_area = (15, 1, 8, 5)
 
-    This is the default area that speech bubbles are placed in, if no other
-    area is specified. This is a tuple of the form (x, y, w, h),
-    where each value is a number of grid cells.
-
+    台词气泡的默认区域。该值是一个(x, y, w, h)形式的元组，每个元素的单位都是坐标分割后的小方块(cell)。
 
 .. var:: bubble.properties = { ... }
 
-    These are properties, apart from the area, that can be used to customize
-    the speech bubble. This is a map from the name of a set of proprerties
-    to a dictionary of properties and values. These properties supersede those
-    given to the character, and are then supplied to the ``bubble`` screen.
+    这些特性(property)与气泡区域无关，可用于定制台词气泡的样式。
+    该配置项可以将一个特性名称的集合映射到一个样式和值的字典。
+    字典中的特性值会覆盖角色对象中原本的值，并最终应用和展现在 ``bubble`` 界面中。
 
-    This uses the same prefixing system as :func:`Character` does. Properties
-    beginning with ``window_`` have the prefix removed, and are passed to the
-    displayable with id "window" in the bubble screen, which is the bubble
-    itself. Properties with ``what_`` have the prefix removed, and are passed
-    to the displayable with id "what" in the bubble screen, which is the text
-    of the bubble. Properties with ``who_`` are handled similarly, and given
-    to the characters name. Properties with ``show_`` are given as arguments
-    to the bubble screen itself.
+    该配置项中关于前缀的用法与 :func:`Character` 相同。
+    以 ``window_`` 作为前缀的样式将去掉这个前缀后传入bubble界面中id为“window”的可视组件，即气泡的本体。
+    以 ``what_`` 作为前缀的样式将去掉这个前缀后传入bubble界面中id为“what”的可视组件，即气泡上的文字。
+    以 ``who_`` 作为前缀的样式也类似，会传给角色名称。
+    以 ``show_`` 作为前缀的样式会作为bubble界面的入参。
 
-    In a new game, screens.rpy includes::
+    创建新游戏后，screens.rpy文件中会包含以下内容：
+    
+    ::
 
         define bubble.frame = Frame("gui/bubble.png", 55, 55, 55, 95)
 
@@ -145,37 +127,32 @@ The ``bubble`` namespace contains the following variables:
             },
         }
 
-    The bubble.frame variable is just used to make defining bubble.properties
-    easier. Then for each of the four styles of bubble, the bubble is flipped
-    so the tail is in the right place, and the padding is adjusted to leave
-    room for the tail.
+    变量bubble.frame只是为了使bubble.properties的定义更简单一些。
+    对应的4种气泡样式，值需要对图片进行不同轴向的翻转就能改变气泡尾部的位置和朝向。
+    padding留白空间也是为了留给气泡尾部。
 
 .. var:: bubble.properties_order = [ ]
 
-    This is a list of the names of the sets of properties, in the order they should
-    be cycled through in the speech bubble editor. If the names of the sets of properties
-    are not given, the properties are cycled through in alphabetical order.
+    一个特性集合的名称的列表，会被气泡式台词编辑器顺序循环遍历。
+    如果没有指定某个样式集合的名称，其内部将会按拉丁字母顺序遍历以匹配对应特性。
 
 .. var:: bubble.properties_callback = None
 
-    If not None, this should be a function that takes an image tag, and returns
-    a list or tuple of property names that should be used for that image tag, in
-    the order those names should be cycled through. This takes precendence over
-    bubble.properties_order, and can be used to customize the list of bubble
-    properties by character.
+    若不是None，该项应是一个函数，入参为一个图像标签(image tag)，返回值是一个特性名称列表或元组，
+    以列表或元组中的顺序，最终应用到对应图像标签上。
+    该项的优先级高于 bubble.properties_order ，可以定制角色台词气泡的各种样式。
 
 .. var:: bubble.expand_area = { ... }
 
-    This is a map from the name of a set of properties to a (left, top, right, bottom)
-    tuple. If found in this set, the area of the speech bubble is expanded by the
-    given number of pixels.
+    将某个特性集合的名称映射为一个(left, top, right, bottom)元组。
+    如果在对应集合中找到同名集合，则台词气泡会根据指定的数值向外扩展对应的像素数。
 
-    This makes the speech bubble bigger than the area the creator dragged out.
-    The intent is that this can be used to drag out the body of the speech
-    bubble without concern for the tail, and also for the text itself to stay
-    put when the set of properties is changed and the tail moves.
+    这项设置会让气泡比拖拽选定的区域会更大一些。这样设计的主要原因是，拖拽选择的区域可以不用考虑台词气泡的尾部需要占据空间，
+    以及台词文本更不容易跑出气泡范围，尤其是样式集合发生变化和气泡尾部位置变动的情况。
 
-    By default, this is::
+    默认的扩展值配置为：
+
+    ::
 
         define bubble.expand_area = {
             "bottom_left" : (0, 0, 0, 22),
@@ -184,11 +161,14 @@ The ``bubble`` namespace contains the following variables:
             "top_right" : (0, 22, 0, 0),
         }
 
-Bubble Screen
--------------
+.. _bubble-screen:
 
-The default ``bubble`` screen can be found in ``screens.rpy``, and is similar
-to the default ``say`` screen::
+bubble界面
+----------
+
+默认的 ``bubble`` 界面可以在 ``screens.rpy`` 文件中找到。类似于默认的 ``say`` 界面：
+
+::
 
     screen bubble(who, what):
         style_prefix "bubble"
@@ -208,33 +188,50 @@ to the default ``say`` screen::
             text what:
                 id "what"
 
-It's separate from the say screen as it uses its own set of styles, including
-``bubble_window``, ``bubble_what``, ``bubble_namebox``, and ``bubble_who``.
-These styles can be customized directly to avoid having to set a property
-in all of the sets of properties in :var:`bubble.properties`.
+从say界面分离出来后，bubble界面可以使用自己的样式集，包括``bubble_window``、``bubble_what``、``bubble_namebox`` 和 ``bubble_who``。
+这些样式都可以直接在 :var:`bubble.properties` 中定制。
 
+.. _adding-bubble-support-to-a-game:
 
-Adding Bubble Support to a Game
+在游戏中添加气泡式对话
 -------------------------------
 
-Games made before the release of Ren'Py 8.1 won't include the default screens
-and settings required for the speech bubble system. There are two things you
-need to do to fix this. First, download:
+使用8.1版之前的Ren'Py创建的游戏，默认的界面设置并不能使用台词气泡系统。
+需要做两步工作才能使用台词气泡系统。
+
+第一步，下载下面两个文件：
 
 * https://raw.githubusercontent.com/renpy/renpy/master/gui/game/gui/bubble.png
 * https://raw.githubusercontent.com/renpy/renpy/master/gui/game/gui/thoughtbubble.png
 
-And place the files in the ``game/gui`` directory of your game. Then, add this to
-the end of screens.rpy::
+(译者注：国内网络正常无法访问以上两个地址，请保存下面两个图片即可。)
 
-    ## Bubble screen ###############################################################
+.. ifconfig:: renpy_figures
+
+    .. figure:: bubble/bubble.png
+        :width: 100%
+
+        bubble.png
+
+    .. figure:: bubble/thoughtbubble.png
+        :width: 100%
+
+        thoughtbubble.png
+
+
+将以上两张图片放置在 ``game/gui`` 目录下。
+
+第二步，在screens.rpy文件结尾添加以下内容：
+
+::
+
+    ## 气泡式对话界面 ######################################################################
     ##
-    ## The bubble screen is used to display dialogue to the player when using
-    ## speech bubbles. The bubble screen takes the same parameters as the say
-    ## screen, must create a displayable with the id of "what", and can create
-    ## displayables with the "namebox", "who", and "window" ids.
+    ## 气泡式对话界面用于以对话气泡的形式向玩家显示对话。
+    ## 气泡式对话界面的参数与 say 界面相同，必须创建一个 id 为 what 的可视组件，
+    ## 并且可以创建 id 为 namebox、who 和 window 的可视组件。
     ##
-    ## https://www.renpy.org/doc/html/bubble.html#bubble-screen
+    ## https://www.renpy.cn/doc/bubble.html#bubble-screen
 
     screen bubble(who, what):
         style_prefix "bubble"

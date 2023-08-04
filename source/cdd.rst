@@ -178,6 +178,22 @@ renpy.Displayable
 
         如果可视组件有子可视组件，就需要重写这个方法返回一个子可视组件的列表。这个方法确保那些可视组件的per_interact方法都被调用，并能预加载使用的图像。
 
+    .. method:: place(self, dest, x, y, width, height, surf, main=True)
+
+        在某个矩形区域中放置一个render对象(必须是该可视组件的render对象)。返回一个(x, y)元组，表示可视组件的坐标。
+
+        `dest`
+            若不是None，计算出坐标后会将 `surf` 传输(blit)到 `dest` 上。
+
+        `x`, `y`, `width`, `height`
+            矩形区域。
+
+        `surf`
+            对应的render对象。
+
+        `main`
+            该参数直接传给Render.blit()的同名入参。
+
 renpy.Render
 ============
 
@@ -209,8 +225,8 @@ renpy.Render
 
     .. method:: place(d, x=0, y=0, width=None, height=None, st=None, at=None, render=None, main=True)
 
-        渲染 `d` 并将其放入由 `x`、 `y`、
-        `width` 和 `height` 定义的矩形中，使用Ren'Py标准位置算法。
+        将 `d` 以可视组件形式渲染，使用Ren'Py标准位置算法将其放入由 `x`、 `y`、`width` 和 `height` 定义的矩形中。
+        返回的(x, y)元组表示可视组件坐标位置。坐标的计算通过调用 Displayable.place() 方法实现。
 
         `x`, `y`, `width`, `height`
             放入的矩形区域。如果 `width` 或 `height` 为None，就分别使用Render对象的宽或者高。
@@ -292,22 +308,33 @@ renpy.Render
 
     在创作者定义的可视组件内部的渲染器和事件消息处理方法中可以调用这个函数。
 
-.. function:: renpy.load_image(im) link
+.. function:: renpy.is_pixel_opaque(d, width, height, st, at, x, y)
 
-    使用图像缓存加载图像操作器(manipulator) *im* ，返回一个纹理(texture)。
+    判断使用 ``renpy.render(d, width, height, st, at)`` 渲染出的可视组件在(x, y)位置的像素是否不透明。
+
+.. function:: renpy.load_image(im)
+
+    使用图像缓存加载图像操作器(manipulator) `im` ，返回一个纹理(texture)。
+
+.. function:: renpy.load_rgba(data, size)
+
+    以 `bytes` 形式加载，以 `size` 作为尺寸加载图像数据，然后以纹理对象形式返回。
+
+    `data`
+        该入参应该是一个bytes对象，按照RGBA8888的格式顺序保存图像数据。
 
 .. function:: renpy.load_surface(im)
 
-    使用图像缓存加载图像操作器(manipulator) *im* ，返回一个pygame Surface对象。
+    使用图像缓存加载图像控制器(manipulator) `m` ，返回一个pygame Surface对象。
 
 .. function:: renpy.map_event(ev, keysym)
 
-    如果pygame事件 *ev* 匹配 *keysym* 就返回True。
+    如果pygame事件 `ev` 匹配 `keysym` 就返回True。
 
     `keysym`
         下列情况之一：
 
-        - 在 :func:`config.keymap` 中配置的键盘绑定名称。
+        - 在 :func:`config.keymap` 中配置的按键绑定名称。
         - 在 :ref:`定制化快捷键 <keymap>` 章节中描述的keysym对象。
         - 包含一个或多个keysym的列表。
 
@@ -328,11 +355,12 @@ renpy.Render
 
 .. function:: renpy.timeout(seconds)
 
-    经过 *seconds* 秒后生成一个事件消息。这个函数确保了创作者定义可视组件的事件处理方法被调用到。
+    经过 `seconds` 秒后生成一个事件消息。这个函数确保了创作者定义可视组件的事件处理方法被调用到。
 
 .. function:: renpy.redraw(d, when)
 
-    经过 *when* 秒之后重新绘制可视组件 *d* 。
+    经过 `when` 秒之后重新绘制可视组件 `d` 。
+    有时候可视组件的重绘间隔可能比设置的短(比如子组件重绘后)，那时将省略重绘。
 
 .. exception:: renpy.IgnoreEvent
 

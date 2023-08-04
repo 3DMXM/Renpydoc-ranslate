@@ -204,7 +204,8 @@ warper后面可以跟一个英文冒号(:)。
 
 一种重要的特殊情况是暂停warper，pause后面只跟一个时间值，触发ATL暂停对应的时间。
 
-有些特性(property)可以使用多种类型的值。例如，xpos特性可以是int、float或者absolute类型。如果某个interpolation特性的新旧两个值是不同的数据类型，具体表现是未定义的。
+有些特性(property)可以使用多种类型的值。例如，xpos特性可以是int、float或者 :term:`absolute <position>` 类型。
+如果计算某个插值时，新旧两个值是不同的数据类型，具体表现是未定义的。
 
 .. _time-statement:
 
@@ -232,7 +233,7 @@ time语句也暗示了可以放在pause语句前面，就可以实现暂停无�
         "bg washington"
 
 
-.. _expression-statement:
+.. _expression-atl-statement:
 
 表达式语句
 --------------------
@@ -627,7 +628,7 @@ transform特性列表
 
 transform存在以下特性(property)：
 
-当给定的数据类型当作一个坐标时，其可能是一个整型、 ``absolute`` 类型或者浮点型。如果是一个浮点型，其可以用作某块区域(用作坐标 :propref:`pos` )或者可视组件(用作锚点 :propref:`anchor` )的比例数值。
+当给定的数据类型当作一个坐标时，其可能是一个整型、 :term:`absolute <position>` 类型或者浮点型。如果是一个浮点型，其可以用作某块区域(用作坐标 :propref:`pos` )或者可视组件(用作锚点 :propref:`anchor` )的比例数值。
 
 需要注意的是，并非所有特性都是完全独立的。例如， :propref:`xalign` 和 :propref:`xpos` 都会更新同一批底层数据。在parallel语句中，只有一个语句块(block)能调整水平坐标，而另一个语句块只能调整垂直坐标。(这些可能都是在同一个语句块中。)angle和radius特性同时设置水平和垂直坐标。
 
@@ -819,26 +820,54 @@ transform存在以下特性(property)：
     :type: (position, position)
     :default: (0.0, 0.0)
 
-    若该值非None，则指定了极坐标系的中心点坐标值，以整个区域的左上角为原点。在position模式下，设置的中心点可用于圆周运动。
-
-.. transform-property:: alignaround
-
-    :type: (float, float)
-    :default: (0.0, 0.0)
-
-    若该值非None，则指定了极坐标系的中心点坐标值，以整个区域的左上角为原点。在align模式下，设置的中心点可用于圆周运动。
+    若该值非None，则指定了极坐标系的中心点坐标值，以整个区域的左上角为原点。
+    之后 :tpref:`angle` 和 :tpref:`radius` 特性会使用该坐标作为极坐标原点。
 
 .. transform-property:: angle
 
     :type: float
 
-    获取极坐标系中角度的值。极坐标中心未设置的情况下不能获取。
+    该特性给出极坐标系下某个坐标的角度信息。角度的单位是度(degree)，0度时在屏幕正上方，90度时在屏幕右方。
+
+    Ren'Py会将角度的值控制在0到360度的区间内，有0度不包含360度。
+    当数值超过这个区间范围时，Ren'Py使用前会做处理。(角度值设置为-10度，等效于将角度设置为350度。)
 
 .. transform-property:: radius
 
     :type: position
 
-    获取极坐标系中半径的值。极坐标中心未设置的情况下不能获取。
+    极坐标系下坐标的半径。该值的类型与最后一次设置的半径值类型相同，默认类型为绝对(absolute)像素点数。
+    
+    如果值是浮点数，会被自动缩小到刚好能适用于宽度和高度的某个值。
+
+.. transform-property:: anchoraround
+
+    :type: (position, position)
+
+    该特性协同 :tpref:`anchorangle` 和 :tpref:`anchorradius`，可以指定极坐标系下锚点的相关变换。
+
+    与 :tpref:`anchor` 使用的单位应保持一致，请勿混用比例值和绝对数值。
+
+.. transform-property:: anchorangle
+
+    :type: (float)
+
+    极坐标系下锚点坐标的角度。角度的单位是度(degree)，0度表示正上方，90度表示右方。
+
+    Ren'Py会将角度的值控制在0到360度的区间内，有0度不包含360度。
+    当数值超过这个区间范围时，Ren'Py使用前会做处理。(角度值设置为-10度，等效于将角度设置为350度。)
+
+.. transform-property:: anchorradius
+
+    :type: (position)
+
+    极坐标系下锚点坐标的半径。该值的类型应该与 :tpref:`anchoraround` 和 :tpref:`anchor` 值的类型一致。
+
+.. transform-property:: alignaround
+
+    :type: (float, float)
+
+    该特性会将 :tpref:`around` 和 :tpref:`anchoraround` 设置为同一值。
 
 .. transform-property:: crop
 
@@ -996,7 +1025,7 @@ transform存在以下特性(property)：
 此外，其他几组变换特性可以在文档其他地方找到：
 
 3D舞台特性：
-    :tpref:`perspective`、 :tpref:`matrixanchor`、 :tpref:`matrixtransform`、 :tpref:`zpos`、 :tpref:`zzoom`
+    :tpref:`perspective`、:tpref:`point_to`、:tpref:`orientation`、:tpref:`xrotate`、:tpref:`yrotate`、:tpref:`zrotate`、:tpref:`matrixanchor`、:tpref:`matrixtransform`、:tpref:`zpos`、:tpref:`zzoom`
 
 基于模型渲染特性：
     :tpref:`blend`、 :tpref:`mesh`、 :tpref:`mesh_pad`、 :tpref:`shader`
@@ -1015,6 +1044,9 @@ uniforms：
 #. crop, corner1, corner2
 #. xysize, size, maxsize
 #. zoom, xzoom, yzoom
+#. point_to
+#. orientation
+#. xrotate, yrotate, zrotate
 #. rotate
 #. zpos
 #. matrixtransform, matrixanchor
@@ -1043,6 +1075,8 @@ uniforms：
 
     若为False，:tpref:`crop` 的值将作为像素数的值，而不再是原图像的宽度或高度的比例。
 
+    如果计算结果是某个绝对数值像素数，应该将 :term:`absolute <position>` 实例应用到 :tpref:`crop` 特性，而不是crop_relative特性。
+    必要时，不确定类型的数值可以传给 :term:`absolute <position>` 做处理。
     如果需要使用某个指定的数值，就应该使用 :tpref:`crop` property 而不是crop_relative。
     在必要时，不确定数值类型的情况可以强制转换为 ``absolute`` 。
 
@@ -1098,7 +1132,7 @@ Ren'Py会合理运用angle和radius特性，触发圆周运动。如果transform
 ``update``
     目前正在显示的界面发生更新，并且不是被另一个界面替换的情况时触发。随着这种情况很罕见却确实会出现，比如游戏加载资源时或者风格或者语言切换时。
 
-``hover``, ``idle``, ``selected_hover``, ``selected_idle``
+``hover``、``idle``、``selected_hover``、``selected_idle``、``insensitive``、``selected_insensitive``
    当包含此transform的按钮或者被此transform包含的按钮，出现对应的状态名称时触发。
 
 .. _replacing-transforms:

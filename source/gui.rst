@@ -157,10 +157,6 @@ gui/textbox.png
 
     设置角色名字的文字字号。
 
-.. var:: gui.textbox_height = 278
-
-    文本框高度。这项应该跟gui.textbox.png文件的高度一致。
-
 角色名字标签(label)默认会使用强调色。定义角色时可以很简单地修改为需要的颜色::
 
     define e = Character("Eileen", who_color="#104010")
@@ -196,7 +192,7 @@ gui/button/choice_hover_background.png
 
     未获取到焦点的选项按钮文本颜色。
 
-.. var:: gui.choice_text_hover_color = '#0066cc'
+.. var:: gui.choice_button_text_hover_color = '#0066cc'
 
     获取到焦点的选项按钮文本颜色。
 
@@ -837,7 +833,7 @@ gui/notify.png
 文本框(textbox)
 ^^^^^^^^^^^^^^^^^^^
 
-对话显示在文本框(textbox)[或者窗口]里。除了更换gui/textbox.png图片之外，下面的配置项也能控制文本框展示效果。
+对话显示在文本框(textbox)或者窗口中。除了更换gui/textbox.png图片之外，下面的配置项也能控制文本框展示效果。
 
 .. var: gui.textbox_height = 278
 
@@ -933,6 +929,10 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 .. var:: gui.history_height = 210
 
     历史(history)层(entry)的高度，单位为像素。该项可以为空，这样可以允许历史(history)层(entry)高度根据实际情况而定——当define gui.history_height为None时，config.history_length可能需要被明显调低。
+
+.. var:: gui.history_spacing = 0
+
+    不同历史层间的间隔空间，单位为像素。
 
 .. var:: gui.history_name_xpos = 0.5
 .. var:: gui.history_text_xpos = 0.5
@@ -1231,7 +1231,7 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 
 我们希望鼠标单击后进入下一个画面的界面。这是当文本全部显示完之后会出现的界面。这里是一个简单的样例::
 
-    screen ctc():
+    screen ctc(arg=None):
 
         frame:
             at ctc_appear

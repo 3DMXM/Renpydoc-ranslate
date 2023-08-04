@@ -6,7 +6,7 @@
 
 配置项变量控制Ren'Py的执行器行为，允许Ren'Py自身使用多种方式的定制化。配置项囊括了常见变量(比如改变界面尺寸)到罕见变量(添加新类型的归档文件)。
 
-Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会发生改变。在初始化语句块(block)之外修改配置项变量会导致未定义的行为。配置项变量不是存档文件的一部分。
+Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会发生改变。在 ``init`` 语句块(block)之外修改配置项变量会导致未定义的行为。配置项变量不是存档文件的一部分。
 
 大多数配置项变量可以使用 ``define`` 语句设置：
 
@@ -14,9 +14,7 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 
     define config.rollback_enabled = False
 
-Dict and list variables can be populated using ``define`` or in an
-``init python`` block
-字典和列表变量可以使用 ``define`` 语句或在 ``init python`` 语句块(block)中修改：
+字典和列表变量可以使用 ``define`` 语句或在 ``init python`` 语句块(block)中定义：
 
 ::
 
@@ -204,7 +202,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 .. var:: config.after_load_callbacks = [ ... ]
 
     读档时，(无入参)调用的回调函数列表。
-    
+
     若回调函数会修改数据(例如，从旧版迁移数据到新版)，应该调用 :func:`renpy.block_rollback` 函数，以防止用户回滚导致修改回退。
 
 .. var:: config.after_replay_callback = None
@@ -439,7 +437,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
         该项也可以包含正则表达式(比如 r'\d+')，所有匹配正则表达式的结果都将包含在返回结果中。
 
     默认行为等效于：
-    
+
     ::
 
         def file_slotname_callback(page, name):
@@ -552,7 +550,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
     该函数基于用户所在地区(locale)决定游戏使用的语言。
 
     函数有两个入参，分别为地区(locale)的ISO编码和行政区(region)的ISO编码。
-    
+
     返回值是一个字符串，对应支持的语言名称，或者返回None表示使用默认语言。
 
 .. var:: config.main_menu_music = None
@@ -635,7 +633,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
     :func:`renpy.notify` 和 :func:`Notify` 函数会调用该配置项，入参为 `message` ，效果为显示通知消息。
     默认配置为 :func:`renpy.display_notify` 。
     该配置还可以让创作者拦截通知。
-    
+
 
 .. var:: config.optimize_texture_bounds = True
 
@@ -825,9 +823,9 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
     如果游戏中只使用mp3音频文件，可以这样设置：
 
     ::
-    
+
         define config.webaudio_required_types = [ "audio/mp3" ]
-    
+
     在Safari上使用更快的Web音频系统也类似。
 
 .. var:: config.window_auto_hide = [ "scene", "call screen", "menu", "say-centered", "say-bubble" ]
@@ -955,7 +953,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
     若非None，并且(通常使用 ``menu`` 语句调用的)选项菜单没有标题，就调用此处定义的函数生成标题，入参为("", interact=False)。
 
     使用方法为：
-    
+
     ::
 
         define config.choice_empty_window = extend
@@ -998,7 +996,7 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
     These are layers which do not get automatically added to scenes.
     They are always treated as :var:`sticky <config.sticky_layers>` and
     intended for use with the :class:`Layer` displayable for embedding.
-    
+
 
 define config.fadeout_audio = 0.016
 
@@ -1043,7 +1041,7 @@ define config.fadeout_audio = 0.016
 .. var:: config.imagemap_auto_function = ...
 
     将界面语言中
-    :ref:`imagebutton <sl-imagebutton>` 或 :ref:`imagemap <sl-imagemap>` 
+    :ref:`imagebutton <sl-imagebutton>` 或 :ref:`imagemap <sl-imagemap>`
     `auto` 特性(property)扩展为可视组件。这个函数使用auto特性(property)值和使用的图像，以及下列状态之一：“insensitive”、“idle”、“hover”、“selected_idle”、“selected_hover”、“ground”。函数返回一个可视组件对象或None。
 
     默认的使用方法是使用图像格式化 `auto` 特性，并检查得到的文件名是否存在。

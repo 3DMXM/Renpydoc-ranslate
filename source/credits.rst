@@ -9,6 +9,7 @@
 我会在未来的版本中修复丢失的部分。
 
 * Absinthe
+* Adam Trzypolski
 * Aenakume
 * Ajkahn96
 * Aleema
@@ -16,6 +17,7 @@
 * Alex
 * Alexandre Tranchant
 * Alisha Taylor
+* Altskop
 * Andrej
 * Andrí Wilford
 * Andy_kl
@@ -24,10 +26,13 @@
 * Arowana-vx
 * Asfdfdfd
 * Auro-Cyanide
+* Awakening
+* Ayowel
 * Baekansi
 * Bbs3223474
 * Ben Wright
 * BlackDragonHunt/Mangagamer
+* Brainos
 * Bryan Tsang
 * Carl
 * Capntrips
@@ -35,9 +40,11 @@
 * CensoredUsername (C)
 * Charles Surett
 * Cherie Davidson
+* Chrisclone
 * Chris Mear
 * Christian Koepp
 * Civalin
+* Clinton Nguyen
 * CobaltCore
 * CodePsy
 * Craig P. Donson
@@ -48,9 +55,11 @@
 * David Gowers
 * Deji
 * Delta
+* Dennis Goodlett
 * Denzil
 * Derik
 * Diapolo10
+* DinakiS
 * Dogtopus
 * Doomfest
 * Donghyeok Tak
@@ -66,14 +75,17 @@
 * Enerccio
 * Eniko
 * Eric Ahn
+* Erufailon4
 * Evilantishad0w
 * Felix Lampe
 * Franck_v
 * Frédéric Chapoton
+* Galo223344
 * GanstaKingofSA
 * Gas
 * George Economidis
 * GimmiRuski
+* Gio
 * GiovanH
 * Giuseppe Bertone
 * GNCanva
@@ -82,6 +94,7 @@
 * Gregory Pease
 * Grey
 * Gustavo Carvalho
+* Haelwenn (lanodan) Monnier
 * Hanaka
 * Helloise
 * Hentai Senshi
@@ -92,6 +105,7 @@
 * Huanxuantian
 * Hyper Sonic
 * Ian Leslie
+* JackkelDragon
 * Jackmcbarn
 * Jacob Kauffmann
 * JaHIY
@@ -101,6 +115,8 @@
 * Jan Beich
 * Jan Masek
 * Javimat
+* Jeremy Rand
+* Jesusaves
 * Joaquin Garmendia Cabrera
 * Joshua Fehler
 * Joshua Stone
@@ -108,6 +124,7 @@
 * Julvenzor
 * Jürg Billeter
 * Kalawore
+* Kassy
 * Kapil Gain
 * Kathryn
 * Kevin Turner
@@ -125,6 +142,7 @@
 * Lee Yunseok
 * Lent1
 * Lezalith
+* Llyama
 * LoafyLemon
 * Loliconazter
 * Liu Wenyuan
@@ -151,15 +169,18 @@
 * Mugenjohncel (Uncle Mugen)
 * Muhammad Nur Hidayat Yasuyoshi
 * Multimokia
+* NattyanTV
 * Neotus
 * Neyunse
 * NetGenSuperstar
 * 逆转咸鱼
 * NoJoker
 * Nolanlemahn
+* Noriverwater
 * Numerlor
 * Nxcrft
 * Nyaatrap
+* Oscar Six
 * Oshi-Shinobu
 * Patrick Dawson
 * Paul J Martinez
@@ -172,7 +193,6 @@
 * Pratomo Asta Nugraha
 * Project Gardares
 * Psunbury
-* qTich
 * Raj Singh Chauhan
 * Raspberry-soft
 * Rastagong
@@ -188,11 +208,15 @@
 * rivvil
 * Robert Penner
 * Roope Herpiö
+* Saamkhaih Kyakya
+* SahabandhSthabara
 * Saltome
+* Sandra "Maxi" Molina
 * Sapphi
 * Scout
 * Sergey Musiyenko
 * Shayne Officer
+* Shawna-p
 * Shehriyar Qureshi
 * Shiz
 * Siege-Wizard
@@ -201,19 +225,25 @@
 * Susnux
 * Sylvain Beucler
 * Tey
+* The66F95
 * Thuong Nguyen Huu
 * Tichq
 * Tlm-2501
 * Tmrwiz
+* Totally a booplicate
+* Vadim Karpenko
+* Valery Iwanofu
 * Viliam Búr
 * Vollschauer
 * William Tumeo
 * Winter Wolves
 * Xavi-Mat
+* Xareyli
 * Xela
 * Zedraxlo
 * Zhangning
 * Zigmut
+* ねゆんせ
 * 琴梨梨
 
 以及你们的首席开发：

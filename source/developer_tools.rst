@@ -17,6 +17,7 @@ Lint工具包含游戏的很多有用信息和状态。
 
 注意，通过了Lint的检查并不等于执行了完整的测试流程。
 
+.. _console:
 .. _shift-o-console:
 
 Shift+O 控制台
@@ -60,7 +61,8 @@ Shift+O 控制台
 Shift+E Editor 帮助与支持
 -----------------------------
 
-配置项 :var:`config.editor` 允许开发者使用“启动编辑器”组合键(默认是“shift+E”)时，运行指定的编辑器命令。
+shift+E会打开默认的文本编辑器，在启动器中可以使用 :doc:`editor` 进行定制。
+之后会打开脚本文件并跳转到当前语句对应的那行。
 
 详见 :doc:`集成文本编辑器 <editor>` 。
 
@@ -78,9 +80,31 @@ Shift+R 重新加载脚本
 
 当 :var:`config.developer` 为True时，使用组合键“shift+R”会保存当前游戏，重新加载游戏脚本，并重新加载游戏。这个操作通常会回到你使用“shift+R”之前未修改过的最近那条语句。
 
+第一次使用重新加载功能后，游戏会进入自动重新加载模式。
+游戏中使用的任何文件发生改变都会重新加载游戏。
+
 这个功能允许开发者使用外部编辑器修改脚本后，不需要退出并重启Ren'Py就能看到修改后的效果。
 
 需要注意的是游戏状态，包含了变量值和场景列表重载后会被重置。这意味着某些语句的执行结果可能也发生了变化，需要回滚并重新执行那些语句才能看到修改后的效果。
+
+回放(replay)状态下使用shift+R不会生效。
+
+下列函数使用纯Python实现。注意，这些函数只能在开发者模式下使用。
+
+.. function:: renpy.get_autoreload()
+
+    获取自动加载标识。
+
+.. function:: renpy.reload_script()
+
+    使Ren'Py保存游戏，重新加载脚本，然后读档。
+
+    该函数只能在开发模式下调用，只支持Windows、macOS和Linux系统。
+
+.. function:: renpy.set_autoreload(autoreload)
+
+    设置自动重新加载标识，该标识决定是否在文件改变后自动重新加载游戏。
+    在使用 :func:`renpy.reload_script` 重新加载脚本后，自动重新加载标识符才会变成启用状态。(译者注：如果脚本报错是不会启用自动加载的。)
 
 .. _shift-i-style-inspecting:
 
@@ -122,20 +146,26 @@ Ren'Py支持脚本中“传送(warp)至某行”功能，不需要开发者运�
 .. _debug-functions:
 
 调试函数
----------------
+---------
 
 .. function:: renpy.get_filename_line()
 
-  返回当前语句的文件名和行号的二元元组。
+    返回当前语句的文件名和行号的二元元组。
 
 .. function:: renpy.log(msg)
 
-  若 :func:`config.log` 没有配置，则不执行任何操作。否则，将打开日志文件(如果还没有打开的话)，根据 :var:`config.log_width` 配置的宽度将信息格式化，并打印在日志文件上。
+    若 :func:`config.log` 没有配置，则不执行任何操作。否则，将打开日志文件(如果还没有打开的话)，根据 :var:`config.log_width` 配置的宽度将信息格式化，并打印在日志文件上。
 
 .. function:: renpy.unwatch(expr)
 
-  停止对给定Python表达式的观察(watch)。
+    停止监视(watch)指定的Python表达式。
+
+.. function:: renpy.warp_to_line(warp_spec)
+
+    该函数使用一个“文件名:行号”的键值对，然后尝试跳转到对应行号的语句。
+
+    该函数的效果与 `--warp` 命令相同。
 
 .. function:: renpy.watch(expr)
 
-  观察(watch)给定Python表达式，信息显示在屏幕的右上角。
+    监视(watch)指定的Python表达式，信息显示在屏幕的右上角。
