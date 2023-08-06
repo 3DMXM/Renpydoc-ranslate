@@ -1335,7 +1335,7 @@ define config.fadeout_audio = 0.016
 .. var:: config.top_layers = [ "top", ... ]
 
     一个图层(layer)名的列表，该列表中的图层会显示在其他所有图层上面，并且不接受应用于所有图层上的转场(transition)。
-    如果某个图层在该列表中，它就不能再存在于列表 :var:`config.layers`` 和 :var:`config.bottom_layers`中。
+    如果某个图层在该列表中，它就不能再存在于列表 :var:`config.layers`` 和 :var:`config.bottom_layers` 中。
 
 .. var:: config.transient_layers = [ 'transient', ... ]
 
