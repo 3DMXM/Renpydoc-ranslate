@@ -116,14 +116,11 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 ``!c`` 标识将首字母大写。
 这些标识可以联用，比如使用 ``!cl`` 可以将首字母大写，后面所有文本强制小写。
 
-It should be noted that:
 有几个点需要注意：
 
 - 标记的使用顺序不会影响最终结果： ``!cl`` 与 ``!lc`` 是一样的。
-- Supplementarly exclamation marks will be ignored, and will not circumvent
-  the previuous rule : ``!l!c`` will do the same as ``!c!l`` or ``!cl``.
 - 各标记前补充感叹号将被忽略，并且依然遵循上一条规则：
-  ``!l!c`` 和 ``!c!l`` 和 ``!cl`` 的结果都是一样的。
+  ``!l!c``、``!c!l`` 和 ``!cl`` 的结果都是一样的。
 
 具体变换遵照以下顺序进行：
 
@@ -538,6 +535,9 @@ TrueType或OpenType字体会给定字体文件名。那个字体文件必须被�
 
 Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字体。当我们接入一个字体集时，使用从0开始的字体下标，后面跟@符号和文件名。例如，“0@font.ttc”是字体集font的第一种字体，“1@font.ttc”是字体集font的第二种字体，以此类推。
 
+如果Ren'Py在根目录没有找到某个字体文件，会在 ``game/fonts`` 再次搜索。
+例如，使用一个名为test.ttf的文件时，Ren'Py会先搜索 ``game/test.ttf``，然后搜索 ``game/fonts/test.ttf``。
+
 .. _font-replacement:
 
 字体替换
@@ -554,6 +554,26 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
 
 完成替换后可以提升斜体文本的感官效果。
 
+.. _font-names-and-aliases:
+
+字体名称与别名：
+----------------------
+
+配置项 :var:`config.font_name_map` 用于建立字体与别名间的对应关系。
+字体别名有两个用于：首先，对话中使用的 ``{font}`` 文本标签(tag)可以更简短；
+其次，可以在文本标签中使用 :ref:`fontgroup`。
+
+::
+
+    define config.font_name_map["jap"] = "electroharmonix.ttf"
+    define config.font_name_map["tjap"] = FontGroup().add("OrthodoxHerbertarian.ttf", "A", "Z").add("electroharmonix.ttf", None, None)
+
+    label yamato:
+        e "Sorry, what does {font=jap}Black holes and revelations{/font} mean ?"
+        y "You pronounce it {font=tjap}Black Holes And Revelations{/font}." # 只用OrthodoxHerbertarian字体的大写字母
+
+(译者注：electroharmonix是从日文中选取了一些假名和符号替换 *英文字母* 的一套字体。OrthodoxHerbertarian也是一套英文字体。这两种字体都不支持汉字，所以文本内容就不翻译了。)
+
 .. _image-based-fonts:
 
 基于图形的字体
@@ -567,7 +587,7 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
 
     请查看 `BMFont首页 <http://www.angelcode.com/products/bmfont/>`_ 可以找到创建BMFonts的工具。Ren'Py需要filename参数是BMFont文本格式的，其描述了一个32比特字体的信息。alpha通道应该包含字体信息，而红绿蓝颜色通道应该被设置为1。图形文件、字偶距和其他控制信息都可以从BMFont文件中读取。
 
-    我们推荐你创建的BMFont中包含拉丁字母和主要的标点符号，并确保在Ren'Py的接口上可以正确渲染。
+    我们推荐，创建的BMFont中包含拉丁字母和主要的标点符号，并确保在Ren'Py的接口上可以正确渲染。
 
     `name`
         一个字符串，注册的字体名称。
@@ -737,6 +757,9 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
         已经(使用add或remap方法)重映射过的字符将被忽略。如果FontGroup对象没有默认字体，必须指定每一个字符映射或关联关系。
 
         与add方法一样，返回FontGroup对象。
+
+注意，FontGroup类可以使用 :var:`config.font_name_map` 获取字体，但FontGroup对象只会获取字体路径，
+并不会识别配置项中的字体名或别名。
 
 .. _text-displayables:
 

@@ -6,22 +6,31 @@
 
 为了允许Ren'Py能够在Python中脚本化，每个Ren'Py语句都有一条等效的Python语句。每条等效Python语句通常包含一个Python函数，也可能包含一个Python正则表达式，执行一个等效行为。
 
-注意，在使用原生Python等效语句的地方，往往会移除 :ref:`lint` 检查和预加载优化，让游戏不利于检查问题并可能运行不那么流畅。
+注意，在使用原生Python等效语句的地方，往往会移除 :ref:`lint` 检查和预加载优化，让游戏不利于检查问题并可能运行不那么流畅。某些情况下会导致部分功能特性不可用。
 
 .. _state-equi-dialogue:
 
 对话
 ========
 
-Ren'Py的 :ref:`say-statement` 等效于以一个函数的形式调用角色对象。下面的两个语句显示了同一行两次：
+.. warning::
+
+    某些功能特性，比如快速跳过已看过对话，不能使用Python语句，只能使用原生say语句。
+
+Ren'Py的 :ref:`say-statement` 等效于以一个函数的形式调用角色对象。显示旁白也使用了同样的办法，用的是 ``narrator`` 角色。：
 
 ::
 
     e "Hello, world."
-
     $ e("Hello, world.")
 
-显示旁白也使用了同样的办法，用的是 ``narrator`` 角色。调用某个角色时，可以传入关键词入参 ``interact``。当 ``interact`` 为False时，Ren'Py会显示角色对话框，并在执行某个互动操作后返回。
+    "And then the sun exploded."
+    $ narrator("And then the sun exploded.")
+
+.. _say-proxy:
+
+代理函数
+---------
 
 角色和函数对象的等效语句在其他方面也能正常运行。还可以定义一个Python函数，然后在角色对象的地方使用那个函数。例如，下面定义的函数使用一个变量，在两个角色中选择一个。
 
@@ -48,7 +57,36 @@ Ren'Py的 :ref:`say-statement` 等效于以一个函数的形式调用角色对�
 
         l "不过有时候，疯起来我自己都害怕！"
 
-这种使用函数的方式，要么忽略未知的关键词入参，要么将那些入参传给某个角色函数。这样做可以在Ren'Py添加角色调用时的新关键词入参时，使游戏依然能运行。
+这种使用函数的方式，要么忽略未知的关键词入参，要么将那些入参传给某个角色函数。这样做可以在未来版本的Ren'Py出现新关键词入参时，使游戏依然能运行。
+
+注意，与其他语句不同，``interact=True`` 总是会传入该函数，除非手工传入 ``(interact=False)``。
+:ref:`say-with-arguments` 章节可以看到传入参数的情况，例如：
+
+::
+
+    e "Hello, world." (what_size=32)
+
+完全展开的话是：
+
+::
+
+    e("Hello, world.", what_size=32, interact=True)
+
+调用角色对象时不需要显式传入 ``interact=True``。下面这种写法没有问题：
+
+::
+
+    $ e("Hello, world.", what_size=32)
+
+若e是一个角色对象，还可以进一步等效为：
+
+::
+
+    $ Character(kind=e, what_size=32)("Hello, world.")
+
+但可能需要使用 :var:`config.say_arguments_callback` 或将 ``e`` 扭转为某个角色对象才能实现其他功能。
+
+还有一种在Python中替代say语句的方法：
 
 .. function:: renpy.say(who, what, *args, **kwargs)
 
@@ -70,6 +108,38 @@ Ren'Py的 :ref:`say-statement` 等效于以一个函数的形式调用角色对�
         e "Hello, world."
         $ renpy.say(e, "Hello, world.")
         $ e("Hello, world.")
+
+.. _dialogue-window-management:
+
+对话窗口管理
+-------------
+
+通过设置 :var:`_window` 和 :var:`_window_auto` 可以实现 :ref:`窗口管理 <dialogue-window-management>`。
+下面两个函数也用于对话窗口管理：
+
+.. function:: _window_hide(trans=False, auto=False)
+
+    ``window hide`` 语句的Python等效。
+
+    `trans`
+        若为False，使用默认的窗口隐藏转场。
+        若为None，不使用转场。
+        否则，使用指定的转场。
+
+    `auto`
+        若为True，此函数等效于 ``window auto hide`` 语句。
+
+.. function:: _window_show(trans=False, auto=False)
+
+    ``window show`` 语句的Python等效。
+
+    `trans`
+        若为False，使用默认的窗口显示转场。
+        若为None，不使用转场。
+        否则，使用指定的转场。
+
+    `auto`
+        若为True，此函数等效于 ``window auto show`` 语句。
 
 .. _state-equi-choice-menus:
 
@@ -270,4 +340,131 @@ pause语句
     `modal`
         若为True或None，显示某个模态界面将不会结束此次暂停。
         若为False，显示某个模态界面将结束此次暂停。
-    
+
+.. _layeredimage:
+
+层叠式图像
+============
+
+group语句没有直接的等效语句：group名称需要通过 :class:`Attribute` 类赋值，
+``auto`` 功能需要使用 :func:`renpy.list_images` 函数实现。
+
+.. class:: Attribute(group, attribute, image=None, default=False, group_args={}, **kwargs)
+
+    该类用于表示LayeredImage对象中受某个属性控制的图层。单个属性可以控制多个图层，使这些图层同时显示或隐藏。
+
+    `group`
+        一个字符串，表示属性所属的组(group)名称。可以是None，表示 `group` 与 `attribute` 相同。
+
+    `attribute`
+        一个字符串，表示属性名称。
+
+    `image`
+        若不是None，该入参应该是与属性关联显示的某个可视组件。
+
+    `default`
+        若为True并且组中没有其他属性时，这就是默认的属性。
+
+    下列关键词入参与层叠式图像语句的group定义相同：
+
+    `at`
+        应用于图层的一个变换(transform)或变换的列表。
+
+    `if_all`
+        属性(attribute)名称的字符串或字符串列表。如果出现了这项特性，只有所有特定的属性都出现时，才显示图层(layer)。
+
+    `if_any`
+        属性(attribute)名称的字符串或字符串列表。如果出现了这项特性，只要有任意特定的属性出现时，就显示图层(layer)。
+
+    `if_not`
+        属性(attribute)名称的字符串或字符串列表。如果出现了这项特性，只有所有特定的属性都不出现时，才显示图层(layer)。
+
+    其他关键词入参会当作变换特性使用。这种情况下，就是用变换对象处理图像。
+    (例如，入参 pos=(100, 200) 会用来将图像分别向水平方向平移100像素、垂直方向平移200像素。)
+
+    如果 `image` 参数被省略或值为None，且LayeredImage对象被指定了 `image_format` 参数，
+    那么image_format参数用于生成图片文件名。
+
+.. class:: Condition(condition, image, **kwargs)
+
+    当条件表达式结果为True时，显示图层。否则，不显示图层。
+
+    该类用于实现layeredimage语句中的单条 ``if``、``elif`` 或者 ``else`` 条件表达式(遇到 ``else`` 的情况必须为“True”)，
+    将一些Condition对象传入 :class:`ConditionGroup` 可以模拟一套完整的 if/elif/else 条件语句。
+
+    `condition`
+        该参数是一个字符串，表示一个Python条件表达式，判断图层是否显示。
+
+    `image`
+        若不是None，该参数应是一个可视组件，当条件表达式为True时显示。
+
+    `if_all`
+        属性(attribute)名称的字符串或字符串列表。如果出现了这项特性，只有所有特定的属性都出现时，才显示图层(layer)。
+
+    `if_any`
+        属性(attribute)名称的字符串或字符串列表。如果出现了这项特性，只要有任意特定的属性出现时，就显示图层(layer)。
+
+    `if_not`
+        属性(attribute)名称的字符串或字符串列表。如果出现了这项特性，只有所有特定的属性都不出现时，才显示图层(layer)。
+
+    `at`
+        应用于图层的一个变换(transform)或变换的列表。
+
+    其他关键词入参会当作变换特性使用。这种情况下，就是用变换对象处理图像。
+    (例如，入参 pos=(100, 200) 会用来将图像分别向水平方向平移100像素、垂直方向平移200像素。)
+
+.. class:: ConditionGroup(conditions)
+
+    将一个 :class:`Condition` 类型的列表组合为一个 :func:`ConditionSwitch`。
+
+    实现 if/elif/else 语句。
+
+.. class:: LayeredImage(attributes, at=[], name=None, image_format=None, format_function=None, attribute_function=None, offer_screen=None, **kwargs)
+
+    这是一个类似图像的对象，可以使用合适的属性集，显示可视组件。此可视组件由关联属性合成。
+
+    `attributes`
+        This must be a list of Attribute, Condition, ConditionGroup or
+        :doc:`displayable <displayables>` objects. Each one
+        reflects a displayable that may or may not be displayed as part
+        of the image. The items in this list are in back-to-front order,
+        with the first item further from the viewer and the last
+        closest.
+        Passing a displayable directly is the equivalent of the `always`
+        layeredimage statement.
+        该参数必须是一个Attribute对象、Condition对象、ConditionGroup对象或 :doc:`displayable <displayables>` 对象构成的列表。
+
+    `at`
+        一个变换(transform)或变换的列表，会参数化之后应用到可视组件。
+
+    `name`
+        层叠式图像名称，是完整图像组件名的一部分。
+
+    `image_format`
+        当给定的图像是一个字符串，同时提供了此参数时，会使用文件名加上 `image_format` 生成图片文件名。
+        例如，“sprites/eileen/{image}.png”会在对应的目录中搜索图片。(不会被auto组使用，auto组只搜索图像对象而不搜索图片文件。)
+
+    `format_function`
+        此函数用于代替  `layeredimage.format_function` 将图像信息格式为可视组件。
+
+    `attribute_function`
+        若不是None，此参数是一个函数。使用一个属性集作为参数调用该函数并应用到指定图像，函数返回一个属性集用于选择图层。
+        在选择完属性之后，判断图层是否显示时会调用该函数。该函数可用于处理属性之间复杂的依赖关系，或者需要随机性的情况。
+
+    `offer_screen`
+        该参数决定子组件的位置和大小是否要根据目标区域做调整。若该项为False则进行调增，若为True则保持原状。
+        若为None，则根据配置项 :var:`config.layeredimage_offer_screen` 决定。
+
+    额外的关键词入参可能包含变换特性(transform property)。如果出现这种情况，将创建变换对象并处理结果图像。
+    剩下的关键词入参将传给一个Fixed组件用于放置图层。除非显式覆盖，该Fixed组件的xfit和yfit特性会设置为True，
+    将会在使用最小尺寸填充指定区域以匹配图层上所有显示图像。
+
+    LayeredImage对象不是可视组件，也不能完全跟可视组件一样使用。因为LayeredImage对象必须有图像名称(大多数时候还必须有图像属性)。
+    所以，其要么使用scene或show语句来显示，要么像可视组件一样通过图像名字符串来调用。
+
+    .. method:: add(a)
+
+        `a`
+            一个Atrribute、Condition、ConditionGroup或 :doc:`displayable <displayables>` 对象。
+
+        该方法为图层指定了层叠式图像的图层列表，会作为 `attributes` 入参传给构造器。

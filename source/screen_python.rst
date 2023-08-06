@@ -315,7 +315,7 @@
 
     .. attribute: editable
 
-        若为True，该字段始终是可以编辑的。
+        若不为True，文本输入区始终是不可编辑的。
 
     .. attribute:: default
 

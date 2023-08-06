@@ -189,6 +189,13 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
         $ latin_points = to_roman_numerals(points)
         e "Ouyay oredscay [latin_points] ointspay!"
 
+.. _translation-tips:
+
+小贴士
+-------
+
+在处理多语言支持的对话内容时必须非常小心，特别是某个脚本标签(label)下某个对话内容重复多次的情况。在某些时候，有必要在主语言脚本中直接声明多语言支持的标识符，像这条语句：
+
 有时候，需要修改原语言对话内容中的某一行，但不想要修改所有翻译文件的对应内容。
 例如，英语中修复了个拼写错误，但不想要修改俄语的翻译文件。
 
@@ -200,19 +207,7 @@ translate语句中数量并不要求与原语言语句数量保持1比1。例如
     label start:
         e "This used to have a typo." id start_61b861a2
 
-.. _tips:
-
-小贴士
--------
-
-在处理多语言支持的对话内容时必须非常小心，特别是某个脚本标签(label)下某个对话内容重复多次的情况。在某些时候，有必要在主语言脚本中直接声明多语言支持的标识符，像这条语句：
-
-::
-
-    translate None mylable_03ac197e_1:
-        "..."
-
-增加文本标签(label)也可能会导致多语言支持冲突。为了防止这种情况出现，脚本标签(label)后加上一个hide分句就可以在翻译文件生成时忽略这个标签：
+增加文本标签(label)也可能会导致多语言支持冲突。为了防止这种情况出现，脚本标签(label)后加上一个 ``hide`` 分句就可以在翻译文件生成时忽略这个标签：
 
 ::
 
@@ -375,7 +370,7 @@ Ren'Py会运行所有与当前激活语言相关的 ``translate python`` 语句�
 * 根据设置的 :var:`config.language` 。
 * 使用之前游戏中选择的语言选项。
 * 游戏第一次运行，并且 :var:`config.enable_language_autodetect` 的值是True时，Ren'Py会尝试使用 :var:`config.locale_to_language_function` 自动检测语言。
-* 游戏第一次运行时，使用 :var:`config.default_language` 。(默认使用None语言。)
+* 游戏第一次运行时，使用 :var:`config.default_language` 。
 * 以上情况都未配置，使用None语言。
 
 .. _translation-actions-functions-and-variables:
@@ -461,7 +456,7 @@ Ren'Py会运行所有与当前激活语言相关的 ``translate python`` 语句�
     如果 `language` 的值是Default，使用设置(preferences)中的语言。
     经过该函数翻译后的字符串 **不会** 被添加到可翻译字符串列表中。指定某个字符串的语言可能会导致其发生两次翻译的情况。
 
-这里有两个语言相关的变量。一个是 :var:`config.language` ，用于改变游戏默认语言。
+这里有两个语言相关的变量。一个是 :var:`config.default_language` ，用于改变游戏默认语言。
 
 .. var:: _preferences.language
 
@@ -487,6 +482,10 @@ Ren'Py会运行所有与当前激活语言相关的 ``translate python`` 语句�
 这些操作会更新“game/tl/language/strings.rpy”文件，其中包含所有多语言字符串的一个模板。
 
 如果某个游戏内部不支持更改语言，可以在 :var:`config.language`
-中使用一个init python语句块(block)，强行切换到目标语言。
+中使用一个 ``init python`` 语句块(block)，强行切换到目标语言。
+
+.. var:: config.language = None
+
+    若不是None，会在游戏启动时切换为该语言，覆盖用户之前更改过的设置。
 
 除了使用字符串的多语言支持解决对话的问题，上面描述的非常规多语言支持技巧也可以应用在图片和样式上。

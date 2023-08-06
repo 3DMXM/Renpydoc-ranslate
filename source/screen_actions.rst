@@ -254,6 +254,8 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 `page`
     行为实际执行的页面(page)。其值是“auto”、“quick”或者一个正整数。若为None，page的值会根据持久化页面编号自动确定。
 
+如果设置了 :var:`config.file_slotname_callback`，则会使用该配置项并转为一个存档槽位名称。
+
 .. function:: FileAction(name, page=None, **kwargs)
 
     对文件“进行正确操作”。这意味着在load界面显示时进行文件读取操作，相反在save界面显示时进行文件保存操作。

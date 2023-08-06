@@ -5,12 +5,13 @@
 
 Ren'Py可以使用FFmpeg解码器(已内置)播放以下视频编码格式的影片：
 
+* AV1
 * VP9
 * VP8
 * Theora
-* MPEG 4 part 2 (包括Xvid和DivX)
-* MPEG 2
-* MPEG 1
+* MPEG-4 part 2 (包括Xvid和DivX)
+* MPEG-2
+* MPEG-1
 
 及以下编码格式的音频：
 
@@ -18,6 +19,7 @@ Ren'Py可以使用FFmpeg解码器(已内置)播放以下视频编码格式的影
 * Vorbis
 * MP3
 * MP2
+* FLAC
 * PCM
 
 还支持以下容器格式：
@@ -26,14 +28,15 @@ Ren'Py可以使用FFmpeg解码器(已内置)播放以下视频编码格式的影
 * Matroska
 * Ogg
 * Avi
-* Various kinds of MPEG stream.
+* 多种MPEG编码流。
 
-(注意某些格式可能需要专利许可证书。没有把握的情况下，我们推荐使用VP9、VP8或者Theora、Opus、Vorbis，以及WebM、Matroska或者Ogg。)
+(注意某些格式可能需要专利许可证书。没有把握的情况下，我们推荐使用AV1、VP9、VP8或者Theora、Opus、Vorbis，以及WebM、Matroska或者Ogg。)
 
 影片可以全屏播放，也可以在一个可视组件内播放。全屏播放更省事。
+YUV444不能使用硬件加速，需要使用YUV420或YUV422。
 
-Ren'Py的视频解码器不支持alpha通道，但可视组件 :func:`Movie` 的 `side_mask` 参数可以。
-下面的例子展示了如何利用ffmpeg库，使用带alpha通道的mov文件创建webm文件的水平并排(side-by-side)mask。
+Ren'Py的视频解码器不支持alpha通道，但使用可视组件 :func:`Movie` 的 `side_mask` 参数可以实现同样效果。
+下面的例子展示了如何利用ffmpeg库，使用带alpha通道的mov文件创建webm文件的四边对齐(side-by-side)mask。
 
 ::
 
@@ -41,6 +44,9 @@ Ren'Py的视频解码器不支持alpha通道，但可视组件 :func:`Movie` 的
     ffmpeg -i original.mov -i mask.mov -filter_complex "hstack" -codec:v vp8 -crf 10 output.webm
 
 (译者注，ffmpeg命令用于在操作系统shell或命令行模式中运行，对视频文件重编码。而不是用于Ren'Py脚本中。)
+
+WebP平台可以播放影片，但各个浏览器支持的编码格式会有差别。最常见的跨浏览器兼容的组合是用H.264编码视频用MP3(或AAC)编码音频封装在MP4中。
+不过，Ren'Py不支持H.264(或AAC)编码，所以不能使用该组合。
 
 .. _fullscreen-movies:
 
@@ -51,7 +57,7 @@ Ren'Py的视频解码器不支持alpha通道，但可视组件 :func:`Movie` 的
 
 ::
 
-        $ renpy.movie_cutscene("On_Your_Mark.webm")
+    $ renpy.movie_cutscene("On_Your_Mark.webm")
 
 在移动端平台，例如安卓和iOS，默认情况下配置项 :var:`config.hw_video` 设为True，此时会启用硬件视频解码。硬件视频解码效率更高，但具体支持的影片格式需要视具体平台而定。
 这里可以查看 `安卓支持的媒体格式 <https://developer.android.com/guide/topics/media/media-formats>`_。

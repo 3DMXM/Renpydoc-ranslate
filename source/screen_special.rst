@@ -88,6 +88,8 @@ Choice
 
         一个字典，包含所有传入菜单选项的关键词参数。
 
+    以上内容和行为，都会在menu语句接受后失效。
+
 另外，传入menu语句的所有入参都在调用对应界面时才真正执行传参。
 
 ::
@@ -299,6 +301,11 @@ CTC(点击继续)
             size 12
             xalign 0.98
             yalign 0.98
+
+            add arg
+
+            text _("点击继续"):
+                size 12
 
 .. _out-of-game-menu-screens:
 
@@ -632,7 +639,9 @@ Confirm
     * gui.SLOW_SKIP = "Are you sure you want to begin skipping?"
     * gui.FAST_SKIP_SEEN = "Are you sure you want to skip to the next choice?"
     * gui.FAST_SKIP_UNSEEN = "Are you sure you want to skip unseen dialogue to the next choice?"
-
+    * UNKNOWN_TOKEN - This save was created on a different device. Maliciously constructed save files can harm your computer. Do you trust this save's
+      creator and everyone who could have changed the file?
+    * TRUST_TOKEN - Do you trust the device the save was created on? You should only choose yes if you are the device's sole user.
 
     这些变量的值都是字符串，表示都可以使用文本组件显示。
 
@@ -643,6 +652,8 @@ Confirm
     当用户选择“No”时执行的行为。
 
 直到Ren'Py的6.99.10版本为止，该界面都称之为 ``yesno_prompt`` 界面。如果没有出现 ``confirm`` 界面，就是用 ``yesno_prompt`` 界面替代。
+
+此界面也可以使用 :func:`renpy.confirm` 函数和 :func:`Confirm` 行为唤起。
 
 ::
 

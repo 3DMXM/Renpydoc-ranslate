@@ -76,6 +76,7 @@ ATL变换在Python中等效于一个Transform对象。
 ----------------------
 
 *主要内容：* :doc:`transitions`
+
 *其他参考* :ref:`atl-transitions`
 
 一个转场(transition)是一个Python的可调用组件。使用两个关键词入参调用，返回一个表现转场效果的可视组件。这两个关键词入参是：

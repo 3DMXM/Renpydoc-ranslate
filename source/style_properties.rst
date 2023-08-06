@@ -71,17 +71,17 @@
 
 ::
 
-     # 当按钮为insensitive状态时，背景为灰色；hover状态是，背景为浅蓝；
-     # 其他情况下，背景为深蓝。
-     style button:
-         background "#006"
-         insensitive_background "#444"
-         hover_background "#00a"
+    # 当按钮为insensitive状态时，背景为灰色；hover状态是，背景为浅蓝；
+    # 其他情况下，背景为深蓝。
+    style button:
+        background "#006"
+        insensitive_background "#444"
+        hover_background "#00a"
 
-     # 当按钮为selected状态时，文本为黄色；其他情况下为白色。
-     style button_text:
-         color "#fff"
-         selected_color "#ff0"
+    # 当按钮为selected状态时，文本为黄色；其他情况下为白色。
+    style button_text:
+        color "#fff"
+        selected_color "#ff0"
 
 .. _style-property-values:
 
@@ -287,15 +287,15 @@
 
     使用元组设置xminimum和yminimum。
 
-.. style-property:: xsize int
+.. style-property:: xsize int or float
 
-    将xminimum和xmaximum设置为相同值。该特性对可视组件的宽度生效。
+    将xminimum和xmaximum设置为相同值。该特性对可视组件的宽度生效。如果值是一个浮点数，表示区域宽度的一个比例值。
 
-.. style-property:: ysize int
+.. style-property:: ysize int or float
 
-    将yminimum和ymaximum设置为相同值。该特性对可视组件的高度生效。
+    将yminimum和ymaximum设置为相同值。该特性对可视组件的高度生效。如果值是一个浮点数，表示区域高度的一个比例值。
 
-.. style-property:: xysize tuple of (int, int)
+.. style-property:: xysize tuple of (int or float, int or float)
 
     使用元组第一个元素设置xminimum和xmaximum，使用元组的第二个元素设置yminimum和ymaximum。该特性对可视组件的尺寸生效。
 
@@ -451,7 +451,7 @@
 
 .. style-property:: min_width int
 
-    设置每行的最小宽度。如果某行的段度小于该值，会被填充至该值。text_align用于指定填充方式。
+    设置每行的最小宽度。如果某行的宽度小于该值，会使用两侧留白填充至该值。``text_align`` 用于指定填充方式。
 
 .. style-property:: newline_indent boolean
 
@@ -523,7 +523,7 @@
 
     若为True，每行文字会添加删除线。
 
-.. style-property:: text_align float
+.. style-property:: textalign float
 
     当一行文本的宽度比文本组件的宽度小时，该项起作用。其决定文本左边会有多少留白。(也就是文本的对齐。)
 
@@ -685,11 +685,11 @@
 
     **callable**
         如果一个不可视组件被调用(像函数、方法或者带有__call__方法的对象)，该该函数被使用两个入参调用，从对应可视组件左上角算起，x和y轴的两个偏移量。
-        
+
         如果使用两个入参调用该函数，则函数返回一个可调用对象。
         返回对象可以使用4个参数调用，x和y的偏移值，以及可视组件的宽度和高度。
-        
-        
+
+
         若函数返回结果为True，可视组件获得焦点。
 
     **None**

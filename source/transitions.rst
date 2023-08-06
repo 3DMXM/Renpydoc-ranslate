@@ -33,7 +33,10 @@
 
 .. var:: move
 
-    通过在图像上移动位置切换场景。一个 :func:`MoveTransition()` 的转场实例。
+    0.5秒时间，将图像移动到新的位置。一个 :func:`MoveTransition()` 的转场实例。
+
+    move转场，与ease转场类似，只能使用 :ref:`with语句 <with-statement>` 应用在单个图层或同时应用在所有图层。
+    其不能在其他场景下生效，比如 :ref:`ATL <expression-atl-statement>`、:func:`ComposeTransition` 等。
 
 .. var:: moveinright
 
@@ -68,6 +71,7 @@
 .. var:: vpunch
 
     这种转场效果，会垂直摇晃界面0.25秒。
+    若要修改此转场和 :var:`hpunch`，可以使用 :ref:`atl-transitions`.
 
 .. var:: hpunch
 
@@ -132,8 +136,8 @@
     define annoytheuser = Dissolve(1.0)
 
     label start:
-         show bg washington
-         with annoytheuser
+        show bg washington
+        with annoytheuser
 
 time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多个转场对象，
 详见 :ref:`warpers <warpers>` 。

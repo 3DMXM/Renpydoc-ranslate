@@ -4,7 +4,7 @@
 样式(style)
 ===========
 
-样式(style)允许可显示组的外观被定制化。修改可视组件样式特性(property)的值可以实现这一点。例如，改变 :propref:`background` 特性，就可以实现窗口或者按钮之类背景图的定制化。
+样式(style)允许定制 :doc:`displayables` 的外观。修改可视组件样式特性(property)的值可以实现这一点。例如，改变 :propref:`background` 特性，就可以实现窗口或者按钮之类背景图的定制化。
 
 样式特性名由两部分构成，前缀部分指定了特性的使用场景，后半部分是特性本身。例如，按钮的 ``hover_background`` 特性的使用场景是按钮得到焦点(未被按下)，而按钮的 ``idle_background`` 特性的使用场景是按钮未得到焦点。(设置 ``background`` 特性会同时修改 ``idle_background`` 和 ``hover_background`` 等background类特性。)
 
@@ -31,7 +31,20 @@
     screen big_hello_world:
         text "Hello, World" size 40
 
-Ren'Py支持样式继承，每一种样式都有一个唯一的父类。如果某个样式特性在样式中未定义，样式的值会从亲缘最近的父类、祖父类或者其他元祖类继承。
+单个样式可以将多个特性组合起来，应用到可视组件上。例如，下面两个文本组件显示的内容相同：
+
+::
+
+    image big one = Text("Hello, World", size=40, color="#f00")
+    image big two = Text("Hello, World", style="big_red")
+
+    style big_red:
+        size 40
+        color "#f00"
+
+每个样式都有一个特性的集，每个特性集至少包含一种特性。
+当指定某个样式应用到可视组件时，(可视组件需要用到的)每个样式特性都会优先从样式的特性中尝试匹配。
+如果未匹配到，则会从父样式中再尝试搜索。如果依然未匹配到，则从父样式的父样式中尝试，以此类推。
 
 每个可视组件都使用一个名为 ``style`` 的特性，该特性给定了这个可视组件样式的父类。
 
@@ -48,7 +61,7 @@ Ren'Py支持样式继承，每一种样式都有一个唯一的父类。如果�
 
 以下划线开头的样式名是预留给Ren'Py使用的。
 
-Ren'Py在起始阶段建立的各类样式，除了style语句或者初始化语句块(block)之外就不应该再修改已命名的样式。
+Ren'Py在起始阶段建立的各类样式，除了style语句或者 :ref:`init-phase` 语句块(block)之外就不应该再修改已命名的样式。
 
 .. _style-inspector:
 
@@ -132,7 +145,7 @@ style语句通常都在初始化阶段运行。如果某个style语句没有放�
     init python:
          style.big_red = Style(style.default)
 
-样式特性可以通过在Style对象类似于作用域的特性中声明。
+样式特性可以通过在类似于Style对象作用域的特性中声明。
 
 ::
 
@@ -140,9 +153,9 @@ style语句通常都在初始化阶段运行。如果某个style语句没有放�
          style.big_red.color = "#f00"
          style.big_red.size = 42
 
-.. class:: Style(parent)
+但是样式特性的值不能通过这种方式读取，只能被写入。
 
-    创建一个新样式对象。样式特性可以在这个对象的作用域中声明。
+.. class:: Style(parent)
 
     `parent`
         样式父类。可以是另一个样式对象，或者一个字符串。
@@ -151,28 +164,32 @@ style语句通常都在初始化阶段运行。如果某个style语句没有放�
 
         该函数移除样式对象的所有样式特性。对象父辈继承的值不会变。
 
+        等效于样式语句中的 ``clear`` 从句。
+
     .. method:: set_parent(parent)
 
         将样式对象的父类设置为 ``parent`` 。
 
+        等效于样式语句中的 ``is`` 从句。
+
     .. method:: take(other)
 
         使用 ``other`` 的所有样式特性。 ``other`` 必须是一个样式对象。
+
+        等效于样式语句中的 ``take`` 从句。
 
 .. _indexed-styles:
 
 索引化的样式
 -----------------
 
-索引化的样式是一些轻量级样式，可基于可视组件的数据定制化组件的外观。通过使用一个字符串或者整数为某个样式对象提供索引，可以创建索引化的样式。如果某个索引化样式不存在，索引系统会创建一个。
+索引化的样式是一些轻量级样式，可基于可视组件的数据定制化组件的外观。通过使用一个字符串或者整数为某个样式对象提供索引，可以创建索引化的样式。如果某个索引化样式不存在，索引系统会创建一个原来样式对象的子样式。
 
 ::
 
     init python:
-        style.button['Foo'].background = "#f00"
-        style.button['Bar'].background = "#00f"
-
-索引化样式向某个可视组件提供样式的样例：
+        style.button["Foo"].background = "#f00"
+        style.button["Bar"].background = "#00f"
 
 ::
 
@@ -190,7 +207,7 @@ style语句通常都在初始化阶段运行。如果某个style语句没有放�
 
     :ref:`gui-preferences` ( GUI的个性化设置 )可能是实现同样目标的更高方式，因为GUI个性化可以改变某一个参数并用到多个样式上。
 
-用户总是有自己调整用于界面各种特性的需求，在样式方面尤其突出。例如，创作者可能想要让游戏用户能自己调整文本的文本外观、颜色及字体大小。样式个性化允许这样的定制化操作。
+用户总是有自己调整用于界面各种特性的需求，在样式方面尤其突出。例如，创作者可能想要让玩家能自己调整文本的文本外观、颜色及字体大小。样式个性化允许这样的定制化操作。
 
 样式个性化可以控制一个或者多个样式的特性(property)。样式个性化拥有一个名字及一个或多个可选项。被选中的选项会保存在持久化数据中，第一个可选项会注册为样式特性的默认项。
 
@@ -198,53 +215,77 @@ style语句通常都在初始化阶段运行。如果某个style语句没有放�
 
 创作者应该确认每个选项作用于相同的样式特性集。否则，某些样式中没有声明的变量，会导致不可预料的结果。
 
+下面的例子中，注册了一个样式特性，允许用户选择大号字体、简单文本和小一些带轮廓线的问被。
+
+::
+
+    init python:
+
+        # “text”设置项中的“decorated”会将样式中的say_dialogue特性代表的字号设置为22。
+
+        renpy.register_style_preference("text", "decorated", style.say_dialogue, "size", 22)
+
+        renpy.register_style_preference("text", "decorated", style.say_dialogue, "outlines", [ (1, "#000", 0, 0) ])
+
+        renpy.register_style_preference("text", "large", style.say_dialogue, "size", 24)
+
+        renpy.register_style_preference("text", "large", style.say_dialogue, "outlines", [ ])
+
+        # 注册之后“decorated”就会成为“text”设置项中的默认样式。
+
+下面的代码定义按钮，用户可以点击按钮启用不同的样式：
+::
+
+    textbutton "Decorated" action StylePreference("text", "decorated")
+    textbutton "Large" action StylePreference("text", "large")
+
 样式个性化函数如下：
 
 .. function:: StylePreference(preference, alternative)
 
-  给定样式特性，将 ``alternative`` 设置为被选择的选项。
+    给定样式特性，将 ``alternative`` 设置为被选择的选项。
 
-  `preference`
-    给定样式个性化名称的字符串。
+    `preference`
+        给定样式个性化名称的字符串。
 
-  `alternative`
-    给定选项名称的字符串。
+    `alternative`
+        给定选项名称的字符串。
 
 .. function:: renpy.get_style_preference(preference)
 
-  通过给定了个性化名称返回对应被选中的选项名称字符串。
+    通过给定了个性化名称返回对应被选中的选项名称字符串。
 
-  `preference`
-    给定样式个性化名称的字符串。
+    `preference`
+        给定样式个性化名称的字符串。
 
 .. function:: renpy.register_style_preference(preference, alternative, style, property, value)
 
-  注册某个选项对应的样式个性化信息。
+    注册某个选项对应的样式个性化信息。
 
   `preference`
     样式个性化名称字符串。
 
-  `alternative`
-    选项名称字符串。
+    `alternative`
+        选项名称字符串。
 
-  `style`
-    待更新的样式名。可以是样式对象，或者样式名称的字符串。
+    `style`
+        待更新的样式名。可以是样式对象，或者样式名称的字符串。
 
-  `property`
-    待更新样式特性名称的字符串。
+    `property`
+        待更新样式特性名称的字符串。
 
-  `value`
-    赋值给样式特性的值。
+    `value`
+        赋值给样式特性的值。
 
 .. function:: renpy.set_style_preference(preference, alternative)
 
-  将选中的选项设置为样式个性化。
+    将选中的选项设置为样式个性化。
 
-  `preference`
-    样式个性化名称的字符串。
+    `preference`
+        样式个性化名称的字符串。
 
-  `alternative`
-    选项名称的字符串。
+    `alternative`
+        选项名称的字符串。
 
 以下是一个样例，注册了一个样式特性，允许用户在大号简单文本和小号带轮廓线文本之间自由选择。
 

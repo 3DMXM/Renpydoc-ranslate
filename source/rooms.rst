@@ -507,9 +507,9 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 
 * 回放可以从任何界面启动，而Start只能使用在主菜单或者主菜单显示的界面。
 
-* 当回放结束，主控流程会回到回放启动的点。那个点可能是在主菜单或者游戏菜单中。如果某个游戏运行过程中调用了回放，游戏状态是可保存的。
+* 当回放结束，主控流程会回到回放启动的点。那个点可能是在主菜单或者游戏菜单中。如果某个游戏运行过程中调用了回放，游戏状态是会被保留。
 
-* 在回放模式下禁用存档。
+* 在回放模式下禁用存档。重新加载由于需要存档，也是禁用的。
 
 * 在回放模式下，调用 :func:`renpy.end_replay` 会结束回放。在普通模式下，renpy.end_replay()不产生任何效果。
 
@@ -519,13 +519,11 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 
 ::
 
-    ###
-
        "最后，我终于见到了魔导士本尊。"
 
     label meaning_of_life:
 
-        scene
+        scene revelation
 
         "魔术师" "你问我，生命的意义？"
 
@@ -545,7 +543,6 @@ Ren'Py也提供了从主菜单或游戏菜单回放某个场景的能力。这�
 - 若在Google输入the answer to life, the universe, and everything，Google会直接回答42——而且还是用Google计算器算出来的。
 - 若在Wolfram Alpha中输入Answer to the Ultimate Question of Life, the Universe, and Everything，Wolfram Alpha也会回答42。
 - 若在Siri中问“What's the meaning of life?”，Siri也会回答42。
-- 在英雄联盟中召唤峡谷地图中使用汉默丁格能偶尔听到他说到“42~一个神秘的数字，某些东西与它有关~”
 
 此处魔术师回答“43”也是对此的恶搞。)
 

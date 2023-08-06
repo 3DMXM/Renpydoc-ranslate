@@ -42,6 +42,8 @@
 
     该项用于设置默认语言类型，也可以读取该值后决定当前使用语言。行为 :func:`Language` 可用于修改语言类型。
 
+    详见 :doc:`translation`。
+
 .. var:: preferences.emphasize_audio = False
 
     若为True，Ren'Py会通过降低 :var:`config.emphasize_audio_channels`
@@ -67,7 +69,7 @@
 
 .. var:: preferences.mouse_move = False
 
-    若为True，鼠标指针会自动移动到选中的按钮上。若为False，则不执行这种操作。等效于环境设定的“automatic mouse move”。
+    若为True，鼠标指针会自动移动到选中的按钮上。若为False，则不执行这种操作。等效于环境设定的“automatic move”。
 
 .. var:: preferences.show_empty_window = True
 
@@ -103,7 +105,7 @@
 
 .. var:: preferences.system_cursor = False
 
-    若为True，强制使用系统鼠标光标，忽略 :var:`config.mouse` 的值。
+    若为True，强制使用系统鼠标光标，忽略 :var:`config.mouse` 和 :var:`config.mouse_displayable` 的值。
     若为False，则不执行这种操作。等效于“system cursor”设置。
 
 .. var:: preferences.audio_when_minimized = True
@@ -135,7 +137,7 @@
 
 广域混音器的内容详见 :ref:`volume`。
 
-.. function:: preferences.set_volume(mixer, volume)
+.. function:: preferences.set_mixer(mixer, volume)
 
     将混音器 `mixer` 的音量值设置为 `volume` 。
 
@@ -143,11 +145,12 @@
         表示混音器名称的字符串。默认的混音器名称包括“main”、“music”、“sfx”和“voice”(“main”是个特殊混音器)。
 
     `volume`
-        介于0.0到1.0之间的数值。
+        介于0.0到1.0之间的数值。0.0表示-40dB(电平)，1.0表示0dB.
 
-.. function:: preferences.get_volume(mixer)
+.. function:: preferences.get_mixer(mixer)
 
     获取混音器 `mixer` 的音量。如果该混音器被静音了，则返回0.0。
+    返回值是介于0.0到1.0之间的数值。0.0表示-40dB(电平)，1.0表示0dB.
 
 .. function:: preferences.set_mute(mixer, mute)
 

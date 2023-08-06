@@ -657,43 +657,32 @@ Ren'Py读取图像并加载到RAM之前会进行优化，将所有图像剪裁�
         attribute supersad:
             Solid("#00c3", xysize=(100, 100))
 
-The ``francis`` layeredimage will declare the (defaulted) ``base`` attribute,
-and associate it the "francis_base" (auto-defined) image using the
-:ref:`pattern <layeredimage-pattern>` : the layeredimage name ("francis"), the
-group name (none here), the variant name (none here) and the attribute name
-("base"), separated with underscores.
+层叠式图像 ``francis`` 会定义一个(默认的) ``base`` 属性(attribute)，并使用 :ref:`范式 <layeredimage-pattern>` 与(自动定义的)图像“francis_base”做关联：
+使用下划线将图像名(“francis”)、组名称(此例中没有)、变种命中(此例中没有)和属性名按顺序连接构成图像名。
 
-Then, in the ``face`` group, the explicit ``neutral`` attribute gets associated
-the "francis_face_neutral" image, following the same pattern but using "face"
-as the group name and "neutral" as the attribute name.
+接着，包含“face”并且符合范式的属性都归入到 ``face`` 组，即 ``neutral`` 属性会与“francis_face_neutral”图像关联，“neutral”是该组中的一个属性。
 
-After all explicit attributes receive their images, ``face`` being an ``auto``
-group, existing images (auto-defined or not) are scanned for a match with the
-pattern. Here, three are found : "francis_face_angry", "francis_face_happy" and
-"francis_face_very_happy". They are associated with the ``angry``, ``happy`` and
-``very_happy`` attributes respectively, using the same pattern as before. No
-``annoyed`` attribute is defined however, since the "francis_face annoyed" image
-contains a space where the pattern expected an underscore.
+在所有显式出现的属性都对照对应的图像后，``face`` 组就成了一个 ``auto`` 类型的组，所有存在的图像(无论是否自动定义)都会通过范式进行匹配搜索。
+此例中，使用范式搜索后会找到3个图像：“francis_face_angry”、“francis_face_happy”和“francis_face_very_happy”。
+分别对应 ``angry``、``happy`` 和 ``very_happy`` 三种属性。
+但是不存在 ``anoyed`` 属性，因为“francis_face annoyed”中有一个空格，不符合使用下划线连接属性的范式。
 
-Finally, the ``supersad`` attribute is declared, but since a displayable is
-explicitly provided, the pattern does not look for a matching image.
-
-The "francis_supersad" and "francis_face annoyed" images get auto-defined from
-the filename as part of Ren'Py's ordinary :ref:`protocol <images-directory>`,
-but these sprites don't find a match with any attribute or auto group, so they
+最后定义了 ``supersad`` 属性，因为可视组件是显式声明的，不需要通过范式搜索。
+roup, so they
 end up not being used in the ``francis`` layeredimage.
+图像“francis_supersad”和“francis_face annoyed”会使用Ren'Py原本的 :ref:`规则 <images-directory>` 根据图片文件名生成图像名，
+并且无法匹配任何一个属性或auto组，因为无法用于 ``francis`` 层叠式图像。
 
-As you can see, using the pattern to associate images to attributes and using
-auto groups shrinks the code considerably. The same layeredimage would have
-taken 13 lines if everything was declared explicitly (try it!), and this syntax
-allows for geometric growth of the sprite set - adding any number of new faces
-wouldn't require any change to the code, for example.
-
+可见使用范式关联图像与属性，然后使用auto组能有效减少代码量。
+同一个层叠式图像值需要13行代码就可以定义完成。
+这种语法可以有效应对sprite图集数量的几何式增长——比如此例中添加任何关于face属性的图片不需要修改任何代码。
 
 **Dynamism in attributes**
+**属性的动态机制**
 
-Here is an example for defining attributes depending on variables (as mentioned
-in the Advice section)::
+下面的例子中，定义一些属性，会根据某些变量发生变化：
+
+::
 
     layeredimage eileen:
         attribute base default
@@ -713,5 +702,4 @@ in the Advice section)::
             return names[0], *atts
 
     define config.adjust_attributes["eileen"] = eileen_adjuster
-
 
