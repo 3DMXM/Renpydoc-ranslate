@@ -109,7 +109,7 @@ Ren'Py的 :ref:`say-statement` 等效于以一个函数的形式调用角色对�
         $ renpy.say(e, "Hello, world.")
         $ e("Hello, world.")
 
-.. _dialogue-window-management:
+.. _equivalent-dialogue-window-management:
 
 对话窗口管理
 -------------

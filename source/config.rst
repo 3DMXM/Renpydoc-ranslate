@@ -209,17 +209,6 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
     若非None，该项是回放(replay)结束后，不使用入参那调用的函数。
 
-.. var:: config.always_shown_screens = [ ... ]
-
-    一个界面名称列表。列表的中界面在Ren'Py中始终显示，甚至在各种菜单中以及其他图形接口都隐藏的情况下也显示。
-    如果列表中的某个界面没有显示，则Ren'Py会强制re-show。
-
-    设置 :var:`config.overlay_screens` 项通常更实用。
-
-.. var:: config.allow_underfull_grids = False
-
-    若为True，Ren'Py不强制要求grids填充满。
-
 .. var:: config.always_shown_screens = [ ]
 
     Ren'Py中始终强制显示的界面列表。该列表中的界面在UI隐藏时或打开菜单时，依然会显示。
@@ -528,10 +517,6 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 .. var:: config.input_caret_blink = 1.0
 
     若非False，将设置默认光标的闪烁间隔时间，单位为秒。
-
-.. var:: config.language = None
-
-    若非None，该项应是一个字符串，指定了多语言支持框架下的默认语言。
 
 .. var:: config.lint_character_statistics = True
 
@@ -1431,7 +1416,7 @@ define config.fadeout_audio = 0.016
 
     若为True，Ren'Py会在控制台和日志中打印出触发GC的对象信息。
 
-.. _other0configuration-variables:
+.. _other-configuration-variables:
 
 其他配置项
 ------------
@@ -1496,3 +1481,7 @@ define config.fadeout_audio = 0.016
 * :var:`config.side_image_prefix_tag`
 * :var:`config.side_image_same_transform`
 * :var:`config.side_image_tag`
+
+:doc:`translation`:
+
+* :var:`config.language`

@@ -569,10 +569,8 @@ gui/button/check_selected_foreground.png, gui/button/radio_selected_foreground.p
 
     每一个存档槽位的borders。
 
-.. var:: config.thumbnail_width = 384
-.. var:: config.thumbnail_height = 216
-
-    存档缩略图的宽度和高度。注意这两个配置项的定义在命名空间config中，而不在命名空间gui中。通过文件的保存和读取，这些配置才会生效。
+:var:`config.thumbnail_width` = 384 和 :var:`config.thumbnail_height` = 216
+设置存档缩略图的宽度和高度。注意这两个配置项的定义在命名空间config中，而不在命名空间gui中。通过文件的保存和读取，这些配置才会生效。
 
 .. var:: gui.file_slot_cols = 3
 .. var:: gui.file_slot_rows = 2

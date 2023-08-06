@@ -204,7 +204,7 @@ warper后面可以跟一个英文冒号(:)。
 
 一种重要的特殊情况是暂停warper，pause后面只跟一个时间值，触发ATL暂停对应的时间。
 
-有些特性(property)可以使用多种类型的值。例如，xpos特性可以是int、float或者 :term:`absolute <position>` 类型。
+有些特性(property)可以使用多种类型的值。例如，:propref:`xpos` 特性可以是int、float或者 :term:`absolute <position>` 类型。
 如果计算某个插值时，新旧两个值是不同的数据类型，具体表现是未定义的。
 
 .. _time-statement:

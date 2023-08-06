@@ -211,24 +211,6 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 其他林林总总
 -------------
 
-.. function:: renpy.add_layer(layer, above=None, below=None, menu_clear=True)
-
-    向界面添加一个新图层。如果图层已经存在，则不做任何事。
-
-    *below* 和 *above* 必须提供至少一项。
-
-    `layer`
-        表示添加的新图层名称的字符串。
-
-    `above`
-        如果不是None，表示被新图层覆盖的图层的名称字符串。
-
-    `below`
-        如果不是None，表示覆盖在新图层上的图层的名称字符串。
-
-    `menu_clear`
-        若为True，进入游戏菜单上下文(context)时会清空这个图层，并在离开××××时恢复。
-
 .. function:: renpy.add_python_directory(path)
 
     将 *path* 添加在Python模块(module)和包(package)的路径列表中。这个路劲应该是一个游戏目录相对路劲的字符串。必须在import语句之前调用该函数。
@@ -313,11 +295,6 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
         $ renpy.dynamic("x", "y", "z")
         $ renpy.dynamic(players=2, score=0)
 
-.. function:: renpy.flush_cache_file(fn)
-
-    引用文件fn的所有图片缓存都将被冲洗(flush)。
-    当硬盘上的图片文件都发生了变更后，可以调用该函数强制Ren'Py使用游戏新版本。
-
 .. function:: renpy.focus_coordinates()
 
     该函数会尝试找到当前获得焦点可视组件的坐标。如果成功找到，返回一个(x, y, w, h)元组。如果没有找到，返回一个(None, None, None, None)元组。
@@ -357,10 +334,6 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
     .. attribute:: range
 
         条(bar)的当前值域。
-
-.. function:: renpy.get_autoreload()
-
-    获得自动加载标识(flag)。
 
 .. function:: renpy.get_game_runtime()
 
@@ -577,10 +550,6 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     触发一个退出(quit)事件，比如用户点击了窗口的退出按钮。
 
-.. function:: renpy.reload_script()
-
-    让Ren'Py保存游戏，重新加载脚本，并加载存档。
-
 .. function:: renpy.reset_physical_size()
 
     尝试将物理窗口尺寸设置为renpy.config配置的指定值。(就是配置的screen_width和screen_height。)这在全屏模式下超出屏幕的情况有副作用。
@@ -631,10 +600,6 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     ``who``
         如果在下一个交互行为之前会执行一个 ``say`` 语句或含标题的 ``menu`` 语句，则角色对象将使用该字段。
-
-.. function:: renpy.set_autoreload(autoreload)
-
-    设置自动重新加载标识(flag)。这个标识决定在文件发生变化后游戏是否会自动重新加载。自动重新加载不是完全启用，直到游戏使用 :func:`renpy.utter_restart()` 重新加载之后。
 
 .. function:: renpy.set_mouse_pos(x, y, duration=0)
 

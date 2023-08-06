@@ -698,7 +698,7 @@ Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字
 
         ebf "Finally, Ren'Py supports BMFonts."
 
-.. _font-groups:
+.. _fontgroup:
 
 字体组
 -----------

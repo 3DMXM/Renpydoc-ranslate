@@ -339,7 +339,7 @@ attribute语句
 attribute语句使用一个属性(attribute)名称。其也可以使用两个关键词。
 ``default`` 关键词表示，在没有明确使用同组其他属性的情况下作为默认的属性。
 ``null`` 关键词防止Ren'Py自动搜索对应属性的可视组件，
-对某些有使用条件 `if_all`， `if_any`，`if_not`，`attribute_function`，:var:`config.adjust_attributes` 和 :var:`config.default_attributes`的属性时很有用。
+对某些有使用条件 `if_all`，`if_any`，`if_not`，`attribute_function`，:var:`config.adjust_attributes` 和 :var:`config.default_attributes` 的属性时很有用。
 
 相同的属性名可以同时用在多个 ``attribute`` 分句中(``auto`` 组自动定义的属性会在后续另行说明)，
 在满足条件时都显示相应的可视组件(`if_all`、`if_any` 和 `if_not` 特性可以调整最终结果)。
@@ -403,7 +403,7 @@ group语句
 
 在以上这些可选的关键词后面，group语句第一行就可以声明相应的特性(property)，也能以包含特性和属性的语句块形式跟着group后面。
 
-group语句可以使用 ``attribute`` 语句中设置的特性——即 ``if_any``、``at``等等。
+group语句可以使用 ``attribute`` 语句中设置的特性——即 ``if_any``、``at`` 等等。
 应用到整个组的特性会分别应用到组内的各个属性(attribute)，但会被组内属性自带的特性所覆盖。
 此外，有两个特性是专门用于组的：
 

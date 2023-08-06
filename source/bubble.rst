@@ -62,7 +62,7 @@ retained bubbles from the screen, except for the most recent.
 
 如果创作者修改过某个场景的脚本，建议回看检查以确保不会影响气泡式对话的效果。
 
-.. _configuration-variables:
+.. _bubble-configuration-variables:
 
 配置项
 -------
