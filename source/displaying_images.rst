@@ -411,23 +411,24 @@ hide和show窗口
 转场(transition)效果是可选的，若指定了过渡效果，就会应用在窗口的显示和隐藏。若没有指定，默认使用 :var:`config.window_show_transition` 和
 :var:`config.window_hide_transition` 的值。指定None则不使用任何过渡效果。
 
-窗口自身可以通过调用 :var:`config.empty_window` 显示。 窗口默认旁白说了一句话，内容为空字符串。::
+窗口自身可以通过调用 :var:`config.empty_window` 显示。 窗口默认旁白说了一句话，内容为空字符串。
 
-    ###
-        show bg washington
-        show eileen happy
-        with dissolve
+::
 
-        window show dissolve
+    show bg washington
+    show eileen happy
+    with dissolve
 
-        "我可以说话……"
+    window show dissolve
 
-        show eileen happy at right
-        with move
+    "我可以说话……"
 
-        "……和移动，在窗口显示的情况下。"
+    show eileen happy at right
+    with move
 
-        window hide dissolve
+    "……和移动，在窗口显示的情况下。"
+
+    window hide dissolve
 
 .. _image-functions:
 

@@ -955,7 +955,11 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
     一个图层(layer)名的列表，当进入主菜单和游戏菜单时，就会清除列表上所有图层的图像。
 
-.. var:: config.context_clear_layers = [ 'screens' ]
+.. var:: config.console = False
+
+    该项会在 :var:`config.developer` 不是True的情况下依然能启用控制台。
+
+.. var:: config.context_clear_layers = [ 'screens', 'top', 'bottom', ... ]
 
     一个图层(layer)名的列表，当进入一个新的上下文(context)时，会清除列表上所有图层的图像。
 
@@ -978,12 +982,22 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.detached_layers = [ ]
 
-    These are layers which do not get automatically added to scenes.
-    They are always treated as :var:`sticky <config.sticky_layers>` and
-    intended for use with the :class:`Layer` displayable for embedding.
+    该项设置的图层不会自动添加到场景中。
+    它们总是被当作 :var:`粘滞图层 <config.sticky_layers>` ，并且用作嵌在 :class:`Layer` 可视组件中。
 
+.. var:: config.display_start_callbacks = [ ]
 
-define config.fadeout_audio = 0.016
+    该项包含一个函数列表，在Ren'Py显示某个窗口后渲染窗口第一帧之前调用。
+    该项的主要用途是，允许某些需要初始化GUI的库，比如OpenGL函数，读取资源文件。
+
+.. var:: config.ex_rollback_classes = [ ]
+
+    该项为一个对象列表，可以使之前的版本中回滚会告警的类，不再产生告警信息。
+    如果创作者不想要某个类对回滚操作的支持，就把类的对象放在该列表中。
+
+    有时候，并不需要如实一一添加，而只要把自定义类的基类对象添加到列表中。
+
+.. var:: config.fadeout_audio = 0.016
 
     默认的音频淡出时间。
     使用 ``stop`` 语句和 :func:`renpy.music.stop` 函数停止某个音频，
@@ -1006,6 +1020,11 @@ define config.fadeout_audio = 0.016
 
     当用键盘移动焦点时，这是应用于垂直于所选运动方向的移动的惩罚量。
 
+.. var:: config.gamedir = ...
+
+    游戏中 ``game/`` 目录的完整路径。该项是一个只读变量。
+    但不能保证所有文件都保存在该卢姆，尤其是在安卓之类的平台上。
+
 .. var:: config.gl_resize = True
 
     决定是否允许用户调整OpenGL绘制窗口的大小。
@@ -1013,6 +1032,10 @@ define config.fadeout_audio = 0.016
 .. var:: config.hard_rollback_limit = 100
 
     Ren'Py允许用会回滚的最大步数。该项设置为0则完全不允许回滚。我们不推荐这样做，因为回滚是用户错误使用跳过功能后，回看之前文本的有效途径。
+
+.. var:: config.help = None
+
+    :func:`Help` 行为的默认值。
 
 .. var:: config.help_screen = "help"
 
@@ -1023,7 +1046,7 @@ define config.fadeout_audio = 0.016
     当 :ref:`hide语句 <hide-statement>`
     执行时调用的函数。该项使用与renpy.hide一样的入参。
 
-.. var:: config.imagemap_auto_function = ...
+.. var:: config.imagemap_auto_function : Callable
 
     将界面语言中
     :ref:`imagebutton <sl-imagebutton>` 或 :ref:`imagemap <sl-imagemap>`
@@ -1040,7 +1063,7 @@ define config.fadeout_audio = 0.016
     若为True，也就是默认值，等效于每次通过对话、菜单输入和imagemap等互动行为之后都使用了 :ref:`with None <with-none>`
     语句。该项用于确保在转场之后旧的界面不再显示。
 
-.. var:: config.interact_callbacks = ...
+.. var:: config.interact_callbacks = [ ... ]
 
     一个(不带入参的)回调函数列表，当互动行为开始或重新开始时调用列表中的函数。
 
@@ -1048,7 +1071,7 @@ define config.fadeout_audio = 0.016
 
     若为True，上一个图像使用的transform或ATL语句块(block)会沿用，前提是新图像使用相同的图像标签(tag)。若为False，transform会被停用。
 
-.. var:: config.keymap = dict(...)
+.. var:: config.keymap = { ... }
 
     这个配置项是一个字典，包含了键盘按键和鼠标按键跟每个操作之间的映射关系。详见 :doc:`定制按键映射 <keymap>` 章节内容。
 
@@ -1060,7 +1083,7 @@ define config.fadeout_audio = 0.016
 
     该项配置给出了在Ren'Py脚本中jump和call脚本标签(label)时，重定向到其他脚本标签(label)的方法。例如，如果你需要添加一个“start”到“mystart”的映射关系，所有jump和call到“start”标签最终都会转到“mystart”。
 
-.. var:: config.layer_clipping = { }
+.. var:: config.layer_clipping = { ... }
 
     控制图层(layer)剪裁。这是一个从图层名称到(x, y, height, width)元组的映射关系，其中x和y的值是从图层左上角开始计算的坐标值，height和width是图层的高和宽。
 
@@ -1070,13 +1093,13 @@ define config.fadeout_audio = 0.016
 
     该项设置层叠式图像 ``offer_screen`` 特性的默认值。详见 :ref:`相关章节 <layeredimage-statement>` 。
 
-.. var:: config.layers = [ 'master', 'transient', 'screens', 'overlay' ]
+.. var:: config.layers = [ 'master', 'transient', 'screens', 'overlay', ... ]
 
-    该配置项是一个所有Ren'Py已知图层(layer)的列表，按这些图层在界面的显示顺序排列。(列表中第一个元素就是最底部的图层。)Ren'Py内部会使用“master”、“transient”、“screens”和“overlay”图层，所以这些图层应该总是保存在这个列表中。
+    该配置项是一个所有Ren'Py已知图层(layer)的列表，按这些图层在界面的显示顺序排列。(列表中第一个元素就是最底部的图层。)Ren'Py内部会使用“master”、“transient”、“screens”和“overlay”图层(未来可能还有其他图层)，所以这些图层应该总是保存在这个列表中。
 
     :func:`renpy.add_layer` 函数可以在不需要知道该配置项原始内容的情况下，新增图层到该列表。
 
-.. var:: config.lint_hooks = ...
+.. var:: config.lint_hooks = [ ... ]
 
     当lint工具运行时，不使用入参被调用的函数列表。这些函数用于检查脚本数据是否有错误，并在标准输出打印找到的错误(这种情况下使用Python的print语句就行)。
 
@@ -1088,6 +1111,10 @@ define config.fadeout_audio = 0.016
 
     若非None，该函数调用时带一个文件名。当文件可以加载时，函数返回True，否则返回False。这个函数可以跟
     :var:`config.file_open_callback` 或 :var:`config.missing_image_callback` 协同生效。
+
+.. var:: config.log = None
+
+    若非None，该项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :doc:`menu <menus>` 语句展示给用户的文本都会记录在这个文件中。
 
 .. var:: config.log_width = 78
 
@@ -1105,11 +1132,7 @@ define config.fadeout_audio = 0.016
 
     在触控设备上，用户长按操作后的震动时长。
 
-.. var:: config.log = None
-
-    若非None，该项应该是一个文件名。通过 :ref:`say <say-statement>` 或 :doc:`menu <menus>` 语句展示给用户的文本都会记录在这个文件中。
-
-.. var:: config.main_menu_stop_channels = [ "movie", "sound", "voice" ]
+.. var:: config.main_menu_stop_channels = [ "movie", "sound", "voice", ... ]
 
     一个音频通道列表名，当进入或返回主菜单时将停止对应音频通道的声音。
 
@@ -1127,7 +1150,8 @@ define config.fadeout_audio = 0.016
 
 .. var:: config.missing_image_callback = None
 
-    若非None，当加载图片失败时会调用这个函数。函数可能返回None，也可能返回一个图像操作器(manipulator)。如果返回的是图像操作器，可以使用图像操作器代替丢失的图片。
+    若非None，当加载图片失败时会调用这个函数。调用时会将文件名或缺失的图像传入该函数。
+    函数可能会返回None，也可能返回一个 :doc:`图像控制器 <im>`。如果返回的是图像控制器，可以使用图像控制器代替丢失的图片。
 
     创作者可能需要同时配置 :var:`config.loadable_callback` 的值，特别是使用 :func:`DynamicImage` 对象的情况。
 
@@ -1172,7 +1196,7 @@ define config.fadeout_audio = 0.016
 
     如果我们想要在 :ref:`with 语句 <with-statement>` 覆盖已显示图像就设置为True，如果我们想要在with语句中隐藏重叠部分就设置为False。
 
-.. var:: config.overlay_layers = [ 'overlay' ]
+.. var:: config.overlay_layers = [ 'overlay', ... ]
 
     该项是一个所有可覆盖图层(layer)的列表。可覆盖图层在overlay函数调用前会被清空。“overlay”图层应该总是放在这个列表中。
 
