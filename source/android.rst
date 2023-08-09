@@ -254,10 +254,12 @@ android-downloading.jpg
 
     距离底部、左侧和右侧各20像素的位置将显示一个20像素高的进度条，展示下载进度。
 
+.. _pyjnius:
+
 Pyjnius
 =======
 
-运行在安卓设备上时，可以使用 `Pyjnius <https://pyjnius.readthedocs.io/en/stable/>`_ 库。
+运行在安卓设备上时，可以使用 `Pyjnius <https://pyjnius.readthedocs.io/en/stable/>`__ 库。
 这个库允许高阶开发者调用安卓的库。
 
 使用时首先需要启用一个main的实例。方法可以在 org.renpy.android.PythonSDLActivity 类的mActivity字段中找到。
