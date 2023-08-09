@@ -156,7 +156,7 @@
 
     设置混音器 `mixer` 静音状态。如果 `mute` 的值是True，则将混音器 `mixer` 静音。
 
-.. function:: preferences.get_mute(mute)
+.. function:: preferences.get_mute(mixer)
 
     获取混音器 `mixer` 的静音设置。
 
