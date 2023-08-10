@@ -14,7 +14,7 @@
 
     show eileen happy at halfsize, right
 
-每个可视组件总是有一个相关联的变换(transform)。如果没有指定变换(transform)。主(prior)变换就会被使用。当变换(transform)被改变的时候，未定义的值会被主变换使用，或者如果没有主变换的话从 `default` 配置获取。
+每个可视组件总是有一个相关联的变换(transform)。如果没有指定变换(transform)，将使用主(prior)变换。修改变换(transform)时，未定义的值会直接使用主变换的对应值，或者如果没有主变换的话从 `default` 配置获取。
 
 .. _default-transforms:
 
