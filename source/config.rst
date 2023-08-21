@@ -445,8 +445,8 @@ Ren'Py有一些变量设置了环境设定的默认值。请查看 :doc:`环境�
 
 .. var:: config.font_name_map = { }
 
-    该项是一个字典，表示字体与字体文件路劲/字体组的对应关系。
-    字体名称简化为 ``{font}`` 标签，并给予对应读取以实现 :ref:`fontgroup` 特性。
+    该项是一个字典，表示字体与字体文件路径/字体组的映射关系。
+    字体名称简化为 ``{font}`` 标签，并指定标签内文字对应的 :ref:`fontgroup` 功能特性。
 
 .. var:: config.font_replacement_map = { }
 
