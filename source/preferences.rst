@@ -81,7 +81,7 @@
 
 .. var:: preferences.skip_unseen = False
 
-    若为True，Ren'Py会仅跳过未看过的文本。若为False，Ren'Py会跳过所有文本。等效于环境设定的“skip”。
+    若为True，Ren'Py会跳过所有文本。若为False，Ren'Py会仅跳过未看过的文本。等效于环境设定的“skip”。
 
 .. var:: preferences.text_cps = 0
 
