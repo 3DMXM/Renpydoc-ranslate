@@ -261,12 +261,8 @@ keyup
 模拟摇杆事件格式是“pad_*axis*_pos”、“pad_*axis*_neg”和“pad_*axis*_zero”。
 持续按住某个按键时，游戏手柄会生成另一个事件，前缀为“repeat\_”。
 
-Gamepads that do not work without special initialization are disabled by
-default. This includes the Nintendo Switch Pro Controller, which requires
-special initialization to work on a PC. This blocklisting is controlled by
-:var:`config.controller_blocklist`.
 可以不执行特定初始流程就能使用手柄，但默认禁用该项功能。
-包括任天堂Switch的Pro手柄，在电脑上使用时会要求特殊的初始化流程。
+任天堂Switch的Pro等手柄，在电脑上使用时会要求特殊的初始化流程。
 控制器黑名单详见 :var:`config.controller_blocklist` 。
 
 .. :function:: renpy.clear_keymap_cache()

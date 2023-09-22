@@ -122,7 +122,7 @@
 
 .. function:: renpy.variant(name)
 
-    如果 *name* 是Ren'Py中可用的某个界面变种(variant)，就返回True。详见:ref:`界面变种 <screen-variants>`。这个函数可以用做条件表达式，在Python的if语句中根据界面变种选择使用对应的样式(style)。
+    如果 *name* 是Ren'Py中可用的某个界面变种(variant)，就返回True。详见 :ref:`界面变种 <screen-variants>`。这个函数可以用做条件表达式，在Python的if语句中根据界面变种选择使用对应的样式(style)。
 
     *name* 也可以是一个界面变种列表，只要列表中任何变种被选择就返回True。
 
