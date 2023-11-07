@@ -1,11 +1,11 @@
 .. _building-distributions:
 
-生成分发版
+构建发行版
 ======================
 
-Ren'Py包含了对生成游戏分发版的支持。在启动器(laucher)选择“生成分发版”，Ren'Py会扫描自身和项目，决定分发版中包含哪些文件，并创建需要的归档文件，以及生成包(package)和升级文件。
+Ren'Py包含了对构建游戏发行版的支持。在启动器(laucher)选择“构建发行版”，Ren'Py会扫描自身和项目，决定发行版中包含哪些文件，并创建需要的归档文件，以及构建包(package)和升级文件。
 
-不需要额外设置，Ren'Py就可以生成下列类型的包(package)：
+不需要额外设置，Ren'Py就可以构建下列类型的包(package)：
 
 PC: Windows and Linux
     一个运行在Windows x86_64和Linux x86_64平台的zip文件。
@@ -23,7 +23,7 @@ Windows
    一个运行在Windows x86_64平台的zip文件。
 
 Windows, Mac, and Linux for Markets
-   包含软件市场(比如itch.io和Steam)必要信息的分发版。这个版本不用于直接运行(可能在Mac上根本无法启动)，而用于上传到app商店。
+   包含软件市场(比如itch.io和Steam)必要信息的发行版。这个版本不用于直接运行(可能在Mac上根本无法启动)，而用于上传到app商店。
 
 .. warning::
 
@@ -34,7 +34,7 @@ Windows, Mac, and Linux for Markets
 基本配置
 -------------------
 
-通过在build命名空间中设置变量和调用函数，可以对生成过程进行配置。这些工作必须在 ``init python`` 语句块(block)中进行。
+通过在build命名空间中设置变量和调用函数，可以对构建过程进行配置。这些工作必须在 ``init python`` 语句块(block)中进行。
 这些配置项默认都设置在 ``options.rpy`` 中。
 
 有一些基本变量和函数在很多游戏中都会使用。
@@ -65,7 +65,7 @@ Windows, Mac, and Linux for Markets
 特殊文件
 -------------
 
-有两个在游戏基目录下的文件，可以用于定制化生成过程。
+有两个在游戏基目录下的文件，可以用于定制化构建过程。
 
 icon.ico
     Windows平台使用的图标。
@@ -81,7 +81,7 @@ icon.icns
 归类和省略文件
 ------------------------------
 
-生成过程的第一步，是将Ren'Py分发版和你游戏中的文件分类并添加至各个文件列表。这些文件列表会添加为包(package)文件。
+构建过程的第一步，是将Ren'Py发行版和你游戏中的文件分类并添加至各个文件列表。这些文件列表会添加为包(package)文件。
 
 文件分类通过build.classify函数实现。这个函数使用一个正则表达式和空格分隔的文件名列表。正则表达式会从头到尾对文件名进行匹配，第一个匹配到的对象优先处理(尽管后面可能有个比较级正则表达式)。正则表达式可以匹配开头的 “/” 符号。正则表达式包含下列特殊字符：
 
@@ -103,7 +103,7 @@ game/\*.txt
 默认总共有7个文件列表用于文件的分类。(Ren'Py将自身文件放入前6个。)
 
 all
-    这些文件会包含在所有包(package)中，生成安卓版本。
+    这些文件会包含在所有包(package)中，构建安卓版本。
 linux
     这些文件会包含在Linux平台的包(package)中。
 mac
@@ -126,7 +126,7 @@ archive
 
 不在任何分类下的文件都会放入“all”文件列表中。
 
-如果要在分发版中排除某些文件，就将文件归类为None或空字符串。
+如果要在发行版中排除某些文件，就将文件归类为None或空字符串。
 使用时，文件名表达式通配符中的 \* 和 \*\* 必须至少能匹配到一个字符。
 
 举例：::
@@ -158,9 +158,9 @@ archive
 Packages
 --------
 
-在Ren'Py生成过程中添加新类型的包(package)也是可行的。调用build.package函数可以实现这点。调用时传入一个包名、类型和一个包含的文件列表。
+在Ren'Py构建过程中添加新类型的包(package)也是可行的。调用build.package函数可以实现这点。调用时传入一个包名、类型和一个包含的文件列表。
 
-假设我们想要生成一个游戏的普通版本，以及一个包含奖励材料的版本。我们可以将奖励文件归类到“bonus”文件列表中，然后使用如下语句定义一个“all-premuim”包(package)：::
+假设我们想要构建一个游戏的普通版本，以及一个包含奖励材料的版本。我们可以将奖励文件归类到“bonus”文件列表中，然后使用如下语句定义一个“all-premuim”包(package)：::
 
     # 在“bonus”文件列表中定义一个新的归档。
     build.archive("bonus_archive", "bonus")
@@ -171,7 +171,7 @@ Packages
     # 定义包文件。
     build.package("all-premium", "zip", "windows mac linux renpy all bonus")
 
-支持生成的包类型包括“zip”和“tar.bz2”格式，以及用于装文件的目录“direcroty”。
+支持构建的包类型包括“zip”和“tar.bz2”格式，以及用于装文件的目录“direcroty”。
 
 .. _archives:
 
@@ -198,7 +198,7 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
     build.classify("game/**.jpg", "images")
     build.classify("game/**.png", "images")
 
-如果某个归档文件为空，就不会生成。
+如果某个归档文件为空，就不会构建。
 
 关于游戏归档的问题，请三思。使用开放文件可能有助于后人在未来的平台上运行你的游戏——那些你离开这个世界之后才出现的平台。
 
@@ -207,7 +207,7 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
 old-game目录
 ----------------------
 
-生成多个游戏版本，比如早期公测或Patreon平台版本时，有必要保留旧版本的.rpyc文件。
+构建多个游戏版本，比如早期公测或Patreon平台版本时，有必要保留旧版本的.rpyc文件。
 .rpyc文件中包含的信息可用来确认存档是否可以继承，如果忽略这些信息查可能会引起各种问题。
 
 同时，当game目录下的文件改变后，Ren'Py会更新对应的.rpyc文件，使文件无法适用版本控制的要求。
@@ -258,7 +258,7 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
 
 .. _build-functions:
 
-生成(build)函数
+构建(build)函数
 ---------------
 
 .. function:: build.archive(name, file_list=u'all')
@@ -312,19 +312,19 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
     app-dmg
       包含dmg文件的macintosh镜像。(仅限Mac平台。)
 
-    空字符串则不生成任何格式的包(package)。(这个机制可以实现DLC需求。)
+    空字符串则不构建任何格式的包(package)。(这个机制可以实现DLC需求。)
 
     `file_lists`
         包含在包(package)中的文件列表。
 
     `description`
-        生成包(package)的可选项描述。
+        构建包(package)的可选项描述。
 
     `update`
-        若为True并且生成了更新，就会为这个包(package)生成更新文件。
+        若为True并且构建了更新，就会为这个包(package)构建更新文件。
 
     `dlc`
-        若为True，会在独立的DLC模式下生成zip或tar.bz2文件，而不是update目录下生成。
+        若为True，会在独立的DLC模式下构建zip或tar.bz2文件，而不是update目录下构建。
 
     `hidden`
         若为True，会在启动器(launcher)的包(package)列表中隐藏这个包。
@@ -334,7 +334,7 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
 高级配置项
 ----------------------
 
-下列配置变量提供了对生成过程的更多控制项：
+下列配置变量提供了对构建过程的更多控制项：
 
 .. var:: build.allow_integrated_gpu = True
 
@@ -342,7 +342,7 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
 
 .. var:: build.destination = "{directory_name}-dists"
 
-    指定了生成的归档文件放的目录路径。可以是绝对路径也可以是相对路径。相对路径将项目(project)目录作为当前位置。
+    指定了构建的归档文件放的目录路径。可以是绝对路径也可以是相对路径。相对路径将项目(project)目录作为当前位置。
 
     下列值会使用Python的str.format函数进行替换。
 
@@ -362,28 +362,28 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
 
 .. var:: build.exclude_empty_directories = True
 
-    若为True，空目录(包括文件归档后残留的空目录)会从生成的包(package)中移除。若为False，则会包含空目录。
+    若为True，空目录(包括文件归档后残留的空目录)会从构建的包(package)中移除。若为False，则会包含空目录。
 
 .. var:: build.include_i686 = True
 
-    若为True，生成Linux和Mac版本时，将包含在32位x86处理器平台运行时需要的文件。
+    若为True，构建Linux和Mac版本时，将包含在32位x86处理器平台运行时需要的文件。
     若为False，将不包含那些文件。
 
 .. var:: build.include_old_themes = True
 
-    当这项为True时，文件需要在Ren'Py 6.99.9版本之前支持的主题文件会包含在生成的包中。当这项是False时，不会包含这类文件。
+    当这项为True时，文件需要在Ren'Py 6.99.9版本之前支持的主题文件会包含在构建的包中。当这项是False时，不会包含这类文件。
 
     调用 :func:`gui.init` 时，这项会被设置为False。
 
 .. var:: build.include_update = False
 
-    若为True，Ren'Py会根据 :doc:`updater <updater>` 的设置生成文件。
+    若为True，Ren'Py会根据 :doc:`updater <updater>` 的设置构建文件。
 
 .. var:: build.itch_project = None
 
     配置了这项后，就允许Ren'Py启动器将项目上传到itch.io。这项应该设置为在itch上注册的项目名。(例如，“renpytom/the-question”。)
 
-    一旦设置了这项，你可以点击“生成分发版”，然后选择“上传到itch.io”，将生成的版本上传。
+    一旦设置了这项，你可以点击“构建发行版”，然后选择“上传到itch.io”，将构建的版本上传。
 
 .. var:: build.itch_channels = { ... }
 
