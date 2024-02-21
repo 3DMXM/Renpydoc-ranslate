@@ -122,9 +122,9 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
     screen center_text(s, size=42):
         text s size size
 
-如果界面不带任何参数，依然需要给一堆空的圆括号。
-如果其他界面用 ``use`` 语句直接引用该界面并不带参数，详细的差异在 :ref:`use语句 <sl-use>` 中有说明。
-其实不是用 ``use`` 语句引用界面或不带圆括号的界面，都会是Ren'Py内部效率降低，详见 :doc:`界面优化 <screen_optimization>` 章节。
+如果界面不带任何参数，依然需要给一对空的圆括号。
+其他界面用 ``use`` 语句直接引用该界面并不带参数，详细的差异在 :ref:`use语句 <sl-use>` 中有说明。
+其实不使用 ``use`` 语句引用界面或不带圆括号的界面，都会使Ren'Py内部效率降低，详见 :doc:`界面优化 <screen_optimization>` 章节。
 
 .. _user-interface-statements:
 

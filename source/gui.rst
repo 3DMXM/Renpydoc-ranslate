@@ -312,7 +312,7 @@ gui/overlay/confirm.png
 
 .. var:: gui.glyph_font = "DejaVuSans.ttf"
 
-    该字体用于某种文本的glyph(标志符号)，例如用作跳过提示的箭头标志。DejaVuSans是一个针对这些标志符号的字体，而且已经自动包含在Ren'Py游戏中。
+    该字体用于某种文本的字形(glyph)，例如用作跳过提示的箭头标志。DejaVuSans是一个针对这些字形的字体，而且已经自动包含在Ren'Py游戏中。
 
 除了 :var:`gui.text_size` 和 :var:`gui.name_text_size` 外, 下面的几个配置项控制文本字号。
 
