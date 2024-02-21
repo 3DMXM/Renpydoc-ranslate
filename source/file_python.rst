@@ -33,7 +33,7 @@
 
     `directory`
         若不是None，则会在game目录中没有找到对应文件时，再次在该入参指定的目录中搜索对应文件。
-        This will be prepended to filename, and the search tried again.(译者注：不知道这句什么意思……)
+        也就是说会将目录名加到文件名之前，并再次尝试搜索。
 
 .. _rarely-used:
 
