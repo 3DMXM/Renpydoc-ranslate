@@ -62,13 +62,6 @@ Windows编码故障
 
 并且系统设置为使用英语，Ren'Py就不能启动。要修复这种问题的话，进入控制面板，选择“区域和语言选项”->“高级”，并将系统语言切换为非Unicode项。
 
-.. _os-x-10-9-mavericks:
-
-OS X 10.9 Mavericks
--------------------
-
-一个OS X 10.9 Mavericks的bug会在阻止Ren'Py在非主显示器中启动。在苹果修复这个bug之前，请在主显示器中启动Ren'Py。
-
 .. _bit-linux-problems:
 
 64-Bit Linux Problems

@@ -38,8 +38,8 @@ Python状态包括从游戏启动后存储区变化过的所有变量，以及�
     default c = 17
 
     label start:
-         $ b = 1
-         $ o.value = 42
+        $ b = 1
+        $ o.value = 42
 
 只有 `b` 和 `c` 会被存档。 a 不会被存档，因为它从游戏启动后就没有变动。 `o` 不会被存档因为它也没有变动——这里的变动是指引用对象发生变化，而不是对象成员变量的值的变化。
 
@@ -92,21 +92,21 @@ Ren'Py存档在哪里
 
     python:
 
-         i = 0
+        i = 0
 
-         while i < 10:
+        while i < 10:
 
-              i += 1
+            i += 1
 
-              narrator("现在的计数是 [i] 。")
+            narrator("现在的计数是 [i] 。")
 
 如果用户在中间存档和加载，循环会从头开始。使用Ren'Py脚本——而不是直接用Python语句——的循环就能避免这个问题：
 
 ::
 
-   $ i = 0
+    $ i = 0
 
-   while i < 10:
+    while i < 10:
 
         $ i += 1
 
@@ -315,7 +315,7 @@ Ren'Py不能存档什么内容
 
 .. function:: renpy.retain_after_load()
 
-  在当前语句和包含下一个检查点(checkpoint)的语句之间发生加载(load)时，保持数据。
+    在当前语句和包含下一个检查点(checkpoint)的语句之间发生加载(load)时，保持数据。
 
 .. _rollback:
 
@@ -390,55 +390,55 @@ Ren'Py不能存档什么内容
 
 .. function:: renpy.can_rollback()
 
-  如果可以回滚则返回True。
+    如果可以回滚则返回True。
 
 .. function:: renpy.checkpoint(data=None)
 
-  在当前语句设置一个能让用户回滚的检查点(checkpoint)。一旦调用这个函数，当前语句就不该再出现互动行为。
+    在当前语句设置一个能让用户回滚的检查点(checkpoint)。一旦调用这个函数，当前语句就不该再出现互动行为。
 
-  `data`
-    当游戏回滚时，这个数据通过 :func:`renpy.roll_forward_info()` 返回。
+    `data`
+        当游戏回滚时，这个数据通过 :func:`renpy.roll_forward_info()` 返回。
 
 .. function:: renpy.get_identifier_checkpoints(identifier)
 
-  从HistoryEntry对象中寻找rollback_identifier，返回需要的检查点(checkpoint)数量，并传入 :func:`renpy.rollback()` 以到达目标标识符(identifier)。如果标识符不在回滚历史中，返回None。
+    从HistoryEntry对象中寻找rollback_identifier，返回需要的检查点(checkpoint)数量，并传入 :func:`renpy.rollback()` 以到达目标标识符(identifier)。如果标识符不在回滚历史中，返回None。
 
 .. function:: renpy.in_rollback()
 
-  游戏回滚过则返回True。
+    游戏回滚过则返回True。
 
 .. function:: renpy.roll_forward_info()
 
-  在回滚中，返回这条语句最后一次执行时返回并应用于 :func:`renpy.checkpoint()` 的数据。如果超出滚回范围，则返回None。
+    在回滚中，返回这条语句最后一次执行时返回并应用于 :func:`renpy.checkpoint()` 的数据。如果超出滚回范围，则返回None。
 
 .. function:: renpy.rollback(force=False, checkpoints=1, defer=False, greedy=True, label=None, abnormal=True)
 
-  将游戏状态回滚至最后一个检查点(checkpoint)。
+    将游戏状态回滚至最后一个检查点(checkpoint)。
 
-  `force`
-    若为True，所有情况下都可以回滚。否则，在存储区、上下文(context)和配置(config)中启用时才能进行回滚。
+    `force`
+        若为True，所有情况下都可以回滚。否则，在存储区、上下文(context)和配置(config)中启用时才能进行回滚。
 
-  `checkpoints`
-    通过renpy.checkpoint回滚的目标检查点(checkpoint)。这种情况下，会尽可能快地回滚。
+    `checkpoints`
+        通过renpy.checkpoint回滚的目标检查点(checkpoint)。这种情况下，会尽可能快地回滚。
 
-  `defer`
-    若为True，调用会推迟到主控流程回到主语境(context)。
+    `defer`
+        若为True，调用会推迟到主控流程回到主语境(context)。
 
-  `greedy`
-    若为True，回滚会在前一个检查点(checkpoint)后面结束。若为False，回滚会在当前检查点前结束。
+    `greedy`
+        若为True，回滚会在前一个检查点(checkpoint)后面结束。若为False，回滚会在当前检查点前结束。
 
-  `label`
-    若不是None，当回滚完成后，调用的脚本标签(label)。
+    `label`
+        若不是None，当回滚完成后，调用的脚本标签(label)。
 
-  `abnormal`
-    若为True，也是默认值，异常(abnormal)模式下的转场(transition)会被跳过，否则显示转场。当某个互动行为开始时，异常(abnormal)模式结束。
+    `abnormal`
+        若为True，也是默认值，异常(abnormal)模式下的转场(transition)会被跳过，否则显示转场。当某个互动行为开始时，异常(abnormal)模式结束。
 
 .. function:: renpy.suspend_rollback(flag)
 
-  回滚会跳过游戏中已经挂起回滚的章节。
+    回滚会跳过游戏中已经挂起回滚的章节。
 
-  `flag`
-    当 *flag* 为True时，回滚挂起。当 *flag* 为False时，回滚恢复。
+    `flag`
+        当 *flag* 为True时，回滚挂起。当 *flag* 为False时，回滚恢复。
 
 .. _blocking-rollback:
 
@@ -570,64 +570,64 @@ Ren'Py不能存档什么内容
 
 .. _rollback-blocking-and-fixing-functions:
 
-回滚阻塞和回滚混合函数
+回滚阻塞和固定函数
 =======================================
 
 .. function:: renpy.block_rollback()
 
-  防止回滚到当前语句之前的脚本。
+    防止回滚到当前语句之前的脚本。
 
 .. function:: renpy.fix_rollback()
 
-  防止用于更改在当前语句之前做出的选项决定。
+    防止用于更改在当前语句之前做出的选项决定。
 
 .. function:: renpy.in_fixed_rollback()
 
-  如果正在发生回滚的当前上下文(context)后面有一个执行过的renpy.fix_rollback()语句，就返回True。
+    如果正在发生回滚的当前上下文(context)后面有一个执行过的renpy.fix_rollback()语句，就返回True。
 
 .. function:: ui.ChoiceJump(label, value, location=None, block_all=None)
 
-  一个菜单选项行为(action)，返回值为 *value* 。同时管理按钮在固定回滚模式下的状态。(详见对应的 *block_all* 参数。)
+    一个菜单选项行为(action)，返回值为 *value* 。同时管理按钮在固定回滚模式下的状态。(详见对应的 *block_all* 参数。)
 
-  `label`
-    按钮的文本标签(label)。对imagebutton和hotspot来说可以是任何类型。这个标签用作当前界面内选项的唯一标识符。这个标识符与 *location* 一起存储，用于记录该选项是否可以被选择。
+    `label`
+        按钮的文本标签(label)。对imagebutton和hotspot来说可以是任何类型。这个标签用作当前界面内选项的唯一标识符。这个标识符与 *location* 一起存储，用于记录该选项是否可以被选择。
 
-  `value`
-    跳转的位置。
+    `value`
+        跳转的位置。
 
-  `location`
-    当前选项界面的唯一位置标识符。
+    `location`
+        当前选项界面的唯一位置标识符。
 
-  `block_all`
-    若为False，被选中选项的按钮会赋予“selected”角色，未选中的选项按钮会置为不可用。
+    `block_all`
+        若为False，被选中选项的按钮会赋予“selected”角色，未选中的选项按钮会置为不可用。
 
-    若为True，固定回滚时按钮总是不可用。
+        若为True，固定回滚时按钮总是不可用。
 
-    若为None，该值使用 :func:`config.fix_rollback_without_choice` 配置项。
+        若为None，该值使用 :func:`config.fix_rollback_without_choice` 配置项。
 
-    当某个界面内所有选项都被赋值为True时，选项菜单变成点击无效状态(回滚依然有效)。这可以通过在 :func:`ui.interact()` 之前调用 :func:`ui.saybehavior()` 修改。
+        当某个界面内所有选项都被赋值为True时，选项菜单变成点击无效状态(回滚依然有效)。这可以通过在 :func:`ui.interact()` 之前调用 :func:`ui.saybehavior()` 修改。
 
 .. function:: ui.ChoiceReturn(label, value, location=None, block_all=None)
 
-  一个菜单选项行为(action)，返回值为 *value* 。同时管理按钮在固定回滚模式下的状态。(详见对应的 *block_all* 参数。)
+    一个菜单选项行为(action)，返回值为 *value* 。同时管理按钮在固定回滚模式下的状态。(详见对应的 *block_all* 参数。)
 
-  `label`
-    按钮的文本标签(label)。对imagebutton和hotspot来说可以是任何类型。这个标签用作当前界面内选项的唯一标识符。这个标识符与 *location* 一起存储，用于记录该选项是否可以被选择。
+    `label`
+        按钮的文本标签(label)。对imagebutton和hotspot来说可以是任何类型。这个标签用作当前界面内选项的唯一标识符。这个标识符与 *location* 一起存储，用于记录该选项是否可以被选择。
 
-  `value`
-    选择某个选项后返回的位置。
+    `value`
+        选择某个选项后返回的位置。
 
-  `location`
-    当前选项界面的唯一位置标识符。
+    `location`
+        当前选项界面的唯一位置标识符。
 
-  `block_all`
-    若为False，被选中选项的按钮会赋予“selected”角色，未选中的选项按钮会置为不可用。
+    `block_all`
+        若为False，被选中选项的按钮会赋予“selected”角色，未选中的选项按钮会置为不可用。
 
-    若为True，固定回滚时按钮总是不可用。
+        若为True，固定回滚时按钮总是不可用。
 
-    若为None，该值使用 :func:`config.fix_rollback_without_choice` 配置项。
+        若为None，该值使用 :func:`config.fix_rollback_without_choice` 配置项。
 
-    当某个界面内所有选项都被赋值为True时，选项菜单变成点击无效状态(回滚依然有效)。这可以通过在 :func:`ui.interact()` 之前调用 :func:`ui.saybehavior()` 修改。
+        当某个界面内所有选项都被赋值为True时，选项菜单变成点击无效状态(回滚依然有效)。这可以通过在 :func:`ui.interact()` 之前调用 :func:`ui.saybehavior()` 修改。
 
 .. _norollback:
 
@@ -636,7 +636,14 @@ Ren'Py不能存档什么内容
 
 .. class:: NoRollback
 
-  从这个类继承的类的实例，在回滚操作中不执行回滚。一个NoRollback类实例的所有相关对象，仅在它们有其他可抵达路径的情况下才不回滚。
+    从这个类继承的类的实例，在回滚操作中不执行回滚。一个NoRollback类实例的所有相关对象，仅在它们有其他可抵达路径的情况下才不回滚。
+
+.. class:: SlottedNoRollback
+
+    从这个类继承的类的实例，在回滚操作中不执行回滚。此类与 :class:`NoRollback` 的区别是，没有一个关联字典，可以使用 ``__slots__`` 降低内存消耗。
+
+    NoRollback类对象实例在回滚后的变化，就像其是通过非回滚的其他方式抵达回滚目标点。
+
 
 举例：
 
@@ -656,3 +663,32 @@ Ren'Py不能存档什么内容
         $ o.value += 1
 
         "o.value的值是 [o.value] 。你每次回滚并点到这里都会增加它的值。"
+
+.. rollback-supporing-classes:
+
+支持回滚的类
+===========================
+
+下列的几个类用于支持游戏中回滚。在某些场景下可能会用到。
+
+.. class:: MultiRevertable
+
+    MultiRevertable是一种可恢复对象的最小可继承抽象类。可以继承MultiRevertable并实现自己需要的可恢复对象。
+
+    举例：
+
+    ::
+
+        class MyDict(MultiRevertable, dict, object):
+            pass
+
+    这个样例会创建一个类，在回滚时恢复dict的内容和object的对象字段。
+
+.. class:: defaultdict(default_factory, /, *args, **kwargs)
+
+    这是一个可恢复版的collections.defaultdict。该类会接受一个工厂(factory)函数。
+    如果接入的“键”不存在，则会将“键”作为入参并调用 `default_factory` 函数，将结果返回。
+
+    如果该类的对象中存在 default_factory 属性，则不会参与回滚，即回滚不会改变该对象。
+
+

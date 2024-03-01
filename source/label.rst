@@ -165,57 +165,151 @@ return语句会在调用栈中弹出最顶层的那条语句，并将主控流�
 脚本标签(label)和主控流程函数
 -------------------------------
 
-.. function:: renpy.call_in_new_context(label, *args, **kwargs)
+.. function:: renpy.call_stack_depth()
 
-  该函数创建一个新的上下文(context)，并从这个上下文(context)中给定的脚本标签(label)处开始执行Ren'Py脚本。新的上下文(context)中禁用了回滚功能，并且存档/读档会发生在顶层的上下文(context)中。
+    返回当前上下文(context)中调用栈的深度——即调用栈中还没有返回或弹出(pop)的call语句数量。
 
-  使用该函数可以在原有交互中启动第二层交互。
+.. function:: dynamic(*variables, **kwargs)
+
+    该函数可以将若干个变量名作为入参，并根据当前调用动态调整这些变量。当调用返回后，变量的值会恢复为该函数调用之前的值。
+
+    :ref:`命名存储空间 <named-stores>` 中的变量都可以支持。
+
+    如果变量以关键字入参形式传入，入参的值等于其关联的变量名对应的值。
+
+    调用样例如下：
+    
+    ::
+
+        $ renpy.dynamic("x", "y", "z")
+        $ renpy.dynamic("mystore.serial_number")
+        $ renpy.dynamic(players=2, score=0)
 
 .. function:: renpy.get_all_labels()
 
-  返回程序中定义所有标签(lable)的集合，包括在库(library)中定义为仅限内部引用的标签。
+    返回程序中定义所有标签(lable)的集合，包括在库(library)中定义为仅限内部引用的标签。
 
 .. function:: renpy.get_return_stack()
 
-  返回一个当前返回(return)栈(stack)的列表。返回栈是一个语句名组成的列表。
+    返回一个当前返回(return)栈(stack)的列表。返回栈是一个语句名组成的列表。
 
-  该语句名应是字符串(针对标签)，或者非空元组(针对非标签型语句)。
+    该语句名应是字符串(针对标签)，或者非空元组(针对非标签型语句)。
 
 .. function:: renpy.has_label(name)
 
-  若参数name是一个程序内的合法脚本标签(label)就返回True，否则返回False。
+    若参数name是一个程序内的合法脚本标签(label)就返回True，否则返回False。
 
-  **name**
-    name应该是一个用于字符串，用于检查某个脚本标签(label)是否存在。name也可以是一个非空元组，元组给定了非标签型语句名。
-
-.. function:: renpy.invoke_in_new_context(callable, *args, **kwargs)
-
-  该函数创建了一个新的上下文(context)，并在上下文(context)中显示调用了给定的python可调用内容(通常是函数)。当函数返回了值或者抛出异常时，主控流程会返回到原来的上下文(context)。当我们在同一个句柄(handle)中向玩家展示一些信息(比如确认提示)，就可以调用这个函数。
-
-  某个上下文(context)包含显示(包括界面和图片)和音频系统的状态。当上下文(context)返回时，显示和音频状态都会被存储起来。
-
-  附加参数和关键词参数会被传入可调用的(函数)。
-
-  使用这个函数创建的上下文(context)无法执行Ren'Py脚本。会改变Ren'Py脚本流程的函数，比如 :func:`renpy.jump`，只能在外层上下文(context)下被处理。如果你想要调用的是Ren'Py脚本而不是python函数，就应该使用 :func:`renpy.call_in_new_context` 函数。
-
-.. function:: renpy.jump_out_of_context(label)
-
-  调用该函数会引起主控流程离开当前上下文(context)，并转换到父上下文(context)中指定的脚本标签(label)处。
+    **name**
+        name应该是一个字符串，用于检查某个脚本标签(label)是否存在。name也可以是一个非空元组，给定非标签型语句名。
 
 .. function:: renpy.mark_label_seen(label)
 
-  在当前用户系统内，将名为label的标签语句设置为已执行过。
+    在当前用户系统内，将名为label的标签语句设置为已执行过。
 
 .. function:: renpy.mark_label_unseen(label)
 
-  在当前用户系统内，将名为label的标签语句设置为未执行过。
+    在当前用户系统内，将名为label的标签语句设置为未执行过。
+
+.. function:: renpy.pop_call()
+
+    从调用栈顶部弹出(pop)当前call，但不返回到对应call的位置。
+    该函数与Ren'Py的return语句一样，都会恢复 :func:`dynamic <renpy.dynamic>` 函数用到的参数。
+
+    当确信某个脚本标签(label)不会返回到其调用点时，可以使用此函数。
 
 .. function:: renpy.seen_label(label)
 
-  在当前用户系统内，名为label的标签语句至少被执行了一次，则返回True，否则返回False。该概述常用于解锁场景画廊(gallery)等。
+    在当前用户系统内，名为label的标签语句至少被执行了一次，则返回True，否则返回False。该概述常用于解锁场景画廊(gallery)等。
 
 .. function:: renpy.set_return_stack(stack)
 
-  设置当前返回(return)栈(stack)。返回栈是一个语句名组成的列表。
+    设置当前返回(return)栈(stack)。返回栈是一个语句名组成的列表。
 
-  语句名可能是字符串(针对标签)或者非空元组(针对非标签语句)。
+    语句名可能是字符串(针对标签)或者非空元组(针对非标签语句)。
+
+    常用方法为：
+
+    ::
+
+        renpy.set_return_stack([])
+
+    可以清空返回栈。
+
+.. _context:
+
+上下文
+--------
+
+上下文(context)是Ren'Py用于管理游戏中可以修改并且可以存档的各种状态值，具体包括：
+
+* 当前Ren'Py运行状态
+* 调用栈，已经上面提到的 :func:`renpy.dynamic` 使用的各种动态变量名和变量值。
+* 当前显示的所有图像信息(包括图像属性和用到的各种变换等)
+* 当前显示的界面和界面中的各种变量
+* 正在播放或在播放队列中的音频
+
+大多数时候游戏中仅有一个上下文，上下文中的各项也仅存在一个实例。
+进入主菜单或游戏内菜单时，上下文中的各项可能会改变，但在离开菜单后各项会恢复。
+其中一些改变是自动处理的，比如screen图层在上下文内容变化时会清空。
+
+使用 :ref:`replay` 功能和 :func:`隐藏UI <HideInterface>` 函数时，Ren'Py会创建新的上下文。
+
+:ref:`界面语言 <screens>` 的创立，很大程度上就是为了减少频繁创建上下文。
+
+仅在基本上下文(即仅有一个上下文时的那个)中才能使用回滚(rollback)。也只有基本上下文才可以存档，这是游戏菜单会用到上下文。
+
+.. function:: renpy.call_in_new_context(label, *args, **kwargs)
+
+    该函数创建一个新的上下文(context)，并从这个上下文(context)中给定的脚本标签(label)处开始执行Ren'Py脚本。新的上下文(context)中禁用了回滚功能，并且存档/读档会发生在顶层的上下文(context)中。
+
+    使用该函数可以在原有交互中启动第二层交互。
+
+.. function:: renpy.context()
+
+    返回一个唯一对象，指向当前上下文。进入某个新的上下文时，该对象也将被赋值为新的上下文。但对该对象的修改不会影响其指向的原上下文内容。
+
+    该对象可以存档，并参与回滚操作。
+
+.. function:: context_dynamic(*variables)
+
+    该函数可以将若干个变量名作为入参，并根据当前上下文调整这些变量。当返回前一个上下文后，变量的值会恢复为该函数调用之前的值。
+
+    :ref:`命名存储空间 <named-stores>` 中的变量都可以支持。
+
+    调用样例如下：
+
+    ::
+
+        $ renpy.context_dynamic("x", "y", "z")
+        $ renpy.context_dynamic("mystore.serial_number")
+
+.. function:: renpy.context_nesting_level()
+
+    返回当前上下文的嵌套层级(nesting level)。
+    最外层的上下文的层级为0(该层上下文可以存档、读档和回滚)。其他上下文的嵌套曾经都不是0，比如菜单和回放的上下文。
+
+.. function:: renpy.invoke_in_new_context(callable, *args, **kwargs)
+
+    该函数创建了一个新的上下文(context)，并在上下文(context)中显示调用时指定的python可调用内容(通常是函数)。当函数返回值或者抛出异常时，主控流程会返回到原来的上下文(context)。当我们在同一个句柄(handle)中向玩家展示一些信息(比如确认提示)，就可以调用这个函数。
+
+    其他额外入参都将传给callable处理。
+
+    该函数创建的上下文无法执行Ren'Py脚本。能改变Ren'Py脚本执行流程的函数，比如 :func:`renpy.jump`都会由外层的上下文处理。
+    如果想要调用Ren'Py脚本而不是Python函数，需要改用 :func:`renpy.call_in_new_context`.
+
+.. function:: renpy.jump_out_of_context(label)
+
+    调用该函数会使主控流程离开当前上下文(context)，并转换到父层上下文(context)中指定的脚本标签(label)处。
+
+.. function:: renpy.reset_all_contexts()
+
+    该函数会上下文栈中的所有元素都弹出(pop off)，恢复所有动态变量的值。完成以上内容后，再创建一个新的上下文。
+    当前语句结束，游戏从下一条语句继续执行。遇到异常的数据或起始点时，这样做能将Ren'Py设置为初始状态。
+
+    该函数可用于重置游戏内的一切——包括显示的图像、播放的音乐等，就像游戏刚开始运行。
+
+    由于该函数会重置Ren'Py，当前语句会立刻结束。
+
+    该函数设计用在after_load脚本标签后面，可以将游戏的状态数据重置为初始值。接着游戏可以重新绘制场景、播放音乐等，最后跳转到目标脚本标签并继续。
+
+

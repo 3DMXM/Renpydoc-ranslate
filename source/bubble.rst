@@ -33,20 +33,18 @@ an image tag, a kind of ``bubble``. For example,
 
 .. _retained-bubbles:
 
-Retained Bubbles
+保留气泡
 ----------------
 
-Ren'Py supports a mode in which bubbles are retained between lines of
-dialogue, so they pop up one by one, until the previous bubbles are
-cleared from the screen. To enable this mode, set a bubble character's
-`retain` property to True::
+Ren'Py支持一种模式，可以让气泡在某些对话进行中保持存在。保留气泡会挨个弹出，并在清理整个界面前始终显示。
+若要启用该模式，只需要将角色的 `retain` 特性设置为True：
+
+::
 
     define e = Character(None, image="eileen", kind=bubble, retain=True)
 
-Once that's done, the bubbles will keep popping up. Each bubble will
-need to be placed individually, so bubbles don't overlap. In the bubble editor,
-pressing the "(clear retained bubbles)" button will remove all of the
-retained bubbles from the screen, except for the most recent.
+这样设置后，气泡会一直弹出。每个气泡需要分别设置位置，让气泡间不会遮挡。
+在气泡编辑器中，点击“(clear retained bubbles)”按钮可以将界面气泡清空，只保留最后一个弹出的气泡。
 
 .. _tips:
 
@@ -61,6 +59,9 @@ retained bubbles from the screen, except for the most recent.
 * 该行台词前新增或删除了一个脚本标签(label)，但新增或删除带有 ``hide`` 从句的脚本标签并不会更改多语言标识符。
 
 如果创作者修改过某个场景的脚本，建议回看检查以确保不会影响气泡式对话的效果。
+
+修改 :ref:`bubble-screen` 界面可以在对话时气泡上应用各种变换效果。
+
 
 .. _bubble-configuration-variables:
 
@@ -190,6 +191,39 @@ bubble界面
 
 从say界面分离出来后，bubble界面可以使用自己的样式集，包括``bubble_window``、``bubble_what``、``bubble_namebox`` 和 ``bubble_who``。
 这些样式都可以直接在 :var:`bubble.properties` 中定制。
+
+If you'd like to apply effects to the speech bubble, you can do so by
+adding a transform to the bubble screen that accepts the show and hide
+transform events, like
+如果创作者想要在对话气泡上添加点效果，可以bubble界面中添加变化，比如响应show和hide事件：
+
+::
+
+    screen bubble(who, what):
+        style_prefix "bubble"
+
+        window:
+            id "window"
+
+            at transform:
+                on show:
+                    alpha 0.0
+                    linear .5 alpha 1.0
+
+                on hide:
+                    linear .5 alpha 0.0
+
+            if who is not None:
+
+                window:
+                    id "namebox"
+                    style "bubble_namebox"
+
+                    text who:
+                        id "who"
+
+            text what:
+                id "what"
 
 .. _adding-bubble-support-to-a-game:
 

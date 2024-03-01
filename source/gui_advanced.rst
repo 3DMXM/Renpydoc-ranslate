@@ -15,122 +15,106 @@ Python函数
 
 .. function:: gui.button_properties(kind)
 
-  给定按钮的 *kind* 类型，返回那个按钮对应的标准样式特性的字典数据。字典中包括：
+    给定按钮的 *kind* 类型，返回那个按钮对应的标准样式特性的字典数据。字典中包括：
 
-  :propref:`background`
-    详见后面的内容。
+    :propref:`background`
+        详见后面的内容。
 
-  :propref:`padding`
-    用于gui.kind_borders.padding(前提是这项存在)。
+    :propref:`padding`
+        用于gui.kind_borders.padding(前提是这项存在)。
 
-  :propref:`xsize`
-    用于gui.kind_width(前提是这项存在)。
+    :propref:`xsize`
+        用于gui.kind_width(前提是这项存在)。
 
-  :propref:`ysize`
-    用于gui.kind_height(前提是这项存在)。
+    :propref:`ysize`
+        用于gui.kind_height(前提是这项存在)。
 
-  (需要注意，如果 *kind* 的值是字符串“nvl_button”，就会寻找gui.nvl_button_background配置项的值。)
+    (需要注意，如果 *kind* 的值是字符串“nvl_button”，就会寻找gui.nvl_button_background配置项的值。)
 
-  background是一个frame，使用以下第一个能匹配到的文件作为其背景图：
+    background是一个frame，使用以下第一个能匹配到的文件作为其背景图：
 
-  - gui/button/kind\_[prefix\_].background.png
-  - gui/button/[prefix\_].background.png
+    - gui/button/kind\_[prefix\_].background.png
+    - gui/button/[prefix\_].background.png
 
-  如果某个GUI变量名为gui.kind_borders存在就使用。否则，使用 :var:`gui.button_borders` 。如果gui.kind_tile存在，他决定边界是否使用tile风格， :var:`gui.button_tile` 项控制tile。
+    如果某个GUI变量名为gui.kind_borders存在就使用。否则，使用 :var:`gui.button_borders` 。如果gui.kind_tile存在，他决定边界是否使用tile风格， :var:`gui.button_tile` 项控制tile。
 
-  [prefix\_]代表的意思，详见 :ref:`样式前缀搜索 <style-prefix-search>` 。
-
-.. function:: gui.button_text_properties(kind=None, accent=False)
-
-  给定按钮的 *kind* 类型，返回那个按钮对应的标准样式特性的字典数据。字典中包括：
-
-  :propref:`font`
-    用于gui.kind_text_font，前提是它存在。
-
-  :propref:`size`
-    用于gui.kind_text_size，前提是它存在。
-
-  :propref:`xalign`
-    用于gui.kind_text_xalign，前提是它存在。
-
-  :propref:`text_align`
-    用于gui.kind_text_xalign，前提是它存在。
-
-  :propref:`layout`
-    用于“subtitle”，前提是gui.kind_text_xalign大于0小于1。
-
-  还有一些变量设置文本的 ``color`` 样式特性(property)。
-
-  **color**
-    用于gui.kind_text_color，前提是它存在。如果变量没有设置，那么 *accent* 的值是True，将文本颜色设置为默认的强调(accent)色。
-
-  **insensitive_color**
-    用于gui.kind_text_insensitive_color，前提是它存在。
-
-  **idle_color**
-    用于gui.kind_text_idle_color，前提是它存在。
-
-  **hover_color**
-    用于gui.kind_text_hover_color，前提是它存在。
-
-  **selected_color**
-    用于gui.kind_text_selected_color，前提是它存在。
-
-  所有其他的 :ref:`文本样式特性 <text-style-properties>` 都是可用的。例如，gui.kind_text_outlines设置轮廓线样式特性，gui.kind_text_kerning设置字偶距等等。
+    [prefix\_]代表的意思，详见 :ref:`样式前缀搜索 <style-prefix-search>` 。
 
 .. function:: gui.init(width, height)
 
-  初始化GUI。
+    初始化GUI。
 
-  `width`
-    默认窗口宽度。
+    `width`
+        默认窗口宽度。
 
-  `height`
-    默认窗口高度。
+    `height`
+        默认窗口高度。
+
+    `fov`
+        3D舞台的视野(field of view)。
 
 .. function:: gui.rebuild()
 
-  重建GUI。
+    重建GUI。
 
-  .. note: 这个函数运行很慢。
+    .. note: 这个函数运行很慢。
 
 .. function:: gui.text_properties(kind=None, accent=False)
 
-  给定按钮的 *kind* 类型，返回那个按钮对应的标准样式特性的字典数据。字典中包括：
+    给定按钮的 `kind` 类型，返回那个按钮对应的标准样式特性的字典数据。字典中包括：
 
-  :propref:`font`
-    用于gui.kind_text_font，前提是它存在。
+    :propref:`font`
+        用于gui.kind_text_font，前提是它存在。
 
-  :propref:`size`
-    用于gui.kind_text_size，前提是它存在。
+    :propref:`size`
+        用于gui.kind_text_size，前提是它存在。
 
-  :propref:`xalign`
-    用于gui.kind_text_xalign，前提是它存在。
+    :propref:`xalign`
+        用于gui.kind_text_xalign，前提是它存在。
 
-  :propref:`text_align`
-    用于gui.kind_text_xalign，前提是它存在。
+    :propref:`text_align`
+        用于gui.kind_text_xalign，前提是它存在。
 
-  :propref:`layout`
-    用于“subtitle”，前提是gui.kind_text_xalign大于0小于1。
+    :propref:`layout`
+        用于“subtitle”，前提是gui.kind_text_xalign大于0小于1。
 
-  还有一些变量设置文本的 ``color`` 样式特性(property)。
+    还有一些变量设置文本的 ``color`` 样式特性(property)。
 
-  **color**
-    用于gui.kind_text_color，前提是它存在。如果变量没有设置，那么 *accent* 的值是True，将文本颜色设置为默认的强调(accent)色。
+    **color**
+        用于gui.kind_text_color，前提是它存在。如果变量没有设置，那么 *accent* 的值是True，将文本颜色设置为默认的强调(accent)色。
 
-  **insensitive_color**
-    用于gui.kind_text_insensitive_color，前提是它存在。
+    **insensitive_color**
+        用于gui.kind_text_insensitive_color，前提是它存在。
 
-  **idle_color**
-    用于gui.kind_text_idle_color，前提是它存在。
+    **idle_color**
+        用于gui.kind_text_idle_color，前提是它存在。
 
-  **hover_color**
-    用于gui.kind_text_hover_color，前提是它存在。
+    **hover_color**
+        用于gui.kind_text_hover_color，前提是它存在。
 
-  **selected_color**
-    用于gui.kind_text_selected_color，前提是它存在。
+    **selected_color**
+        用于gui.kind_text_selected_color，前提是它存在。
 
-  所有其他的 :ref:`文本样式特性 <text-style-properties>` 都是可用的。例如，gui.kind_text_outlines设置轮廓线样式特性，gui.kind_text_kerning设置字偶距等等。
+    也可以使用所有其他 :ref:`文本样式特性 <text-style-properties>` 。
+    若 `kind` 不为None，还可以使用 :ref:`位置样式特性 <position-style-properties>` 。
+    例如，使用gui.kind_text_outlines设置outlines样式特性，使用gui.kind_text_kerning设置行距，等等
+
+.. function:: variant(f, variant=None)
+
+    函数装饰器，在GUI初始化或重建GUI时调用。使用方法如下：
+
+    ::
+
+        @gui.variant
+        def small():
+            gui.text_size = 30
+            # ...
+
+    指定variant名称后，可以使用 `f` (一个函数) 和 `variant` (一个字符串)调用该函数。
+
+.. function:: gui.button_text_properties(kind=None, accent=False)
+
+    :func:`gui.text_properties` 的一个已过时(obsolete)异名。
 
 .. _more-on-gui-rebuild:
 

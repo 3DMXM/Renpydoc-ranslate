@@ -15,7 +15,9 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 与这些行为一样，某个行为可以是一个不带任何入参的函数。当行为被唤起时，对应的函数就会调用。如果那个行为返回某个值，返回的值就会传到来源交互动作。
 
-需要使用行为的地方也可能出现的是一个行为的列表，列表内的行为会顺序运行。
+需要使用行为的地方也可能出现的是一个行为的列表，列表内的行为会顺序执行。
+只有列表中的行为都是sensitive状态时，列表自身才是sensitive状态。selected状态同理。
+除非列表中某些行为使用了 :func:`SensitiveIf` 或 :func:`SelectedIf` 来决定自身状态。
 
 .. _control-actions:
 
@@ -59,32 +61,166 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: Show(screen, transition=None, *args, **kwargs)
 
-    触发另一个界面的显示。 *screen* 是给定待显示的界面名。入参会传给正在显示的界面。
+    触发另一个界面的显示。 `screen` 是给定待显示的界面名。入参会传给正在显示的界面。
 
-    如果 *transition* 非空，则会用作新界面显示时的转场效果。
+    如果 `transition` 非空，则会用作新界面显示时的转场效果。
+
+    该行为可以使用 `_layer`、`_zorder` 和 `_tag` 关键词入参。各参数的意义与 :func:`renpy.show_screen` 函数相同。
 
 .. function:: ShowTransient(screen, transition=None, *args, **kwargs)
 
     显示一个临时界面。临时界面会在当前交互完成后隐藏。入参会传给当前显示的界面。
 
-    如果 *transition* 非空，则会用作新界面显示时的转场效果。
+    如果 `transition*` 非空，则会用作新界面显示时的转场效果。
+
+    该行为可以使用 `_layer`、`_zorder` 和 `_tag` 关键词入参。各参数的意义与 :func:`renpy.show_screen` 函数相同。
 
 .. function:: ToggleScreen(screen, transition=None, *args, **kwargs)
 
     切换界面的可视性。如果某个界面当前没有显示，则会使用提供的入参显示那个界面。相反，则隐藏那个界面。
 
-    如果 *transition* 非空，则会用作新界面显示时的转场效果。
+    如果 `transition` 非空，则会用作新界面显示时的转场效果。
+
+    该行为可以使用 `_layer`、`_zorder` 和 `_tag` 关键词入参。各参数的意义与 :func:`renpy.show_screen` 函数相同。
 
 .. _data-acitons:
 
 数据行为
 ------------
 
+下表中列出了一些常用数据行为(Data Action)，根据数据类型、作用域等特征做了分类：
+
++----------------+---------------------------+---------------------------------+--------------------------------+------------------------+-----------------------+
+| 管理器         |                                                                          访问器                                                               |
++                +---------------------------+---------------------------------+--------------------------------+------------------------+-----------------------+
+|                | Variable                  | ScreenVariable                  | LocalVariable                  | Field                  | Dict                  |
++================+===========================+=================================+================================+========================+=======================+
+| Set            | :func:`SetVariable`       | :func:`SetScreenVariable`       | :func:`SetLocalVariable`       | :func:`SetField`       | :func:`SetDict`       |
++----------------+---------------------------+---------------------------------+--------------------------------+------------------------+-----------------------+
+| Toggle         | :func:`ToggleVariable`    | :func:`ToggleScreenVariable`    | :func:`ToggleLocalVariable`    | :func:`ToggleField`    | :func:`ToggleDict`    |
++----------------+---------------------------+---------------------------------+--------------------------------+------------------------+-----------------------+
+| Cycle          | :func:`CycleVariable`     | :func:`CycleScreenVariable`     | :func:`CycleLocalVariable`     | :func:`CycleField`     | :func:`CycleDict`     |
++----------------+---------------------------+---------------------------------+--------------------------------+------------------------+-----------------------+
+| Increment      | :func:`IncrementVariable` | :func:`IncrementScreenVariable` | :func:`IncrementLocalVariable` | :func:`IncrementField` | :func:`IncrementDict` |
++----------------+---------------------------+---------------------------------+--------------------------------+------------------------+-----------------------+
+
+访问器决定“谁”的数值发生变化，管理器决定新值的结果。具体关系如下：
+
+- :abbr:`-Variable (SetVariable, ToggleVariable, CycleVariable, IncrementVariable)` 类行为，会在通用存储空间中寻找 `name` 同名的全局变量，
+  并修改该变量的值。`name` 参数必须是一个字符串。其可以是一个简单的变量名，比如“strength”。也可以是使用英文符号“.”的某些变量的字段，
+  比如“hero.strength”或“persistent.show_cutscenes”。
+- :abbr:`-ScreenVariable (SetScreenVariable, ToggleScreenVariable, CycleScreenVariable, IncrementScreenVariable)` 类行为，
+  会在当前最上层(通常是获得焦点的)界面中寻找 `name` 同名的变量，并修改该变量的值。
+  如果该变量所在界面被多个界面使用 `use` 引用，则修改之后会同时在各界面产生效果。
+- :abbr:`-LocalVariable (SetLocalVariable, ToggleLocalVariable, CycleLocalVariable, IncrementLocalVariable)`类行为，
+  会在使用该行为的界面内寻找 `name` 同名的本地变量，并修改该变量的值。仅在某个界面且被其他界面使用 `use` 引用时(详见 :ref:`sl-use`)，才适合使用该行为。
+  其他更多情况时，更推荐使用 -ScreenVariable 类行为。后者还有更好的性能表现和更多的界面缓存信息。
+  -LocalVariable 类行为仅能创建在变量所属的上下文中，且不能赋值到其他地方。
+- :abbr:`-Field (SetField, ToggleField, CycleField, IncrementField)` 类行为，
+  能修改 `object` 对象中名为 `field` 的字段。
+- :abbr:`-Dict (SetDict, ToggleDict, CycleDict, IncrementDict)` 类行为，
+  可以修改字典 `dict` 中的键 `key` 对应的值 ``dict[key]``。该类行为也可以修改类表。
+
+* :abbr:`Set- (SetVariable, SetScreenVariable, SetLocalVariable, SetField, SetDict)` 类行为，
+  直接把目标值改为 `value` 入参的值。注意，``set`` 项没有任何操作，其是Python内建类型。总结起来，``target = value``。
+* :abbr:`Toggle- (ToggleVariable, ToggleScreenVariable, ToggleLocalVariable, ToggleField, ToggleDict)` 类行为，
+  可以切换目标的布尔值。可切换范围为 `true_value` (需要指定，未指定则为None)和 `false_value` (同上)。
+  如果 `true_value` 和 `false_value` 都是None，则执行 ``target = not target`` 。
+* :abbr:`Cycle- (CycleVariable, CycleScreenVariable, CycleLocalVariable, CycleField, CycleDict)` 类行为，
+  会循环获取 `values` 中的元素。`values` 必须是一个非空序列(列表、元组或数值范围)。
+  如果行为运行时，目标的值没有匹配到序列中的任何元素，则将目标的值设置为序列中的第一个元素。
+  `loop` 参数(默认为True)决定 `values` 越界的处理方式：若为True则会从头开始，若为False则抛出异常。
+  `reverse` 参数(默认为False)会翻转序列元素顺序。
+* :abbr:`Increment- (IncrementVariable, IncrementScreenVariable, IncrementLocalVariable, IncrementField, IncrementDict)` 类行为，
+  会将目标数值增加一个 `amount` 的量。`amount` 默认值为1，且可以任何与目标兼容的数据类型。``target = target + amount``。
+
+.. function:: CycleDict(dict, key, values, *, reverse=False, loop=True)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: CycleField(object, field, values, *, reverse=False, loop=True)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: CycleLocalVariable(name, values, *, reverse=False, loop=True)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: CycleScreenVariable(name, values, *, reverse=False, loop=True)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: CycleVariable(name, values, *, reverse=False, loop=True)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: IncrementDict(dict, key, amount=1)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: IncrementField(object, field, amount=1)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: IncrementLocalVariable(name, amount=1)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: IncrementScreenVariable(name, amount=1)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: IncrementVariable(name, amount=1)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: SetDict(dict, key, value)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: SetField(object, field, value)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: SetLocalVariable(name, value)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: SetScreenVariable(name, value)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: SetVariable(name, value)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: ToggleDict(dict, key, true_value=None, false_value=None)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: ToggleField(object, field, true_value=None, false_value=None)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: ToggleLocalVariable(name, true_value=None, false_value=None)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: ToggleScreenVariable(name, true_value=None, false_value=None)
+
+    参见 :ref:`sl-data-acitons`。
+
+.. function:: ToggleVariable(name, true_value=None, false_value=None)
+
+    参见 :ref:`sl-data-acitons`。
+
+下列行为不符合上表的规则。其中一些会用到Python的 ``set`` 类型数据，但又与上面的 Set- 类行为不一样。
+
 这些行为设置或者切换数据。
 
 .. function:: AddToSet(set, value)
 
-    将 *value* 添加到 *set* 中。
+    将 `value` 添加到 `set` 中。
 
     `set`
         待添加元素的集合。其可以是一个Python的集合或者列表数据列表。如果是列表的话，新增的值会追加到列表结尾。
@@ -94,7 +230,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: RemoveFromSet(set, value)
 
-    将 *value* 从 *set* 中移除。
+    将 `value` 从 `set` 中移除。
 
     `set`
         待移除元素的集合，可以是一个集(set)或者列表(list)型数据。
@@ -102,13 +238,27 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `value`
         待移除的元素。
 
+.. function:: ToggleSetMembership(set, value)
+
+    切换集 `set` 中 `value` 的成员。如果对应的值在集里不存在，会添加那个值到集合中。否则，就会移动那个值。
+
+    带有这个行为的按钮会被标记为被选中(selected)状态，仅当那个值存在于集 `set` 中。
+
+    `set`
+        待添加或移除成员的集合。其可以是一个集(set)或列表(list)。如果是列表，就会在列表中结尾添加新元素。
+
+    `value`
+        需要添加的值。
+
+(译者注：下面的几个Action已经从原版文档中删除。中文版暂时保留，可以对照前面的表格使用。)
+
 .. function:: SetDict(dict, key, value)
 
-    将字典型数据 *dict* 中键值 *key* 对应的值设置为 *value* 。
+    将字典型数据 `dict` 中键值 `key` 对应的值设置为 `value` 。
 
 .. function:: SetField(object, field, value)
 
-    将某个对象的字段(field)设置为给定的值。 *object* 是目标对象， *field* 是待设置的字段名称的字符串， *value* 是需要设置成的值。
+    将某个对象的字段(field)设置为给定的值。 *object* 是目标对象， *field* 是待设置的字段名称的字符串， `value` 是需要设置成的值。
 
 .. function:: SetLocalVariable(name, value)
 
@@ -121,15 +271,15 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: SetScreenVariable(name, value)
 
-    将与当前界面关联的变量 *name* 值设置为 *value* 。
+    将与当前界面关联的变量 *name* 值设置为 `value` 。
 
 .. function:: SetVariable(variable, value)
 
-    将变量 *variable* 设置为 *value* 。
+    将变量 *variable* 设置为 `value` 。
 
 .. function:: ToggleDict(dict, key, true_value=None, false_value=None)
 
-    切换 *dict* 中键 *key* 的值。“切换”的意思是，当对应的行为执行后，原布尔值取反。
+    切换 `dict` 中键 `key` 的值。“切换”的意思是，当对应的行为执行后，原布尔值取反。
 
     `true_value`
         如果非None，这就是我们使用的True值。
@@ -173,18 +323,6 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `false_value`
         如果非None，这就是我们使用的False值。
 
-.. function:: ToggleSetMembership(set, value)
-
-    切换集 *set* 中 *value* 的成员。如果对应的值在集里不存在，会添加那个值到集合中。否则，就会移动那个值。
-
-    带有这个行为的按钮会被标记为被选中(selected)状态，仅当那个值存在于集 *set* 中。
-
-    `set`
-        待添加或移除成员的集合。其可以是一个集(set)或列表(list)。如果是列表，就会在列表中结尾添加新元素。
-
-    `value`
-        需要添加的值。
-
 .. function:: ToggleVariable(variable, true_value=None, false_value=None)
 
     切换 *variable* 。
@@ -202,12 +340,27 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 以下行为(action)会唤起菜单，或者主要用在主菜单和游戏菜单中。
 
-.. function:: MainMenu(confirm=True)
+.. function:: Continue(regexp='[^_]', confirm=True)
+
+    直接加载最新存档。该行为用于在主菜单能直接加载玩家最后一次存档。
+
+    `regexp`
+        若存在该参数，会被 renpy.newest_slot 使用。默认的最新存档匹配规则会遍历所有存档，包括快速存档(quick save)和自动存档(auto save)。
+        若只使用玩家主动建立的存档，可以把此参数设为 ``r"\d"``。
+
+    `confirm`
+        若为True，在玩家不是从主菜单界面离开游戏时，Ren'Py会询问是否下次从此处继续。
+
+.. function:: MainMenu(confirm=True, save=True)
 
     触发Ren'Py回到主菜单。
 
     `confirm`
         若为True，触发Ren'Py询问用户是否希望返回主菜单，而不是直接返回。
+
+    `save`
+        若为True，在Ren'Py重启或用户选择返回主菜单前，将会使用 :var:`_quit_slot` 配置的名称存档。
+        如果 :var:`_quit_slot` 的值为None，也不会存档。
 
 .. function:: Quit(confirm=None)
 
@@ -249,16 +402,16 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 这些行为会处理文件的保存、读取和删除。其中很多都是用 `name` 和 `page` 入参。
 
 `name`
-    待保存内容的文件名。其可以是一个字符串或者一个整数。与 `page` 一起创建文件名。
+    待保存内容的文件名。其可以是一个字符串或者一个整数。与 `page` 拼接用于待创建文件的名称。
 
 `page`
     行为实际执行的页面(page)。其值是“auto”、“quick”或者一个正整数。若为None，page的值会根据持久化页面编号自动确定。
 
-如果设置了 :var:`config.file_slotname_callback`，则会使用该配置项并转为一个存档槽位名称。
+如果设置了 :var:`config.file_slotname_callback`，则会使用该配置项作为存档槽位名称。
 
 .. function:: FileAction(name, page=None, **kwargs)
 
-    对文件“进行正确操作”。这意味着在load界面显示时进行文件读取操作，相反在save界面显示时进行文件保存操作。
+    对存档文件“进行正确操作”。这意味着在load界面显示时进行存档文件读取操作，相反在save界面显示时进行存档文件保存操作。
 
     `name`
         存档或读档时，槽位的名称。如果为None，一个未被使用的槽位(基于当前时间的巨大数字)就会被使用。
@@ -268,88 +421,91 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     其他关键词入参会传给FileLoad或者FileSave。
 
-.. function:: FileDelete(name, confirm=True, page=None)
+.. function:: FileDelete(name, confirm=True, page=None, slot=False)
 
-    删除文件。
+    删除存档文件。
 
     `name`
         要删除的存档槽名称。
 
     `confirm`
-        若为True，删除文件前提示用户确认。
+        若为True，删除存档文件前提示用户确认。
 
     `page`
         存档或读档时使用的页面编号(page)。若为None，就使用当前页面。
 
-.. function:: FileLoad(name, confirm=True, page=None, newest=True)
+    `slot`
+        若为True，直接使用 `name` 作为存档槽位名，忽略 `page`。
 
-    读取文件。
+.. function:: FileLoad(name, confirm=True, page=None, newest=True, cycle=False, slot=False)
+
+    读取存档文件。
 
     `name`
         读取的槽位名称。若为None，an unused slot the file will not be loadable。
 
     `confirm`
-        如果为True且当前不在主菜单，在读取文件前提是用户确认。
+        如果为True且当前不在主菜单，在读取存档文件前提是用户确认。
 
     `page`
-        文件读取的页面编号。如果为None，就是用当前页面。
+        存档文件读取的页面编号。如果为None，就是用当前页面。
 
     `newest`
-        如果为True，按钮会被选中，前提是其为最新的文件。
+        如果为True，按钮会被选中，前提是其为最新的存档文件。
 
     `cycle`
         忽略。
 
     `slot`
-        若为True，使用 *name* 参数，而忽略 *page* 参数。
+        若为True，直接使用 `name` 作为存档槽位名，忽略 `page`。
 
 .. function:: FilePage(page)
 
-    将文件页面设置为 *page* ，其可以是“auto”、“quick”或一个整数。
+    将存档文件页面设置为 `page` ，其可以是“auto”、“quick”或一个整数。
 
 .. function:: FilePageNext(max=None, wrap=False)
 
-    前往下一个文件页面(page)。
+    前往下一个存档文件页面(page)。
 
     `max`
-        若该值存在，应该是整数，给定了我们前往的文件最大页面编号。
+        若该值存在，应该是整数，给定了我们前往的存档文件最大页面编号。
 
     `wrap`
-        若为True，我们可以从文件最后的页面前往第一页面，前提是设置了页面最大编号。
+        若为True，我们可以从存档文件最后的页面前往第一页面，前提是设置了页面最大编号。
 
     `auto`
-        若此参数和 *warp* 都为True，将会把玩家带往自动存档页。
+        若此参数和 `warp` 都为True，将会把玩家带往自动存档页。
 
     `quick`
-        若此参数和 *warp* 都为True，将会把玩家带往快速存档页。
+        若此参数和 `warp` 都为True，将会把玩家带往快速存档页。
 
-.. function:: FilePagePrevious(max=None, wrap=False)
+.. function:: FilePagePrevious(max=None, wrap=False, auto=True, quick=True)
 
-    前往上一个文件页面，前提是上一个页面存在的话。
+    前往上一个存档文件页面，前提是上一个页面存在的话。
 
     `max`
-        若该值存在，应该是整数，给定了我们前往的文件最大页面编号。需要启用wrap。
+        若该值存在，应该是整数，给定了我们前往的存档文件最大页面编号。需要启用wrap。
 
     `wrap`
-        若为True，我们可以从文件第一页面前往最后的页面，前提是设置了页面最大编号。
+        若为True，我们可以从存档文件第一页面前往最后的页面，前提是设置了页面最大编号。
 
     `auto`
-        若此参数和 *warp* 都为True，将会把玩家带往自动存档页。
+        若此参数和 `warp` 都为True，将会把玩家带往自动存档页。
 
     `quick`
-        若此参数和 *warp* 都为True，将会把玩家带往快速存档页。
+        若此参数和 `warp` 都为True，将会把玩家带往快速存档页。
 
-.. function:: FileSave(name, confirm=True, newest=True, page=None, cycle=False)
+.. function:: FileSave(name, confirm=True, newest=True, page=None, cycle=False, slot=False, action=None)
 
-    保存文件。
+    保存存档文件。
 
-    带槽位的按钮被选中，如果其被标记为最新存档文件。
+    如果某个存档被标记为最新存档，那该存档对应的按钮将处于选中状态。
 
     `name`
         待存档的槽位名。如果为None，一个未被使用的槽位(基于当前时间的巨大数字)就会被使用。
 
     `confirm`
-        若为True，覆盖文件前提示用户确认。
+        若为True，覆盖存档文件前提示用户确认。
 
     `newest`
         忽略。
@@ -363,7 +519,10 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `slot`
         若为True，使用 *name* 参数，而忽略 *page* 参数。
 
-.. function:: FileTakeScreenshot(*args, **kwargs)
+    `action`
+        存档成功完成后执行的一个行为。
+
+.. function:: FileTakeScreenshot()
 
     当游戏存档时，截取屏幕快照并使用。通常使用存档界面显示之前的界面截图，用作存档的快照。
 
@@ -404,11 +563,19 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 关于音频通道(channel)的概念和工作机制，大多数信息都可以在 :doc:`audio` 中找到解释。
 
+.. function:: GetMixer(mixer, db=False)
+
+    返回 `mixer` 的音量值。
+
+    `db`
+        若为True，返回的音量值单位为分辨。
+        若为默认值False，音量值介于0.0与1.0之间。
+
 .. function:: PauseAudio(channel, value=True)
 
     音频通道 *channel* 设置暂停标识(flag)。
 
-    如果 *value* 为True，通道channel会暂停。相反，通道channel会从暂停恢复。如果值为“toggle”，暂停标识会进行切换，即布尔值进行“逻辑非”操作。
+    如果 `value` 为True，通道channel会暂停。相反，通道channel会从暂停恢复。如果值为“toggle”，暂停标识会进行切换，即布尔值进行“逻辑非”操作。
 
 .. function:: Play(channel, file, selected=None, **kwargs)
 
@@ -439,7 +606,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: SetMixer(mixer, volume)
 
-    将 *mixer* 的音量设置为 *value* 。
+    将 *mixer* 的音量设置为 `value` 。
 
     `mixer`
         需要调整音量的混合器(mixer)。这个字符串通常是“main”、“music”、“sfx”或“voice”。混合器的信息详见 :ref:`volume` 。 
@@ -523,26 +690,54 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
         向用户显示的提示内容。
 
     `confirm_selected`
-        若为True，当yes行为被选中后，提示 *prompt* 依然会显示。若为False，也是默认值， *yes* 行为选中后提示就不再显示。
+        若为True，当yes行为被选中后，提示 `prompt` 依然会显示。若为False，也是默认值， `yes` 行为选中后提示就不再显示。
 
-    这个行为的可用性和可选择性与 *yes* 行为相匹配。
+    这个行为的可用性和可选择性与 `yes` 行为相匹配。
+
+    该行为还有个函数版本 :func:`renpy.confirm()` 。
+
+.. function:: CopyToClipboard(s)
+
+    将字符串 `s` 复制到系统剪贴板。该行为只能在电脑和手机上运行，Web平台无法正常运行。
 
 .. function:: DisableAllInputValues()
 
     禁用所有活动的输入项。如果存在默认输入项的话，它将重新获得焦点。否则，任何输入项都不会获得焦点。
 
-.. function:: Function(callable, *args, **kwargs)
+.. function:: EditFile(filename=None, line=1)
 
-    这个行为会使用 *args* 和 *kwargs* 调用 *callable* 。
+    要求Ren'Py在文本编辑器中打开指定文件。
+    该行为仅在某些平台能运行。
+
+    `filename`
+        指定要打开文件的文件名。若为None，则使用当前使用的文件名和文件行数，`line` 参数将被忽略。
+
+    `line`
+        一个数字。打开文件后，游标(cursor)会移动到 `line` 对应的行开头。
+
+.. function:: ExecJS(code)
+
+    执行指定的JavaScript代码。仅支持Web平台。在其他平台运行会抛出异常。
+    JS脚本会在窗口上下文中异步执行，返回结果不能通过该行为获得。
+
+    `code`
+        待执行的JaveScript代码。
+
+.. function:: Function(callable, *args, _update_screens=True, **kwargs)
+
+    这个行为会 调用 `callable(*args, **kwargs)` 。
 
     `callable`
         可调用的对象。该项假设遇到两个相等的可调用对象，调用任意一个都是相同的。
 
     `args`
-        传给 *callable`* 的固定位置入参。
+        传给 `callable` 的固定位置入参。
 
     `kwargs`
-        传给 *callable* 的关键词入参。
+        传给 `callable` 的关键词入参。
+
+    `_update_screens`
+        若为True，在函数返回后重启交互系统并更新界面。
 
     这个行为使用一个可选的 _update_screens 关键词参数，而且这个参数默认为True。参数为True时，函数返回后，互动行动会重新开始，各界面会更新。
 
@@ -555,23 +750,23 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     显示帮助。
 
-    如果定义过一个名为 ``help`` 的界面，使用 :func:`ShowMenu` 就可以显示那个界面，并且 *help* 参数会被省略。
-
     `help`
         用于提供帮助的字符串。其被用于以下两种情况：
 
         - 如果存在一个对应名称的文本标签(label)，对应的标签会在新的上下文中被调用。
         - 否则，内嵌某个给定文件名称，并使用web浏览器打开。
 
-    若 *help* 为None， :func:`config.help` 配置项会被用作默认值。
+    若 `help` 为None，:var:`config.help` 配置项会被用作默认值。
+    若 `help` 为None，且配置了 :var:`config.help_screen` ，则在新的上下文中显示配置的帮助界面。
+    其他情况下，不做任何处理。
 
-.. function:: HideInterface(*args, **kwargs)
+.. function:: HideInterface()
 
-    隐藏用户接口，直到出现用户点击事件。
+    隐藏用户接口(UI)，直到出现用户点击事件。也可以在游戏中按键盘H键隐藏UI。
 
 .. function:: If(expression, true=None, false=None)
 
-    根据 *expression* 的结果选择使用 *true* 或 *false* 的行为。这个函数用在基于某个表达式的结果选择执行行为。注意入参的默认值None，也可以用作一个行为，禁用某个按钮。
+    根据 `expression` 的结果选择使用 `true` 或 `false` 的行为。这个函数用在基于某个表达式的结果选择执行行为。注意入参的默认值None，也可以用作一个行为，禁用某个按钮。
 
 .. function:: InvertSelected(action)
 
@@ -586,21 +781,25 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: Notify(message)
 
-    使用 :func:`renpy.notify()` 函数显示 *message* 内容。
+    使用 :func:`renpy.notify()` 函数显示 `message` 内容。
+
+.. function:: OpenDirectory(directory)
+
+    在文件资源管理器中打开指定目录 `directory`。目录 `directory` 为以 :var:`config.basedir` 为根目录的相对目录。
 
 .. function:: OpenURL(url)
 
-    在web浏览器中打开 *url* 。
+    在web浏览器中打开 `url` 。
 
 .. function:: QueueEvent(event, up=False)
 
     使用 :func:`renpy.queue_event()` 将给定的事件消息加入到事件队列中。
 
-.. function:: RestartStatement(*args, **kwargs)
+.. function:: RestartStatement()
 
-    这个行为会触发Ren'Py回滚到当前语句之前，并再次执行当前语句。可以用在某些持久化变量改变后影响语句显示效果的情况。
+    这个行为会使Ren'Py回滚到当前语句之前，并再次执行当前语句。可以用在某些持久化变量改变后影响语句显示效果的情况。
 
-    在菜单语境运行的话，等到用户退出并回到上一层语境时才会执行回滚行为。
+    在菜单上下文运行的话，等到用户退出并回到上一层上下文时才会执行回滚行为。
 
 .. function:: RollForward(*args, **kwargs)
 
@@ -610,7 +809,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     这个行为触发回滚，前提是回滚可行。否则，不会发生任何事。
 
-    入参将传给 :func:renpy.rollback() 函数，除非参数 *force* 是默认值“menu”。
+    入参将传给 :func:renpy.rollback() 函数，除非参数 `force` 是默认值“menu”。
 
 .. function:: RollbackToIdentifier(identifier)
 
@@ -620,7 +819,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     屏幕截图。
 
-.. function:: Scroll(id, direction, amount=u'step')
+.. function:: Scroll(id, direction, amount='step', delay=0.0)
 
     `id`
         当前界面中条(bar)、视口(viewport)或vpgrid的id。
@@ -632,11 +831,11 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
         滚动数量。可以使用像素数，也可以写“step”或“page”。
 
     `delay`
-        若非零，表示延迟时间值。
+        若非零，表示动画延迟时间值。
 
-.. function:: SelectedIf(expression)
+.. function:: SelectedIf(action, /)
 
-    这个行为允许某个表达式控制一个按钮是否被标记为选中状态。其应被用作包含一个或多个行为的列表的一部分。例如：
+    这个行为允许“根据一个行为列表”判断一个按钮是否被标记为选中状态。其应被用作包含一个或多个行为的列表的一部分。例如：
 
     ::
 
@@ -646,9 +845,9 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     点击按钮后，在SeletedIf内部的行为会被正常执行。
 
-.. function:: SensitiveIf(expression)
+.. function:: SensitiveIf(action, /)
 
-    这个行为允许某个表达式控制一个按钮是否被标记为可用状态。其应被用作包含一个或多个行为的列表的一部分。例如：
+    这个行为允许“根据一个行为列表”判断一个按钮是否被标记为可用状态。其应被用作包含一个或多个行为的列表的一部分。例如：
 
     ::
 
@@ -660,7 +859,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: Skip(fast=False, confirm=False)
 
-    触发游戏开始使用跳过(skipping)。如果游戏处于菜单语境下，这个行为导致回到游戏界面。否则，这个行为启用跳过(skipping)。
+    使游戏开始使用跳过(skipping)。如果游戏处于菜单上下文下，这个行为导致回到游戏界面。否则，这个行为启用跳过(skipping)。
 
     `fast`
         若该值为True，直接跳到下一个菜单选项。
@@ -670,7 +869,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: With(transition)
 
-    触发 *transition* 生效。
+    使 `transition` 生效。
 
 还有一些行为记录在文档的其他页面，比如 :class:`Language`、:class:`Replay`、:class:`EndReplay`、
 :class:`gui.SetPreference`、:class:`gui.TogglePreference`、
@@ -688,7 +887,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
 .. function:: AnimatedValue(value=0.0, range=1.0, delay=1.0, old_value=None)
 
-    将某个值序列化，使用 *delay* 秒的时间将 *old_value* 的值转为 *value* 的值。
+    将某个值序列化，使用 *delay* 秒的时间将 *old_value* 的值转为 `value` 的值。
 
     `value`
         value值自身，是一个数值。
@@ -700,7 +899,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
         序列化value值的时间，单位为秒。默认值是1.0。
 
     `old_value`
-        旧的value值。若为None，我们使用AnimatedValue想要替换的value值。否则，其会初始化为 *value* 的值。
+        旧的value值。若为None，我们使用AnimatedValue想要替换的value值。否则，其会初始化为 `value` 的值。
 
 .. function:: AudioPositionValue(channel=u'music', update_interval=0.1)
 
@@ -709,21 +908,23 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `update_interval`
         值的更新频率，单位为秒。
 
-.. function:: DictValue(dict, key, range, max_is_zero=False, style=u'bar', offset=0, step=None, action=None, force_step=False)
+.. function:: DictValue(dict, key, range, max_is_zero=False, style='bar', offset=0, step=None, action=None, force_step=False)
 
     允许用户使用字典型数据的键调整对应的值。
 
     `dict`
-        字典。
+        字典，或列表。
 
     `key`
-        键。
+        字典的键，或者列表的索引(index)。
 
     `range`
         调整的数值范围。
 
     `max_is_zero`
         若为True，当键对应的值为0时，条(bar)值范围会调整为从1到0，所有其他值都会被降低到1。同样的，当条(bar)被设置成最大值时，键的值将设置为0。
+
+        该参数只在内部使用。
 
     `style`
         创建的条(bar)的样式。
@@ -737,7 +938,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `action`
         若非None，当字段改变时，将调用指定行为(action)。
 
-.. function:: FieldValue(object, field, range, max_is_zero=False, style=u'bar', offset=0, step=None, action=None, force_step=False)
+.. function:: FieldValue(object, field, range, max_is_zero=False, style='bar', offset=0, step=None, action=None, force_step=False)
 
     允许用户调整某个对象上字段(field)的条(bar)值。
 
@@ -753,7 +954,40 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `max_is_zero`
         若为True，当键对应的值为0时，条(bar)值范围会调整为从1到0，所有其他值都会被降低到1。同样的，当条(bar)被设置成最大值时，字段(filed)的值将设置为0。
 
-        这偏向于某些内部使用。
+        该参数只在内部使用。
+
+    `style`
+        创建的条(bar)的样式。
+
+    `offset`
+        添加到条值的一个偏移量。
+
+    `step`
+        调整条(bar)值的步进大小。若为空，默认为条(bar)的十分之一。
+
+    `action`
+        若非None，当字段改变时，将调用指定行为(action)。
+
+.. function:: LocalVariableValue(variable, range, max_is_zero=False, style='bar', offset=0, step=None, action=None, force_step=False)
+
+    通过 ``use`` 引用的界面内，使用条(bar)值调整某个变量。
+
+    如果要调整某个最上层界面的变量，推荐使用 :func:`ScreenVariableValue` 。
+
+    更多信息参见 :ref:`sl-use` 。
+
+    该行为仅能创建在变量所属的上下文中，且不能赋值到其他地方。
+
+    `variable`
+        一个字符串，表示待调整变量名。
+
+    `range`
+        可调整的范围。
+
+    `max_is_zero`
+        若为True，当键对应的值为0时，条(bar)值范围会调整为从1到0，所有其他值都会被降低到1。同样的，当条(bar)被设置成最大值时，字段(filed)的值将设置为0。
+
+        该参数只在内部使用。
 
     `style`
         创建的条(bar)的样式。
@@ -773,10 +1007,14 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     `mixer`
         待调整的混合器名。通常是“music”、“sfx”或“voice”，创作者也可以创建新的混合器。
+        更多信息参见 :ref:`volume`。
 
-.. function:: ScreenVariableValue(variable, range, max_is_zero=False, style=u'bar', offset=0, step=None, action=None, force_step=False)
+.. function:: ScreenVariableValue(variable, range, max_is_zero=False, style='bar', offset=0, step=None, action=None, force_step=False)
 
     用于调整界面变量值的条(bar)值。
+
+    该行为针对的变量范围包括使用 ``use`` 引用其他界面的界面自身和引用的子界面。
+    如果仅仅要修改被 ``use`` 引用的子界面中的变量，推荐使用 :func:`LocalVariableValue` 。
 
     `variable`
         一个字符串，给出了待调整的变量名。
@@ -811,7 +1049,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     `range`
         数值范围。
 
-.. function:: VariableValue(variable, range, max_is_zero=False, style=u'bar', offset=0, step=None, action=None, force_step=False)
+.. function:: VariableValue(variable, range, max_is_zero=False, style='bar', offset=0, step=None, action=None, force_step=False)
 
     允许用户调整默认存储区变量值的条(bar)值。
 
@@ -857,17 +1095,20 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 
 .. function:: DictInputValue(dict, key, default=True, returnable=False)
 
-    将字典 *dict* 中键 *key* 的值更新的输入(input)值。
+    根据输入值更新 ``dict[key]``。
+
+    `dict`
+        一个字典或列表对象。
 
     `default`
-        若为True，默认情况下输入可以被编辑。
+        若为True，输入默认是可以被编辑的。
 
     `returnable`
         若为True，当用户按下回车键，输入的值就会被返回。
 
 .. function:: FieldInputValue(object, field, default=True, returnable=False)
 
-    一个更新某个对象上字段(field)值的输入值。
+    根据输入值更新某个对象的字段(field)。
 
     `field`
         字段(filed)名称的字符串。
@@ -878,9 +1119,9 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
     `returnable`
         若为True，当用户按下回车键，输入的值就会被返回。
 
-.. function:: FilePageNameInputValue(pattern=u'Page {}', auto=u'Automatic saves', quick=u'Quick saves', page=None, default=False)
+.. function:: FilePageNameInputValue(pattern='Page {}', auto='Automatic saves', quick='Quick saves', page=None, default=False)
 
-    一个输入值用于更新文件页面(page)名。
+    根据输入值更新文件页面(page)名。
 
     `pattern`
         用于页面(page)的默认名。使用Python风格的替换，例如花括号{}里的内容可以替换为页面(page)的编号。
@@ -895,30 +1136,54 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
         若该参数存在，给出了要显示的页面(page)编号。通常该值设定为None，表示当前页面。
 
     `default`
-        若为True，该输入默认可以被编辑。
+        若为True，输入默认是可以被编辑的。
 
-.. function:: ScreenVariableInputValue(variable, default=True, returnable=False)
+.. function:: LocalVariableInputValue(variable, default=True, returnable=False)
 
-    一个更新变量的输入(input)值。
+    根据输入值更新某个被 ``use`` 引用的界面的变量。
+
+    如果目标变量在某个顶层界面中，推荐使用 :func:`ScreenVariableInputValue`。
+
+    更多信息参见 :ref:`sl-use` 。
+
+    该行为仅能创建在变量所属的上下文中，且不能赋值到其他地方。
 
     `variable`
         待更新变量名，一个字符串。
 
     `default`
-        若为True，该输入默认可以被编辑。
+        若为True，输入默认是可以被编辑的。
+
+    `returnable`
+        若为True，当用户按下回车键，输入的值就会被返回。
+
+.. function:: ScreenVariableInputValue(variable, default=True, returnable=False)
+
+    根据输入值更新某个界面的变量。
+
+    该行为针对的变量范围包括使用 ``use`` 引用其他界面的界面自身和引用的子界面。
+    如果仅仅要修改被 ``use`` 引用的子界面中的变量，推荐使用 :func:`LocalVariableInputValue` 。
+
+    `variable`
+        待更新变量名，一个字符串。
+
+    `default`
+        若为True，输入默认是可以被编辑的。
 
     `returnable`
         若为True，当用户按下回车键，输入的值就会被返回。
 
 .. function:: VariableInputValue(variable, default=True, returnable=False)
 
-    一个更新变量的输入(input)值。
+    根据输入值更新变量。
 
     `variable`
         待更新变量名，一个字符串。
 
+        变量名除了可以是类似“strength”的字符串之外，也可以是使用带英文标点“.”的字段名，比如“hero.strength”或“persistent.show_cutscenes”。
+
     `default`
-        若为True，该输入默认可以被编辑。
+        若为True，输入默认是可以被编辑的。
 
     `returnable`
         若为True，当用户按下回车键，输入的值就会被返回。
@@ -1068,6 +1333,7 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
     可以被按钮使用的行为包括：
     * Preference("renderer menu") - 显示渲染器(renderer)菜单。
     * Preference("accessibility menu") - 显示数据(accessibility)读写菜单
+    * Preference("reset") - 将环境设定(preference)重置为默认值
     
     上面的界面是内部定义的，无法定制化。
 
@@ -1091,7 +1357,7 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
     检测手柄是否存在的函数。存在返回True，不存在返回False。
 
     `developer`
-        强制该函数返回True，config.developer必须配置为True。
+        强制该函数返回True，:var:`config.developer` 必须配置为True。
 
 .. _file-functions:
 
@@ -1108,17 +1374,17 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 
     一个显示屏幕截图的可显示控件。其将保存你在当前文件中，前提是进入了菜单或使用 :func:`FileTakeScreenshot()` 采集了屏幕截图。
 
-    如果没有当前屏幕截图，对应的位置上显示 *empty* 的图像。(如果 *empty* 是空值None，默认为 :func:`Null()` 。)
+    如果没有当前屏幕截图，对应的位置上显示 `empty` 的图像。(如果 `empty` 是空值None，默认为 :func:`Null()` 。)
 
 .. function:: FileJson(name, key=None, empty=None, missing=None, page=None, slot=False)
 
     根据 `name` 参数读取对应的Json数据。
 
-    如果存档槽位是空的，则返回 *empty* 。
+    如果存档槽位是空的，则返回 `empty` 。
 
-    如果存档槽位不是空的，并且 *key* 为None，返回包含Json数据的整个目录
+    如果存档槽位不是空的，并且 `key` 为None，返回包含Json数据的整个目录
 
-    如果 *key* 不为None，则返回json[key]，前提是 *key* 在存档json对象中有定义。如果存档存在但不包含 *key* ，就返回 *missing* 。如果存档槽位为空，则返回 *empty* 。
+    如果 `key` 不为None，则返回json[key]，前提是 `key` 在存档json对象中有定义。如果存档存在但不包含 `key` ，就返回 *missing* 。如果存档槽位为空，则返回 `empty` 。
 
     使用 :func:`config.save_json_callbacks` 注册的回调函数可以用于在存档槽位中添加Json。
 
@@ -1136,11 +1402,11 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 
 .. function:: FileSaveName(name, empty=u'', page=None)
 
-    返回文件保存时生效的存档名，如果文件不存在则返回 *empty* 。
+    返回文件保存时生效的存档名，如果文件不存在则返回 `empty` 。
 
 .. function:: FileScreenshot(name, empty=None, page=None)
 
-    返回给定那个文件相关的屏幕截图。如果文件不能加载，返回 *empty* ，前提 *empty* 的值不是None。在文件不能加载且 *empty* 为空的情况下，一个空的可视组件会被创建。
+    返回给定那个文件相关的屏幕截图。如果文件不能加载，返回 `empty` ，前提 `empty` 的值不是None。在文件不能加载且 `empty` 为空的情况下，一个空的可视组件会被创建。
 
     返回值是一个可显示对象。
 
@@ -1170,7 +1436,7 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 
 .. function:: FileTime(name, format=u'%b %d, %H:%M', empty=u'', page=None)
 
-    返回文件保存时间，格式根据 *format* 显示。如果未找到文件，返回 *empty* 。
+    返回文件保存时间，格式根据 *format* 显示。如果未找到文件，返回 `empty` 。
 
     返回值是一个字符串。
 
@@ -1298,7 +1564,7 @@ Tooltips
 
     .. method:: Action(value)
 
-        将按钮的hovered特性对应的行为返回。当按钮处于指针悬停状态时，tooltip的value字段会被设置为 *value* 。当按钮失去焦点时，tooltip的value字段会恢复为默认值。
+        将按钮的hovered特性对应的行为返回。当按钮处于指针悬停状态时，tooltip的value字段会被设置为 `value` 。当按钮失去焦点时，tooltip的value字段会恢复为默认值。
 
 在某个界面使用tooltip时，常用做法是在default语句中创建tooltip对象。tooltip的值和行为的方法可以在界面中使用。使用时可以按任何顺序——在行为执行前就可以使用tooltip的值。
 

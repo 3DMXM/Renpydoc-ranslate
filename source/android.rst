@@ -124,9 +124,10 @@ Ren'Py包含一些工具能帮助创作者以包(package)为中心进行安卓�
 Java开发工具包（Java Development Kit （JDK）） 包含一些RAPT需要的工具。
 RAPT需要使用这些工具，包括用于生成密钥(key)和签名包的工具。JDK的下载地址为：
 
-    https://adoptopenjdk.net/releases.html?variant=openjdk8&jvmVariant=hotspot
+    https://adoptopenjdk.net/releases.html
+    https://adoptium.net/temurin/releases/?version=21
 
-需要下载的是版本为8的JDK。
+需要下载的是版本为21的JDK。
 
 请注意，关注开发者的JDK与关注用户的JRE是不同的。而创作者需要JDK创建安卓包。
 
@@ -180,7 +181,7 @@ RAPT会实时报告它正在做的工作。它还会将各类许可证信息。
 
 生成一个包(package)之前，你必须向Ren'Py提供一些关于游戏安卓版本的信息。在Ren'Py启动器的安卓界面，选择“配置”。
 
-如果你需要修改这些信息——例如，你做了一个游戏的新版本——你可以重新运行配置命令。之前你配置的选项已经被记住了。
+如果你需要修改这些信息，只需要再次运行configure命令。之前的配置选项已经被记住了。
 
 .. _step-5-build-and-install-the-package:
 
@@ -205,6 +206,14 @@ Universal APK
 有三种命令可以让你在多种性能组合下生成安装包，直接安装到设备上，或测试运行。
 
 如果要在不同的release模式之间切换，需要卸载app。
+
+.. _very-large-games:
+
+体积巨大的游戏
+================
+
+现在可以生成容量超过2GB的游戏了。本质是生成一个很小的可运行包或通用APK包，游戏的其他部分通过web服务器下载。
+
 
 .. _icon-and-presplash-images:
 

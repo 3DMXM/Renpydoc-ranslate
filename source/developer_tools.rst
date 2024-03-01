@@ -104,7 +104,7 @@ Shift+R 重新加载脚本
 .. function:: renpy.set_autoreload(autoreload)
 
     设置自动重新加载标识，该标识决定是否在文件改变后自动重新加载游戏。
-    在使用 :func:`renpy.reload_script` 重新加载脚本后，自动重新加载标识符才会变成启用状态。(译者注：如果脚本报错是不会启用自动加载的。)
+    在使用 :func:`renpy.reload_script` 重新加载脚本后，自动重新加载标识符才会变成启用状态。
 
 .. _shift-i-style-inspecting:
 

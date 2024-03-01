@@ -98,7 +98,7 @@ ATL语法和语义
 
 当语句块(block)中所有语句都终止时，语句块的执行也就被终止了。
 
-如果ATL语句需要某个表达式赋值，只能在transform初次加入场景列表时进行赋值。(比如使用 ``show`` 语句或者 ``ui`` 的函数时。)
+如果ATL语句需要某个表达式赋值，只能在transform初次加入场景列表时进行赋值。(比如使用 ``show`` 语句或者某个界面显示展示部分变换时。)
 
 .. _atl-statements:
 
@@ -127,7 +127,7 @@ interpolation语句语句是ATL控制变换的主要方式。
                :    `atl_properties`
 
 interpolation语句的第一部分用于选择使用的time-warp函数。
-(即，将线性时间转为非线性时间。)可以使用在ATL注册的warp类函数名，或者使用关键词“warp”开头的某个表达式代表的函数。
+(即，将线性时间转为非线性时间，关于warper的信息详见 :ref:`warpers` 。)可以使用在ATL注册的warp类函数名，或者使用关键词“warp”开头的某个表达式代表的函数。
 无论使用的是哪种函数，后面跟着的数字表示整个interpolation过程消耗的时间，单位为秒。
 
 ::
@@ -185,13 +185,13 @@ warper后面可以跟一个英文冒号(:)。
         pause 1.0
 
         # 设置旋转圆心
-        alignaround (.5, .5)
+        anchor (.5, .5)
 
         # 使用circular运动带着我们旋转并从界面顶端离开。
         # 耗时2秒钟。
         linear 2.0 yalign 0.0 clockwise circles 3
 
-        # 使用spline运动环绕界面移动。
+        # 使用样条运动环绕界面移动。
         linear 2.0 align (0.5, 1.0) knot (0.0, .33) knot (1.0, .66)
 
         # 同时修改xalign和yalign。
@@ -245,7 +245,7 @@ time语句隐含了一个pause语句，表示暂停无限长时间。这表示�
 
 第一个简单表达式可能等效的东西有三种：
 
-* 如果是一个ATL变换(transform)，并且该变换没有应用到其子组件(根据调用时是作为变换还是转场，可能分别对应 `child` 或 `old_widget` 参数)的情况下，该变换会包含在表达式中，``with`` 分句会被忽略。
+* 如果是一个ATL变换(transform)，并且该变换没有应用到其子组件(直接作为变换被调用或者用作 `child` 入参)的情况下，该变换会包含在表达式中，``with`` 分句会被忽略。
 
 * 如果是一个整数或者浮点数，会执行对应时间(单位为秒)的暂停。``with`` 分句会被忽略。
 
@@ -496,6 +496,8 @@ function语句
 除了修改第一个入参中的Transform对象之外，该函数不应该包含其他作用。
 在可以在任意时间传入任意值，以启用预加载。
 
+注意，``function`` 不是一个变换特性，并且其跟 :func:`Transform` 的 `function` 参数也不完全一致。
+
 ::
 
     init python:
@@ -561,19 +563,19 @@ warpers
 warper是一类函数，其可以改变interpolation语句中定义的时间值。以下warper都是默认定义的。他们将时间t转换为t'，t和t'都是浮点数，t会将给定的时间值标准化为0.0到1.0。(如果该语句给定的原时长是0，那运行时t就是1.0。)t'的初始取值范围也是0.0到1.0，不过可以超出这个范围。
 
 ``pause``
-    暂停，然后跳转到新值。如果t等于1.0，则t'等于1.0；否则t'等于0.0。
+    暂停，然后跳变成新值。如果 ``t == 1.0``，则 ``t' = 1.0``；否则 ``t' = 0.0``。
 
 ``linear``
-    线性插值。t' = t
+    线性插值。``t' = t``
 
 ``ease``
-    开头慢，中间加速，之后又减速。t' = .5 - math.cos(math.pi * t) / 2.0
+    开头慢，中间加速，之后又减速。``t' = .5 - math.cos(math.pi * t) / 2.0``
 
 ``easein``
-    开头快，然后减速。t' = math.cos((1.0 - t) * math.pi / 2.0
+    开头快，然后减速。``t' = math.cos((1.0 - t) * math.pi / 2.0``
 
 ``easeout``
-    开头慢，然后加速。t' = 1.0 - math.cos(t * math.pi / 2.0)
+    开头慢，然后加速。``t' = 1.0 - math.cos(t * math.pi / 2.0)``
 
 除此之外，Robert Penner的easing函数都是支持的。为了避免与上面的几个函数名重复，有些函数名字修改过。这些标准函数的图像可以在这个网站上查看 http://www.easings.net/
 
@@ -609,7 +611,12 @@ easeout_quart       easeIn_quart
 easeout_quint       easeIn_quint
 ===============     ===================
 
-这些warper效果可以通过只读模块 ``_warper`` 访问。该模块包含了上述所有函数。
+可以通过只读模块 ``_warper`` 访问这些warper效果。该模块包含了上述所有函数。
+在Ren'Py内置效果中使用时间warp函数很有用，比如可以这样用：
+
+::
+
+    with Dissolve(1, time_warp=_warper.easein_quad)
 
 我们可以在一个 ``python early`` 语句块中，使用 ``renpy.atl_warper`` 构造器定义新的warper函数。定义warper函数文件需要在使用那个函数的其他任何文件之前被处理。定义的代码如下：
 
@@ -628,9 +635,15 @@ transform特性列表
 
 transform存在以下特性(property)：
 
-当给定的数据类型当作一个坐标时，其可能是一个整型、 :term:`absolute <position>` 类型或者浮点型。如果是一个浮点型，其可以用作某块区域(用作坐标 :propref:`pos` )或者可视组件(用作锚点 :propref:`anchor` )的比例数值。
+当给定的数据类型当作一个坐标 :term:`position` 时，其可能是一个整型、 :term:`absolute <position>` 类型或者浮点型。如果是一个浮点型，其可以用作某块区域(用作坐标 :propref:`pos` )或者可视组件(用作锚点 :propref:`anchor` )的比例值。
 
-需要注意的是，并非所有特性都是完全独立的。例如， :propref:`xalign` 和 :propref:`xpos` 都会更新同一批底层数据。在parallel语句中，只有一个语句块(block)能调整水平坐标，而另一个语句块只能调整垂直坐标。(这些可能都是在同一个语句块中。)angle和radius特性同时设置水平和垂直坐标。
+需要注意的是，并非所有特性都是完全独立的。例如， :propref:`xalign` 和 :propref:`xpos` 都会更新同一批底层数据。在parallel语句中，对相同的数据，最多只允许一个语句块进行调整。。(这些可能都是在同一个语句块中。)angle和radius特性同时设置水平和垂直坐标。
+
+.. _positioning:
+
+坐标
+--------
+
 
 .. transform-property:: pos
 
@@ -697,21 +710,21 @@ transform存在以下特性(property)：
 
 .. transform-property:: offset
 
-    :type: (int, int)
+    :type: (absolute, absolute)
     :default: (0, 0)
 
     可视组件在两个方向偏离的像素数。向右和向下偏离时是正数。
 
 .. transform-property:: xoffset
 
-    :type: int
+    :type: absolute
     :default: 0.0
 
     可视组件在水平方向偏离的像素数。向右偏离时是正数。
 
 .. transform-property:: yoffset
 
-    :type: int
+    :type: absolute
     :default: 0.0
 
     可视组件在垂直方向偏离的像素数。向下偏离时是正数。
@@ -737,6 +750,26 @@ transform存在以下特性(property)：
 
     等效于将pos的值设置为该特性的值，并同时将yanchor设置为0.5。
 
+.. transform-property:: subpixel
+
+    :type: boolean
+    :default: False
+
+    若为True，子组件将根据子像素(subpixel)确定位置。
+
+    子像素位置还影响写入最终像素的颜色(包括不透明度)，但具体写入哪个像素依然是不变的。
+    如果子像素位置还会发生移动(很常见的情况)，移动方向上的即将进入的界面图像应该包含带透明度混合的边界。
+
+    例如，某个角色立绘在水平方向移动，最好在左右两侧设置半透明的边界。
+    对于实际大小超过整个可视区域的背景图就没必要使用该特性，反正边界部分是看不到的。
+    
+    (译者注：subpixel往往跟MSAA相关。具体内容请借助搜索引擎学习。)
+
+.. _rotation:
+
+旋转
+--------
+
 .. transform-property:: rotate
 
     :type: float 或 None
@@ -757,6 +790,11 @@ transform存在以下特性(property)：
    :default: False
 
    若该值为True，锚点会定位在关联的子组件上，当子组件发生变换时拉伸并旋转。实际效果是，当子组件拉伸或旋转时，这项值可以指定子组件以指定的锚点拉伸或旋转。
+
+.. _zoom-and-flip:
+
+缩放与翻转
+-------------
 
 .. transform-property:: zoom
 
@@ -779,6 +817,11 @@ transform存在以下特性(property)：
 
    该值根据系数对可视组件在垂直方向进行缩放。负值可以让图像垂直翻转(即与原图像互为上下镜像)。
 
+.. _pixel-effects:
+
+像素效果
+----------
+
 .. transform-property:: nearest
 
     :type: boolean
@@ -791,7 +834,7 @@ transform存在以下特性(property)：
     :type: float
     :default: 1.0
 
-    该值控制可视组件的透明度。
+    该值控制可视组件的不透明度。
 
     alpha变换(transform)会分别作用于每个图像所包含的子组件。在子组件存在重叠部门的情况，这可能会导致一些不期望出现的结果，比如透过衣服看到角色之类的。
     :func:`Flatten` 类可视组件可以解决这些问题。
@@ -814,14 +857,34 @@ transform存在以下特性(property)：
         图形系统启动后，如果加性混合可以被支持的话 ``renpy.get_renderer_info()["additive"]``
         的值会是true。
 
+.. transform-property:: matrixcolor
+
+    :type: None 或 矩阵 或 MatrixColor对象
+    :default: None
+
+    若非None，该特性值将应用到所有子组件并重新计算颜色。只有使用MatrixColor并且满足结构性相似的前提下，才能进行插值计算。
+    详见 :doc:`matrixcolor` 。
+
+.. transform-property:: blur
+
+    :type: None 或 float
+    :default: None
+
+    使用 `blur` 像素数模糊图像的子组件， `blur` 数值不超过可视组件的边长。
+    Ren'Py不同版本的模糊细节可能存在差异。模糊的结果可能存在瑕疵，尤其是模糊数值不断发生修改的情况下。
+
+.. _polay-positioning:
+
+极坐标
+-----------------
 
 .. transform-property:: around
 
     :type: (position, position)
     :default: (0.0, 0.0)
 
-    若该值非None，则指定了极坐标系的中心点坐标值，以整个区域的左上角为原点。
-    之后 :tpref:`angle` 和 :tpref:`radius` 特性会使用该坐标作为极坐标原点。
+    该特性指定了一个起点坐标，以整个区域左上角做原点。(根据 :tpref:`angle` 和 :tpref:`radius` 计算出的)极向量范围内的区域将被绘制。
+    以上两者共同决定了 :tpref:`pos` 的值。
 
 .. transform-property:: angle
 
@@ -830,23 +893,31 @@ transform存在以下特性(property)：
     该特性给出极坐标系下某个坐标的角度信息。角度的单位是度(degree)，0度时在屏幕正上方，90度时在屏幕右方。
 
     Ren'Py会将角度的值控制在0到360度的区间内，有0度不包含360度。
-    当数值超过这个区间范围时，Ren'Py使用前会做处理。(角度值设置为-10度，等效于将角度设置为350度。)
+    当数值超过这个区间范围时，Ren'Py使用前会处理成等效角度。(角度值设置为-10度，等效于将角度设置为350度。)
 
 .. transform-property:: radius
 
     :type: position
 
-    极坐标系下坐标的半径。该值的类型与最后一次设置的半径值类型相同，默认类型为绝对(absolute)像素点数。
+    极坐标系下坐标的半径。
     
     如果值是浮点数，会被自动缩小到刚好能适用于宽度和高度的某个值。
+
+.. _polar-positioning-of-the-anchor:
+
+极坐标系的锚点
+-------------------------------
+
+.. note::
+
+    使用极坐标系时同时也启用了锚点。通常最简单的处理就是将 :tpref:`anchor` 设置为(0.5, 0.5)，即可视组件的中心。
 
 .. transform-property:: anchoraround
 
     :type: (position, position)
-
-    该特性协同 :tpref:`anchorangle` 和 :tpref:`anchorradius`，可以指定极坐标系下锚点的相关变换。
-
-    与 :tpref:`anchor` 使用的单位应保持一致，请勿混用比例值和绝对数值。
+    
+    该特性指定了一个起点坐标，以整个区域左上角做原点。(根据 :tpref:`anchorangle` 和 :tpref:`anchorradius` 计算出的)极向量范围内的区域将被绘制。
+    以上两者共同决定了 :tpref:`anchor` 的值。
 
 .. transform-property:: anchorangle
 
@@ -855,19 +926,20 @@ transform存在以下特性(property)：
     极坐标系下锚点坐标的角度。角度的单位是度(degree)，0度表示正上方，90度表示右方。
 
     Ren'Py会将角度的值控制在0到360度的区间内，有0度不包含360度。
-    当数值超过这个区间范围时，Ren'Py使用前会做处理。(角度值设置为-10度，等效于将角度设置为350度。)
+    当数值超过这个区间范围时，Ren'Py使用前会处理成等效角度。(角度值设置为-10度，等效于将角度设置为350度。)
 
 .. transform-property:: anchorradius
 
     :type: (position)
 
-    极坐标系下锚点坐标的半径。该值的类型应该与 :tpref:`anchoraround` 和 :tpref:`anchor` 值的类型一致。
+    极坐标系下锚点坐标的半径。
+    若该值是浮点数，将乘以可视组件的宽和高，计算得到结果。如果可视组件的高和宽不相等，计算结果不是absolute类型，最终会沿椭圆旋转。
+    因此，推荐将该特性设置为 ``int`` 或 ``absolute`` 类型的值。
 
-.. transform-property:: alignaround
+.. _cropping-and-resizing:
 
-    :type: (float, float)
-
-    该特性会将 :tpref:`around` 和 :tpref:`anchoraround` 设置为同一值。
+剪裁与重新调整尺寸
+---------------------
 
 .. transform-property:: crop
 
@@ -883,14 +955,16 @@ transform存在以下特性(property)：
     :type: None 或 (position, position)
     :default: None
 
-    若该值非None，给定了剪裁框的左上角坐标。crop优先级高于该项。
+    若该值非None，指定剪裁框的左上角坐标。剪裁时优先使用各corner特性值。
+    若crop_relative为启用状态，且该值为浮点型与子组件的尺寸相关。
 
 .. transform-property:: corner2
 
     :type: None 或 (position, position)
     :default: None
 
-    若该值非None，给定了剪裁框的右下角坐标。crop优先级高于该项。
+    若该值非None，指定剪裁框的右下角坐标。剪裁时优先使用各corner特性值。
+    若crop_relative为启用状态，且该值为浮点型与子组件的尺寸相关。
 
 .. transform-property:: xysize
 
@@ -924,8 +998,13 @@ transform存在以下特性(property)：
     :type: None 或 string
     :default: None
 
-    若该值非None，会按下面表格的方式调整尺寸。表格中的“维度”视 ``xsize`` 和 ``ysize`` 不为空的情况而定。
-   
+    若该值非None，会按下面表格的方式调整尺寸。表格中的“维度”分别为：
+
+    * 若 :tpref:`xsize` 和 :tpref:`ysize` 都不为None，这两项都会用作维度。
+    * 若 :tpref:`xsize` 和 :tpref:`ysize` 只有其中一项不是None，则两个维度都使用非None项的值。
+    * 若 :tpref:`xsize` 和 :tpref:`ysize` 都为None，且fit项不是None，则根据Transform中的宽度和高度作为两个维度的值。
+
+    若fit、xsize和ysize都是None，则该特性不生效。
 
     .. list-table::
        :widths: 15 85
@@ -944,75 +1023,64 @@ transform存在以下特性(property)：
        * - ``scale-up``
          - 类似 ``cover``，但不会增加可视组件的尺寸。
 
-.. transform-property:: subpixel
+.. _panning-and-tiling:
 
-    :type: boolean
-    :default: False
-
-    若该值为True，使用子像素(subpixel)坐标系统在界面上放置子物体。
-
-    子像素(subpixel)位置会对绘入像素的色彩(包括不透明度)产生影响，但不会对像素原来的色彩产生影响。
-    当子像素位置与运动图像一起出现时(常见情况)，图像应该在运动方向保留一点透明的边。
-
-    举例来说，如果某个角色精灵(sprite)会水平移动，最好在左右两侧遇到透明的边界。
-    避免出现角色边缘与背景颜色发生混合的问题。
-
-.. transform-property:: delay
-
-    :type: float
-    :default: 0.0
-
-    如果某个变换(transform)如同转场(transition)般使用，这个值定义了转场时间。
-
-.. transform-property:: events
-
-    :type: boolean
-    :default: True
-
-    若该值为True，事件消息会传给变换(transform)的子组件。若该值为False，事件消息会被屏蔽。(这个机制可以用在ATL变换中，放置事件消息达到某些old_widget。)
+全景图和平铺
+------------------
 
 .. transform-property:: xpan
 
     :type: None 或 float
     :default: None
 
-    若该值非None，其被解释为某个360度全景图中的经度。图像中央是0度，图像左端和右端分别是-180度和180度。
+    若该值非None，其被看作某个360度全景图中的经度。图像中央是0度，图像左端和右端分别是-180度和180度。
 
 .. transform-property:: ypan
 
     :type: None 或 float
     :default: None
 
-    若该值非None，其被解释为某个360度全景图中的纬度。图像中央是0度，图像顶部和底部分别是-180度和180度。
+    若该值非None，其被看作某个360度全景图中的纬度。图像中央是0度，图像顶部和底部分别是-180度和180度。
 
 .. transform-property:: xtile
 
     :type: int
     :default: 1
 
-    图像水平方向使用tile方式码放图像的次数。(如果给定了xpan的值则忽略本项。)
+    图像水平方向使用图像平铺的次数。
 
 .. transform-property:: ytile
 
     :type: int
     :default: 1
 
-    图像垂直方向使用tile方式码放图像的次数。(如果给定了ypan的值则忽略本项。)
+    图像垂直方向使用图像平铺的次数。
 
-.. transform-property:: matrixcolor
+.. _transitions:
 
-    :type: None 或 矩阵 或 MatrixColor对象
-    :default: None
+转场
+----
 
-    若该值非None，该特性值用于将此变换下的所有子组件上色。详见 :ref:`matrixcolor` 。
+详见 :ref:`atl-transitions` 。
 
-.. transform-property:: blur
+.. transform-property:: delay
 
-    :type: None 或 float
-    :default: None
+    :type: float
+    :default: 0.0
 
-    使用 `blur` 像素数模糊图像的子组件， `blur` 数值不超过可视组件的边长。
-    Ren'Py不同版本的模糊细节可能存在差异。模糊的结果可能存在瑕疵，尤其是模糊数值不断发生修改的情况下。
+    如果该变换(transform)用作转场(transition)，这个值定义了转场时间。
+
+.. transform-property:: events
+
+    :type: boolean
+    :default: True
+
+    若该值为True，事件消息会传给该变换(transform)的子组件。若该值为False，事件消息会被屏蔽。(这个机制可以用在ATL变换中，放置事件消息达到某些old_widget。)
+
+.. _other:
+
+其他
+----
 
 .. transform-property:: show_cancels_hide
 
@@ -1036,7 +1104,13 @@ GL特性：
 uniforms：
     以 ``u_`` 开头的特性可以用于 :ref:`自定义着色器 <custom-shaders>` 中的uniform变量。
 
-这些特性按照以下顺序应用：
+.. _property-order:
+
+特性生效顺序
+------------
+
+
+这些特性按照以下顺序生效：
 
 #. mesh, blur
 #. tile
@@ -1052,7 +1126,7 @@ uniforms：
 #. matrixtransform, matrixanchor
 #. zzoom
 #. perspective
-#. nearest, blend, alpha, additive, shader.
+#. nearest, blend, alpha, additive, shader
 #. matrixcolor
 #. GL Properties, Uniforms
 #. position properties
@@ -1067,7 +1141,13 @@ uniforms：
 
     下列特性不应再使用近期开发的游戏中，可能会与其他功能特性发生冲突。
     暂时保留这些特性是考虑到兼容性。
-    
+
+.. transform-property:: alignaround
+
+    :type: (float, float)
+
+    将 :tpref:`anchor`、 :tpref:`around` 和 :tpref:`anchoraround` 设置为相同的值。
+
 .. transform-property:: crop_relative
 
     :type: boolean
@@ -1075,10 +1155,8 @@ uniforms：
 
     若为False，:tpref:`crop` 的值将作为像素数的值，而不再是原图像的宽度或高度的比例。
 
-    如果计算结果是某个绝对数值像素数，应该将 :term:`absolute <position>` 实例应用到 :tpref:`crop` 特性，而不是crop_relative特性。
-    必要时，不确定类型的数值可以传给 :term:`absolute <position>` 做处理。
-    如果需要使用某个指定的数值，就应该使用 :tpref:`crop` property 而不是crop_relative。
-    在必要时，不确定数值类型的情况可以强制转换为 ``absolute`` 。
+    如果计算结果是某个绝对数值像素数，应该将 :func:`absolute` 实例应用到 :tpref:`crop` 特性，而不使用crop_relative特性。
+    必要时，不确定类型的数值可以传给 :func:`absolute` 函数处理。
 
 .. transform-property:: size
 
@@ -1101,9 +1179,9 @@ uniforms：
 圆周运动
 ===============
 
-当某个interpolation语句汇总包含关键词 ``clockwise`` 或 ``counterclockwise`` ，这个语句就会触发圆周运动。Ren'Py会比较起始坐标点并找出极坐标中心。Ren'Py接着会计算运动角度。如果还出现了circles分句，Ren'Py会确保旋转对应的圈数。
-
-Ren'Py会合理运用angle和radius特性，触发圆周运动。如果transform处于align模式，设置angle和radius同时也会设置align特性。否则，就会设置pos特性。
+当某个interpolation语句汇总包含关键词 ``clockwise`` 或 ``counterclockwise`` ，该语句就会触发圆周运动。
+Ren'Py会比较起始坐标点(通过 :tpref:`pos`、:tpref:`align`、:tpref:`angle` 和 :tpref:`radius`)并找出极坐标中心(即 :tpref:`around`)。
+Ren'Py接着会计算运动角度。如果还出现了circles分句，Ren'Py会确保旋转对应的圈数。
 
 .. _external-events:
 
@@ -1142,10 +1220,7 @@ Ren'Py会合理运用angle和radius特性，触发圆周运动。如果transform
 
 使用 :func:`Transform` 类定义的变换可以使用另一个同类对象替换。变换的特性从前一个变换对象中继承。
 
-When the ``show`` statement has multiple transforms in the at list, the
-transforms are matched from last to first, until one list runs out. For
-example, in
-如果 ``show`` 语句中的at关键字后列出了多个变换带替换，则新变换列表从后往前依次替换，直到新替换变换列表全部换完。例如：
+如果 ``show`` 语句中的at关键字后列出了多个变换待替换，则新变换列表从后往前依次替换，直到新替换变换列表全部换完。例如：
 
 ::
 
@@ -1189,7 +1264,7 @@ ATL转场
 ===============
 
 可以使用ATL变换定义一个转场(transition)。
-这样定义的转场接受 `old_widget` 和 `new_widget` 入参，分别指定转场的起始和结束使用的可视组件。
+这样定义的转场需要接受 `old_widget` 和 `new_widget` 入参，分别指定转场的起始和结束使用的可视组件。
 
 ATL转场必须设置 :tpref:`delay` 特性，表示转场时间，单位为秒。
 还可以使用 :tpref:`events` 特性，使旧组件屏蔽事件消息。

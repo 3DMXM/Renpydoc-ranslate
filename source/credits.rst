@@ -50,12 +50,14 @@
 * Craig P. Donson
 * CursedOctopus
 * DaFool
+* Daniel Brookman
 * Daniel Conley
 * Daniel Luque
 * David Gowers
 * Deji
 * Delta
 * Dennis Goodlett
+* Denys
 * Denzil
 * Derik
 * Diapolo10
@@ -97,6 +99,7 @@
 * Haelwenn (lanodan) Monnier
 * Hanaka
 * Helloise
+* Helmut K. C. Tessarek
 * Hentai Senshi
 * Herpior
 * HikkeKun
@@ -112,17 +115,20 @@
 * Jake Staines
 * James Broadhead
 * James Pearson Hughes
+* JamiesonC
 * Jan Beich
 * Jan Masek
 * Javimat
 * Jeremy Rand
 * Jesusaves
 * Joaquin Garmendia Cabrera
+* Joseph Boyd
 * Joshua Fehler
 * Joshua Stone
 * Julian Uy
 * Julvenzor
 * Jürg Billeter
+* KagariSoft-Dev
 * Kalawore
 * Kassy
 * Kapil Gain
@@ -161,6 +167,7 @@
 * Maxwell Paul Brickner
 * Meithal
 * Merumelu
+* Michael
 * Midgethetree
 * mikey (ATP Projects)
 * Morgan Willcock
@@ -224,6 +231,7 @@
 * Spiky Caterpillar
 * Susnux
 * Sylvain Beucler
+* Symegac
 * Tey
 * The66F95
 * Thuong Nguyen Huu
@@ -234,6 +242,7 @@
 * Vadim Karpenko
 * Valery Iwanofu
 * Viliam Búr
+* Vladya
 * Vollschauer
 * William Tumeo
 * Winter Wolves

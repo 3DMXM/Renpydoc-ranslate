@@ -9,9 +9,10 @@
 
 任何能放可视组件的地方也可以放图像处理器，但反过来不一定可行。 :func:`Image` 对象是一种图像处理器，所以任何需要使用图像处理器的地方都可以使用image对象。
 
-图像处理的应用具有重大意义。过去的一些图像处理器由于各种的问题不应再使用。
-除了使用 :func:`im.Data` 的情况，可视组件 :func:`Transform` 提供了很多类似的功能，并同时修复了过去的问题，使用这些需要启用gl2配置项。
+.. warning::
 
+    图像处理的应用具有重大意义。过去的一些图像处理器由于各种的问题不应再使用。
+    除了使用 :func:`im.Data` 的情况，可视组件 :func:`Transform` 提供了很多类似的功能，并同时修复了过去的问题。
 
 .. class:: im.AlphaMask(base, mask, **properties)
 
@@ -96,12 +97,17 @@
     `size`
       如果不为None，该值是一个(width, height)元组。如果为空，默认值为(config.screen_width, config.screen_height)，即整个界面的尺寸。
 
-    现在可以使用 :func:`Tile` 组件时指定 ``Tile(im, size=size)`` 实现同样效果。
+    7.4.0版本起，使用 :class:`Tile()` 可以实现同样效果。
 
 .. _im-matrixcolor:
 
 im.MatrixColor
 --------------
+
+.. warning::
+
+    图像处理器im.MatrixColor已经被Transform和ATL变换中的matrixcolor特性完全替代。
+    每个 `im.matrix` 生成器都会给定一个新的等效 `Matrix`，详见 :doc:`matrixcolor <matrixcolor>` 。
 
 im.MatrixColor图像处理器是使用一个矩阵控制图像色彩变换的图像处理器。使用的矩阵可以是一个im.matrix对象，该矩阵使用一个支持矩阵乘法的5×5矩阵进行编码，通过一系列函数返回编码结果。im.matrix对象可以多重相乘并同时生效。例如：
 

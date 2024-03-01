@@ -19,8 +19,174 @@
 Ren'Py 8.1发布1年后，即2024年5月，将停止对Python2和Ren'Py 7的支持。
 
 Ren'Py 8.1发布1年后，即2024年5月，将移除原生OpenGL渲染器。
-如果你的游戏中将config.gl2设置为False，需要将这项设置为True并确保游戏依然能正常运行。
-如果游戏运行出问题了，请报告相应的事件(issue)。报告事件时，需要包含硬件(设备和GPU)信息、操作系统和驱动版本号和对应的年份。
+Ren'Py 8.2和7.7起将彻底禁用 :var:`config.gl2` 这个标识。GL2渲染器将用作默认渲染器，除非用户选择另一个渲染器。
+
+2024年5月后停止对Windows 7、8和8.1的支持。这样可以使用仅能在Windows10及后续Windows上运行的搞版本Python。
+
+.. _incompatible-8.2.0:
+.. _incompatible-7.7.0:
+
+8.2.0 / 7.7.0
+-------------
+
+**字符串化注解以及停止PEP 563的后续特性** 从Ren'Py 8.0.2起，Ren'Py8编译时直接添加 ``from __future__ import annotations``，
+创作者不可能取消这条编译命令。
+
+这此的修改可能会无法使用Python未来版本实现的变化。
+
+若要保留字符串化注解，可以在文件开头添加一句：
+
+::
+
+    rpy python annotations
+
+**文本的变化** Ren'Py使用Harfbuzz文本引擎。Harfbuzz引擎产生的字形可能与原生字体的字形有所差异，还可能会改变文本所占空间大小。
+垂直文本的坐标机制也随着Harfbuzz渲染的更新而发生了变化。
+
+若不需要此变化，脚本内添加如下内容：
+
+::
+
+    style default:
+        shaper "freetype"
+
+Ren'Py在必要时会自动使用Emoji字体。若要禁用该功能：
+
+::
+
+    style default:
+        emoji_font None
+
+**文本内插的变化** 字符串里的文本内插(interpolation)部分被当作Python表达式处理。
+这次变化基本不会对之前的用法有影响，除非对应的表达式以被其他东西占用。例如：
+
+::
+
+    # Previously
+    e "[player[money]]" #=> player['money']
+    # But now
+    e "[player[money]]" #=> player[money]
+
+若不需要此变化，脚本内添加如下内容：
+
+::
+
+    define config.interpolate_exprs = False
+
+为了帮助某些开发人员从旧版迁移到新版，还存在一个fallback模式。此模式会先尝试新版文本内插，失败后再回退到旧版文本内插。
+若需要启用fallback模式，添加：
+
+::
+
+    define config.interpolate_exprs = "fallback"
+
+**极坐标系的变化** Ren'Py会强制转换 :tpref:`angle` 和 :tpref:`anchorangle` 的角度值，转换后的值会在0到360度之间，包含0度不包含360度。
+之前的版本中，超过该范围的角度值可能导致未定义的表现。
+角度变化360度将不再能触发圆周运动，因为角度变化会被看作是0。
+
+在ATL中对 :tpref:`angle` 和 :tpref:`anchorangle` 做动效时，
+如果没有指定旋转方向，则将使用劣弧(shortest arc)，尽管这样旋转过程中可能会遇到0度。
+
+极坐标系的变化没有兼容性选项，实际上也基本不会影响视觉效果。
+
+**禁止空的ATL语句块** 之前版本的Ren'Py允许空的ATL语句块。现在遇到空ATL语句块时，会报错提示需要一个语句块。
+如果以前的脚本有类似下面的ATL：
+
+::
+
+    show eileen happy:
+    "..."
+
+要改成：
+
+::
+
+    show eileen happy
+    "..."
+
+**Box Reverse** 样式特性 :propref:`box_reverse` 有两方面的变化：
+
+* 可视组件的间隔空间按照界面中可视组件定义的顺序挨个添加。
+  之前的版本中，如果启用了 :propref:`box_reverse`，则会以相反顺序添加间隔空间，可能会改变某些组件的尺寸。
+* 设置了 :propref:`box_wrap` hbox组件会从上往下wrap。设置了 :propref:`box_wrap` 的vbox组件会从左往右wrap。
+
+这些改变的目标是，让box_reverse适配从右往左书写的语言文字。若要回退这项改变：
+
+::
+
+    define config.simple_box_reverse = True
+
+**build.itch_channels** 该变量在文档中写着是个字典，但实际实现确实一个元组的列表。
+现在已经真的改成一个字典了。如果原本的脚本中就把该变量作为列表处理，并且不想再改代码的话：
+
+::
+
+    # formerly
+    $ build.itch_channels.append(("pattern", "channel"))
+    $ build.itch_channels.extend([("pattern", "channel")])
+    define build.itch_channels += [("pattern", "channel")]
+
+    # now
+    $ build.itch_channels["pattern"] = "channel"
+    $ build.itch_channels.update({"pattern": "channel"})
+    define build.itch_channels["pattern"] = "channel"
+    define build.itch_channels |= {"pattern": "channel"}
+
+**新的位置类型** 在 :term:`position` 的类型列表中新增类型 :func:`position` 。
+:func:`renpy.get_placement` 函数的返回结果就可能是这种新类型。
+
+若不要这个变化，在游戏中添加如下代码：
+::
+
+    define config.mixed_position = False
+
+**拖拽组的变化** 将一个可视组件添加至某个拖拽组 :class:`DragGroup` 对象后，
+该可视组件将会盖在组内其他组件上面，而之前的版本是被其他所有组件盖在下面。
+
+若要回退这项变化，在游戏中添加如下代码：
+
+::
+
+    define config.drag_group_add_top = False
+
+**translate语句和config.statement_callbacks** (包括Ren'Py内部自动生成的)translate语句不再会调用 :var:`config.statement_callbacks` 。
+
+**转场使用子组件的位置** 如果某个转场的子组件提供了位置信息，该位置信息将用于整个转场。
+只有在使用ATL转场(transition)，并且新旧两个子组件的位置相同时，这样用才是合理的。
+
+若要禁用该变化，在游戏中添加如下代码：
+
+::
+
+    define config.transitions_use_child_placement = False
+
+**容器允许变换事件穿透**
+
+容器类组件(包括fixed、hbox、vbox、side、grid、viewport和vpgrid)可以允许变换事件(transform events)穿透自身抵达自组件。
+也就是说各个子组件可以独立拥有针对这些事件的变换效果。
+
+若要禁用该变化，在游戏中添加如下代码：
+
+::
+
+    define config.containers_pass_transform_events = set()
+
+**say界面新增replace事件** say界面可以对“replace”事件(而不是“show”事件)作出响应，暂停指定时间(单位为秒)。
+
+若要禁用该变化，在游戏中添加如下代码：
+
+::
+
+    define config.say_replace_event = False
+
+**某个界面从隐藏状态再次显示不会取消hide事件** 之前的版本中，某个界面隐藏后再次显示时，响应该界面hide和replace事件的变换会被取消，
+导致界面会突然出现。现在会让hide和replace事件的响应变换运行完。
+
+若要禁用该变化，在游戏中添加如下代码：
+
+::
+
+    define config.screens_never_cancel_hide = False
 
 .. _incompatible-8.1.1:
 .. _incompatible-7.6.1:
@@ -34,7 +200,6 @@ Ren'Py 8.1发布1年后，即2024年5月，将移除原生OpenGL渲染器。
 该现象是由某个老版本的Ren'Py造成的，该版本可以使用APK密钥生成Bundle。在控制台中可能会受到如下错误信息：
 
 ::
-
 
     You uploaded an APK that is not signed with the upload certificate. You must use
     the same certificate. The upload certificate has fingerprint:
@@ -57,6 +222,26 @@ Ren'Py 8.1发布1年后，即2024年5月，将移除原生OpenGL渲染器。
 
 8.1.0 / 7.6.0
 -------------
+
+**互相冲突的特性** 使用原生的input界面时，可能会在游戏中引入一些互相冲突的样式特性。
+修复方法如下：
+
+.. code-block:: diff
+
+    +define config.check_conflicting_properties = True
+
+     screen input(prompt):
+         style_prefix "input"
+         window:
+
+             vbox:
+    -            xalign gui.dialogue_text_xalign
+    +            xanchor gui.dialogue_text_xalign
+                 xpos gui.dialogue_xpos
+                 xsize gui.dialogue_width
+                 ypos gui.dialogue_ypos
+                 text prompt style "input_prompt"
+                 input id "input"
 
 **气泡式台词** 在之前的游戏项目中添加气泡式台词的支持前，需要添加一些文件和脚本内容。
 详见 :doc:`bubble` 部分。

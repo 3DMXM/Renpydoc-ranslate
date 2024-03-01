@@ -33,7 +33,7 @@
 
 举例来说，假设图像名称为 ``mary beach night happy`` 。图像标签就是 ``mary`` ，而图像属性(attribute)就是 ``beach`` 、 ``night`` 和 ``happy`` 。
 
-可视组件是可以展现在界面上的一类东西的统称。最常用来展现的是静态图像，只需要以字符串形式给定图片文件名称就可以使用了。在上面的样例中，我们可以使用 ``"mary_beach_night_happy.png"`` 这样的文件名
+可视组件是可以展现在界面上的一类东西的统称。最常用来展现的是静态图像，只需要以字符串形式给定图片文件名称就可以使用了。在上面的样例中，我们可以使用 :file:`mary_beach_night_happy.png` 这样的文件名
 除了静态图片之外，图像(image)可以使用 :doc:`Ren'Py支持的所有可视组件 <displayables>` 。 用于显示图像的语句也可以用来显示动画、纯色和其他可视组件。
 
 .. _layer:
@@ -47,16 +47,16 @@
 以下图层由Ren'Py内部定义：
 
 master
-     该图层是在scene、show和hide语句中默认使用的图层。master图层主要用于背景和角色精灵(sprite)。
+    该图层是在scene、show和hide语句中默认使用的图层。master图层主要用于背景和角色精灵(sprite)。
 
 transient
-     UI函数使用的默认图层。在每次互动结束后，该图层都会被清空。
+    UI函数使用的默认图层。在每次互动结束后，该图层都会被清空。
 
 screens
-     该图层用于界面系统。
+    该图层用于界面系统。
 
 overlay
-     当UI函数被覆盖(overlay)函数调用时，默认使用的图层。当一个互动行为重新启动时，该图层会被清空。
+    当UI函数被覆盖(overlay)函数调用时，默认使用的图层。当一个互动行为重新启动时，该图层会被清空。
 
 若需要定义新的图层，可以调用 :func:`renpy.add_layer` 函数，并设置图层相关 :doc:`配置项 <config>`。
 使用 :ref:`camera statement <camera>`，时，一个图层可以同时应该多个变换。
@@ -104,7 +104,7 @@ images目录
 当使用更高细节的图形重制游戏时，过采样可以用来解决 :var:`config.physical_width` 和 :var:`config.physical_height` 与素材间的矛盾。
 
 图片名出去扩展名，以一个 ‘@’ 符号加数字形式结尾时，将自动启用过采样。
-例如，“eileen happy@2.png”表示2倍过采样，“eileen happy@3x.png”表示3倍过采样。
+例如，:file:`eileen happy@2.png` 表示2倍过采样， :file:`eileen happy@3x.png` 表示3倍过采样。
 使用 :func:`Image` 函数时指定关键字参数 `oversample` 的值也可以启用过采样。
 
 .. _image-statement:
@@ -123,7 +123,9 @@ image语句用于定义图像(image)。一条image语句由以下部分组成：
         "eileen_happy.png",
         )
 
-如果某个图片文件并不直接放在game目录下，创作者需要给出文件路径。例如，对图片game/eileen/happy.png，需要这样写： ::
+如果某个图片文件并不直接放在game目录下，创作者需要给出文件路径。例如，对图片 :file:`game/eileen/happy.png`，需要这样写：
+
+::
 
     image eileen happy = "eileen/happy.png"
 
@@ -215,14 +217,14 @@ show语句样例如下：
 
 ::
 
-     # 显示正常的苏珊
-     show susan
+    # 显示正常的苏珊
+    show susan
 
-     # 显示高兴的苏珊
-     show susan happy
+    # 显示高兴的苏珊
+    show susan happy
 
-     # 再次显示正常的苏珊
-     show susan -happy
+    # 再次显示正常的苏珊
+    show susan -happy
 
 .. _show-expression:
 
@@ -356,6 +358,9 @@ with分句等效于在原有语句前面先加了一行 ``with None`` 语句，�
     with None
     show lucy mad at right
     with dissolve
+
+注意，尽管这种用法可以对 :ref:`show-screen-statement` 和 :ref:`hide-screen-statement` 语句生效，
+但 :ref:`call-screen-statement` 语句则不行。
 
 .. _camera-and-show-layer-statements:
 

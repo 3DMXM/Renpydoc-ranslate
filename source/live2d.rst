@@ -31,7 +31,7 @@ Ren'Py同时支持Cubism 3和Cubism 4格式的Live2D动画，即这两种格式�
 使用Live2D之前，你需要下载和安装原声的Cubism SDK，下载链接为 `Live2D 页面 <https://www.live2d.com/zh-CHS/download/cubism-sdk/download-native/>`_ 。
 请注意，如果你的商业项目年收入达到了某个下限，将需要购买一个Live2D使用许可证。
 
-下载完Live2D后，把CubismSdkForNative-4-r.1.zip文件放入Ren'Py的SDK目录中，接着可以在Ren'Py启动器中安装。
+下载完Live2D后，把 :file:`CubismSdkForNative-4-r.1.zip` 文件放入Ren'Py的SDK目录中，接着可以在Ren'Py启动器中安装。
 在启动器中进入“设置”项，选择“操作”标签下的“安装库”，点击“安装 Live2D Cubism SDK for Native”。等待一段时间后，Live2D就安装成功了。
 
 .. _opt-in-to-gl2:
@@ -183,9 +183,9 @@ Live2D可视组件应使用image语句声明：
     init python:
         def MyLive2D(*args, fallback=Placeholder(text="不支持Live2D"), **kwargs):
             if renpy.has_live2d():
-                 return Live2D(*args, **kwargs)
+                return Live2D(*args, **kwargs)
             else:
-                 return fallback
+                return fallback
 
     image kobayashi = MyLive2D(...)
     image eileen moving = MyLive2D(..., fallback="eileen happy")

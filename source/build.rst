@@ -17,7 +17,7 @@ Linux
 Macintosh
     一个运行在使用Intel或苹果Silicon处理器Macintosh OS X系统的zip文件，文件中包含一个Macintosh可执行文件。
     游戏数据可以包含在可执行文件中，在用户看来只有一个文件。
-    更新器无法对这个包没用。
+    更新器对这个包没用。
 
 Windows
    一个运行在Windows x86_64平台的zip文件。
@@ -35,7 +35,7 @@ Windows, Mac, and Linux for Markets
 -------------------
 
 通过在build命名空间中设置变量和调用函数，可以对构建过程进行配置。这些工作必须在 ``init python`` 语句块(block)中进行。
-这些配置项默认都设置在 ``options.rpy`` 中。
+这些配置项默认都设置在 :file:`options.rpy` 中。
 
 有一些基本变量和函数在很多游戏中都会使用。
 
@@ -49,7 +49,7 @@ Windows, Mac, and Linux for Markets
 
    这个变量也用于决定包(package)文件中的目录名称。例如，如果将build.directory_name设置为“mygame-1.0”，最终归档文件里就会在基目录里放一个“mygame-1.0-dists”目录。
 
-   这个变量不能包含特殊字符，比如空格、冒号或分号。如果没有配置，这个变量默认使用 :var:`build.name`
+   这个变量不能包含特殊字符，比如空格、冒号或分号。如果没有配置，这个变量默认使用 :var:`build.name` 加英文连接符“-”，再加上 :var:`config.version`。
    和 :var:`config.version`。
 
 .. var:: build.executable_name = "..."
@@ -67,10 +67,10 @@ Windows, Mac, and Linux for Markets
 
 有两个在游戏基目录下的文件，可以用于定制化构建过程。
 
-icon.ico
+:file:`icon.ico`
     Windows平台使用的图标。
 
-icon.icns
+:file:`icon.icns`
     Macintosh使用的图标。
 
 这些图标文件必须使用特殊格式。
@@ -184,7 +184,9 @@ Ren'Py支持将多个文件合并为单个归档格式的文件。这个机制�
 
 调用build.archive函数，可以定义一个新的归档文件，以及这个归档文件中包含的文件列表。(虽然，很少指明具体文件而是包含所有文件列表。)需要归档文件时，就将目标文件名分类到归档的列表中。
 
-例如，下面脚本将所有图片归档到image.rpa，游戏脚本归档到scripts.rpa：::
+例如，下面脚本将所有图片归档到 :file:`images.rpa`，游戏脚本归档到 :file:`scripts.rpa`：
+
+::
 
     # 定义两个归档文件。
     build.archive("scripts", "all")
@@ -210,10 +212,10 @@ old-game目录
 构建多个游戏版本，比如早期公测或Patreon平台版本时，有必要保留旧版本的.rpyc文件。
 .rpyc文件中包含的信息可用来确认存档是否可以继承，如果忽略这些信息查可能会引起各种问题。
 
-同时，当game目录下的文件改变后，Ren'Py会更新对应的.rpyc文件，使文件无法适用版本控制的要求。
+同时，当game目录下的文件改变后，Ren'Py会更新对应的.rpyc文件，导致文件无法适用版本控制的要求。
 
-为了解决这个问题，Ren'Py允许创作者将前一个版本的.rpyc文件放入 old-game 目录中，该目录与game目录平行。
-old-game的目录结构会与game目录保持一致，比如game/scripts/day1.rpyc文件移动后会成为old-game/scripts/day1.rpyc。
+为了解决这个问题，Ren'Py允许创作者将前一个版本的.rpyc文件放入 :file:`old-game/` 目录中，该目录与 :file:`game/` 目录平行。
+old-game的目录结构会与game目录保持一致，比如 :file:`game/scripts/day1.rpyc` 文件移动后会成为 :file:`old-game/scripts/day1.rpyc`。
 非.rpyc文件将会忽略。
 
 使用old-game的优势是，Ren'Py总是会根据已知的代码改动在old-game生成.rpyc文件。
@@ -285,34 +287,34 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
 
   定义一个包(package)，这个包由打包工具生成。
 
-  `name`
-    包(package)名称。
+    `name`
+        包(package)名称。
 
-  `format`
-    包的格式。这是一个由空格分隔的字符串，由下列要素组成：
+    `format`
+        包的格式。这是一个由空格分隔的字符串，由下列要素组成：
 
-    zip
-      zip文件。
+        zip
+          zip文件。
 
-    tar.bz2
-      tar.bz2文件。
+        tar.bz2
+          tar.bz2文件。
 
-    directory
-      包含文件的目录。
+        directory
+          包含文件的目录。
 
-    dmg
-      包含文件的Macintosh平台DMG文件。
+        dmg
+          包含文件的Macintosh平台DMG文件。
 
-    app-zip
-      包含Macintosh应用程序的zip文件。
+        app-zip
+          包含Macintosh应用程序的zip文件。
 
-    app-directory
-      包含mac应用程序的目录。
+        app-directory
+          包含mac应用程序的目录。
 
-    app-dmg
-      包含dmg文件的macintosh镜像。(仅限Mac平台。)
+        app-dmg
+          包含dmg文件的macintosh镜像。(仅限Mac平台。)
 
-    空字符串则不构建任何格式的包(package)。(这个机制可以实现DLC需求。)
+        空字符串则不构建任何格式的包(package)。(这个机制可以实现DLC需求。)
 
     `file_lists`
         包含在包(package)中的文件列表。
@@ -328,6 +330,34 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
 
     `hidden`
         若为True，会在启动器(launcher)的包(package)列表中隐藏这个包。
+
+.. _build-info:
+
+构建信息
+----------
+
+有两个变量会用作提供构建信息。这些信息会用于生成game/cache/build_info.json文件，并在Ren'Py启动时加载。
+
+.. var:: build.time = None
+
+    该变量默认值为None。一旦生成游戏包，会变为一个时间戳，即从1970年1月1日开始计算的秒数。
+
+.. var:: build.info = { }
+
+    该变量可以在构建游戏时将创作者设置的信息存储在game/cache/build_info.json文件中。
+    游戏启动时，game/cache/build_info.json会被加载，并将信息放入同名变量。
+
+    总体上，创作者只需要检查文件是否存在，并使用setdefault方法获取对应信息。
+
+    例如，下面的代码可以在在build_info.json文件中存储构建游戏包的计算机名：
+    
+    ::
+
+        python hide:
+            import socket
+            build.info.setdefault("build_host", socket.gethostname())
+
+    该变量能存储的信息自身必须是JSON文件能保存的类型。(包括None、布尔型、字符串、数值、列表和字典)
 
 .. _advanced-configuration:
 
@@ -405,3 +435,14 @@ Ren'Py可以运行在OpenGL 2，以便使用某些扩展。
 .. var:: build.mac_info_plist = { }
 
     该配置项是一个字典型数据，键和值都是字符串。用于添加或覆盖mac中的Info.plist文件。
+
+.. var:: build.update_formats = [ "rpu" ]
+
+    更新器支持的格式列表。默认值为“rpu”，在Ren'Py 7.7和8.2以上版本支持。
+    若需要支持更早基于zsync的更新，则在列表中添加“zsync”。
+
+.. var:: build.game_only_update = False
+
+    If true, :var:`build.include_update` is enabled, and
+    the "Game-Only Update for Mobile" package becomes available.
+    若为True，启用 :var:`build.include_update` ，并设置为“Game-Only Update for Mobile”。

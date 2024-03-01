@@ -10,14 +10,14 @@ Ren'Py的一个特色是，看起来挺萌的GUI系统。有需要的话还可�
 和 :doc:`界面 <screens>` (包括 :doc:`界面行为 <screen_actions>`
 和 :doc:`特殊界面 <screen_special>` )。
 
-这是基于你在使用新样式的Ren'Py GUI为前提(定制化配置包含在gui.rpy文件中)。使用老版本的GUI(使用screen.rpy文件进行定制化配置)的用户，应该把本页内容当作是深度定制化指导。
+这是基于你在使用新样式的Ren'Py GUI为前提(定制化配置包含在 :file:`gui.rpy` 文件中)。使用老版本的GUI(使用 :file:`screens.rpy` 文件进行定制化配置)的用户，应该把本页内容当作是深度定制化指导。
 
 .. _simple-gui-customization:
 
 简单GUI定制化
 ========================
 
-GUI定制化工作包含几个简单部分，对所有项目都适用而不仅仅针对最简单的视觉小说。这些定制化工作的共同点是，都不需要编辑gui.rpy文件。这些定制化会给GUI带来一些微妙的变化，而不是让GUI彻底改头换面。
+GUI定制化工作包含几个简单部分，对所有项目都适用而不仅仅针对最简单的视觉小说。这些定制化工作的共同点是，都不需要编辑 :file:`gui.rpy` 文件。这些定制化会给GUI带来一些微妙的变化，而不是让GUI彻底改头换面。
 
 .. _change-size-and-colors:
 
@@ -26,7 +26,7 @@ GUI定制化工作包含几个简单部分，对所有项目都适用而不仅�
 
 改变GUI的尺寸和颜色是最简单的事情。当你第一次创建项目时，Ren'Py会提示你选择尺寸和颜色，在启动器的“更改/更新 GUI”选项中，你可以更改之前的选择。
 
-当你通过启动器更改了GUI的选项后，Ren'Py会进一步提示，你是只修改启动器中选项还是需要更新gui.rpy文件。无论选择何种方式，大部分的图片文件都会重新生成并覆盖。覆盖gui.rpy文件会应用之前对gui.rpy做的修改。
+当你通过启动器更改了GUI的选项后，Ren'Py会进一步提示，你是只修改启动器中选项还是需要更新 :file:`gui.rpy` 文件。无论选择何种方式，大部分的图片文件都会重新生成并覆盖。覆盖 :file:`gui.rpy` 文件会应用之前对 :file:`gui.rpy` 做的修改。
 
 因此，在实行其他的定制化之前，你很可能需要先完成这步工作。
 
@@ -37,7 +37,7 @@ Ren'Py会提示选择项目的默认分辨率和配色主题。选择后GUI就�
 Options.rpy文件
 ----------------
 
-options.rpy文件中有一堆配置项会被GUI使用。
+:file:`options.rpy` 文件中有一堆配置项会被GUI使用。
 
 :var:`config.name`
     一个字符串，表示该游戏一个“人类可读的”标题名称。这个字符串同时用在窗口标题和GUI需要显示游戏标题的地方。
@@ -87,12 +87,12 @@ gui/game_menu.png
     .. figure:: gui/easy_main_menu.jpg
         :width: 100%
 
-        只有gui/main_menu.png被替换后的主菜单。
+        只有 :file:`gui/main_menu.png` 被替换后的主菜单。
 
     .. figure:: gui/easy_game_menu.jpg
         :width: 100%
 
-        “关于(about)”界面可以是游戏菜单(使用gui/game_menu.png文件作为背景)或者主菜单(使用gui/main_menu.png作为背景)。两种菜单可以被设置为同一张图片。
+        “关于(about)”界面可以是游戏菜单(使用 :file:`gui/main_menu.png` 文件作为背景)或者主菜单(使用 :file:`gui/main_menu.png` 作为背景)。两种菜单可以被设置为同一张图片。
 
 .. _window-icon:
 
@@ -101,7 +101,7 @@ gui/game_menu.png
 
 正在运行程序都有一个对应的图标显示在某个地方(例如Windows平台的任务栏和mac电脑的dock)。
 
-我们可以通过更换gui/window_icon.png改变窗口图标。
+我们可以通过更换 :file:`gui/window_icon.png` 改变窗口图标。
 
 注意，改变gui/window_icon.png后，只对游戏正在运行时的图标有效。想要改变Windows平台的“.exe”文件和mac平台的应用程序图标，我们需要看看
 :ref:`生成文档 <special-files>`.
@@ -113,7 +113,7 @@ gui/game_menu.png
 
 接下来，我们会演示中级GUI定制化。定位于中等级别，就有可能改变游戏中的配色、字体和图片。大体上，中级定制化基本保留了界面的原样，比如按钮和条(bar)，不过会修改界面并添加一些新功能。
 
-很多修改都可以通过在gui.rpy文件中编辑配置项实现。例如，需要增大字号，可以找到这样一行::
+很多修改都可以通过在 :file:`gui.rpy` 文件中编辑配置项实现。例如，需要增大字号，可以找到这样一行::
 
     define gui.text_size = 22
 
@@ -121,11 +121,11 @@ gui/game_menu.png
 
     define gui.text_size = 20
 
-注意，一些默认值通常跟这份文档样例中并不一致。在创建游戏项目之初，就可以通过选择尺寸和颜色来修改这些默认值，而gui.rpy文件中的默认值可以看作可扩展GUI定制化的样例。可以搜索“The Question”项目中gui.rpy文件内各种配置项的定义，例如搜索“define gui.text_size”。
+注意，一些默认值通常跟这份文档样例中并不一致。在创建游戏项目之初，就可以通过选择尺寸和颜色来修改这些默认值，而 :file:`gui.rpy` 文件中的默认值可以看作可扩展GUI定制化的样例。可以搜索“The Question”项目中 :file:`gui.rpy` 文件内各种配置项的定义，例如搜索 ``define gui.text_size``。
 
 接下去说的某些调整，会对部分或者全部对图片文件产生影响。例如在启动器选择“修改/更新 GUI”并要求引擎重新生成图片文件，导致图片文件本身被更新和改变。(但是注意，这种操作会导致你之前修改过的任何图片文件也被重新覆盖。)
 
-你可能会等到游戏接近完成的情况下才考虑对gui.rpy进行定制化修改。老版本的gui.rpy文件可以在新版本的Re'Py中运行，新版本的gui.rpy文件可能会有老版本缺少的功能特性或者缺陷修复。在项目制作前期就定制化GUI可能会导致，很难利用这些改善和提升。
+你可能会等到游戏接近完成的情况下才考虑对 :file:`gui.rpy` 进行定制化修改。老版本的 :file:`gui.rpy` 文件可以在新版本的Re'Py中运行，新版本的 :file:`gui.rpy` 文件可能会有老版本缺少的功能特性或者缺陷修复。在项目制作前期就定制化GUI可能会导致，很难利用这些改善和提升。
 
 .. _dialogue:
 
@@ -203,12 +203,12 @@ gui/button/choice_hover_background.png
     .. figure:: oshs/game/gui/button/choice_idle_background.png
         :width: 100%
 
-        gui/button/idle_background.png的一个样例图片。
+        :file:`gui/button/idle_background.png` 的一个样例图片。
 
     .. figure:: oshs/game/gui/button/choice_hover_background.png
         :width: 100%
 
-        gui/button/choice_hover_background.png的一个样例图片。
+        :file:`gui/button/choice_hover_background.png` 的一个样例图片。
 
     .. figure:: gui/easy_choice_screen.jpg
         :width: 100%
@@ -238,12 +238,12 @@ gui/overlay/confirm.png
     .. figure:: oshs/game/gui/overlay/main_menu.png
         :width: 100%
 
-        gui/overlay/main_menu.png图片文件的一个样例。
+        :file:`gui/overlay/main_menu.png` 图片文件的一个样例。
 
     .. figure:: oshs/game/gui/overlay/game_menu.png
         :width: 100%
 
-        gui/overlay/game_menu.png图片文件的一个样例。
+        :file:`gui/overlay/game_menu.png` 图片文件的一个样例。
 
     .. figure:: gui/overlay_main_menu.jpg
         :width: 100%
@@ -309,6 +309,10 @@ gui/overlay/confirm.png
 .. var:: gui.interface_text_font = "ArchitectsDaughter.ttf"
 
     该字体用于用户接口元素的文本，例如主菜单与游戏菜单、按钮之类的。
+
+.. var:: gui.system_font = "DejaVuSans.ttf"
+
+    该字体用于系统文本，比如一场信息和Shift+A后的菜单。该字体应该能显示ASCII和游戏内用到的语言文字。
 
 .. var:: gui.glyph_font = "DejaVuSans.ttf"
 
@@ -401,7 +405,7 @@ gui/frame.png
     .. figure:: oshs/game/gui/frame.png
         :width: 100%
 
-        gui/frame.png image的一个样例。
+        :file:`gui/frame.png` 的一个样例图片。
 
     .. figure:: gui/frame_confirm.jpg
         :width: 100%
@@ -462,12 +466,12 @@ gui/button/hover_background.png
     用于获取焦点按钮的背景图片。
 
 gui/button/selected_idle_background.png
-    用于被选择但未获取焦点按钮的背景图片。这个图片属于可选的，仅在idle_background.png图片存在的情况下才有用。
+    用于被选择但未获取焦点按钮的背景图片。这个图片属于可选的，仅在 :file:`idle_background.png` 图片存在的情况下才有用。
 
 gui/button/selected_hover_background.png
-    用于被选择并获取到焦点按钮的背景图片。这个图片属于可选的，仅在hover_background.png图片存在的情况下才有用。
+    用于被选择并获取到焦点按钮的背景图片。这个图片属于可选的，仅在 :file:`hover_background.png` 图片存在的情况下才有用。
 
-更多特定的背景可以用于对应类型的按钮，是否适用可以通过图片名的前缀判断。例如， gui/button/check_idle_background.png可以用作check button中没有获取焦点选项的背景。
+更多特定的背景可以用于对应类型的按钮，是否适用可以通过图片名的前缀判断。例如， :file:`gui/button/check_idle_background.png` 可以用作check button中没有获取焦点选项的背景。
 
 在radio button和check button中，有4个图片文件可以用作前景修饰，用于标识该选项是否被选中。
 
@@ -534,19 +538,19 @@ gui/button/check_selected_foreground.png, gui/button/radio_selected_foreground.p
 
     .. figure:: oshs/game/gui/button/idle_background.png
 
-        gui/button/idle_background.png样例图片。
+        :file:`gui/button/idle_background.png` 样例图片。
 
     .. figure:: oshs/game/gui/button/hover_background.png
 
-        gui/button/hover_background.png样例图片。
+        :file:`gui/button/hover_background.png` 样例图片。
 
     .. figure:: oshs/game/gui/button/check_foreground.png
 
-        可用作gui/button/check_foreground.png和gui/button/radio_foreground.png的样例图片。
+        可用作 :file:`gui/button/check_foreground.png` 和 :file:`gui/button/radio_foreground.png` 的样例图片。
 
     .. figure:: oshs/game/gui/button/check_selected_foreground.png
 
-        可用作gui/button/check_selected_foreground.png和gui/button/radio_selected_foreground.png的样例图片。
+        可用作 :file:`gui/button/check_selected_foreground.png` 和 :file:`gui/button/radio_selected_foreground.png` 的样例图片。
 
     .. figure:: gui/button_preferences.jpg
         :width: 100%
@@ -591,11 +595,11 @@ gui/button/slot_hover_background.png
 
     .. figure:: oshs/game/gui/button/slot_idle_background.png
 
-        gui/button/slot_idle_background.png样例图片
+        :file:`gui/button/slot_idle_background.png` 样例图片
 
     .. figure:: oshs/game/gui/button/slot_hover_background.png
 
-        gui/button/slot/slot_hover_background.png样例图片。
+        :file:`gui/button/slot/slot_hover_background.png` 样例图片。
 
     .. figure:: gui/slot_save.jpg
 
@@ -637,19 +641,19 @@ gui/slider/horizontal_idle_thumb.png, gui/slider/horizontal_hover_thumb.png, gui
 
     .. figure:: oshs/game/gui/slider/horizontal_idle_bar.png
 
-        gui/slider/horizontal_idle_bar.png 样例图片。
+        :file:`gui/slider/horizontal_idle_bar.png` 样例图片。
 
     .. figure:: oshs/game/gui/slider/horizontal_hover_bar.png
 
-        gui/slider/horizontal_hover_bar.png 样例图片。
+        :file:`gui/slider/horizontal_hover_bar.png` 样例图片。
 
     .. figure:: oshs/game/gui/slider/horizontal_idle_thumb.png
 
-        gui/slider/horizontal_idle_thumb.png 样例图片。
+        :file:`gui/slider/horizontal_idle_thumb.png` 样例图片。
 
     .. figure:: oshs/game/gui/slider/horizontal_hover_thumb.png
 
-        gui/slider/horizontal_hover_thumb.png 样例图片。
+        :file:`gui/slider/horizontal_hover_thumb.png` 样例图片。
 
     .. figure:: gui/slider_preferences.jpg
         :width: 100%
@@ -697,22 +701,22 @@ gui/scrollbar/horizontal_idle_thumb.png, gui/scrollbar/horizontal_hover_thumb.pn
     .. figure:: oshs/game/gui/scrollbar/vertical_idle_bar.png
         :height: 150
 
-        gui/scrollbar/vertical_idle_bar.png 样例图片
+        :file:`gui/scrollbar/vertical_idle_bar.png` 样例图片
 
     .. figure:: oshs/game/gui/scrollbar/vertical_hover_bar.png
         :height: 150
 
-        gui/scrollbar/vertical_hover_bar.png 样例图片
+        :file:`gui/scrollbar/vertical_hover_bar.png` 样例图片
 
     .. figure:: oshs/game/gui/scrollbar/vertical_idle_thumb.png
         :height: 150
 
-        gui/scrollbar/vertical_idle_thumb.png 样例图片
+        :file:`gui/scrollbar/vertical_idle_thumb.png` 样例图片
 
     .. figure:: oshs/game/gui/scrollbar/vertical_hover_thumb.png
         :height: 150
 
-        gui/scrollbar/vertical_hover_thumb.png 样例图片
+        :file:`gui/scrollbar/vertical_hover_thumb.png` 样例图片
 
     .. figure:: gui/scrollbar_history.jpg
         :width: 100%
@@ -757,12 +761,12 @@ gui/bar/right.png, gui/bar/top.png
     .. figure:: oshs/game/gui/bar/left.png
         :width: 100%
 
-        gui/bar/left.png样例图片
+        :file:`gui/bar/left.png` 样例图片
 
     .. figure:: oshs/game/gui/bar/right.png
         :width: 100%
 
-        gui/bar/right.png样例图片
+        :file:`gui/bar/right.png` 样例图片
 
     .. figure:: gui/bar.jpg
         :width: 100%
@@ -808,12 +812,12 @@ gui/notify.png
     .. figure:: oshs/game/gui/skip.png
         :width: 100%
 
-        gui/skip.png样例图片。
+        :file:`gui/skip.png` 样例图片。
 
     .. figure:: oshs/game/gui/notify.png
         :width: 100%
 
-        gui/notify.png样例图片。
+        :file:`gui/notify.png` 样例图片。
 
     .. figure:: gui/skip_notify.jpg
 
@@ -908,12 +912,12 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 
     .. figure:: oshs/game/gui/namebox.png
 
-        gui/namebox.png样例图片。
+        :file:`gui/namebox.png` 样例图片。
 
     .. figure:: gui/intermediate_dialogue.jpg
         :width: 100%
 
-        应用以上定制化设置后的演示游戏。
+        应用以上定制化设置后的样例游戏。
 
 .. _gui-history:
 
@@ -930,7 +934,7 @@ frame(框架)会使用gui/namebox.png做为名字背景，角色名字则内置�
 
 .. var:: gui.history_spacing = 0
 
-    不同历史层间的间隔空间，单位为像素。
+    各段历史对话的间隔距离，单位为像素。
 
 .. var:: gui.history_name_xpos = 0.5
 .. var:: gui.history_text_xpos = 0.5
@@ -1014,7 +1018,9 @@ gui/nvl.png
 
     NVL模式下菜单按钮的位置和对齐方式。
 
-Ren'Py并不默认使用NVL模式。调用NVL模式必须使用NVL模式角色，而NVL模式角色需要在script.rpy文件中定义一系列配置项。 ::
+Ren'Py并不默认使用NVL模式。调用NVL模式必须使用NVL模式角色，而NVL模式角色需要在 :file:`script.rpy` 文件中定义一系列配置项。
+
+::
 
     define e = Character("Eileen", kind=nvl)
     define narrator = nvl_narrator
@@ -1027,7 +1033,7 @@ Ren'Py并不默认使用NVL模式。调用NVL模式必须使用NVL模式角色�
 
     .. figure:: oshs/game/gui/nvl.png
 
-        gui/nvl.png样例图片。
+        :file:`gui/nvl.png` 样例图片。
 
     .. figure:: gui/nvl.jpg
         :width: 100%
@@ -1100,7 +1106,7 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
         gui.text_font = "MTLc3m.ttf"
         gui.text_size = 24
 
-关于多语言支持(translation)有一点需要注意，那就是在gui.rpy文件的某些语句中，某个配置项已经声明为一个其他值的情况。例如，在默认的gui.rpy中包含::
+关于多语言支持(translation)有一点需要注意，那就是在 :file:`gui.rpy` 文件的某些语句中，某个配置项已经声明为一个其他值的情况。例如，在默认的 :file:`gui.rpy` 中包含::
 
     define gui.interface_text_font = "DejaVuSans.ttf"
 
@@ -1122,7 +1128,7 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 高级定制化
 ======================
 
-更多高级定制化可以通过定制化screen.rpy文件实现，甚至可以把整个文件清空并填上你自己写的内容。这里有几处要点有助你起步。
+更多高级定制化可以通过定制化 :file:`screens.rpy` 文件实现，甚至可以把整个文件清空并填上你自己写的内容。这里有几处要点有助你起步。
 
 .. _gui-styles:
 
@@ -1131,7 +1137,7 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 
 :doc:`样式 <style>` 和 :doc:`样式特性 <style_properties>` 控制可视组件(displayable)的显示方式。若需要知道某个可视组件(displayable)使用的是什么样式(style)，之需要将鼠标移动到它上面并使用快捷键“shift+I”。这将唤起样式检测器，并显示样式名称。我们之后对应的样式名称后，就可以使用一个样式(style)语句实现对应样式的定制化。
 
-比如说，我们在编写GUI有关文件时石乐志，想要在对话文本上添加一个高亮的红色轮廓线。我们可以把鼠标移动到对应文本上，并按下“shift+I”以找到了使用样式名为“say_dialogue”。然后我们就可以在一些文件(screens.rpy结尾，或者options.rpy某处)中添加样式(style)语句。::
+比如说，我们在编写GUI有关文件时失了智，想要在对话文本上添加一个高亮的红色轮廓线。我们可以把鼠标移动到对应文本上，并按下“shift+I”以找到了使用样式名为“say_dialogue”。然后我们就可以在一些文件( :file:`screens.rpy` 结尾，或者 :file:`options.rpy` 某处)中添加样式(style)语句。::
 
     style say_dialogue:
         outlines [ (1, "#f00", 0, 0 ) ]
@@ -1251,7 +1257,7 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 GUI整体替换
 ---------------------
 
-高级创作者可能会部分甚至全部替换screen.rpy文件的内容。这样做的话，gui.rpy的部分或全部内容都会失效。调用 :func:`gui.init` 重置样式(style)可能是个好主意 - ——之后，创作者可能就可以为所欲为了。通常需要保证，在部分或所有的 :doc:`特殊界面 <screen_special>` 中，用户能使用Ren'Py本身提供的各种基础功能。
+高级创作者可能会部分甚至全部替换 :file:`screens.rpy` 文件的内容。这样做的话， :file:`gui.rpy` 的部分或全部内容都会失效。调用 :func:`gui.init` 重置样式(style)可能是个好主意 - ——之后，创作者可能就可以为所欲为了。通常需要保证，在部分或所有的 :doc:`特殊界面 <screen_special>` 中，用户能使用Ren'Py本身提供的各种基础功能。
 
 .. _gui-see-also:
 

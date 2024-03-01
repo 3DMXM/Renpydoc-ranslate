@@ -4,7 +4,7 @@
 ========
 
 3D舞台，正如其名称所指，是一个在三维空间中放置可视组件的概念。
-Ren'Py在3D舞台中渲染可视组件时将计算合适的透视效果，并启用Z轴维度、灯光和深度效果。
+Ren'Py在3D舞台中渲染可视组件时将计算合适的透视效果，并启用Z轴维度、灯光和深度渲染效果。
 
 .. _coordinates:
 
@@ -207,7 +207,7 @@ Ren'Py中可以使用 :tpref:`matrixtransform` 变化特性，将某个矩阵应
 
 Ren'Py使用 :tpref:`matrixanchor` 变换特性使矩阵应用更方便。
 :tpref:`matrixanchor` 的默认值是(0.5, 0.5)，并使用通用Ren'Py锚点规则转换为图像内部的像素偏移值。
-(如果是正数，视为像素数；否则视为整个像素尺寸的比例值。)
+(如果是正整数，视为像素数；否则视为整个图像尺寸的比例值。)
 
 Ren'Py将矩阵变换应用到图像上时，首先将图像锚点设置(0, 0, 0)。应用矩阵变换后，再将锚点回复为原值。
 默认情况下，变换矩阵会应用到图像中心位置。
@@ -236,7 +236,7 @@ Ren'Py将矩阵变换应用到图像上时，首先将图像锚点设置(0, 0, 0
 结构相似原则
 ^^^^^^^^^^^^^^^^
 
-在ATL中，对 :tpref:`matrixtransform` 特性进行插值，要求使用的TransformMatrix对象具有相似结构。
+在ATL中，对 :tpref:`matrixtransform` 特性进行插值时，要求使用的TransformMatrix对象具有相似结构。
 这表示相同类型的TransformMatrix，使用相同顺序相乘。
 
 下面的样例中，会对图像进行旋转和平移，然后再转回去：
@@ -259,7 +259,7 @@ TransformMatrix
 Matrix对象只适合静态变换，对动画变换没什么用。
 还有一种可以将普通矩阵参数化的方法。
 
-TransformMatrix是由同一个基类扩展得到的一些使用矩阵创建的类。
+TransformMatrix是一个基类，扩展得到的一系列使用矩阵创建的类。
 Ren'Py调用TransformMatrix类的实例，并得到返回矩阵结果。
 TransformMatrix已很好集成在ATL中，可以使用matrixtransform实现动画。
 

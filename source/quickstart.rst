@@ -20,11 +20,11 @@ Ren'Py启动器(launcher)
 
 下载Ren'Py，然后解压并运行。
 
-* 在Windows平台上，双击下载的可执行文件。它会自动解压Ren'Py到一个名为 ``renpy-<version>`` 的文件夹。进入这个文件夹并运行 ``renpy.exe`` 。(在扩展名隐藏的情况下，renpy.exe文件可能名字是renpy)
+* 在Windows平台上，双击下载的可执行文件。它会自动解压Ren'Py到一个名为 :file:`renpy-{<version>}` 的文件夹。进入这个文件夹并运行 :file:`renpy.exe`。(在扩展名隐藏的情况下，renpy.exe文件可能名字是 :file:`renpy`)
 
-* 在Max OS X平台上，双击下载驱动器镜像，将其挂载为一个驱动器。当驱动器打开后，将目录命名为 ``renpy-<version>`` 并复制到其他任意地方。(复制到哪里不重要，但不能是只读驱动器。不要将renpy程序文件移动到其所有目录之外的地方——不然在其他地方该程序无法工作)进入这个目录并运行 ``renpy`` 程序。
+* 在Max OS X平台上，双击下载驱动器镜像，将其挂载为一个驱动器。当驱动器打开后，将目录命名为 :file:`renpy-{<version>}` 并复制到其他任意地方。(复制到哪里不重要，但不能是只读驱动器。不要将renpy程序文件移动到其所有目录之外的地方——不然在其他地方该程序无法工作)进入这个目录并运行 :file:`renpy` 程序。
 
-* 在Linux平台上，解tar包，进入 ``renpy-<version>`` 目录，然后运行 ``renpy.sh`` 。
+* 在Linux平台上，解tar包，进入 :file:`renpy-{<version>}` 目录，然后运行 :file:`renpy.sh` 。
 
 完成以上操作后，Ren'Py启动器(launcher)应该正常运行了。
 
@@ -92,7 +92,7 @@ Ren'Py启动器(launcher)已经被翻译为多种语言。需要更改语言的�
 
 这是一个非常简单的Ren'Py游戏。它不包含任何图片和音乐，但它展示了两个角色之间的一次对话，以及一行旁白。
 
-如果想要尝试，从启动器(launcher)顶端选择“My Question”项目，进入“编辑文件”并选择“script.rpy”。如果这是你首次进入编辑模式，Ren'Py会询问选用哪一款编辑器(我们向新人推荐Editra)，并下载你选择的那款。启动器(launcher)会使用编辑器打开rpy脚本文件。
+如果想要尝试，从启动器(launcher)顶端选择“My Question”项目，进入“编辑文件”并选择 :file:`script.rpy` 。如果这是你首次进入编辑模式，Ren'Py会询问选用哪一款编辑器(我们向新人推荐Editra)，并下载你选择的那款。启动器(launcher)会使用编辑器打开 :file:`script.rpy` 脚本文件。
 
 编辑器打开后，清除script.rpy里所有内容。我们将从零开始，所以你不需要原来的那些内容。将上面案例复制到script.rpy里并保存文件。
 
@@ -364,15 +364,17 @@ queue music语句表示，在当前音乐播放完毕后播放的音频文件。
     ###
         play sound "audio/effect.ogg"
 
-在“game/audio”目录中的音频文件，如果其文件名去掉文件扩展名后符合Python变量的命名规则(以字母开头且仅包含英文字母、数字或下划线)，
+在 :file:`game/audio` 目录中的音频文件，如果其文件名去掉文件扩展名后符合Python变量的命名规则(以字母开头且仅包含英文字母、数字或下划线)，
 则可以直接不带引号，直接使用文件名播放音频文件。
 
-例如，存在一个音频文件“game/audio/illurock.ogg”。我们可以直接在脚本中写：
+例如，存在一个音频文件 :file:`game/audio/illurock.ogg` 。我们可以直接在脚本中写：
 
 ::
 
     ###
         play music illurock
+
+详见 :ref:`音频命名空间 <audio-namespace>`。
 
 .. _pause-statement:
 
@@ -509,7 +511,7 @@ Python变量不仅仅可以是简单的布尔值。变量也可以存储玩家�
 **检查Ren'Py版本更新**
     基线的新版Ren'Py通常会修复bug和添加新特性。发布前，你需要在启动器(launcher)中点击“更新”，更新到最新版本的Ren'Py。你也可以手动下载新版本并查看版本更新列表，以上工作可以使用这个页面 `https://www.renpy.org/latest.html <https://www.renpy.org/latest.html>`_。
 
-    少数情况下，Ren'Py版本升级变更后会要求你修改原来的游戏脚本。 `https://www.renpy.org/doc/html/incompatible.html <https://www.renpy.org/doc/html/incompatible.html>`_ 页面列出了这些变更明细。
+    少数情况下，Ren'Py版本升级变更后会要求你修改原来的游戏脚本。 :doc:`incompatible`  页面列出了这些变更明细。
 
 **检查脚本**
     在启动器(launcher)的前端页面，选择“生成分发版”。基于options.rpy文件中的信息，启动器(launcher)会建立一个或多个包含创作者所作游戏的归档文件。

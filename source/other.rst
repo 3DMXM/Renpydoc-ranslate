@@ -78,7 +78,7 @@ Ren'Py包含许多变量需要基于运行的平台进行设置。
 内存分析
 -----------------
 
-.. function:: renpy.(update=True, skip_constants=False)
+.. function:: renpy.diff_memory(update=True, skip_constants=False)
 
     分析Ren'Py和游戏使用的对象(object)、贴图(surface)和纹理(texture)内存。将上次调用该函数时和这次调用该函数的内容使用差异，并(在memory.txt和stdout)记录下。
 
@@ -111,21 +111,6 @@ Ren'Py包含许多变量需要基于运行的平台进行设置。
 .. function:: renpy.profile_rollback()
 
     分析回滚系统使用的内存。将回滚系统使用的内存写入到memory.txt和stdout。该函数尝试计算各种存储变量用于回滚的内存量，以及回滚系统内部使用的内存量。
-
-.. _context:
-
-上下文(context)
-----------------
-
-.. function:: renpy.context()
-
-    返回一个对象，这个对象对当前上下文(context)唯一。进入一个新的上下文时，这个对象会复制一个副本。但对副本的修改不会影响原来的对象。
-
-    这个对象在回滚中会被保存和恢复。
-
-.. function:: renpy.context_nesting_level()
-
-    返回当前上下文的嵌套等级。最外层的上下文的等级是0(例如保存、读取和回滚)，非0等级其他上下文有菜单和回放等。
 
 renpy.random
 -------------
@@ -165,18 +150,14 @@ renpy.random
 SDL
 ----
 
-这些函数允许创作者使用Python的ctypes模块调用SDL中dll的函数。
-Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以运行的函数也不一定能在Ren'Py里运行，因此在实际使用前需要检查对应函数是否为空。
+通过函数 :func:`renpy.get_sdl_dll` 可以接入SDL2动态链接库(dll)，之后即可直接使用SDL2的函数了。
+不过，通常要求有一些Python ctypes模块的知识，才能正确使用SDL2的函数。
 
-.. function:: renpy.get_sdl_dll()
+Ren'Py不保证包含的SDL2版本编译后包含或不包含某些特性(feature)。
+某些平台可以运行，但其他平台可能会报错。
+使用这些函数的返回值之前需要确认是否返回了None。
 
-    该函数返回一个ctypes.cdll对象，指向Ren'Py正在使用的SDL2实例中的库。
-
-    如果无法获取，则返回None。
-
-.. function:: renpy.get_sdl_window_pointer()
-
-    该函数返回(ctypes.c_void_p类型)主窗口坐标。主窗口没有显示或发生问题时，返回None>
+下面的例子中，窗口位置信息来源于SDL2：
 
 ::
 
@@ -186,7 +167,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
         def get_window_position():
             """
-            通过SDL2检查窗口坐标。返回窗口左上角坐标的(x, y)值。如果是未知坐标也会返回(0, 0)。
+            通过SDL2检查窗口坐标。返回以窗口左上角为原点坐标的(x, y)值。如果是未知坐标也会返回(0, 0)。
             """
 
             sdl = renpy.get_sdl_dll()
@@ -204,7 +185,21 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
             x = ctypes.c_int()
             y = ctypes.c_int()
 
-            SDL_GetWindowPosition(win, ctypes.byref(x), ctypes.byref(y))
+            result = sdl.SDL_GetWindowPosition(win, ctypes.byref(x), ctypes.byref(y))
+
+            return result
+
+.. function:: renpy.get_sdl_dll()
+
+    该函数返回一个ctypes.cdll对象，指向Ren'Py正在使用的SDL2实例中的库。
+
+    如果无法获取，则返回None。
+
+.. function:: renpy.get_sdl_window_pointer()
+
+    :rtype: ctypes.c_void_p | None
+
+    返回主窗口的指针。如果主窗口没有显示(或发生其他问题)，返回None。
 
 .. _miscellaneous:
 
@@ -221,9 +216,9 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
     如果同名变量已存在，则不做任何操作。
     该函数只能在init代码块中运行。游戏启动后再运行该函数将报错。
 
-.. function:: renpy.call_stack_depth()
+.. function:: renpy.can_fullscreen()
 
-    返回当前上下文(context)调用栈(stack)的深度——这个数表示调用栈中还没有返回或弹出，但依然在运行的调用数量。
+    当前平台支持全屏模式就返回True，否则返回False.
 
 .. function:: renpy.capture_focus(name=u'default')
 
@@ -250,19 +245,9 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     重置游戏运行时间计数器。
 
-.. function:: renpy.clear_keymap_cache()
+.. function:: renpy.clear_retain(layer='screens', prefix='_retain')
 
-    清空快捷键缓存。该函数允许对 :func:`config.keymap` 的修改立刻生效，而不需要重启Ren'Py。
-
-.. function:: renpy.context_dynamic(*vars)
-
-    该函数可以将一个或多个变量作为入参。函数让变量根据当前上下文(context)动态调整。当调用返回后，变量会重置为原来的值。
-    
-    一个调用的样例如下：
-
-    ::
-
-        $ renpy.context_dynamic("x", "y", "z")
+    清空所有留存的界面。
 
 .. function:: renpy.count_dialogue_blocks()
 
@@ -278,22 +263,7 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
 .. function:: renpy.display_notify(message)
 
-    :func:`renpy.notify` 函数的默认实现方法。
-
-.. function:: renpy.dynamic(*vars, **kwargs)
-
-    可以向该函数传入一个或多个入参。该函数可以通过本地调用生成动态变量作用域。
-    调用该函数并返回时，对应的变量值将会被设置为传入的值。
-
-
-    如果变量以关键词参数传入，会根据变量名匹配并设置对应变量。
-
-    调用样例为：
-
-    ::
-
-        $ renpy.dynamic("x", "y", "z")
-        $ renpy.dynamic(players=2, score=0)
+    :func:`renpy.notify` 函数的默认实现。
 
 .. function:: renpy.focus_coordinates()
 
@@ -323,18 +293,6 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
     `save`
         若为True，将先存档在 :var:`_quit_slot`，然后让Ren'Py重启，将用户带回到主菜单。
 
-.. function:: renpy.get_adjustment(bar_value)
-
-    传入一个 :class:`BarValue` 对象 `bar_value` ，返回 :func:`ui.adjustment()` 。adjustment对象定义了下列属性(attribute)：
-
-    .. attribute:: value
-
-        条(bar)的当前值。
-
-    .. attribute:: range
-
-        条(bar)的当前值域。
-
 .. function:: renpy.get_game_runtime()
 
     返回游戏运行时间计数器。
@@ -356,6 +314,10 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     在config.developer = True的情况下，才保存图像加载日志。
 
+.. function:: renpy.get_menu_args()
+
+    返回一个元组，其中包含传给当前menu语句的所有入参(以元组形式)和所有关键词入参(以字典形式)。
+
 .. function:: renpy.get_mouse_name(interaction=False)
 
     返回显示鼠标名称。
@@ -366,6 +328,11 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 .. function:: renpy.get_mouse_pos()
 
     返回一个(x, y)元组，表示鼠标指针或当前触摸位置的坐标。如果设备不支持鼠标并且当前没有被触摸，x和y值无意义。
+
+.. function:: renpy.get_on_battery()
+
+    如果Ren'Py当前运行设备使用内部电池供电，则返回True；
+    如果当前运行设备使用外部电源，则返回False。
 
 .. function:: renpy.get_physical_size()
 
@@ -426,18 +393,38 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
 
     加载模块的部分只能用在初始化代码块(init block)中。
 
+.. function:: invoke_in_main_thread(fn, *args, **kwargs)
+
+    在主线程中使用指定入参运行指定函数。该函数运行在类似于事件处理器的交互上下文中。
+    这是为了能从其他线程调用该函数。其他线程可以使用 :func:`renpy.invoke_in_thread` 函数创建。
+
+    如果在单一线程中存在多个可调用的函数，这些函数并不一定会按预计的顺序依次执行。
+    
+    ::
+
+        def ran_in_a_thread():
+            renpy.invoke_in_main_thread(a)
+            renpy.invoke_in_main_thread(b)
+
+    在这个例子中，``a`` 肯定先返回，然后再调用 ``b``。从几个不同线程的调用则不一定按此顺序。
+
+    在初始化阶段不能调用该函数。
+
 .. function:: renpy.invoke_in_thread(fn, *args, **kwargs)
 
-    在背景线程调用函数 *fn* ，传入该函数收到的所有入参。线程返回后重新启动交互行为。
+    使用后台线程调用函数 *fn* ，传入该函数收到的所有入参。线程返回后重新启动交互行为。
 
     该函数创建一个守护线程(daemon thread)，当Ren'Py关闭后这个线程也会自动停止。
 
-    该线程使用Ren'Py的API能做的事情非常受限。可以调用 :func:`renpy.queue_event` 修改存储区的变量。
+    该线程使用Ren'Py的API能做的事情非常受限。可以调用下列函数修改存储区的变量：
+
+    * :func:`renpy.restart_interaction`
+    * :func:`renpy.invoke_in_main_thread`
+    * :func:`renpy.queue_event`
+
     最好在主线程中使用其他Ren'Py的API。
 
-    该函数的主要用途是：通过web API创建第二线程，调用该函数修改存储区变量，通过互动行为在界面上展示变量的变化。
-
-    然而该函数还无法在Web平台运行。
+    然而该函数还无法在Web平台正常运行，仅仅能在不报错的情况下直接返回。
 
 .. function:: renpy.is_init_phase()
 
@@ -472,6 +459,29 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
         A string giving a character class. This should be one of the classes defined in Table
         1 of `UAX #14: Unicode Line Breaking Algorithm <http://www.unicode.org/reports/tr14/tr14-30.html>`_.
         一个字符串，指定字符串类。其须是下表定义中的其中一个类：`UAX #14: Unicode Line Breaking Algorithm <http://www.unicode.org/reports/tr14/tr14-30.html>`_。
+
+.. function:: last_say()
+
+    返回一个对象，包含最后一条say语句的信息。
+
+    在某个say语句中调用该函数，若是某个普通Character对象使用say语句，则返回结果就是 *当前* 这条say语句，而不是上一句。
+
+    `who`
+
+        发言角色。通常是一个 :func:`Character` 对象，不一定有。
+
+    `what`
+        一个字符串，表示对话内容。如果对话还未显示，则可能是None。这种情况会发生在游戏刚启动时。
+
+    `args`
+        一个元组，包含传入最后一条say语句的入参。
+
+    `kwargs`
+        一个字典，包含传入最后一条say语句的关键词入参。
+
+    .. warning::
+
+        与其他类似函数一样，该函数的返回对象短期内还在被其他地方使用或修改。不建议在存档或回滚相关操作中使用此函数的返回对象。
 
 .. function:: renpy.load_module(name)
 
@@ -514,12 +524,6 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
     一次只能显示一条通知。显示第二条通知时，会直接替换第一条通知。
     
     该函数只是调用 :var:`config.notify` 。可以通过配置项重新实现并替换原函数。
-
-.. function:: renpy.pop_call()
-
-    从调用栈(stack)弹出当前调用，并不再返回那个位置。
-
-    如果调用方决定不需要返回到那个脚本标签(label)的情况下，可以使用该函数。
 
 .. function:: renpy.prediction()
 
@@ -601,6 +605,12 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
     ``who``
         如果在下一个交互行为之前会执行一个 ``say`` 语句或含标题的 ``menu`` 语句，则角色对象将使用该字段。
 
+    scry对象有一个next()方法，可以返回下一条将执行语句的scry对象。如果没有下一条将执行的语句，则返回None。
+    
+    .. warning::
+    
+        与其他类似函数一样，该函数的返回对象短期内还在被其他地方使用或修改。不建议在存档或回滚相关操作中使用此函数的返回对象。
+
 .. function:: renpy.set_mouse_pos(x, y, duration=0)
 
     让鼠标指针跳到入参x和y指定的位置。如果设备没有鼠标指针，则没有效果。
@@ -629,18 +639,6 @@ Ren'Py不保证自身的SDL2版本包含所有功能特性。其他地方可以�
     ::
 
         text_properties, button_properties = renpy.split_properties("text_", "")
-
-.. function:: renpy.substitute(s, scope=None, translate=True)
-
-    对字符串 *s* 应用多语言支持(translation)和新样式格式。
-
-    `scope`
-        若不是None，格式中使用的scope，添加到默认存储区。
-
-    `translate`
-        决定是否启用何种语言支持。
-
-    返回多语言支持和格式的字符串。
 
 .. function:: renpy.transition(trans, layer=None, always=False)
 

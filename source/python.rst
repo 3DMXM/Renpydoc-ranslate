@@ -388,13 +388,15 @@ Ren'Py可以导入(import)纯python的模块和包。创作者需要用在游戏
 
 ::
 
-    pip install --target game/python-packages requests
+    pip install --target game/python-packages python-dateutil
 
 无论何种情况，模块和包都可以导入(import)一个init python语句块(block)中::
 
     init python:
-        import requests
+        import dateutil.parser
 
 .. warning::
 
     在.rpy文件里定义的Python语句会格式转换，使其允许回滚。从.py文件导入(import)的文件则不会发生这种格式转换。因此，在Python中创建的对象无法使用回滚(rollback)操作，且在创建之后就最好不要更改。
+
+    并非所有的Python包都与Ren'Py兼容。创作者需要自己先安装并确保对应的包可以正常工作。

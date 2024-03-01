@@ -89,4 +89,4 @@ Ren'Py受一些环境变量的影响。在不同版本的Ren'Py中，这些环�
 
 由于Ren'Py使用SDL，所以也受SDL环境变量的控制。
 
-启动时，Ren'Py会在Ren'Py目录(包含renpy.exe或renpy.py文件的目录)中寻找文件“environment.txt”。如果找到了那个文件，Ren'Py会将文件以python文件行为解读，并将文件配置用作环境变量的默认值。
+启动时，Ren'Py会在Ren'Py目录(包含renpy.exe或renpy.py文件的目录)中寻找文件 :file:`environment.txt`。如果找到了那个文件，Ren'Py会将文件以python文件行为解读，并将文件配置用作环境变量的默认值。

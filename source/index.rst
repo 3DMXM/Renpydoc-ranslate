@@ -5,15 +5,17 @@
 
 若需要寻找更多关于Ren'Py的信息，请移步Ren'Py的主页：
 
-  http://www.renpy.org/
+    http://www.renpy.org/
 
 繁體中文的文件請參考這裡：
 
-  https://www.renpy.cn/doc-tw/
+    https://www.renpy.cn/doc-tw/
+
+.. only:: not language_ja and not gettext
 
 日本語のドキュメントは以下にあります:
 
-  http://ja.renpy.org/doc/html/
+    http://ja.renpy.org/doc/html/
 
 .. toctree::
     :maxdepth: 3
@@ -114,6 +116,7 @@
     model
     other
     ren_py
+    fetch
 
 .. toctree::
     :maxdepth: 1
@@ -127,6 +130,7 @@
     raspi
     iap
     updater
+    downloader
     gesture
 
 .. toctree::
@@ -137,6 +141,12 @@
     problems
     environment_variables
     self_voicing
+
+.. toctree::
+    :maxdepth: 1
+    :caption: 库和开发工具文档
+    template_projects
+    cli
 
 .. toctree::
     :maxdepth: 1

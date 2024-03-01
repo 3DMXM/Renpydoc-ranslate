@@ -156,6 +156,8 @@ renpy.Displayable
 
         将一个pygame事件消息传入创作者定义可视组件就会调用event方法。如果event方法返回一个非None的值，这个也会作为交互动作的结果并返回。
 
+        若要忽略没有返回None的事件，则可以raise :exc:`renpy.IgnoreEvent`。
+
         event方法也存在于其他可视组件，允许创作者定义可视组件将事件消息传给其他可视组件。
 
         `ev`
@@ -245,6 +247,8 @@ renpy.Render
        返回一个canvas对象。canvas对象有对应
        `pygame.draw <http://www.pygame.org/docs/ref/draw.html>`_
        函数的方法，第一个参数(surface)省略。
+
+        Ren'Py中没有实现圆弧和椭圆的函数。
 
        canvas对象也有一个get_surface()方法，能返回使用canvas的paygame Surface对象。
 
