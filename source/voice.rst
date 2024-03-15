@@ -4,22 +4,22 @@
 语音
 =====
 
-Ren'Py支持对话文本与语音播放的联结。使用voice语句可以实现这个功能，voice语句给定了播放的语音文件：
+Ren'Py支持对话文本与语音播放的联结。使用 ``voice`` 语句可以实现这个功能，``voice`` 语句指定了播放的语音文件：
 
 ::
 
-  voice "line0001.ogg"
-  "欢迎来到Ren'Py"
+    voice "line0001.ogg"
+    "欢迎来到Ren'Py"
 
-通常来说，某个语音会被后面的互动行为中断。voice sustain语句则可以保证语音会播放完毕，即使遇到某个互动行为。
+通常来说，某个语音会被后面的互动行为中断。``voice sustain`` 语句则可以保证语音会播放完毕，即使遇到某个互动行为。
 
 ::
 
-  voice "line0001.ogg"
-  "欢迎来到Ren'Py..."
+    voice "line0001.ogg"
+    "欢迎来到Ren'Py..."
 
-  voice sustain
-  "... 你的电子小说引擎。"
+    voice sustain
+    "... 你的电子小说引擎。"
 
 :var:`config.voice_filename_format` 配置项允许你定制化语音文件名，使用的时候省略文件夹和文件扩展名。
 
@@ -73,7 +73,7 @@ Ren'Py提供了自动匹配语音文件并播放的功能，不用在每行对�
 
     config.auto_voice = "voice/{id}.ogg"
 
-对话标识号是 ``demo_minigame_03fc91ef`` ，那么当对应的对话显示时，Ren'Py会寻找文件 ``voice/demo_minigame_03fc91ef.ogg`` 。如果文件存在，Ren'Py会播放这个文件。
+对话标识号是 ``demo_minigame_03fc91ef`` ，那么当对应的对话显示时，Ren'Py会寻找文件 :file:`voice/demo_minigame_03fc91ef.ogg` 。如果文件存在，Ren'Py会播放这个文件。
 
 .. _multilingual-voice:
 
@@ -88,11 +88,11 @@ Ren'Py提供了自动匹配语音文件并播放的功能，不用在每行对�
     voice "omelette.ogg"
     e "I like scrambled eggs with cheese..."
 
-放好英语版本的语音文件“game/omelette.ogg”和法语版本“game/tl/french/omelette.ogg”，
+放好英语版本的语音文件 :file:`game/omelette.ogg` 和法语版本 :file:`game/tl/french/omelette.ogg`，
 就能在Ren'Py启用法语版后，播放法语的语音了。
 
-自动语音时的效果也类似，只要翻译文件的路径以“game/tl/<language>/”开头，
-会自动匹配“game/”目录中的同名文件。
+自动语音时的效果也类似，只要翻译文件的路径以 :file:`game/tl/{<language>}/` 开头，
+会自动匹配 :file:`game/`\ 目录中的同名文件。
 
 .. _voice-functions:
 
@@ -152,7 +152,7 @@ Voice Actions
 
 .. function:: PlayCharacterVoice(voice_tag, sample, selected=False)
 
-    在voice通道上播放sample语音文件，并将其视为由带有 *voice_tag* 的某个角色所说。
+    在voice通道上播放sample语音文件，并将其视为由带有 `voice_tag` 的某个角色所说。
 
     `sample`
         语音文件完整路径。不会对该文件的做任何语音相关的处理。
@@ -162,18 +162,18 @@ Voice Actions
 
 .. function:: SetCharacterVolume(voice_tag, volume=None)
 
-    该行为允许每个角色的语音音量都可以调整。若 *volume* 值为None，将返回 *voice_tag* 对应的音量值。否则的话， *voice_tag* 对应的音量值会被设置为 *volume* 。
+    该行为允许每个角色的语音音量都可以调整。若 `volume` 值为None，将返回 `voice_tag` 对应的音量值。否则的话， `voice_tag` 对应的音量值会被设置为 `volume` 。
 
-    *volume* 是一个介于0.0至1.0之间的值，在包含 *voice* 通道的混合器(mixer)音量中则是一个分量。
+    `volume` 是一个介于0.0至1.0之间的值，在包含 `voice` 通道的混合器(mixer)音量中则是一个分量。
 
 .. function:: SetVoiceMute(voice_tag, mute)
 
-    若 *mute* 值为True，带有给定语音标签 *voice_tag* 的所有语音会被静音。若 *mute* 值为False，取消语音标签 *voice_tag* 所有语音的静音。
+    若 `mute` 值为True，带有给定语音标签 `voice_tag` 的所有语音会被静音。若 `mute` 值为False，取消语音标签 `voice_tag` 所有语音的静音。
 
 .. function:: ToggleVoiceMute(voice_tag, invert=False)
 
-    切换 *voice_tag* 的静音状态。
-    默认情况下，指定 *voice_tag* 处于静音状态时将选择对应的语音tag对象。如果 *invert* 值是True，则会选择不处于静音状态时语言tag对象。
+    切换 `voice_tag` 的静音状态。
+    默认情况下，指定 `voice_tag` 处于静音状态时将选择对应的语音tag对象。如果 `invert` 值是True，则会选择不处于静音状态时语言tag对象。
 
 .. function:: VoiceReplay(*args, **kwargs)
 

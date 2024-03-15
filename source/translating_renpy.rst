@@ -21,8 +21,8 @@ Ren'Py自身也能实现多语言支持。一个完整的多语言支持版本�
 翻译文件
 -----------------
 
-翻译文件存在于 launcher/game/tl/`language`/目录。除了script.rpy，所有文件都可以包含使用 :ref:`字符串多语言支持 <string-translations>`
-语法的字符串。 有些字符串的开头可能是“## ”。这些是option.rpy和gui.rpy文件中的注释。
+翻译文件存在于 :file:`launcher/game/tl/{language}/` 目录。除了 :file:`script.rpy` ，所有文件都可以包含使用 :ref:`字符串多语言支持 <string-translations>`
+语法的字符串。 有些字符串的开头可能是“## ”。这些是 :file:`options.rpy` 和 :file:`gui.rpy` 文件中的注释。
 
 翻译文件包括：
 
@@ -90,14 +90,14 @@ style.rpy
 修改字体
 --------------
 
-Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不过经常会需要用到其他字体。编辑launcher/game/tl/language/style.rpy文件可以配置字体，比如添加字体：
+Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不过经常会需要用到其他字体。编辑 :file:`launcher/game/tl/language/style.rpy` 文件可以配置字体，比如添加字体：
 
 ::
 
     init python:
         translate_font("language", "myfont.ttf")
 
-“language”是需要使用的语言类型(例如，“japannese”)，“myfont.ttf”是使用的字体(例如，“MTLc3m.ttf”)。字体文件应该放在launcher/game/tl/language目录，这样就可以被启动器找到。
+“language”是需要使用的语言类型(例如，“japannese”)，“myfont.ttf”是使用的字体(例如，“MTLc3m.ttf”)。字体文件应该放在 :file:`launcher/game/tl/language` 目录，这样就可以被启动器找到。
 
 .. _changing-the-launcher-style:
 

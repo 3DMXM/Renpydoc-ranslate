@@ -6,6 +6,777 @@
 
 *其他内容记录在* :doc:`不兼容的变更 <incompatible>`
 
+
+.. _renpy-8.2.1:
+.. _renpy-7.7.1:
+
+8.2.1 / 7.7.1
+=============
+
+Text
+----
+
+The Harfbuzz text shaper now reads more information using Harfbuzz. This
+will generally yield the same results, with small exceptions, such as
+the underline being in a slightly different place.
+
+Vertical text handling under the harfbuzz text shaper has been fixed to
+properly place the text. Porting those changes to the freetype shaper
+is not possible, so the freetype shaper no longer supports vertical text.
+
+See :propref:`vertical` for more information.
+
+Updater
+-------
+
+An issue with the updater that caused it to fail to sign updates when
+run on a Windows system has been fixed.
+
+The updater now forces the webserver to use the identity encoding, which
+improves compatibility with some web servers. The updater also times out
+if the server does not respond to a request within 10 seconds.
+
+Live2D
+------
+
+Ren'Py will now automatically guess the size of the live2d textures,
+and adjust the maximum texture size the live2d library uses to match
+it.
+
+Ren'Py will avoid many render-to-texture operations when showing
+Live2D.
+
+Fetch
+-----
+
+The :func:`renpy.fetch` function now works during the image phase and
+during an interaction, as well as outside an interaction.
+
+The :func:`renpy.fetch` function now takes a `params` argument, which
+specifies parameters that will be added to the URL.
+
+Other Changes
+-------------
+
+When a textbox is replaced (using {w}), a ``replaced`` event is generated,
+rather than hide.
+
+Adding a new displayable with `default_focus` set will cause the
+displayable to be focused, if the keyboard or gamepad is used, even
+if the interaction does not restart.
+
+It's now possible to build an iOS app from the command line without
+installing rapt (Android support).
+
+The renamed and newly-documented :var:`config.max_texture_size` variable
+make it possible to set the maximum texture size used by Ren'Py. This isn't
+useful for 2D textures, but may make sense for textures used by :class:`Model`.
+
+:doc:`template_projects` are no longer required to have the same files
+as a standard Ren'Py project.
+
+Other Fixes
+-----------
+
+An issue that could cause an Android device to reach a black screen when
+resuming from pause has been fixed.
+
+Ren'Py will now run from a directory with : in the name, on Linux and other
+platforms where that's legal.
+
+The use of :var:`config.layer_transforms` will no longer reset the timelines
+of transforms set with ``camera`` or ``show layer`` ``at``.
+
+Lint no longer crashes when the a LayeredImage use a variable that isn't set.
+
+A crash when :tpref:`blur` was less than 0 has been prevented, by clamping
+the blur value.
+
+An issue that caused drags to block saving has been fixed.
+
+
+
+.. _renpy-8.2.0:
+.. _renpy-7.7.0:
+
+8.2.0 / 7.7.0
+=============
+
+Harfbuzz Integration
+--------------------
+
+Ren'Py now uses the Harfbuzz library to perform text shaping. On all
+versions of Ren'Py, Harfbuzz is used to supply additional information
+to the freetype authinter.
+
+On Ren'Py 8, Harfbuzz is also used to shape text, reordering and selecting
+glyphs based on the context they're in and the language of the text provided.
+This is required to support scripts that require complex text shaping,
+such as Brahmic/Indic scripts. (You'll need to provide a font that
+supports the appropriate language.)
+
+The new :propref:`shaper` style property controls the shaper used to text,
+for compatibility with older versions of Ren'Py.
+
+Emoji-Related Text Improvements
+-------------------------------
+
+Next, Ren'Py has gained the ability to render fonts that use the COLRv0 standard
+to provide color glyphs. Ren'Py ships with a font that contains the Twiemoji images,
+which covers a majority of the Emoji in use (but not all of them).
+
+Ren'Py will automatically switch to the Emoji font when it encounters Emoji
+characters in text. The supported characters are those in the
+`Emoji 15.1 <https://unicode.org/Public/emoji/15.1/emoji-test.txt>`_ standard.
+
+Ren'Py 8 with Harfbuzz shaping is required to render joining sequences of Emoji,
+including things like gender and skin-tone modifiers, so you'll need Ren'Py 8
+to have those work. This switching occurs when a font tag is not being
+used.
+
+The new :propref:`emoji_font` and :propref:`prefer_emoji` style properties control
+Emoji font selection.
+
+Fundamentally, you can include Emoji into your game by typing it into your
+script as character dialogue. For example::
+
+    e "I'm feeling 😃 today."
+
+Variable Fonts
+--------------
+
+Ren'Py now supports OpenType variable fonts. These are fonts that use
+one or more axes of variability to change how the font is rendered. For
+example, a font may have the "weight" axis, which controls how bold the
+font is, and the "width" axis, which controls how wide the font is.
+
+Variable font support required Ren'Py 8 and the harfbuzz shaper to work.
+
+To support variable fonts, Ren'Py has added the :propref:`instance` and
+:propref:`axis` style properties, and the :tt:`instance` and :tt:`axis`
+text tags, as well as the :func:`renpy.variable_font_info` function.
+
+See the :ref:`variable fonts documentation <variable-fonts>` for more information.
+
+Font Hinting
+------------
+
+There is a new :propref:`hinting` mode "auto-light", that performs autohinting
+in the vertical but not horizontal direction.
+
+The new :var:`config.font_hinting` variable makes it possible to enable
+font hinting on a per-font basis, while the style system can be used to
+control hinting per-use. For example::
+
+    define config.font_hinting["MyFont.tff"] = "bytecode"
+
+enables bytecode hinting for MyFont.ttf.
+
+Text Interpolation Improvements
+-------------------------------
+
+Interpolations in strings are now treated as Python expressions, rather than
+simple fields. While not identical, this concept will feel familiar to those
+that have worked with Python f-strings. This allows for some logic to be
+incorporated directly::
+
+    default exp = 1000
+
+    label start:
+        e "I am level [exp // 225]!" # Will show "I am level 4!"
+
+When a variable is interpolated into a string, and the interpolation namespace
+exists, that namespace will be searched for the values to interpolate. For
+example, ::
+
+    define t = "Not shown."
+    define interpolate.t = "Shown."
+
+    label start:
+        e "[t]" # Will show "Shown."
+
+Speech Bubble Improvements
+--------------------------
+
+The speech bubble feature that was added in Ren'Py 8.1 now has a new way to
+retain speech bubbles, so that the bubbles pop up one at a time, and
+remain displayed on the screen until explicitly cleared, similar to
+dialogue in motion comics. See the :ref:`speech bubble documentation <retained-bubbles>`
+for more information.
+
+The new :var:`bubble.properties_callback` variable can be given a function
+that filter the list of bubble property names based on the image tag
+that's speaking. This makes it possible to have bubbles that are
+specific to some but not all characters.
+
+Several changes work together to make it possible to apply a transform that
+animates speech bubble show and hide. An example of this is included in the
+:ref:`bubble-screen` documentation.
+
+Position types and ATL interpolation
+------------------------------------
+
+ATL interpolations, which are statements such as ``linear 1. xpos .6`` (and
+have nothing to do with text interpolation), now accept interpolation between
+positions of different types. This allows the following, which was previously
+documented against and didn't work::
+
+    transform mixed:
+        xycenter (520, 300)
+        easein 3. align (.0, .0)
+
+    label muxed:
+        show a at Transform(pos=(.5, .6))
+
+        "..."
+
+        show a at Transform(pos=(520, 150))
+
+As part of the implementation of this new feature, there is a new
+:term:`position` type, called :class:`position`, which enables you to provide
+both a absolute and a relative component to place or size a displayable. For
+example, you can now tell something to be ``xsize position(-10, .5)``, and the
+displayable will make the displayable take half of the horizontal space offered
+to it, minus 10 pixels.
+
+Developer Tools
+---------------
+
+There is a new "Skip splashscreen" option in Options section
+of the launcher preferences. When checked, this will cause
+games launched to skip the splashscreen label when starting.
+
+A new 'Show Filename and Line' option is available from the
+shift+D developer menu. When enabled, this will cause the
+filename and line number of the current statement to be
+displayed. Clicking on the filename and line will open
+the file in the default text editor, at the given line,
+if possible.
+
+Data Actions
+------------
+
+The :ref:`data-actions` are now presented and explained in a more
+condensed manner. These actions have been reimplemented using a data
+manager that describes what to do with the data (Set-, Toggle-, Cycle-, Increment-)
+and a data accessor that describes the kind of data to change (-Variable, -ScreenVariable,  -LocalVariable, -Field, -Dict).
+
+There are two new managers:
+
+* The Cycle- actions (CycleVariable, CycleLocalVariable, CycleField...)
+  take a list of values and each time the action is run (i.e each time
+  the button is clicked), the target value is set to be the next element in
+  the list.
+* The Increment- actions (IncrementVariable, IncrementDict, IncrementField...)
+  add a certain value (by default, 1) to the target value. These can also be used
+  to decrement the field.
+
+The :class:`LocalVariableValue` bar value and :class:`LocalVariableInputValue` input
+values have been added, for completeness.
+
+HTTPS/HTTP Fetch
+----------------
+
+Ren'Py now has better support for :doc:`fetch`, using the new renpy.fetch
+function. While the Requests library still remains supported on Desktop and Mobile,
+(it's used internally by Ren'Py), the new fetch function:
+
+* Support GET, POST, and PUT requests for HTTPS and HTTP URLs.
+* Supports fetching from the web platform, subject to the rules of the web platform.
+* Will not block the game while downloading.
+* Can take data as either bytes or objects that be encoded to JSON.
+* Can return data as bytes, as string, or objects decoded from JSON.
+
+Accessibility
+-------------
+
+The new :scpref:`group_alt` property available on screen language
+displayables allows the creator to specify text that is spoken the first
+time one of a group of related displayables is spoken.
+
+The new :scpref:`extra_alt` property available on screen language
+displayables allows the creator to specify text that is spoken when the
+'?' key is pressed, to provide additional information about the displayable.
+
+Both of these properties are inherited by the children of the displayable,
+unless they are overridden by a more specific value in the child.
+
+The new :func:`renpy.alt` function can be used to speak text using
+the self-voicing system.
+
+
+\_\_future\_\_ in python
+------------------------
+
+Ren'Py now allows creators to pass
+`\_\_future\_\_ compiler directives <https://docs.python.org/reference/simple_stmts.html#future>`__
+for Python code run in Ren'Py. This is done using the ``rpy python xxx``
+statement at the top of the .rpy file(s) on which you want them to apply,
+where ``xxx`` is the name of the future feature. For example::
+
+    rpy python annotations
+
+Translation Improvements
+------------------------
+
+For most dialogue, Ren'Py will now create one third the number of objects
+to support translations. This helps reduce startup time and reduce memory
+usage.
+
+In addition, Ren'Py can now defer loading translations until a translation
+is  needed. This can improve startup time when the game is large and
+many languages are present.
+
+Deferred translation loading is disabled by default. The documentation on :ref:`deferred-translations`
+explains how to enable it and caveats that apply.
+
+Scene, Show, and Hide Transition
+--------------------------------
+
+The new scene, show, and hide transitions makes it possible to
+automatically perform a transition after sequences of scene, show,
+and hide statements that are not followed by a with statement, or
+a window show transition.
+
+This is controlled by the new :var:`_scene_show_hide_transition` variable,
+and documented at :ref:`scene-show-hide-transition`.
+
+Android
+-------
+
+The Android build system has been updated to use recent versions of Gradle
+and the Android Gradle Plugin. This means that Ren'Py now supports and
+requires Java 21, the most recent long-term support version of Java.
+
+A series of changes have been made to Ren'Py to allow games larger than
+2GB to be be downloaded to a Android or iOS device. How to do this is
+documented at :doc:`downloader`. It fundamentally involves creating two
+games - a very short one that is downloaded to the device, and a larger
+game that is downloaded to the device when the short game is run.
+
+The user-visible version on android is now taken from :var:`build.version`, which
+defaults to :var:`config.version`.
+
+Assets you place in the :file:`rapt/prototype` project will be placed into
+the built project.
+
+The files produced by the Android build process will include the version
+number in their name, making it easier to distinguish between builds.
+
+Web
+---
+
+The way Ren'Py goes fullscreen on the web platform has been changed, to
+improve compatibility with both desktop and mobile web browsers.
+
+Ren'Py now covers the game with a transparent div at start, to help the
+browser detect a click and allow audio to be played. It will proxy the
+click to the game and hide the div once this detection is finished.
+
+The :doc:`fetch` function is now supported on the web platform, allowing
+web pages to make HTTPS and HTTP requests, subject to the same rules (CORS)
+as other web pages.
+
+Updater
+-------
+
+The :doc:`Ren'Py Updater <updater>` has been rewritten to use a new
+format, and is implemented entirely in Ren'Py. That makes it compatible
+with more web hosts, and for the first time it support https.
+
+The updater will create a signing key when it is first run, and will sign
+generated updates with that key. When the updater is run, it will check
+that the updates are run with that key. This means it is no longer extra
+work to produce a secure update.
+
+Translations
+------------
+
+There is a new Danish translation of the launcher and The Question.
+
+Many other translations have been updated.
+
+Features
+--------
+
+The new :var:`config.layer_transforms` variable allows you to supply
+a list of transforms that will be applied to each layer, or to the
+combination of all layers in :var:`config.layers`.
+
+The new :class:`Continue` action will load the last save (by default,
+including autosaves and quick saves). This is intended for use from the
+main menu to continue the game, especially a linear visual novel.
+
+The new :propref:`ruby_line_leading` style property controls additional
+line leading on lines that contain ruby text (furigana). This will generally
+use less space than the existing :propref:`line_leading` property.
+
+It is now possible to reset the preferences to their default values
+by calling :func:`Preference` with "reset" as the argument.
+
+The new :class:`defaultdict` class, which exists in the default Ren'Py
+namespaces, is similar to Python's collections.defaultdict, while
+participating in rollback.
+
+The new :class:`MultiRevertable` class makes it possible to define a class
+that is both a revertable object and a revertable data structure (like
+list, set, or dict.)
+
+The new :var:`config.pass_controller_events` and newly-documented
+:var:`config.pass_joystick_events` variables allow the game to access
+controller and joystick events directly.
+
+The new :var:`renpy.get_screen_variable` and :var:`renpy.set_screen_variable`
+functions make it possible to access screen variables, especially in :class:`Action`
+subclasses.
+
+The new :var:`build.time` variable is set to the time the game was built.
+
+The new :var:`build.info` variable lets you store information at
+build time, and read it back in the distributed game.
+
+When the top left pixels of :ref:`presplash <presplash>` image is
+transparent, the presplash will be displayed in a window that uses
+1-bit transparency.
+
+The new :func:`EditFile` action attempts to open a file and
+line in a text editor.
+
+The virtual dpi of an SVG file can be set with the new `dpi`
+parameter to :func:`Image`.
+
+The new :func:`CopyToClipboard` action copies text to the clipboard.
+
+The new :func:`renpy.confirm` function provides a way of using
+the confirmation screen from within Python.
+
+The new :func:`renpy.reset_all_contexts` function removes all contexts
+from the stack, and creates a new context that continues at the next
+statement. It can be used to fully reset the game upon load or when
+an error happens.
+
+The new :func:`renpy.last_say` function returns information about the
+last say statement to run.
+
+The new :func:`iap.request_review` function allows the game to request
+that the player review the game on Google Play and the Apple App Store.
+
+The new :var:`gui.history_spacing` variable controls the spacing between
+history entries in newly created games.
+
+The :tt:`nw` text tag can now take a value, which is a number of seconds
+to wait before the line containing the tag is automatically dismissed.
+The common construct "{w=2}{nw}" can now be written as "{nw=2}".
+
+:class:`Movie` now takes a `keep_last_frame` parameter. When true, this
+causes a non-looping movie to display its last frame after the movie
+ends.
+
+The ``jump expression`` statement can now take a local label name of the form
+".local_name". Previously, only "global_name" or "global_name.local_name" were
+allowed.
+
+:ref:`creator-defined-sl` can now copy all properties from other screen
+language statements.
+
+The new :func:`renpy.invoke_in_main_thread` function can be used by a Python
+thread to invoke a function in the main Ren'Py thread. (Most Ren'Py functions
+can only be called from the main thread.)
+
+Launcher Changes
+----------------
+
+The launcher now supports :doc:`template_projects`. These are
+indended for use by projects that replace the default GUI.
+If a template project is selected when creating a new project,
+Ren'Py will copy the template project and update the name and translations,
+but will not make other changes to script files and images.
+
+The launcher has been slightly redesigned to reduce the amount of
+whitespace, allowing more options to appear on some screens while
+still providing room for translations.
+
+A :doc:`cli` has been documented, making it possible to build Ren'Py
+projects from the command line.
+
+Other Changes
+-------------
+
+Hide and replace transform events that are applied to screens are now always
+allowed to run to completion, even if the same screen is shown again. This
+makes it possible to use transform events with screens that may be shown
+again immediately, like the say or bubble screens.
+
+Containers (including fixed, hbox, vbox, side, grid, viewport, and vpgrid) now
+pass some transform events (hover, idle, insensitive, selected_hover, and selected_idle)
+to their children, meaning that children of a button can have their own transforms
+to respond to those events.
+
+:func:`persistent._clear` will re-run default statements that update
+persistent variables, making it possible to avoid persistent becoming
+entirely de-initialized.
+
+The pixel transparency test used by :propref:`focus_mask` will now
+only involve the GPU if inside the bounding box of non-transparent pixels,
+improving performance in some cases.
+
+Ren'Py now uses the GL2 renderer by default on all platforms, and ignores
+the config.gl2 variable. This is because of issues with the old GL renderer
+that are not present in the GL2 renderer. On ancient hardware, it's still
+possible to use the GL renderer by pressing shift+G and enabling it
+directly.
+
+On PC platforms (Windows, Mac, and Linux), when the game window moves,
+its position is stored. The window's position will be restored when the
+game is run again, if:
+
+* The layout of the player's monitors hasn't changed.
+* The window is fully contained on the player's monitors.
+
+Otherwise, the window will be centered on the primary monitor.
+
+On controllers (including the Steam Deck), the function of the B button
+has changed to show and hide the game menu. The previous behavior of the
+B button, selecting a button's alternate function, has been moved to X.
+
+The non-default hardware video playback path has been removed from android
+and ios. This path hadn't been the defaults since 2020, as it supported
+a subset of the video formats Ren'Py supports.
+
+Ren'Py now enforces that the angles given to the :tpref:`angle` and :tpref:`anchorangle`
+properties are in the range 0 to 360 degrees, inclusive of 0 but not of 360.
+Previously, angles outside this range  gave undefined behavior, now the angles
+will be clamped to this range. A 360 degree change will no longer cause motion,
+but will instead be treated as a 0 degree change.
+
+When animating :tpref:`angle` and :tpref:`anchorangle` with ATL, if a direction
+is not supplied, the shortest arc will be used, even if it passes through 0.
+
+Ren'Py will now produce an error when an ATL block is present, but the block is
+empty. (For example, ``show eileen happy:`` with no indented lines following it.)
+
+To make it more useful for making interfaces compatible with right-to-left languages,
+the :propref:`box_reverse` style property has changed its
+behavior in two ways:
+
+* Space is offered to displayables in the order the displayables are presented in
+  the screen, where previously the space was offered in reverse order when
+  :propref:`box_reverse` was enabled. This can change the sizes of some displayables.
+* A hbox that has :propref:`box_wrap` set will wrap from top to
+  bottom, rather than bottom to top. A vbox with :propref:`box_wrap`
+  set will wrap from left to right, rather than right to left.
+
+When a file causes an autoreload, Ren'Py will check the directory containing
+the file and all parent directories for git lock files. The autoreload will
+be deferred until the lock files are removed when the git operation
+completes.
+
+AV1 movies that contained an previously-unsupported colorspace conversion could
+cause Ren'Py to crash, and now will play properly.
+
+The websockets package is now included in Ren'Py 8. This can be used to connect
+to websockets-based APIs from the desktop and mobile (but not web) ports of
+Ren'Py. As the package depends on Python 3, it's not included in Ren'Py 7.
+
+
+.. _renpy-8.1.3:
+.. _renpy-7.6.3:
+
+8.1.3 / 7.6.3
+=============
+
+Changes
+-------
+
+Ren'Py now considers :var:`config.gl2` to be true on macOS. This is because
+there are several fixes for window resizing on newer versions of macOS
+in the gl2 renderer that are not present in the gl renderer.
+
+MMX acceleration for video playback has been re-enabled on Windows and
+Linux.
+
+The way the Steam Deck keyboard is shown has changed. They keyboard
+is now shown, once, when a text input is displayed. By default, the
+keyboard is shown at the top of the screen, and the keyboard will
+only be shown once. If it's hidden (for example, the Steam button
+is pressed), the player needs to hit Steam+X to show it. This works
+around issues with the Steam Deck.
+
+The 32-bit windows Live2D library will be installed into Ren'Py 7.
+You may need to reinstall Live2D to get this library.
+
+Fixes
+-----
+
+An issue that prevented keys from being bound to text (for example,
+keysyms like "r" rather than "K_r") has been fixed.
+
+There have been several documentation fixes.
+
+An issue with rollback not working at the start of the game has been
+fixed.
+
+
+.. _renpy-8.1.2:
+.. _renpy-7.6.2:
+
+8.1.2 / 7.6.2
+=============
+
+Changes
+-------
+
+There have been many documentation improvements.
+
+When using :func:`renpy.classify`, a directory will now match patterns
+that do not end with /. (For example, "renpy.app" will match the renpy.app
+directory).
+
+ATL has been changed to use a deep compare to determine if a transform should
+be continued or restarted. This means a transform will restart if global
+variables it uses are changed.
+
+The styles of a viewport's children will not change when it gains drag
+focus. This was rarely used, and the style change could cause drags to
+be slow or to miss.
+
+Load will now roll the game back to the statement after the last statement
+that interacted to the user. (Previously, it would roll back to the start
+of the current statement.) This makes rollback on load match other rollbacks.
+
+The :var:`_autosave` variable now takes precedence over forced autosaves,
+including those on quit and at choice menus.
+
+PYTHON* variables are filtered from the environment when launching a
+Ren'Py project from the launcher.
+
+In self-voicing mode, Ren'Py will try to ensure that self-voicing
+notifications are fully spoken to the player, even if the notification
+window fades away.
+
+Self voicing now speaks screens closer to the player before those
+further away from the player.
+
+:func:`Frame` will ensure that the frames it draws are at least one
+pixel in size in both dimensions.
+
+:func:`renpy.pause` can now roll forward to calls and jumps from screens.
+
+On the web browser, the ``"display" : "window"`` preference now disables
+fullscreen mode.
+
+It is now possible to bind mouse buttons to skipping.
+
+Fixes
+-----
+
+Problems with the web port entering fullscreen mode have been fixed.
+
+The Ren'Py 8 launcher can now launch games on Windows systems where the
+path to Ren'Py is not representable in the system encoding.
+
+The functionality to import Python from the game/ directory has been
+improved to better comply with Python's :pep:`302`.
+
+:func:`GamepadExist` now works as documented. As a byproduct of this fix,
+the gamepad screen will be displayed in Help when in developer mode.
+
+An issue analyzing nested comprehensions in screen has been fixed, fixing a
+case where nested comprehensions could cause default variables to not be
+available.
+
+Viewport inertia continues even if the interaction restarts during the
+animation.
+
+The if_changed clause to :ref:`play <play-statement>` (and
+:func:`renpy.music.play`) now considers and preserves looping.
+
+VS Code launch has been fixed on Linux.
+
+Several crashes on the web port of Ren'Py 7 have been fixed.
+
+Movie functions now ensure the relevant channels exist before playing. This
+can fix issue caused by loading a Movie from a save file.
+
+
+.. _renpy-8.1.1:
+.. _renpy-7.6.1:
+
+8.1.1 / 7.6.1
+=============
+
+.. _8-1-1-7-6-1-android:
+
+安卓
+-------
+
+When creating keys for Android, Ren'Py will now use the same key for APKs
+and Play Bundles, as for new games it's not necessary to use different keys.
+(For existing games, Ren'Py will continue to use the existing separate
+keys.)
+
+We've received reports of games uploaded to the Google Play as bundles
+having their APKs rejected for having different keys. This was caused by
+an old release of Ren'Py that used the APK key for bundles. A solution to
+this problem is documented in :ref:`incompatible changes <android-key-migration>`.
+
+
+Fixes
+-----
+
+The "system cursor" :func:`Preference` now applies to :var:`config.mouse_displayable`,
+when it used to only disable :var:`config.mouse`.
+
+Web audio now treats the end time as a time, not a duration.
+
+An issue with that prevented audio volumes and pan from participating
+in rollback has been fixed.
+
+Fix an issue where Live2D could select an image despite all of the
+required attributes not being present.
+
+Support for start, end, and loop times in videos has been
+restored.
+
+Hotspots can no longer be const when the images used by the imagemap
+the hotspots come from are not const.
+
+An issue with non-resizable windows on macOS has been fixed.
+
+An issue with linting fonts in the font directory has been fixed.
+
+In some cases, when a class that inherited from the object class was changed
+to no longer inherit from the object class, Ren'Py would crash. Ren'Py
+now diagnoses this error, and :var:`config.ex_rollback_classes` lets you
+suppress the error. The error is only shown to developers, and is otherwise
+silently ignored.
+
+Other Changes
+-------------
+
+The Ren'Py sync screens now use styles prefixed with ``sync``, allowing
+basic customization without having to edit the screens.
+
+Ren'Py will disable text input methods when text editing is not possible, which
+makes it possible to use the space key to advance the game even if an input
+method that uses the space key is active.
+
+ATL Transitions now use the animation timebase. This is generally the same
+behavior as before, until the interaction restarts, in which case the
+transition would often incorrectly restart.
+
+Preferences no longer have defaults, meaning all preferences can be
+changed using the ``default`` statement.
+
+The :func:`absolute` type, used to represent absolute amounts of pixels,
+now ensures the result of mathematical operations with integers and
+floats remain absolute numbers. This fixes a class of problems where
+operations performed on absolutes could produce the incorrect
+type, leading to layout problems.
+
+Live2D now checks for a motion after evaluating an `attribute_filter`,
+and does not sustain the previous motions if a new motion is present.
+
 .. _renpy-8.1.0:
 .. _renpy-7.6.0:
 

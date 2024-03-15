@@ -37,9 +37,13 @@ Ren'Py有一些存储区配置项，控制存储区的功能。存储区配置�
 
     在splashscreeen启动阶段，这项会设置为None。直到splashscreen结束后会恢复为原来的值。
 
+.. var:: _greedy_rollback = True
+
+    该项决定读档后是否允许“贪婪回滚”。“贪婪回滚”可以直接回到上一条带互动的语句，而不仅仅是存档位置的上一条语句。
+
 .. var:: _history = True
 
-    若为True，Ren'Py会在某行对话显示时记录在对话历史中。(注意， :var:`config.history_list_length` 也需要同时设置。)
+    若为True，Ren'Py会在显示一行对话后，将其记录在对话历史中。(注意， :var:`config.history_list_length` 也需要同时设置。)
 
 .. var:: _history_list = [ ]
 
@@ -100,17 +104,32 @@ Ren'Py有一些存储区配置项，控制存储区的功能。存储区配置�
 
     控制是否允许回滚。
 
-.. var:: say = ...
+.. var:: say : Callable
 
-    Ren'Py显示对话时调用的函数。该函数调用时使用3个入参。第一个入参(`who`)是发言角色名(None表示旁白)。第二个入参(`what`)表示对话具体内容。
+    Ren'Py显示对话时调用的函数，可以使用一个字符串代替角色对象：
 
-    第三个入参必须是一个名为 `interact` 的关键词参数，默认为True。若为True，say函数会等待点击再返回。若为False，其会立刻返回界面显示的对话内容。
+    ::
+
+        define e = Character("Eileen", who_color="#0f0")
+
+        label start:
+            "Eileen" "My name is Eileen." # 这条会调用say函数
+            e "I like trains !" # 这条不会调用say函数
+
+    该函数与 :func:`renpy.say` 具有相同签名。并且不能调用 :func:`renpy.say`，
+    而应该使用其他 :doc:`say语句等效 <statement_equivalents>`。
 
     直接调用这个函数的情况很稀少，因为我们可以使用对话方便地调用一个角色。
 
 .. var:: save_name = ""
 
     在存档中使用的名称。
+
+.. var:: _scene_show_hide_transition = None
+
+    若该项不是None，则遇到不带with从句的scene、show和hide语句时，将自动使用该项作为转场。
+
+    .. seealso:: :ref:`scene-show-hide-transition`
 
 .. var:: _screenshot_pattern = None
 

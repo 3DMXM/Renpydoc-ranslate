@@ -11,7 +11,7 @@ Python中的变换(transform)和转场(transition)
 变换(transform)
 ------------------
 
-*主要内容：* :doc:`transforms` * 和 * :doc:`atl`
+*主要内容：* :doc:`transforms` *和* :doc:`atl`
 
 变换(transform)是一个Python的可调用组件。当使用一个可视组件调用变换时，变换会返回另一个可视组件。
 
@@ -21,12 +21,12 @@ Python中的变换(transform)和转场(transition)
 
     init python:
 
-         # 这是一个使用right和left两个默认变换的自定义变换。
-         def right_or_left(d):
-             if switch:
-                 return right(d)
-             else:
-                 return left(d)
+        # 这是一个使用right和left两个默认变换的自定义变换。
+        def right_or_left(d):
+            if switch:
+                return right(d)
+            else:
+                return left(d)
 
 ATL变换在Python中等效于一个Transform对象。
 
@@ -37,8 +37,8 @@ ATL变换在Python中等效于一个Transform对象。
     `child`
         变换应用的子组件。
 
-    `function`
-        若不是None，这是渲染变换效果时调用的函数。调用这个函数使用3个入参：
+    .. function:: function(trans, st, at, /) -> int|None
+        若不是None，这是渲染变换效果时调用的函数。调用这个函数时使用3个固定位置入参：
 
         * Transform对象。
         * 显示时间轴，单位为秒。
@@ -77,7 +77,7 @@ ATL变换在Python中等效于一个Transform对象。
 
 *主要内容：* :doc:`transitions`
 
-*其他参考* :ref:`atl-transitions`
+*其他参考：* :ref:`atl-transitions`
 
 一个转场(transition)是一个Python的可调用组件。使用两个关键词入参调用，返回一个表现转场效果的可视组件。这两个关键词入参是：
 

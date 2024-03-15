@@ -627,14 +627,15 @@ Confirm
 ``confirm`` 界面用于让用户做出“yes/no”类型的选择。其使用下列参数：
 
 `message`
-    显示给用户的信息。其是下列问题之一：
+    显示给用户的信息。Ren'Py中用到的提示信息至少有以下几种：
 
-    * gui.ARE_YOU_SURE - "Are you sure?" 如果详细信息未知，这是默认问题。
+    * gui.ARE_YOU_SURE - "Are you sure?" 如果没有匹配到合适的信息，这项就是默认的提示信息。
     * gui.DELETE_SAVE - "Are you sure you want to delete this save?"
     * gui.OVERWRITE_SAVE - "Are you sure you want to overwrite your save?"
     * gui.LOADING - "Loading will lose unsaved progress.\nAre you sure you want to do this?"
     * gui.QUIT - "Are you sure you want to quit?"
     * gui.MAIN_MENU - "Are you sure you want to return to the main\nmenu? This will lose unsaved progress."
+    * gui.CONTINUE - "Are you sure you want to continue where you left off?"
     * gui.END_REPLAY - "Are you sure you want to end the replay?"
     * gui.SLOW_SKIP = "Are you sure you want to begin skipping?"
     * gui.FAST_SKIP_SEEN = "Are you sure you want to skip to the next choice?"

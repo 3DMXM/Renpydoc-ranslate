@@ -1,10 +1,10 @@
-.. _web-updater:
+.. _http-https-updater:
 
-web更新器
-===========
+HTTPS/HTTP更新器
+================
 
 Ren'Py包含一个更新器(updater)，可以从Ren'Py项目所在的web服务器上自动下载和安装更新。
-更新其只能在Windows和Linux平台运行，不支持macOS、安卓和iOS。
+更新器只能在Windows和Linux平台运行，不支持macOS、安卓和iOS。
 
 Ren'Py更新器自动实施下列步骤：
 
@@ -18,6 +18,9 @@ Ren'Py更新器自动实施下列步骤：
 #. 重启游戏。
 
 Ren'Py更新器在处理过程会显示一个更新界面，提示用户处理并允许用户退出更新。
+
+目前有两种更新文件格式。最新的格式为 rpu ，在Ren'Py 8.2中引入。
+更早的版本格式为zsync，已经标记为过期(obsolete)，可以在更早的Ren'Py版本中使用。
 
 .. _server-requirements:
 
@@ -34,35 +37,24 @@ https不能用于补丁升级，但可以用于全量更新。
 更新器不会尝试给游戏打补丁，而是下载完整归档文件，解包并更新。
 由于完整归档一般都比较大，需要更多Web服务器提供下载。
 
-(译者注：Web服务器的上行带宽和链接总数是主要限制因素，所以作者说需要更多下载服务器。)
-
 .. _building-an-update:
 
 生成更新
 ------------------
 
 生成分发版时会自动生成更新。
-构建更新器前，将options.rpy文件中的 :var:`build.include_update` 设置为True。
-这样能解锁启动器(launcher)中“生成分发版”的“生成更新”选项。勾选这项，Ren'Py就会生成更新文件。
+构建更新器前，将 :file:`options.rpy` 文件中的 :var:`build.include_update` 设置为True。
+这样能解锁启动器(launcher)中“生成分发版”的“生成更新”选项。勾选这项后，Ren'Py就可以生成更新文件了。
 
 更新文件包含下列内容：
 
 updates.json
     可用更新和版本号的索引。
 
-*package*.sums
-    包含包(package)中每个区块(block)的校验和。
+updates.ecdsa
+   updates.json文件签名，用于验证是否已经在本地缓存。
 
-*package*.update.gz
-    指定包的升级数据。
-
-*package*.update.json
-    包含每个包的文件列表，当用户下载DLC时会被更新器使用。
-
-*package*.zsync
-    zsync用于管理下载的控制文件。
-
-创作者必须把所有这些文件都上传到web服务器的单一目录下。
+创作者必须把所有这些文件都上传到web服务器的同一目录下。
 
 .. _updater-functions:
 
@@ -99,7 +91,7 @@ updates.json
     `base`
         更新的基目录。默认为当前项目的基目录。
 
-.. function:: updater.update(url, base=None, force=False, public_key=None, simulate=None, add=[], restart=True, confirm=True, patch=True)
+.. function:: updater.update(url, base=None, force=False, public_key=None, simulate=None, add=[], restart=True, confirm=True, patch=True, prefer_rpu=True, allow_empty=False, done_pause=True, allow_cancel=True, screen='updater')
 
     将这个Ren'Py游戏更新到最新版。
 
@@ -137,9 +129,144 @@ updates.json
         若为False，Ren'Py会全量更新游戏，下载整个游戏。
         更新url不以“http”开头时，该项自动设置为False.
 
+    `prefer_rpu`
+        若为True，当两种更新格式都存在时，Ren'Py优先使用RPU格式更新。
+
+    `allow_empty`
+        若为True，Ren'Py可以在根目录没有任何更新信息的情况下执行更新。(需要使用 `add` 设置更新目录。)
+
+    `done_pause`
+        若为True，更新下载完成后游戏会暂停。
+        若为False，游戏会立刻执行更新(重启或退出)。
+
+    `allow_cancel`
+        若为True，用户可以主动取消更新。
+        若为False，用户无法取消更新。
+
+    `screen`
+        更新时显示的界面名。
+
+
 .. _screen:
 
 界面
 ------
 
 如果要定制更新器(updater)的外观，创作者可以重写 ``update`` 界面。默认界面定义在common/00updater.rpy中。
+
+::
+
+    screen updater(u=None):
+
+        add "#000"
+
+        frame:
+            style_group ""
+
+            has side "t c b":
+                spacing gui._scale(10)
+
+            label _("Updater")
+
+            fixed:
+
+                vbox:
+
+                    if u.state == u.ERROR:
+                        text _("发生了一个错误：")
+                    elif u.state == u.CHECKING:
+                        text _("正在检查更新。")
+                    elif u.state == u.UPDATE_NOT_AVAILABLE:
+                        text _("当前程序已是最新的。")
+                    elif u.state == u.UPDATE_AVAILABLE:
+                        text _("[u.version] 已经准备好。你想要安装吗？")
+                    elif u.state == u.PREPARING:
+                        text _("正在准备下载更新。")
+                    elif u.state == u.DOWNLOADING:
+                        text _("更新下载中。")
+                    elif u.state == u.UNPACKING:
+                        text _("更新解压中。")
+                    elif u.state == u.FINISHING:
+                        text _("更新完成。")
+                    elif u.state == u.DONE:
+                        text _("已安装更新。程序将重启。")
+                    elif u.state == u.DONE_NO_RESTART:
+                        text _("已安装更新。")
+                    elif u.state == u.CANCELLED:
+                        text _("更新已被取消。")
+
+                    if u.message is not None:
+                        null height gui._scale(10)
+                        text "[u.message!q]"
+
+                    if u.progress is not None:
+                        null height gui._scale(10)
+                        bar value (u.progress or 0.0) range 1.0 style "_bar"
+
+                hbox:
+
+                    spacing gui._scale(25)
+
+                    if u.can_proceed:
+                        textbutton _("执行") action u.proceed
+
+                    if u.can_cancel:
+                        textbutton _("取消") action u.cancel
+
+更新界面可以有一个入参，即一个Update类对象，参数名必须为 `u`。
+Update对象包含下列字段，可用于界面定制化：
+
+.. class:: update.Updater
+
+    .. attribute:: state
+
+        更新器当前状态。各种可能的状态值和含义可参考上列的界面定义。这些状态值是Updater对象中的常量。
+
+    .. attribute:: message
+
+        若不是None，该项是向用户显示的信息。
+
+    .. attribute:: progress
+
+        若不是None，表示当前操作进度，一个介于0.0和1.0之间的浮点数。
+
+    .. attribute:: can_proceed
+
+        若为True，会弹出一个带按钮的界面，提供用户点击并更新。
+
+    .. attribute:: proceed
+
+        若 can_proceed 为True，该项是一个行为(action)。当用户点击“执行”按钮后将调用该行为。
+
+    .. attribute:: can_cancel
+
+        若为True，会弹出一个带按钮的界面，允许用户点击并取消更新。
+
+    .. attribute:: cancel
+
+        若 can_cancel 为True，该项是一个行为(action)。当用户点击“取消”按钮后将调用该行为。
+
+    .. attribute:: old_disk_total
+
+        若不是None，这是一个整数，表示更新前游戏占用存储空间的字长(Byte)数。
+
+    .. attribute:: new_disk_total
+
+        若不是None，这是一个整数，表示更新后游戏占用存储空间的字长(Byte)数。
+
+    .. attribute:: download_total
+
+        若不是None，这是一个整数，表示待更新下载数据的总字长(Byte)数。
+
+    .. attribute:: download_done
+
+        若不是None，这是一个整数，表示更新中已下载数据的总字长(Byte)数。
+
+    .. attribute:: write_total
+
+        若不是None，这是一个整数，表示更新后将写入存储数据的字长(Byte)数。
+
+    .. attribute:: write_done
+
+        若不是None，这是一个整数，表示更新中已写入存储数据的字长(Byte)数。
+

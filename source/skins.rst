@@ -10,9 +10,9 @@ Ren'Py支持启动器更换皮肤——修改启动器外观。实现这点需�
 
 1. 进入“设置”界面，选择打开启动器工程。(译者注：当前最新版本中无法从启动器工程创建脚本文件，请直接进入Ren'Py安装目录下的launcher/game。)
 
-2. 创建skin.rpy脚本文件。
+2. 创建 :file:`skin.rpy` 脚本文件。
 
-3. 将下列内容复制到skin.rpy文件中：
+3. 将下列内容复制到 :file:`skin.rpy` 文件中：
 
 ::
 
@@ -57,13 +57,13 @@ Ren'Py支持启动器更换皮肤——修改启动器外观。实现这点需�
         # 命令窗口、设置窗口和导航窗口的背景。
         custom_window = Frame(Fixed(Solid(custom_reverse_idle, xsize=4, xalign=0), Solid(custom_info_window, xsize=794, xalign=1.0), xsize=800, ysize=600), 0, 0, tile=True)
 
-4. 修改 skin.rpy 文件给启动器换皮肤。将用到的图片文件放入启动器的game目录。
-   背景图片的推荐尺寸是800×600。
+4. 修改 :file:`skin.rpy` 文件给启动器换皮肤。将用到的图片文件放入启动器的game目录。
+   背景图片的推荐尺寸是800×600像素。
 
 5. Select Custom theme in preferences.
 5. 选用“设置->主题->自定义主题”。
 
-错误的skin.rpy文件内容可能ui导致启动器无法正常运行。
-可以尝试删除启动器目录中的 skin.rpy 和 skin.rpyc 文件，重启启动器，然后再恢复前两个文件。
+错误的 :file:`skin.rpy` 文件内容可能ui导致启动器无法正常运行。
+可以尝试删除启动器目录中的 :file:`skin.rpy` 和 :file:`skin.rpyc` 文件，重启启动器，然后再恢复前两个文件。
 
 

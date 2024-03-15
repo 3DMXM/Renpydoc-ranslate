@@ -58,7 +58,8 @@ Text displayables
     Ren'Py会从文本组件剥离文本，并让文本可以向用户阅读。
 
 Alternative text
-    转换文本是通过可视组件的 :propref:`alt` 样式特性提供。还可以通过按钮(button)上的行为和条(bar)的值来获取。显示提供的转换文本优先于行为和值的文本，从文本组件剥离文本的优先级最低。
+
+    转换文本由可视组件的 :propref:`alt` 样式特性提供。还可以通过按钮(button)上的行为 :class:`Action` 和条(bar) :class:`BarValue` 的值来获取。显示提供的转换文本优先于行为和值的文本，从文本组件中的自带文本优先级最低。
 
     转换文本会使用Ren'Py的字符串多语言支持机制进行翻译。转换文本的优先级高于从可视组件及其子组件剥离出的文本，不过从文本组件剥离出的问题可以使用“[text]”型字符串替换。其他文本都不允许使用字符串替换。
 
@@ -81,6 +82,12 @@ Alternative text
     ::
 
         define thought = Character(None, what_italic=True, what_alt="I think, [text]")
+
+    界面中的可视组件可能会带有 :scpref:`group_alt` 特性。
+    带有该特性匹配前缀的可视组件首次获得焦点时，将播放设置的文本转语音。
+    但相同前缀的组件获得焦点后不会重复播放，直到不同前缀的组件获得焦点。
+
+    可视组件可能还会带有 :scpref:`extra_alt` 特性。当该可视组件获得焦点且按下键盘问号键时，将播放额外的语音信息。
 
 Descriptive Text
     描述文本是启用自动语音功能后，通过旁白显示(或表述)的文本内容。
@@ -109,3 +116,17 @@ Descriptive Text
         若不是None，该项应该是一个用于显示描述文本角色对象，且不是旁白。
 
 使用快捷键shift+alt+V可以启用自动语音的debug模式。debug模式下会显示界面中会播放语音的文本，用于开发需求。
+
+.. _self-voicing-python:
+
+Python
+------
+
+自动语音系统中包含下列函数：
+
+.. function:: renpy.alt(s, translate=True, force=False)
+
+    以语音形式播放序列 `s`。若 `translate` 为True，播放语音前会转换成当前系统语言类型对应的文本。
+    若 `force` 为True，禁用自动语音情况下依然可以播放语音。
+
+    该函数主要用于功能测试，不应用于实际游戏中。

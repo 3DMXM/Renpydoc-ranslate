@@ -61,7 +61,7 @@
 ------------------
 
 加载等待(presplash)是Ren'Py在加载脚本并启动游戏过程中显示的画面。
-如果需要当引擎启动后显示加载等待画面，值需要创建名为 `presplash.png` 或 `presplash.jpg` 的图片文件，保存到game目录下就行了。
+如果需要当引擎启动后显示加载等待画面，值需要创建名为 :file:`presplash.png` 或 :file:`presplash.jpg` 的图片文件，保存到game目录下就行了。
 
 presplash.png
     游戏加载过程中显示的图片。
@@ -113,6 +113,14 @@ presplash_foreground.png
         :width: 100%
 
         一个略精致的进度条前景样例。
+
+.. _transparent-presplash:
+
+透明加载等待画面
+---------------------
+
+如果加载等待画面背景图的最左上角像素是半透明的，那么整个加载等待画面窗口都会是半透明的。
+透明度检查机制只采用1bit，0表示完全透明，其他值表示完全不透明。
 
 .. _mobile-and-web-preslash-screens:
 

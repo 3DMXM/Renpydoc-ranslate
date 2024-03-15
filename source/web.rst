@@ -94,6 +94,15 @@ Web平台原生使用默认的preslash图片。
 若要更换，需要提供一个名为 `web-preslash` 的图片，图片后缀可以是 `.jpg`、`.png` 或 `.webp`。
 该图片会替换默认的preslash并显示。
 
+`.webp` 格式文件，可以是多帧动画。
+
+Icon
+---------
+
+If no custom image is given, the default Ren'Py icon is used.
+在项目根目录中放入名为 `web-icon.png` 的图片文件，就更改了Web版本的页面图标。
+该图标文件必须宽高相等，并且分辨率不小于512×512像素。
+
 .. _progressive-downloading:
 
 流程化下载

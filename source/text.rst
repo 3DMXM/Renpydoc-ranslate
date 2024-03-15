@@ -69,9 +69,13 @@ Ren'Py支持在文本字符串中内插数值。例如，假设用户名字存�
 
     g "欢迎来到猫耳协会， [playername] ！"
 
-Ren'Py会在全局存储区寻找同名变量并内插到文本中。当我们在某个界面使用一个文本控件时，Ren'Py也会将预定义的界面本地变量值内插到控件中。(这个值也可以通过向文本控件传入一个explicit scope参数来覆盖。)
+Ren'Py会按以下顺序搜索变量：
 
-Ren'Py并不限制只允许内插简单变量值，也支持内插字段(field)和元组元素值。以下写法也是可以的：
+* 在某个界面中时，搜索界面本地变量。
+* 搜索 ``interpolate`` 命名空间的变量。
+* 搜索全局变量。
+
+Ren'Py并不限制只允许内插简单变量值，也支持合法的Python表达式。以下写法也是可以的：
 
 ::
 
@@ -81,8 +85,7 @@ Ren'Py并不限制只允许内插简单变量值，也支持内插字段(field)�
 
 ::
 
-    $ percent = 100.0 * points / max_points
-    g "我百分之 [percent:.2] 喜欢你！"
+    g "我百分之 [100.0 * points / max_points:.2] 喜欢你！"
 
 Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren'Py字符串内插使用  ``[`` ，因为 ``{`` 被用于文本标签(tag)了。
 
@@ -301,7 +304,7 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
 .. text-tag:: size
 
-    字号标签改变了其自己及其闭合标签内的文本字号。入参应该是一个整数，可前缀+或者-。如果入参只是一个整数，那么字体高度就是那个整数的值，单位为像素。如果带有+或者-的话，字号在原值基础上进行增缩。 
+    字号标签改变了其自己及其闭合标签内的文本字号。入参应该是一个整数，可前缀+或者-。如果入参只是一个整数，那么字体高度就是那个整数的值，单位为像素。如果带有+或者-的话，字号在原值基础上进行增缩。
 
     ::
 
@@ -310,7 +313,7 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
     还可以在字号后面加一个星号 \* 和一个浮点数，表示字号乘以一个系数并向下取整。
 
     ::
-   
+
         "{size=*2}两倍大{/size} {size=*0.5}一半大{/size}"
 
 .. text-tag:: space
@@ -344,19 +347,40 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
 
 只能应用于对话的文本标签如下：
 
-.. text-tag:: done
+.. text-tag:: w
 
-    在done标签后面的文本不会显示。那么你为什么会要这段文本？
-    当 :propref:`adjust_spacing` 设置为True时，可以避免文本字间距异常。
-
-    done标签出现后，该行对话不会添加到历史缓存中。如果nw标签出现，必须用在done标签之前。
+    等待标签是一个自闭合的标签，等待用户点击后继续显示后面的内容。如果标签中带有一个入参，入参是一个数值，代表等待用户点击的时间(单位为秒)。等待期间用户没有点击行为的话，等待时间结束后也会自动进入后续内容。
 
     ::
 
-        g "Looks like they're{nw}{done} playing with their trebuchet again."
-        g "看起来他们{nw}{done} 又在玩投石机。"
+        "Line 1{w} Line 1{w=1.0} Line 1"
+
+.. text-tag:: p
+
+    段落暂停标签是一个自闭合标签，在当前文本段落中内插一个终止标记，等待用户点击后继续显示后面的内容。如果标签中带有一个入参，入参是一个数值，代表等待用户点击的时间(单位为秒)。等待期间用户没有点击行为的话，等待时间结束后也会自动进入后续内容。
+
+    ::
+
+        "Line 1{p}Line 2{p=1.0}Line 3"
+
+.. text-tag:: nw
+
+    “不等待”标签是一个自闭合标签，该标签前的那行文本内容在显示到一行结尾后立刻消失。
+
+    ::
+
+        g "看上去他们{nw}"
         show trebuchet
-        g "看起来他们{fast} 又在玩投石机。"
+        g "看上去他们{fast} 又在玩投石机。"
+
+    如果标签内出现参数，该参数是一个数字，表示等待对应的时间后再执行文本消失，单位为秒。
+
+    ::
+
+        g "I'm gonna fall in a few seconds!{nw=2}"
+        show g_gone
+
+    “不等待”标签依然会等待自动语音播放完再让文本消失。
 
 .. text-tag:: fast
 
@@ -366,27 +390,37 @@ Ren'Py字符串的数值内插符合 :pep:`3101` 的字符串格式规范。 Ren
         show trebuchet
         g "看上去他们{fast} 又在玩投石机。"
 
-.. text-tag:: nw
+.. text-tag:: done
 
-    “不等待”标签是一个自闭合标签，该标签前的那行文本内容在显示一次后会立刻消失。 ::
+    在done标签后面的文本不会显示。那么你为什么会要这段文本？
+    当 :propref:`adjust_spacing` 设置为True时，可以避免文本字间距异常。
 
-        g "看上去他们{nw}"
+    done标签出现后，该行对话不会添加到历史缓存中。如果nw标签出现，必须用在done标签之前。
+
+    ::
+
+        g "看起来他们 {nw}{done} 又在玩投石机。"
         show trebuchet
-        g "看上去他们{fast} 又在玩投石机。"
+        g "看起来他们{fast} 又在玩投石机。"
 
-    “不等待”标签依然会等待语音播放完再执行文本消失行为。
+.. text-tag:: clear
 
-.. text-tag:: p
+    只有在 :ref:`NVL独白模式 <nvl-monologue-mode>` 下，使用clear文本标签才是合理的。
+    其作用与 ``nvl clear`` 语句相同，但不限于用在某段文本结尾。
 
-    段落暂停标签是一个自闭合标签，在当前文本段落中内插一个终止标记，等待用户点击后继续显示后面的内容。如果标签中带有一个入参，入参是一个数值，代表等待用户点击的时间(单位为秒)。等待期间用户没有点击行为的话，等待时间结束后也会自动进入后续内容。 ::
+    ::
 
-        "Line 1{p}Line 2{p=1.0}Line 3"
+        """
+        第一页第一段。
 
-.. text-tag:: w
+        第一页第二段。
 
-    等待标签是一个自闭合的标签，等待用户点击后继续显示后面的内容。如果标签中带有一个入参，入参是一个数值，代表等待用户点击的时间(单位为秒)。等待期间用户没有点击行为的话，等待时间结束后也会自动进入后续内容。 ::
+        {clear}
 
-        "Line 1{w} Line 1{w=1.0} Line 1"
+        第二页第一段。
+
+        其他。
+        """
 
 也可以使用Python定义出 :doc:`定制文本标签 <custom_text_tags>` 。
 
@@ -471,9 +505,9 @@ Ruby文本(较常用来标明假名或者注音)是一种在某个字符或单�
 
 首先，你必须配置Ruby文本的样式(style)。需要修改以下样式特性：
 
-1. :propref:`line_leading` 特性必须为Ruby文本预留足够的高度。
+1. :propref:`line_leading` 或 :propref:`ruby_line_leading` 特性必须为Ruby文本预留足够的高度。
 2. 创建一个新的自定义名的样式(style)。该样式的特性，比如 :propref:`size` 需要适合Ruby文本。
-3. 新样式的yoffset必须特别设置，这是为了将Ruby文本升到一般文本基线之上。
+3. 新样式的 :propref:`yoffset` 必须额外设置，这是为了将Ruby文本升到一般文本基线之上。
 4. 无论是在对话还是历史记录中，文本样式的 :propref:`ruby_style` 字段都应该被设置为上面新创建的样式。
 
 举例：
@@ -485,11 +519,11 @@ Ruby文本(较常用来标明假名或者注音)是一种在某个字符或单�
         yoffset -20
 
     style say_dialogue:
-        line_leading 12
+        ruby_line_leading 12
         ruby_style style.ruby_style
 
     style history_text:
-        line_leading 12
+        ruby_line_leading 12
         ruby_style style.ruby_style
 
 (使用 ``style.style_name`` 格式指定需要的样式)
@@ -535,8 +569,8 @@ TrueType或OpenType字体会给定字体文件名。那个字体文件必须被�
 
 Ren'Py也支持TrueType/OpenType字体集。一个字体集中定义了多种字体。当我们接入一个字体集时，使用从0开始的字体下标，后面跟@符号和文件名。例如，“0@font.ttc”是字体集font的第一种字体，“1@font.ttc”是字体集font的第二种字体，以此类推。
 
-如果Ren'Py在根目录没有找到某个字体文件，会在 ``game/fonts`` 再次搜索。
-例如，使用一个名为test.ttf的文件时，Ren'Py会先搜索 ``game/test.ttf``，然后搜索 ``game/fonts/test.ttf``。
+如果Ren'Py在根目录没有找到某个字体文件，会在 :file:`game/fonts` 再次搜索。
+例如，使用一个名为test.ttf的文件时，Ren'Py会先搜索 :file:`game/test.ttf`，然后搜索 :file:`game/fonts/test.ttf`。
 
 .. _font-replacement:
 
@@ -715,7 +749,7 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
 ::
 
     style default:
-         font FontGroup().add("english.ttf", 0x0020, 0x007f).add("japanese.ttf", 0x0000, 0xffff)
+        font FontGroup().add("english.ttf", 0x0020, 0x007f).add("japanese.ttf", 0x0000, 0xffff)
 
 .. class:: FontGroup()
 
@@ -729,7 +763,7 @@ add方法会查看指定范围内的unicode字符，并采用最先能匹配到�
             字符范围起点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。如果该入参为None，使用font入参的字体作为默认值。
 
         `end`
-            字符范围终点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。如果 *start* 入参为None，该参数值将忽略。 
+            字符范围终点。可以是一个单字符的字符串，也可以是一个unicode字符对应的整数值。如果 *start* 入参为None，该参数值将忽略。
 
         `target`
             若给定该入参，将根target_increment的值，将指定范围的字符与指定的字体做关联。
@@ -874,3 +908,90 @@ Ren'Py可以记录文本溢出所在区域的日志。要启用文本溢出日�
 3. 运行游戏。
 
 一旦文本显示溢出了可用区域，Ren'Py就会把错误记录在 text_overflow.txt 文件中。
+
+.. _variable-fonts:
+
+可变字体
+==============
+
+Ren'Py支持OpenType可变字体。这些字体可能会支持多个axe，比如字重和宽度。
+基于这些axe的不同值，同一个字体可以显示出不同的形态。可变字体也可能会对不同axe值的实例直接采用不同名称。
+例如，“bold”为名的实力会提供某个字体的粗体版，而“regular”则是某个字体的普通版。
+
+可变字体要求设置 :propref:`shaper` 样式特性为harfbuzz文本渲染器。
+设置完成后，:propref:`instance` 特性选择实例名，:propref:`axis` 特性设置各axe的值。
+
+可变字体也可以用在GUI中。例如：
+
+::
+
+    define gui.text_font = "nunito.ttf"
+    define gui.text_instance = "light"
+    define gui.text_axis = {"width" : 125}
+
+可以使用“light”型字体，并设置文字宽度。
+
+若不指定实例名，Ren'Py默认使用“regular”显示非加粗文本，使用“bold”显示加粗文本。
+
+有两种文本标签可以用于可变字体。
+
+.. text-tag:: instance
+
+    instance标签更改当前使用的字体实例。例如：
+
+    ::
+
+        "This is {instance=heavy}heavy{/instance} text."
+
+    instance标签会覆盖axis特性。
+
+.. text-tag:: axis
+
+    axis标签会修改一个或多个axe的值。例如：
+
+    ::
+
+        "This is {axis:width=125}wide{/axis} text."
+
+    axis标签可以多层嵌套组合使用。
+
+        "This is {axis:width=125}{axis:weight=200}wide and bold{/axis}{/axis} text."
+
+    标签内参数赋值时，等号右边的数会被当作浮点型数值处理。
+
+若要获取某个字体的实例和axe信息，可以调用 :func:`renpy.variable_font_info` 函数。
+该函数设计为从控制台调用。使用时，先用Shift+O打开控制台，然后输入：
+
+::
+
+    renpy.variable_font_info("nunito.ttf")
+
+就能在控制台看到nunito.ttf字体信息了。
+
+.. function:: renpy.variable_font_info(font)
+
+    返回某个可变字体的信息。若字体不是可变字体则返回None。
+
+    `font`
+        字体文件名。
+
+    返回对象具有下列字段：
+
+    `instance`
+        该字段是一个字典。字典的键(key)分别是该字体的所有实例名。(例如，“light”、“regular”、“bold”或“heavy”。)
+        字典的各个值可以忽略。
+
+    `axis`
+        该字段是一个字典，表示字体中各axe与下列字段的映射关系：
+
+        `minimum`
+            axis的最小值。
+        `default`
+            axis的默认值。
+        `maximum`
+            axis的最大值。
+
+    该函数返回对象和对象中的数据不能修改。
+
+    只有Ren'Py的显示部分完成初始化之后才能调用该函数。
+    该函数被设计成通过控制台调用，并以人类能阅读的形式打印返回结果。

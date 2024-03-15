@@ -90,36 +90,50 @@
 
 每种样式特性对应每种特定类型的数据。许多特性值都是标准的python数据类型，有一些是novel类型。这里会对这些novel类型的数据进行详细说明。
 
-`position`
-    position用于指定以左上角为原点的坐标系中的位置。(对position来说，可用区域由可视组件所在的图层给定，如果没有图层就是整个界面。对anchor来说，可用区域是其自身可视组件的大小。)
+.. glossary::
 
-    position值的解释方法取决于数据类型：
+    position
+        position用于指定以左上角为原点的坐标系中的位置。(对position来说，可用区域由可视组件所在的图层给定，如果没有图层就是整个界面。对anchor来说，可用区域是其自身可视组件的大小。)
 
-    int (比如 0, 1, 37, or 42)
-        整数被解释为像素数量，从可用区域最左边或顶边算起。
-    float (比如 0.0, 0.5, or 1.0)
-        浮点数被解释为可用区域的一个比例。例如，0.5表示区域类某条表的中点，1.0表示最右边或者底边。
-    absolute (比如 absolute(100.25))
-        当使用亚像素精度(subpixel-precise)渲染时，``absolute`` 数被解释为像素数量，从可用区域最左边或顶边算起。
+        position值的表示结果与数据类型有关：
 
-`displayable`
-    任意可视组件。若某个可视组件名包含某个类似“[prefix\_]”的子串，就会按照如下描述进行前缀搜索。
+        int (比如 0、1、37或42)
+            整数的表示结果为像素数，从可用区域最左边或顶边算起。
+        float (比如 0.0、0.5或1.0)
+            浮点数的表示结果为可用区域的一个比例。例如，0.5表示区域内某条边的中点，1.0表示右侧边或者底边。
 
-`color`
-    Ren'Py中的color可以写作以符号(#)开头、后面接十六进制的字符串。十六进制字符串长度可以为3或4的整数倍，分别对应几种颜色。
+        .. function:: absolute(value, /)
 
-    十六进制字符串为3的整数倍时，分别对应红、绿、蓝三种颜色。十六进制字符串为4的整数倍时，分别对应红、绿、蓝和alpha通道值。举例：
+            例如，当 ``a`` 和 ``b`` 类型相同，均为float或int型时，可以使用 ``absolute(100.25)`` 或 ``absolute(a+b)`` 。
 
-    * ``"#f00"`` 和 ``"#ff0000"`` 表现为纯红。
-    * ``"#0f08"`` 和 ``#00ff0080"`` 表现为某种半透明的绿色。
+            当启用精确子像素(subpixel-precise)渲染时，``absolute`` 类型的值表示以界面左上角开始计的像素数，
 
-    颜色代码规律和用于HTML的颜色代码相同。
+        .. function:: position(absolute, relative, /)
 
-    color也可以用一个4元素的元组，每个元素都是介于0到255的整数，顺序对应红、绿、蓝和alpha通道值。
+            例如，``position(-10, .5)``。
 
-    * ``(0, 0, 255, 255)`` 表现为完全不透明的蓝色。
+            `absolute` 表示绝对坐标，`relative` 表示相对比例。两者(都换算成absolute类型后)相加的结果决定最后坐标。
 
-    最后，color可以是 :class:`Color` 类的一个实例。
+            使用该函数时必须传两个参数，否则会产生不确定的结果。
+
+    displayable
+        任意可视组件。若某个可视组件名包含某个类似“[prefix\_]”的子串，就会按照如下描述进行前缀搜索。
+
+    color
+        Ren'Py中的color可以写作以符号(#)开头、后面接十六进制的字符串。十六进制字符串长度可以为3或4的整数倍，分别对应几种颜色。
+
+        十六进制字符串为3的整数倍时，分别对应红、绿、蓝三种颜色。十六进制字符串为4的整数倍时，分别对应红、绿、蓝和alpha通道值。举例：
+
+        * ``"#f00"`` 和 ``"#ff0000"`` 表现为不透明的纯红。
+        * ``"#0f08"`` 和 ``#00ff0080"`` 表现为某种半透明的绿色。
+
+        颜色代码规律和用于HTML的颜色代码相同。
+
+        color也可以用一个4元素的元组，每个元素都是介于0到255的整数，顺序对应红、绿、蓝和alpha通道值。
+
+        * ``(0, 0, 255, 255)`` 表现为完全不透明的蓝色。
+
+        最后，color可以是 :class:`Color` 类的一个实例。
 
 .. _style-prefix-search:
 
@@ -348,7 +362,18 @@
 
 .. style-property:: altruby_style style or None
 
-    如果为值非None，这应是一个样式对象。它是给可选上标文字使用的样式。
+    如果为值非None，这应是一个样式对象。它会用作转换的ruby文本样式。
+
+.. style-property:: axis dict or None
+
+    该特性可以设置 :ref:`可变字体 <variable-fonts>` 的圆形区域轴线(axis)。
+    若非None，其应是一个字典，可以根据轴线名查找对应的值。例如：
+
+    ::
+
+        style default:
+            font "VariableFont.ttf"
+            axis { "weight" : 500, "width" : 95 }
 
 .. style-property:: black_color color
 
@@ -367,6 +392,10 @@
 
     文本渲染使用的色彩。当使用某个全真(truetype)字体时，字体会直接使用色彩渲染。当使用基于图像的字体时，白色会映射为指定的色彩。
 
+.. style-property:: emoji_font string
+
+    该字体用作Emoji表情。遇到一个或多个Emoji表情时会自动替换，但不能使用文本标签(text tag)。
+
 .. style-property:: first_indent int
 
     首行缩进量，单位是像素。
@@ -377,9 +406,35 @@
 
     对于全真(truetype)字体文件来说，该字符串通常就是包含字体的文件名(例如 ``"DejaVuSans.ttf"``)。如果需要使用字体集的第二种字体，就在字体名前面加一个数字和@符号，(例如 ``“0@font.ttc”`` 或 ``“1@font.ttc”``)。对于基于图像的字体来说，该字符串是字体注册时使用的名称。
 
-.. style-property:: size int
+.. style-property:: hinting str
 
-    界面中字体的字号。通常字号大小就是字体高度的像素值，字体文件中可能还会插入几个像素。
+    控制字体如何进行微调。可以是以下几个字符串之一：
+
+    "auto"
+        默认值，使用Freetype自动微调。
+    "auto-light"
+        在light模式下，强制使用Freetype自动在竖直方向上微调。
+    "bytecode"
+        使用字体中的bytecode微调信息。
+    "none"
+        对字体不进行微调。
+
+    若该项为True，则会查找和应用 :var:`config.font_hinting` 的配置。
+
+.. style-property:: hyperlink_functions tuple of (function, function, function)
+
+    这是由三个与超链接有关的函数构成的元组。
+
+    第一个元素是超链接样式函数。当使用一个入参(超链接)调用函数时，会返回得到用于该超链接的样式对象，比如 ``style.hyperlink_text`` 。需要注意，样式对象并不是一个字符串。
+
+    第二个元素是超链接点击函数。当超链接被用户选中的时候，该函数会被调用。如果该函数返回一个值并且不是None，这个值也会作为互动行为的返回值。
+
+    第三个元素是超链接焦点函数。当超链接获取焦点时，该函数会被调用，并将超链接作为入参；当超链接失去焦点时，该函数也会被调用，入参使用空值(None)。如果该函数返回一个值并且非空，这个值也会作为互动行为的返回值。
+
+.. style-property:: instance string or None
+
+    该项是一个字符串，指定 :ref:`可变字体 <variable-fonts>` 的字体实例。
+    例如某个字体具有“Bold”(粗体)实例，就可以将该项设置为“Bold”，显示的字体就是粗体。
 
 .. style-property:: italic boolean
 
@@ -499,13 +554,32 @@
 
         窗口缩放系数不小于1。
 
+.. style-property:: prefer_emoji boolean
+
+    某些Unicode字符可以同时解释为Emoji表情或其他文本。该样式特性决定这种字符的优先显示为Emoji表情。
+
 .. style-property:: rest_indent int
 
     指定段落首行之外的缩进量，单位为像素。
 
+.. style-property:: ruby_line_leading int
+
+    含有 :ref:`ruby文本 <ruby-text>` 的文本行间距，单位是像素。该项会加在 :propref:`line_leading` 上并产生最终效果。
+
 .. style-property:: ruby_style style or None
 
-    如果非None，该值是一个样式对象。该样式不能用于ruby文本。
+    如果非None，该值是一个样式对象，用于ruby文本。
+
+.. style-property:: shaper "harfbuzz" or "freetype".
+
+    文本渲染使用的字体引擎(shaper)。该项只能是“harfbuzz”和“freetype"两者其中之一。
+    harfbuzz用途更广，但只能在Ren'Py 8上运行。而freetype还能在Ren'Py 7上运行。
+
+    字体引擎(shaper)会将一系列字符转为一串固定位置的字形(glyphs)。其用在连写字符、印地/婆罗米文以及Emoji表情。
+
+.. style-property:: size int
+
+    界面中字体的字号。通常字号大小就是字体高度的像素值，字体文件中可能还会插入几个像素。
 
 .. style-property:: slow_abortable boolean
 
@@ -533,30 +607,20 @@
 
     若为True，文本会添加下划线。
 
-.. style-property:: hyperlink_functions tuple of (function, function, function)
-
-    这是由三个与超链接有关的函数构成的元组。
-
-    第一个元素是超链接样式函数。当使用一个入参(超链接)调用函数时，会返回得到用于该超链接的样式对象，比如 ``style.hyperlink_text`` 。需要注意，样式对象并不是一个字符串。
-
-    第二个元素是超链接点击函数。当超链接被用户选中的时候，该函数会被调用。如果该函数返回一个值并且不是None，这个值也会作为互动行为的返回值。
-
-    第三个元素是超链接焦点函数。当超链接获取焦点时，该函数会被调用，并将超链接作为入参；当超链接失去焦点时，该函数也会被调用，入参使用空值(None)。如果该函数返回一个值并且非空，这个值也会作为互动行为的返回值。
-
 .. style-property:: vertical boolean
 
     若为True，文本内容会渲染为垂直文本。
 
-.. style-property:: hinting str
+    There are multiple caveats:
 
-    控制字体如何进行微调。可以是以下几个字符串之一：
+    * 若 :propref:`shaper` 的值是“freetype”。垂直文本会有问题。
 
-    "auto"
-        默认值，使用Freetype自动微调。
-    "bytecode"
-        使用字体中的bytecode微调信息。
-    "none"
-        对字体不进行微调。
+    * harfbuzz渲染器遇到字体中存在的格式(form)时，会从水平格式转成垂直格式。
+
+    * 字符会从按“从上到下，从右往左”的顺序排列，而不会旋转。即，各个字符会呈现叠罗汉似的排列方式。
+
+    * 如果字体中没有垂直文本的相关信息，字体渲染器则会尝试合成，但不保证结果正确。
+      总体来说，表意文字的合成效果比非表意文字要好。
 
 .. _window-style-properties:
 
@@ -677,13 +741,13 @@
 
     一个mask遮罩，用于控制按钮哪些区域可以获得焦点，哪些区域不响应点击。该特性的类型决定了其如何被解释。
 
-    **Displayable**
+    Displayable
         可视组件的不透明区域，可以让按钮获得焦点。
 
-    **True**
+    True
         按钮自身用作可视组件(按钮的非透明区域可以让按钮获得焦点)。
 
-    **callable**
+    callable
         如果一个不可视组件被调用(像函数、方法或者带有__call__方法的对象)，该该函数被使用两个入参调用，从对应可视组件左上角算起，x和y轴的两个偏移量。
 
         如果使用两个入参调用该函数，则函数返回一个可调用对象。
@@ -692,12 +756,20 @@
 
         若函数返回结果为True，可视组件获得焦点。
 
-    **None**
+    None
         如果该值为None，整个按钮都可以获得焦点。
 
 .. style-property:: keyboard_focus boolean
 
    若为True，也是默认值，按钮可以通过键盘的焦点机制获得焦点，前提是这个按钮本身允许获得焦点。若为False，键盘焦点机制会跳过这个按钮。(键盘焦点机制使用键盘或者类似键盘的设备，比如游戏手柄。)
+
+.. style-property:: keyboard_focus_insets (int, int, int, int) or None
+
+    若不是None，该项应该是一个包含4个整数的元组，表示一个矩形区域4个角能收缩的像素数。
+    当使用键盘让组件获取焦点时，将会用到该特性。
+
+    在有按钮相互覆盖的情况下，该特性会有用。处理键盘来控制焦点的算法，无法处理按钮相互覆盖的情况。
+    如果使用该特性提前在内部处理，就能解决类似问题。
 
 .. style-property:: key_events boolean
 

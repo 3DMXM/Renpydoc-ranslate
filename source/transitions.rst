@@ -142,7 +142,7 @@
 time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多个转场对象，
 详见 :ref:`warpers <warpers>` 。
 
-.. function:: AlphaDissolve(control, delay=0.0, alpha=False, reverse=False)
+.. class:: AlphaDissolve(control, delay=0.0, alpha=False, reverse=False)
 
     返回一个转场(transition)效果，其使用一个控制组件(大多数情况下是某些动画)实现新旧界面的转场。transform表达式会进行计算。当transform完全不透明时新界面被启用，而transform完全透明时依然使用旧界面。
 
@@ -152,25 +152,23 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
     `delay`
         转场效果使用时间。
 
-    `alpha`
-        若该值为真(true)，图像会与其后面的图像混合。若该值为假(false)，图像完全不透明，并会覆盖在后面的图像上。
-
     `reverse`
-        若该值为真(true)，alpha通道值反转。不透明区域来自旧图像，而透明区域来自新图像。
+        若该值为True，alpha通道值反转。不透明区域来自旧图像，而透明区域来自新图像。
 
-    如果溶解转场会将图片缩小至原尺寸的一半以下，可以将 :propref:`mipmap` 样式特性设置为True。
-    生成mipmap会消耗更多GPU资源，但能减少显示瑕疵。
+    `mipmap`
+        如果溶解转场会将图片缩小至原尺寸的一半以下，可以将 :propref:`mipmap` 样式特性设置为True。
+        生成mipmap会消耗更多GPU资源，但能减少显示瑕疵。详见 :propref:`mipmap` 。
 
-.. function:: ComposeTransition(trans, before, after)
+.. class:: ComposeTransition(trans, before, after)
 
-    返回由三种转场合成的一个转场效果。 *before* 和 *after* 转场会分别应用在旧场景和新场景，前提是这两个参数非空。被更新后的旧场景和新场景最后还会应用 *trans* 转场效果。
+    返回由三种转场合成的一个转场效果。 `before` 和 `after` 转场会分别应用在旧场景和新场景，前提是这两个参数非None。被更新后的旧场景和新场景最后还会应用 `trans` 转场效果。
 
     ::
 
         # 旧场景图像从左侧移出，新场景图像从右侧移入，同时使用溶解效果。(这是一个系统消耗比较大的转场。)
         define moveinoutdissolve = ComposeTransition(dissolve, before=moveoutleft, after=moveinright)
 
-.. function:: CropMove(time, mode="slideright", startcrop=(0.0, 0.0, 0.0, 1.0), startpos=(0.0, 0.0), endcrop=(0.0, 0.0, 1.0, 1.0), endpos=(0.0, 0.0), topnew=True)
+.. class:: CropMove(time, mode='slideright', startcrop=(0.0, 0.0, 0.0, 1.0), startpos=(0.0, 0.0), endcrop=(0.0, 0.0, 1.0, 1.0), endpos=(0.0, 0.0), topnew=True)
 
     返回一个转场效果，其会剪裁一个场景并将其放置在界面中指定位置。其可以模板化处理一堆效果，这些效果的共通点是将界面分割成矩形条(slice)。
 
@@ -203,7 +201,7 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
         顶层图像绘制在界面上结束坐标。一个2元素的元组，包含x和y。
 
     `topnew`
-        若该值为真(true)，被剪裁和移动的是新场景。若该值为假(false)，被剪裁和移动的是旧场景。
+        若该值为True，被剪裁和移动的是新场景。若该值为False，被剪裁和移动的是旧场景。
 
     ::
 
@@ -225,25 +223,23 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
         define irisout = CropMove(1.0, "irisout")
         define irisin = CropMove(1.0, "irisin")
 
-.. function:: Dissolve(time, alpha=False, time_warp=None)
+.. class:: Dissolve(time, *, time_warp=None, mipmap=None)
 
     返回一个使用溶解效果切换新旧场景的转场效果。
 
     `time`
         溶解效果持续时间。
 
-    `alpha`
-        若该值为真(true)，溶解效果会使用alpha通道。若该值为假(false)，直接替换原界面，这样效率比较高。
-
     `time_warp`
-        一个调整时间线的功能函数。若不为空值(None)，其应该是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
+        一个 :ref:`调整时间线的功能函数 <warpers>`。若不为None，其应该是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
 
-    如果溶解转场会将图片缩小至原尺寸的一半以下，可以将 :propref:`mipmap` 样式特性设置为True。
-    生成mipmap会消耗更多GPU资源，但能减少显示瑕疵。
+    `mipmap`
+        如果溶解转场会将图片缩小至原尺寸的一半以下，可以将 :propref:`mipmap` 样式特性设置为True。
+        生成mipmap会消耗更多GPU资源，但能减少显示瑕疵。详见 :propref:`mipmap` 。
 
-.. function:: Fade(out_time, hold_time, in_time, color="#000")
+.. class:: Fade(out_time, hold_time, in_time, *, color='#000')
 
-    返回一个转场效果，其使用 *out_time* 入参时间(单位为秒)，逐渐将整个界面填充为 *color* 指定的颜色，维持这个界面 *hold_time* 指定的时间(单位为秒)，最后使用 *in_time* 入参时间(单位为秒)逐渐切换为新界面。
+    返回一个转场效果，其使用入参 `out_time` 时间(单位为秒)，逐渐将整个界面填充为 `color` 指定的颜色，维持这个界面 `hold_time` 指定的时间(单位为秒)，最后使用入参 `in_time` 时间(单位为秒)逐渐切换为新界面。
 
     ::
 
@@ -256,7 +252,7 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
         # 镜头闪光——快速且为纯白，然后恢复原界面。
         define flash = Fade(0.1, 0.0, 0.5, color="#fff")
 
-.. function:: ImageDissolve(image, time, ramplen=8, reverse=False, alpha=True, time_warp=None, **properties)
+.. class:: ImageDissolve(image, time, ramplen=8, *, reverse=False, time_warp=None, mipmap=None)
 
     返回一个转场效果，其使用溶解特效切换新旧界面，并利用某个图像控制溶解过程。这意味着纯白的像素首先被溶解，而纯黑的像素最后溶解。
 
@@ -270,13 +266,14 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
         色彩蔓延(ramp)步长。其必须是一个2的整次幂。默认值是8，当纯白像素全部溶解之后，下一步溶解的像素是在灰度上比纯白色低8度的颜色。
 
     `reverse`
-        若该值为真(true)，黑色像素反而先于白色像素溶解。
-
-    `alpha`
-        若该值为真(true)，溶解效果会使用alpha通道。若该值为假(false)，直接替换原界面，这样效率比较高。
+        若该值为True，黑色像素反而先于白色像素溶解。
 
     `time_warp`
-        一个调整时间线的功能函数。若不为空值(None)，其应该是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
+        一个 :ref:`调整时间线的功能函数 <warpers>`。若不为None，其应该是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
+
+    `mipmap`
+        如果溶解转场会将图片缩小至原尺寸的一半以下，可以将 :propref:`mipmap` 样式特性设置为True。
+        生成mipmap会消耗更多GPU资源，但能减少显示瑕疵。详见 :propref:`mipmap` 。
 
     ::
 
@@ -287,12 +284,26 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
     如果溶解转场会将图片缩小至原尺寸的一半以下，可以将 :propref:`mipmap` 样式特性设置为True。
     生成mipmap会消耗更多GPU资源，但能减少显示瑕疵。
 
-.. function:: MoveTransition(delay, enter=None, leave=None, old=False, layers=['master'], time_warp=None, enter_time_warp=None, leave_time_warp=None)
+.. class:: MoveTransition(delay, *, enter=None, leave=None, old=False, layers=['master'], time_warp=_warper.linear, enter_time_warp=_warper.linear, leave_time_warp=_warper.linear)
 
-    返回一个转场效果，其插入了新旧场景中(使用相同的图像标签tag)图像的坐标。
+    使用这些转场时，图像会用新旧场景插值计算，因此移动场景切换会更顺滑。
+
+    由于只有图层标签(layer tag)，MoveTransition只能使用 :ref:`with语句 <with-statement>` 应用在单个图层或同时应用在所有图层。
+    其不能在其他场景下生效，比如 :ref:`ATL <expression-atl-statement>`、:func:`ComposeTransition` 等。
+    在不同上下文(context)中无法使用MoveTransition，
+    例如 :ref:`ATL <expression-atl-statement>`、:func:`ComposeTransition` 等其他转场。
 
     `delay`
         插入效果耗时。
+
+    `old`
+        若该值为True，转场过程过图像发生变化时，使用旧图像而不是新图像。
+        否则，使用新图像。
+
+    `layers`
+        移动的图层(layer)列表。
+
+    下面两个参数可以使用变换(transform)赋值，并且动效时间不应长于整个转场时间。
 
     `enter`
         若该值非空，图像所进入的场景会一同移动。 *enter* 的值应是一个应用在图像行的变换(transform)，该变换可以获取其起始坐标。
@@ -300,14 +311,10 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
     `leave`
         若该值非空，图像所离开的场景会一同移动。 *leave* 的值应是一个应用在图像行的变换(transform)，该变换可以获取其结束坐标。
 
-    `old`
-        若该值为真(true)，旧图像会被使用而不是新图像。
-
-    `layers`
-        移动的图层(layer)列表。
+    下面三个参数可以使用 :ref:`调整时间线的功能函数 <warpers>` 赋值，一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
 
     `time_warp`
-        应用于插入效果的时间warp函数。其是一个使用0.0至1.0之间的小数作为输入的函数，返回结果也是0.0至1.0之间。
+        应用于图像位移效果的时间warp函数。
 
     `enter_time_warp`
         应用于图像进入场景的时间warp函数。
@@ -315,18 +322,48 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
     `leave_time_warp`
         应用于图像离开场景的时间warp函数。
 
-.. function:: MultipleTransition(args)
+    ::
 
-    返回一个转场效果，其是多个转场效果顺序显示之后的集。
+        define longer_easein = MoveTransition(3.0, enter=offscreenright, enter_time_warp=_warper.easein)
+
+    下列代码中，“a”会离开当前场景(用到 `leave` 和 `leave_time_warp`)，“b”会修改位置(用到 `time_warp`)，
+    “c”会进入当前场景(用到 `enter` 和 `enter_time_warp`)。
+    由于转场前后的tag相同，所以“d”不会离开场景并重新进入，而是只发生平移。
+
+    ::
+
+        define some_move_trans = MoveTransition(...)
+
+        label start:
+            show a
+            show b at left
+            show ugly_eileen as d at right
+            e "This is a dialogue !"
+
+            hide a
+            show b at right
+            show c
+            show pretty_eileen as d at left
+            with some_move_trans
+
+    当组件“d”移动时，会根据 `old` 的取值决定显示 ugly_eileen 还是 pretty_eileen：
+    如果 `old` 为默认值False，ugly_eileen会立刻变为pretty_eileen然后移动；
+    如果 `old` 为True，ugly_eileen会先移动到目标位置再立刻变为pretty_eileen。
+
+.. class:: MultipleTransition(args)
+
+    返回一个转场效果，其是多个转场效果顺序显示之后的结果。
 
     `args`
-        一个包含奇数个物件的列表。列表中奇数序号的物件必须是场景，偶数序号的物件必须是转场效果。这里说的场景可以是如下类别之一：
+        一个包含奇数个元素的 **列表**。列表中奇数序号的元素必须是场景，偶数序号的元素必须是转场效果。这里说的场景可以是如下类别之一：
 
         - 可视组件。
         - False值，表示使用旧场景。
         - True值，表示使用新场景。
 
-    大多数情况下，第一个入参会是False而最后一个是True。
+        大多数情况下，第一个元素会是False而最后一个是True。
+
+        注意，整个列表是一个参数，而不是 ``*args``。
 
     `args` 中的转场按顺序执行。对每一个转场效果而言，其前面的参数就是旧场景，其后面的参数就是新场景。举例：
 
@@ -340,11 +377,11 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
 
     这个例子中，首先会使用溶解效果切换到logo.jpg文件，等待1秒钟后，再使用溶解效果切换至新场景。
 
-.. function:: Pause(delay)
+.. class:: Pause(delay)
 
-    返回一个转场效果，其会在 *delay* 秒后显示新的场景。这个转场效果可以用作MultipleTransition的一部分。
+    返回一个转场效果，其会在 `delay` 秒后显示新的场景。这个转场效果可以用作MultipleTransition的一部分。
 
-.. function:: Pixellate(time, steps)
+.. class:: Pixellate(time, steps)
 
     返回一个转场效果，其使用像素化切换新旧场景。
 
@@ -354,7 +391,7 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
     `steps`
         在各个方向展开像素化使用的步数。每一步都会创建出上一步两倍宽度和高度的像素方块，所以5步像素化就能创建出32×32大小的像素方块。
 
-.. function:: PushMove(time, mode="pushright")
+.. class:: PushMove(time, mode="pushright")
 
     返回一个转场效果，其使用新场景把旧场景“推”出界面。
 
@@ -371,7 +408,7 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
         define pushup = PushMove(1.0, "pushup")
         define pushdown = PushMove(1.0, "pushdown")
 
-.. function:: Swing(delay=1.0, vertical=False, reverse=False, background="#000", flatten=True)
+.. class:: Swing(delay=1.0, vertical=False, reverse=False, background="#000", flatten=True)
 
     一个转场效果。将旧场景绕某个轴旋转90度，此时画面是该场景一条边；切换为新场景并继续旋转90度。
 
@@ -400,21 +437,24 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
 
 .. function:: define.move_transitions(prefix, delay, time_warp=None, in_time_warp=None, out_time_warp=None, old=False, layers=[u'master'], **kwargs)
 
-    该函数定义了move转场效果的族群，类似于move和ease转场。根据给定的入参 *prefix* ，其定义了以下转场效果：
+    该函数定义了 :class:`MoveTransition <MoveTransition>` 转场效果的族群，类似于 :var:`move` 和 :var:`ease` 转场。
+    根据给定的入参 `prefix` ，其定义了以下转场效果：
 
-    - *prefix* ——一个转场效果，其使用 *delay* 秒时间，将图像移动至新坐标。
-    - *prefixinleft* ， *prefixinright* ，*prefixintop* ，*prefixinbottom* —— 这些转场效果，使用 *delay* 秒时间，将图像移动至新坐标，并将新的图像从对应的界面边缘移入界面。
-    - *prefixoutleft* ， *prefixoutright* ，*prefixouttop* ，*prefixoutbottom* —— 这些转场效果，使用 *delay* 秒时间，将图像移动至新坐标，并将新的需要隐藏的图像从对应的界面边缘移出界面。
+    * *prefix* ——一个转场效果，其使用 `delay` 秒时间，将图像移动至新坐标。
+    * *prefix*\ inleft， *prefix*\ inright， *prefix*\ intop， *prefix*\ inbottom —— 这些转场效果，使用 `delay` 秒时间，将图像移动至新坐标，并将新的图像从对应的界面边缘移入界面。
+    * *prefix*\ outleft， *prefix*\ outright， *prefix*\ outtop， *prefix*\ outbottom —— 这些转场效果，使用 `delay` 秒时间，将图像移动至新坐标，并将新的需要隐藏的图像从对应的界面边缘移出界面。
+
+    :class:`MoveTransition` 类的其他参数如下：
 
     `time_warp, in_time_warp, out_time_warp`
-        时间扭曲功能是根据输入的图像移动完成时间(取值范围为0.0值1.0)，返回一个图像直线运动的完成时间比例(取值范围为0.0值1.0)。
+        :ref:`调整时间线的功能函数 <warpers>` 是根据输入的图像移动完成时间(取值范围为0.0值1.0)，返回一个图像直线运动的完成时间比例(取值范围为0.0值1.0)。
 
         该功能让图像运动速度复合缓动(ease)曲线，而不是让所有图像以一个统一恒定的速度移动。
 
         三个变量分别对应停留在界面的图像、新显示的图像和新隐藏的图像。
 
     `old`
-        若该值为真(true)，转场效果作用于旧的可视组件，而不是新的那些。
+        若该值为True，某标签(tag)对应的图像在转场过程中使用旧图像；否则使用新图像。
 
     `layers`
         应用转场效果的图层(layer)名。
@@ -464,6 +504,40 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
     define config.window_hide_transition = { "screens" : Dissolve(.25) }
 
 因为对话窗口整个都在界面(screen)层上所以可以修复这个问题。
+
+.. _scene-show-hide-transition:
+
+在scene、show和hide语句后自动应用转场
+=================================================
+
+Ren'Py可以在在scene、show和hide语句后自动显示某个转场。
+该自动转场设置在 :var:`_scene_show_hide_transition` 项。
+
+所有 ``scene``、``show`` 和 ``hide`` 语句都会应用此转场，除了下面几种情况：
+* 后面带with从句
+* ``window`` 语句之类，由 :ref:`dialogue-window-management` 控制转场
+* 菜单上下文(context)中
+
+例如：
+
+::
+
+    define _scene_show_hide_transition = Dissolve(0.25)
+
+    label start:
+        scene bg washington
+        show eileen happy
+
+        "由于对话框使用自己的转场，前面定义的溶解转场不会出现。"
+
+        show lucy mad at right
+
+        "前面定义的溶解转场会出现在这里。"
+
+        hide lucy mad
+        show eileen vhappy
+
+        "这里会再次出现。"
 
 .. _transition-see-also:
 

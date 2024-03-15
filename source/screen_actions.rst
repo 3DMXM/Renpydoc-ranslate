@@ -1384,35 +1384,52 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 
     如果存档槽位不是空的，并且 `key` 为None，返回包含Json数据的整个目录
 
-    如果 `key` 不为None，则返回json[key]，前提是 `key` 在存档json对象中有定义。如果存档存在但不包含 `key` ，就返回 *missing* 。如果存档槽位为空，则返回 `empty` 。
+    如果 `key` 不为None，则返回json[key]，前提是 `key` 在存档json对象中有定义。如果存档存在但不包含 `key` ，就返回 `missing` 。如果存档槽位为空，则返回 `empty` 。
 
-    使用 :func:`config.save_json_callbacks` 注册的回调函数可以用于在存档槽位中添加Json。
+    使用 :func:`config.save_json_callbacks` 注册的回调函数可用于向存档槽位中添加Json。
 
-.. function:: FileLoadable(name, page=None)
+    默认情况下，Json中包含下列key：
 
-    该函数在文件可加载的情况下返回True，否则返回False。
+    `_save_name`
+        存档时 :var:`save_name` 的值。
 
-.. function:: FileNewest(name, page=None)
+    `_renpy_version`
+        创建存档的Ren'Py版本号。
 
-    如果文件是最新版本返回True，否则返回False。
+    `_version`
+        创建存档时的 :var:`config.version` 值。
 
-.. function:: FilePageName(auto=u'a', quick=u'q')
+    `_game_runtime`
+        调用 :func:`renpy.get_game_runtime` 后得到的返回结果。
 
-    以字符串形式返回当前文件页面(page)名称。如果是一个普通页面(page)，该函数返回页面编号。否则，返回 *auto* 或 *quick* 。
+    `_ctime`
+        存档创建时间。UTC时间，即从1970年1月1日0点开始计算的秒数。
 
-.. function:: FileSaveName(name, empty=u'', page=None)
+.. function:: FileLoadable(name, page=None, slot=False)
 
-    返回文件保存时生效的存档名，如果文件不存在则返回 `empty` 。
+    该函数在存档文件可加载的情况下返回True，否则返回False。
 
-.. function:: FileScreenshot(name, empty=None, page=None)
+.. function:: FileNewest(name, page=None, slot=False)
 
-    返回给定那个文件相关的屏幕截图。如果文件不能加载，返回 `empty` ，前提 `empty` 的值不是None。在文件不能加载且 `empty` 为空的情况下，一个空的可视组件会被创建。
+    如果存档文件是最后一次存档返回True，否则返回False。
 
-    返回值是一个可显示对象。
+.. function:: FilePageName(auto='a', quick='q')
 
-.. function:: FileSlotName(slot, slots_per_page, auto=u'a', quick=u'q', format=u'%s%d')
+    以字符串形式返回当前存档文件页面(page)名称。如果是一个普通页面(page)，该函数返回页面编号。否则，返回 `auto` 或 `quick` 。
 
-    返回编号后的槽位名。前提是普通页面(page)下的槽位都按顺序从1开始编号，并且页面也从1开始编号。当槽位编号为2，每个页面槽位数(slots_per_page)为10，其他变量都是默认值的情况下：
+.. function:: FileSaveName(name, empty='', page=None, slot=False)
+
+    返回存档文件保存时的save_name，如果文件不存在则返回 `empty` 。
+
+.. function:: FileScreenshot(name, empty=None, page=None, slot=False)
+
+    返回指定文件相关的屏幕截图。如果文件不能加载，返回 `empty` ，前提 `empty` 的值不是None。在文件不能加载且 `empty` 为空的情况下，可视组件Null会被创建。
+
+    返回值是一个可视组件。
+
+.. function:: FileSlotName(slot, slots_per_page, auto='a', quick='q', format='%s%d')
+
+    返回指定编号的存档槽位名。前提是普通页面(page)下的槽位都按顺序从1开始编号，并且页面也从1开始编号。当槽位编号为2，每个页面槽位数(slots_per_page)为10，其他变量都是默认值的情况下：
 
     - 显示第一页面时，返回“2”。
     - 显示第二页面时，返回“12”。
@@ -1420,7 +1437,7 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
     - 显示快速存档页面时，返回“q2”。
 
     `slot`
-        接入的槽位编号。
+        指定的槽位编号。
 
     `slots_per_page`
         每页槽位数量。
@@ -1436,7 +1453,7 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 
 .. function:: FileTime(name, format=u'%b %d, %H:%M', empty=u'', page=None)
 
-    返回文件保存时间，格式根据 *format* 显示。如果未找到文件，返回 `empty` 。
+    按指定格式，返回存档时间。如果没有匹配的存档文件就返回 `empty` 。
 
     返回值是一个字符串。
 
@@ -1460,6 +1477,16 @@ Ren'Py定义的输入(input)值继承自InputValue类，这意味着所有输入
 .. function:: SideImage()
 
     返回与当前发言角色相关的头像。如果头像不存在则返回一个空的可视组件。
+
+.. _other-functions:
+
+其他函数
+---------------
+
+.. function:: CurrentScreenName()
+
+    返回当前界面名称。如果没有当前显示界面则返回None。
+    如果某个界面使用 `use` 引用了其他界面，则返回此界面，而不是被引用的界面。
 
 .. _tooltips:
 
@@ -1540,12 +1567,15 @@ Tooltips
                     xalign 0.5
                     text tooltip
 
-.. function:: GetTooltip(screen=None)
+.. function:: GetTooltip(screen=None, last=False)
 
     返回当前获得焦点的可视组件的tooltip，如果可视组件未获得焦点则返回None。
 
     `screen`
         如果非空，这个参数应该是某个界面的名称或者标签(tag)。如果获得焦点的可视组件是界面的一部分，则该函数只返回tooltip。
+
+    `last`
+        若为True，返回此函数上次调用的非None返回结果。
 
 .. _legacy:
 
@@ -1560,7 +1590,7 @@ Tooltips
 
     当鼠标指针悬停在某个区域上时，一个tooltip对象可以用于提示对应界面的功能。
 
-    tooltip对象有一个 ``value`` 字段，当tooltip对象被创建时会通过构造器传入 *default* 作为默认值。当通过tooltip创建的某个按钮行为被使用时，value字段就会根据关联的行为改变对应值。
+    tooltip对象有一个 ``value`` 字段，当tooltip对象被创建时会通过构造器传入 `default` 作为默认值。当通过tooltip创建的某个按钮行为被使用时，value字段就会根据关联的行为改变对应值。
 
     .. method:: Action(value)
 
