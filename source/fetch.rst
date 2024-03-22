@@ -69,7 +69,7 @@ Ren'Py支持fetch形式的HTTP/HTTPS请求，使用 renpy.fetch 函数。该函�
 
     该函数可以在所有平台运行。但在Web平台上，非本地的网络请求需要通过CORS的允许。
 
-.. _requests:
+.. _fetch-requests:
 
 网络请求
 --------
