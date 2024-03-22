@@ -84,6 +84,7 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
     该行为可以使用 `_layer`、`_zorder` 和 `_tag` 关键词入参。各参数的意义与 :func:`renpy.show_screen` 函数相同。
 
 .. _data-acitons:
+.. _sl-data-actions:
 
 数据行为
 ------------
@@ -249,89 +250,6 @@ Ren'Py带来了一大堆行为、值和函数，与界面和界面语言协同�
 
     `value`
         需要添加的值。
-
-(译者注：下面的几个Action已经从原版文档中删除。中文版暂时保留，可以对照前面的表格使用。)
-
-.. function:: SetDict(dict, key, value)
-
-    将字典型数据 `dict` 中键值 `key` 对应的值设置为 `value` 。
-
-.. function:: SetField(object, field, value)
-
-    将某个对象的字段(field)设置为给定的值。 *object* 是目标对象， *field* 是待设置的字段名称的字符串， `value` 是需要设置成的值。
-
-.. function:: SetLocalVariable(name, value)
-
-    将指定的变量 `name` 设置为当前本地上下文中的值 `value`。
-
-    只有在某个界面(screen)被另一个场景(scene)使用的情况，才会用到该函数。其提供了一种方法，可以设置界面使用变量的值。
-    在其他需要修改变量值的情况下，推荐使用 :func:`SetScreenVariable` ，那可以缓存更多的界面数据。
-
-    该函数能赋值的变量仅限当前上下文中创建——其他地方创建的变量不能通过该函数进行设置和传递。
-
-.. function:: SetScreenVariable(name, value)
-
-    将与当前界面关联的变量 *name* 值设置为 `value` 。
-
-.. function:: SetVariable(variable, value)
-
-    将变量 *variable* 设置为 `value` 。
-
-.. function:: ToggleDict(dict, key, true_value=None, false_value=None)
-
-    切换 `dict` 中键 `key` 的值。“切换”的意思是，当对应的行为执行后，原布尔值取反。
-
-    `true_value`
-        如果非None，这就是我们使用的True值。
-
-    `false_value`
-        如果非None，这就是我们使用的False值。
-
-.. function:: ToggleField(object, field, true_value=None, false_value=None)
-
-    切换 *object* 上 *field* 的值。“切换”的意思是，当对应的行为执行后，原字段(field)上所有布尔值取反。
-
-    `true_value`
-        如果非None，这就是我们使用的True值。
-
-    `false_value`
-        如果非None，这就是我们使用的False值。
-
-.. function:: ToggleLocalVariable(name, true_value=None, false_value=None)
-
-    切换当前本地上下文中 `name` 的值。
-
-    只有在某个界面(screen)被另一个场景(scene)使用的情况，才会用到该函数。其提供了一种方法，可以设置界面使用变量的值。
-    在其他需要修改变量值的情况下，推荐使用 :func:`ToggleScreenVariable` ，那可以缓存更多的界面数据。
-
-    该函数能赋值的变量仅限当前上下文中创建——其他地方创建的变量不能通过该函数进行设置和传递。
-
-    `true_value`
-        如果非None，这就是我们使用的True值。
-
-    `false_value`
-        如果非None，这就是我们使用的False值。
-
-
-.. function:: ToggleScreenVariable(name, true_value=None, false_value=None)
-
-    切换当前界面变量 *name* 的值。
-
-    `true_value`
-        如果非None，这就是我们使用的True值。
-
-    `false_value`
-        如果非None，这就是我们使用的False值。
-
-.. function:: ToggleVariable(variable, true_value=None, false_value=None)
-
-    切换 *variable* 。
-
-    `true_value`
-        如果非None，这就是我们使用的True值。
-
-    `false_value`
-        如果非None，这就是我们使用的False值。
 
 .. _menu-actions:
 

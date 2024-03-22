@@ -1,7 +1,7 @@
 .. _https-http-fetch:
 
 fetch形式的HTTPS/HTTP请求
-=========================
+===========================
 
 Ren'Py支持fetch形式的HTTP/HTTPS请求，使用 renpy.fetch 函数。该函数：
 
@@ -35,7 +35,7 @@ Ren'Py支持fetch形式的HTTP/HTTPS请求，使用 renpy.fetch 函数。该函�
     该函数向指定URL发送一个HTTP(或HTTPS)请求，并返回请求的内容。
     若请求失败，则抛出FetchError异常。异常中包含了失败的描述文本。(但该异常可能并不适合向用户展示。)
 
-    `url
+    `url`
         fetch的目标URL。
 
     `method`

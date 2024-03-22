@@ -127,7 +127,7 @@ Ren'Py可以渲染基于COLRv0标准的彩色字体。此新版本内置字体�
 
     e "I'm feeling 😃 today."
 
-.. _variable-fonts:
+.. _8-2-0-7-7-0-variable-fonts:
 
 可变字体
 --------------
@@ -222,7 +222,7 @@ ATL插值，比如语句 ``linear 1. xpos .6``，现在可以使用不同的坐�
 该类可以使用一个绝对像素数和一个组件比例值，指定一个可视组件的位置或者尺寸。
 例如，可以将某个值指定为 ``xsize position(-10, .5)``，使用该值的可视组件就可以算出另一个数值并调整自己宽度，其是可视组件宽度的一半并减10。
 
-.. _developer-tools:
+.. _7-7-0-8-2-0-developer-tools:
 
 开发工具
 ---------------
@@ -253,7 +253,7 @@ ATL插值，比如语句 ``linear 1. xpos .6``，现在可以使用不同的坐�
 
 考虑到完整性，新增了 :class:`LocalVariableValue` 和 :class:`LocalVariableInputValue` 两个类。
 
-.. _https-http-fetch:
+.. _7-7-0-8-2-0-https-http-fetch:
 
 HTTPS/HTTP Fetch
 ----------------

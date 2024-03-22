@@ -1056,7 +1056,7 @@ transform存在以下特性(property)：
 
     图像垂直方向使用图像平铺的次数。
 
-.. _transitions:
+.. _atl-transition:
 
 转场
 ----

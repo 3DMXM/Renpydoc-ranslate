@@ -6,7 +6,7 @@
 安卓和iOS平台应用商店提供下载的应用程序有容量限制。
 为了支持容量更大的游戏，Ren'Py提供了下载器(downloader)，能以一个小容量的程序下载主体游戏。
 
-.. _requirements:
+.. _downloader-requirements:
 
 前置条件
 ------------
