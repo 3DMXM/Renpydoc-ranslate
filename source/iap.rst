@@ -31,7 +31,7 @@ IAP函数
 
 .. function:: iap.has_purchased(product)
 
-    如果用户已经买过 *product* 就返回True，否则返回False。
+    如果用户已经买过 `product` 就返回True，否则返回False。
 
 .. function:: iap.init()
 
@@ -40,11 +40,11 @@ IAP函数
 
 .. function:: iap.is_deferred(product)
 
-    当用户需要购买 *product* 时返回True。不过这个请求必须被第三方认证，比如家长或监护人。
+    当用户需要购买 `product` 时返回True。不过这个请求必须被第三方认证，比如家长或监护人。
 
 .. function:: iap.purchase(product, interact=True)
 
-    这个函数请求购买 *product* 。
+    这个函数请求购买 `product` 。
 
     如果购买成功就返回True，如果购买失败就返回False。如果 *product* 注册为消耗品，在调用返回前内购产品就会被使用。
 
@@ -58,19 +58,27 @@ IAP函数
     `identifier`
         一个字符串，用于商品的内部标识。一旦用于表示某个商品，就不能再修改。这些字符串的格式类似于“com.domain.game.product”。
 
-        如果为None，默认值为 *product* 。
+        如果为None，默认值为 `product`。
 
     `amazon`
-        一个字符串，表示亚马逊AppStore的商品标识号。如果没有给定，默认值为 *identifier* 。
+        一个字符串，表示亚马逊AppStore的商品标识号。如果没有给定，默认值为 `identifier`。
 
     `google`
-        一个字符串，表示Google Play商店的商品标识号。如果没有给定，默认值为 *identifier* 。
+        一个字符串，表示Google Play商店的商品标识号。如果没有给定，默认值为 `identifier`。
 
     `ios`
-        一个字符串，表示苹果iOS版AppStore的商品标识号。如果没有给定，默认值为 *identifier* 。
+        一个字符串，表示苹果iOS版AppStore的商品标识号。如果没有给定，默认值为 `identifier`。
 
     `consumable`
         如果是消耗品内购则返回True。到目前为止，只有iOS平台支持消耗品内购。
+
+.. function:: iap.request_review()
+
+    调用该函数后，应用商店会让用户给该应用评分。
+    如果评分请求成功返回True，否则返回False。
+    注意，评分请求成功不等于用户给app评分。app商店会决定最终结果。
+
+    目前只支持Google Play和苹果App Store。
 
 .. function:: iap.restore(interact=True)
 
@@ -86,7 +94,7 @@ IAP 行为
 
 .. function:: iap.Purchase(product, success=None)
 
-    这个行为尝试购买 *product* 。仅当 *product* 是可购买状态时(启用了应用商店并且没有购买过这个产品)，这个行为才是可用的。
+    这个行为尝试购买 `product`。仅当 `product` 是可购买状态时(启用了应用商店并且没有购买过这个产品)，这个行为才是可用的。
 
     `success`
         若非None，这是一个行为或者行为列表，当内购成功后执行这些行为。

@@ -249,6 +249,17 @@ Ren'Py不保证包含的SDL2版本编译后包含或不包含某些特性(featur
 
     清空所有留存的界面。
 
+.. function:: renpy.confirm(message)
+
+    该函数可以弹出一个包含指定信息的 “确认/取消” 提示界面，并在用户点击任意选项后隐藏界面。
+
+    如果用户点击“确认”则返回True，如果用户点击“取消”则返回False。
+
+    `message`
+        需要显示的提示信息。
+
+    :func:`Confirm` 是一个类似功能的行为(action)。
+
 .. function:: renpy.count_dialogue_blocks()
 
     返回游戏原生语言的对话段落数量。

@@ -13,88 +13,78 @@
 8.2.1 / 7.7.1
 =============
 
-Text
+.. _8-2-1-7-7-1-text:
+
+文本
 ----
 
-The Harfbuzz text shaper now reads more information using Harfbuzz. This
-will generally yield the same results, with small exceptions, such as
-the underline being in a slightly different place.
+使用Harfbuzz文字渲染器能获取更多文字信息。改动后，大部分情况下得到的结果不变。
+某些情况下少量变动，比如下划线位置会有一点变化。
 
-Vertical text handling under the harfbuzz text shaper has been fixed to
-properly place the text. Porting those changes to the freetype shaper
-is not possible, so the freetype shaper no longer supports vertical text.
+使用Harfbuzz渲染垂直文本的位置问题已修复。同时，freetype不再支持垂直文本。
 
-See :propref:`vertical` for more information.
+详见 :propref:`vertical`。
 
-Updater
+.. _8-2-1-7-7-1-updater:
+
+更新器
 -------
 
-An issue with the updater that caused it to fail to sign updates when
-run on a Windows system has been fixed.
+Windows平台更新器对更新签名失败的某个问题已修复。
 
-The updater now forces the webserver to use the identity encoding, which
-improves compatibility with some web servers. The updater also times out
-if the server does not respond to a request within 10 seconds.
+更新器将强制让Web服务器使用指定的编码，这样能提升某些Web服务器的兼容性。
+此外，若服务器10秒无响应，更新器将超时退出。
+
+.. _8-2-1-7-7-1-live2d:
 
 Live2D
 ------
 
-Ren'Py will now automatically guess the size of the live2d textures,
-and adjust the maximum texture size the live2d library uses to match
-it.
+Ren'Py将自动猜测Live2D纹理尺寸，并调整相应的Live2D库匹配最大纹理尺寸。
 
-Ren'Py will avoid many render-to-texture operations when showing
-Live2D.
+显示Live2D图像时，Ren'Py会尽量避免过多的“渲染到纹理”操作。
+
+.. _8-2-1-7-7-1-fetch:
 
 Fetch
 -----
 
-The :func:`renpy.fetch` function now works during the image phase and
-during an interaction, as well as outside an interaction.
+:func:`renpy.fetch` 函数可以在处理图像和互动期间同时运行，不会干扰互动操作。
 
-The :func:`renpy.fetch` function now takes a `params` argument, which
-specifies parameters that will be added to the URL.
+:func:`renpy.fetch` 函数新增 `params` 入参，用于指定请求URL时用到的参数。
 
-Other Changes
+.. _8-2-1-7-7-1-other-changes:
+
+其他变更项
 -------------
 
-When a textbox is replaced (using {w}), a ``replaced`` event is generated,
-rather than hide.
+(使用{w})替换某个textbox组件后，将产生 ``replaced`` 事件，而不是hide事件。
 
-Adding a new displayable with `default_focus` set will cause the
-displayable to be focused, if the keyboard or gamepad is used, even
-if the interaction does not restart.
+添加带有 `default_focus` 特性的可视组件后，该组件就会获得焦点，不需要重启互动系统。
 
-It's now possible to build an iOS app from the command line without
-installing rapt (Android support).
+可以使用命令行发布iOS版本应用，不再需要安装rapt(安卓相关支持)。
 
-The renamed and newly-documented :var:`config.max_texture_size` variable
-make it possible to set the maximum texture size used by Ren'Py. This isn't
-useful for 2D textures, but may make sense for textures used by :class:`Model`.
+Ren'Py使用的最大纹理尺寸配置项改名为 :var:`config.max_texture_size`。
+该配置项不对2D纹理生效，仅用在 :class:`Model` 纹理。
 
-:doc:`template_projects` are no longer required to have the same files
-as a standard Ren'Py project.
+:doc:`template_projects` 不再要求必须含有所有Ren'Py基本项目同名的文件。
 
-Other Fixes
+.. _8-2-1-7-7-1-other-fixes:
+
+其他修复项
 -----------
 
-An issue that could cause an Android device to reach a black screen when
-resuming from pause has been fixed.
+安卓设备上从暂停状态恢复后可能会黑屏的问题已被修复。
 
-Ren'Py will now run from a directory with : in the name, on Linux and other
-platforms where that's legal.
+Ren'Py运行时可以在目录中包含英文引号“:”。引号在Linux等系统中是合法的目录字符。
 
-The use of :var:`config.layer_transforms` will no longer reset the timelines
-of transforms set with ``camera`` or ``show layer`` ``at``.
+``camera`` 、 ``show layer`` 和 ``at`` 语句的时间轴不会受到 :var:`config.layer_transforms` 的影响而重置。
 
-Lint no longer crashes when the a LayeredImage use a variable that isn't set.
+LayeredImage使用未赋值变量时，Lint不会崩溃。
 
-A crash when :tpref:`blur` was less than 0 has been prevented, by clamping
-the blur value.
+:tpref:`blur` 的值小于0导致的崩溃问题已解决。已经对模糊的值做了范围限制(clamping)。
 
-An issue that caused drags to block saving has been fixed.
-
-
+拖拽组件无法保存的问题已修复。
 
 .. _renpy-8.2.0:
 .. _renpy-7.7.0:
@@ -102,124 +92,120 @@ An issue that caused drags to block saving has been fixed.
 8.2.0 / 7.7.0
 =============
 
-Harfbuzz Integration
+.. _harfbuzz-intergration:
+
+集成Harfbuzz字体渲染
 --------------------
 
-Ren'Py now uses the Harfbuzz library to perform text shaping. On all
-versions of Ren'Py, Harfbuzz is used to supply additional information
-to the freetype authinter.
+从此版本开始，Ren'Py使用Harfbuzz库实现文本渲染。
+在所有版本的Ren'Py中，Harfbuzz渲染器都会提供额外信息，弥补Freetype渲染器。
 
-On Ren'Py 8, Harfbuzz is also used to shape text, reordering and selecting
-glyphs based on the context they're in and the language of the text provided.
-This is required to support scripts that require complex text shaping,
-such as Brahmic/Indic scripts. (You'll need to provide a font that
-supports the appropriate language.)
+在Ren'Py 8里，Harfbuzz也直接用于渲染文本。其会根据上下文和语言类型，记录和选择合适的字形。
+该功能可用于渲染复杂的文本，比如印地/婆罗米文等(同时需要准备好对应语言的字体文件)。
 
-The new :propref:`shaper` style property controls the shaper used to text,
-for compatibility with older versions of Ren'Py.
+新增样式特性 :propref:`shaper`，用于选择文本渲染器，同时兼容旧版本Ren'Py。
 
-Emoji-Related Text Improvements
+.. _emoji-related-text-improvements:
+
+Emoj表情的提升
 -------------------------------
 
-Next, Ren'Py has gained the ability to render fonts that use the COLRv0 standard
-to provide color glyphs. Ren'Py ships with a font that contains the Twiemoji images,
-which covers a majority of the Emoji in use (but not all of them).
+Ren'Py可以渲染基于COLRv0标准的彩色字体。此新版本内置字体包含Twiemoji图片，覆盖了常用Emoji表情的大部分(但还不是全部表情)。
 
-Ren'Py will automatically switch to the Emoji font when it encounters Emoji
-characters in text. The supported characters are those in the
 `Emoji 15.1 <https://unicode.org/Public/emoji/15.1/emoji-test.txt>`_ standard.
+当Ren'Py发现文本中的Emoji字符时，会自动切换到Emoji字体。所以支持的字符都在
+`Emoji 15.1 <https://unicode.org/Public/emoji/15.1/emoji-test.txt>`_ 标准中。
 
-Ren'Py 8 with Harfbuzz shaping is required to render joining sequences of Emoji,
-including things like gender and skin-tone modifiers, so you'll need Ren'Py 8
-to have those work. This switching occurs when a font tag is not being
-used.
+使用Harfbuzz字体渲染器的Ren'Py 8可以渲染Emoji连接起来的序列，包括性别和肤色修饰符。
+不使用字体标签的情况，会自动切换字体渲染。
 
-The new :propref:`emoji_font` and :propref:`prefer_emoji` style properties control
-Emoji font selection.
+新增样式特性 :propref:`emoji_font` 和 :propref:`prefer_emoji`，用于选择Emoji字体。
 
-Fundamentally, you can include Emoji into your game by typing it into your
-script as character dialogue. For example::
+最基本的用法是，在游戏脚本中直接写入Emoji。例如：
+
+::
 
     e "I'm feeling 😃 today."
 
-Variable Fonts
+.. _variable-fonts:
+
+可变字体
 --------------
 
-Ren'Py now supports OpenType variable fonts. These are fonts that use
-one or more axes of variability to change how the font is rendered. For
-example, a font may have the "weight" axis, which controls how bold the
-font is, and the "width" axis, which controls how wide the font is.
+当前版本Ren'Py支持OpenType的可变字体。可变字体通过若干个axe来控制字体的渲染效果。
+例如，字体如果有名为“weight”的axis，就可以控制字体粗细；字体如果有名为“width”的axis，就可以控制字体宽度。
 
-Variable font support required Ren'Py 8 and the harfbuzz shaper to work.
+必须使用Ren'Py 8的Harfbuzz字体渲染器，才能支持可变字体。
 
-To support variable fonts, Ren'Py has added the :propref:`instance` and
-:propref:`axis` style properties, and the :tt:`instance` and :tt:`axis`
-text tags, as well as the :func:`renpy.variable_font_info` function.
+为了支持可变字体，Ren'Py新增了样式特性 :propref:`instance` 和 :propref:`axis`，
+文本标签(tag) :tt:`instance` 和 :tt:`axis`，以及函数 :func:`renpy.variable_font_info`。
 
-See the :ref:`variable fonts documentation <variable-fonts>` for more information.
+详见 :ref:`可变字体文档 <variable-fonts>`。
 
-Font Hinting
+.. _font-hinting:
+
+字体微调
 ------------
 
-There is a new :propref:`hinting` mode "auto-light", that performs autohinting
-in the vertical but not horizontal direction.
+特性 :propref:`hinting` 新增了模式“auto-light”，会在垂直方向自动微调文本。
 
-The new :var:`config.font_hinting` variable makes it possible to enable
-font hinting on a per-font basis, while the style system can be used to
-control hinting per-use. For example::
+新增配置项 :var:`config.font_hinting`，可以对每一种字体设置不同的微调模式。例如：
+
+::
 
     define config.font_hinting["MyFont.tff"] = "bytecode"
 
-enables bytecode hinting for MyFont.ttf.
+只针对字体MyFont.ttf，将其微调模式设置为“bytecode”。
 
-Text Interpolation Improvements
+.. _text-interpolation-improvements:
+
+文本内插提升
 -------------------------------
 
-Interpolations in strings are now treated as Python expressions, rather than
-simple fields. While not identical, this concept will feel familiar to those
-that have worked with Python f-strings. This allows for some logic to be
-incorporated directly::
+字符串内部的插值会以Python表达式形式处理，而不再看作简单的字段。
+由于没有缩进，现在风格类似于Python的字符串格式化。这项改进可以在文本内插时放入一些简单逻辑。
+
+::
 
     default exp = 1000
 
     label start:
-        e "I am level [exp // 225]!" # Will show "I am level 4!"
+        e "我的等级是LV [exp // 225] ！" # 将显示 "我的等级是LV 4 ！"
+ 
+使用变量内插字符串时，如果存在命名空间interpolate，则优先搜索和应用interpolate中的同名变量。
+例如：
 
-When a variable is interpolated into a string, and the interpolation namespace
-exists, that namespace will be searched for the values to interpolate. For
-example, ::
+::
 
-    define t = "Not shown."
-    define interpolate.t = "Shown."
+    define t = "不显示。"
+    define interpolate.t = "显示。"
 
     label start:
-        e "[t]" # Will show "Shown."
+        e "[t]" # 将会显示 "显示。"
 
-Speech Bubble Improvements
+.. _speech-bubble-improvements:
+
+气泡式对话提升
 --------------------------
 
-The speech bubble feature that was added in Ren'Py 8.1 now has a new way to
-retain speech bubbles, so that the bubbles pop up one at a time, and
-remain displayed on the screen until explicitly cleared, similar to
-dialogue in motion comics. See the :ref:`speech bubble documentation <retained-bubbles>`
-for more information.
+Ren'Py 8.1新增的气泡式对话功能增加了一种方式能保留对话气泡。气泡会逐个弹出并覆盖在前面的气泡上，
+但不会消失，直到界面显式清理所有气泡。整个效果类似于动态漫画中的对话。
+详见 :ref:`气泡式对话文档 <retained-bubbles>`。
 
-The new :var:`bubble.properties_callback` variable can be given a function
-that filter the list of bubble property names based on the image tag
-that's speaking. This makes it possible to have bubbles that are
-specific to some but not all characters.
+新增配置项 :var:`bubble.properties_callback`，可以指定一个函数用作过滤器，基于对话角色的图像标签(image tag)筛选特定气泡。
+该功能可以筛选某些角色的对话气泡，用于后续处理。
 
-Several changes work together to make it possible to apply a transform that
-animates speech bubble show and hide. An example of this is included in the
-:ref:`bubble-screen` documentation.
+把一些改动结合起来使用，就能在气泡的出现和消失上添加动效。具体的例子可以在 :ref:`bubble-screen` 文档中找到。
 
-Position types and ATL interpolation
-------------------------------------
+.. _position-types-and-atl-interpolation:
 
-ATL interpolations, which are statements such as ``linear 1. xpos .6`` (and
-have nothing to do with text interpolation), now accept interpolation between
-positions of different types. This allows the following, which was previously
-documented against and didn't work::
+坐标类型和ATL插值
+-----------------
+
+ATL插值，比如语句 ``linear 1. xpos .6``，现在可以使用不同的坐标类型数据来计算。
+下面的例子在之前的版本中是明确禁止且无法运行的，现在则可以使用：
+
+::
 
     transform mixed:
         xycenter (520, 300)
@@ -232,47 +218,42 @@ documented against and didn't work::
 
         show a at Transform(pos=(520, 150))
 
-As part of the implementation of this new feature, there is a new
-:term:`position` type, called :class:`position`, which enables you to provide
-both a absolute and a relative component to place or size a displayable. For
-example, you can now tell something to be ``xsize position(-10, .5)``, and the
-displayable will make the displayable take half of the horizontal space offered
-to it, minus 10 pixels.
+作为新功能特性成果的一部分，新增了一个 :term:`position` 数据类型，即 :class:`position` 类。
+该类可以使用一个绝对像素数和一个组件比例值，指定一个可视组件的位置或者尺寸。
+例如，可以将某个值指定为 ``xsize position(-10, .5)``，使用该值的可视组件就可以算出另一个数值并调整自己宽度，其是可视组件宽度的一半并减10。
 
-Developer Tools
+.. _developer-tools:
+
+开发工具
 ---------------
 
-There is a new "Skip splashscreen" option in Options section
-of the launcher preferences. When checked, this will cause
-games launched to skip the splashscreen label when starting.
+启动器设置中的选项页面，新增了一个“Skip splashscreen”勾选项。
+勾选该项后，游戏启动会跳过splashscreen脚本标签。
 
-A new 'Show Filename and Line' option is available from the
-shift+D developer menu. When enabled, this will cause the
-filename and line number of the current statement to be
-displayed. Clicking on the filename and line will open
-the file in the default text editor, at the given line,
-if possible.
+使用Shift+D进入开发者菜单后，可以看到一个新增的“Show Filename and Line”勾选项。
+启用该选项后，可以看到当前语句所对应的脚本文件名和所在的行号。
+鼠标点击文件和行号，就会在默认的文本编辑器中打开脚本文件。
+如果该编辑器支持的话，甚至直接跳转到对应的行。
 
-Data Actions
+.. _data-actions:
+
+数据行为
 ------------
 
-The :ref:`data-actions` are now presented and explained in a more
-condensed manner. These actions have been reimplemented using a data
-manager that describes what to do with the data (Set-, Toggle-, Cycle-, Increment-)
-and a data accessor that describes the kind of data to change (-Variable, -ScreenVariable,  -LocalVariable, -Field, -Dict).
+:ref:`data-actions` 文档进行了重新组织，使其更容易理解。
+数据行为根据其操作类型(Set-, Toggle-, Cycle-, Increment-)和目标作用域范围(-Variable, -ScreenVariable,  -LocalVariable, -Field, -Dict)放入一个表格中。
 
-There are two new managers:
+新增两类操作：
 
-* The Cycle- actions (CycleVariable, CycleLocalVariable, CycleField...)
-  take a list of values and each time the action is run (i.e each time
-  the button is clicked), the target value is set to be the next element in
-  the list.
-* The Increment- actions (IncrementVariable, IncrementDict, IncrementField...)
-  add a certain value (by default, 1) to the target value. These can also be used
-  to decrement the field.
+* Cycle- 类行为(CycleVariable, CycleLocalVariable, CycleField...)会从一个列表中按顺序选取元素并修改变量的值。
+  在每次执行某个行为时(比如点击按钮)，并将目标变量的值设置为列表中下一个元素的值。
+  (译者注：即Ren'Py记录列表索引。每次将列表索引对应元素赋值给目标变量后，索引加1。索引超出列表长度时，索引号归0。)
+* Increment- 类行为(IncrementVariable, IncrementDict, IncrementField...)会使目标变量增加一个固定数值(默认为加1)。
+  此类行为也可以用于某个对象的字段。
 
-The :class:`LocalVariableValue` bar value and :class:`LocalVariableInputValue` input
-values have been added, for completeness.
+考虑到完整性，新增了 :class:`LocalVariableValue` 和 :class:`LocalVariableInputValue` 两个类。
+
+.. _https-http-fetch:
 
 HTTPS/HTTP Fetch
 ----------------
@@ -280,303 +261,249 @@ HTTPS/HTTP Fetch
 Ren'Py now has better support for :doc:`fetch`, using the new renpy.fetch
 function. While the Requests library still remains supported on Desktop and Mobile,
 (it's used internally by Ren'Py), the new fetch function:
+Ren'Py使用新的 :func:`renpy.fetch` 函数，能更好支持 :doc:`fetch`。
+Requests库依旧保留在电脑和移动平台上(在Ren'Py内部使用)。新的fetch函数有如下功能：
 
-* Support GET, POST, and PUT requests for HTTPS and HTTP URLs.
-* Supports fetching from the web platform, subject to the rules of the web platform.
-* Will not block the game while downloading.
-* Can take data as either bytes or objects that be encoded to JSON.
-* Can return data as bytes, as string, or objects decoded from JSON.
+* 可以使用GET、POST和PUT方式请求HTTPS和HTTP协议的URL。
+* 符合Web平台规则的情况下，可以用fetch方式从Web端获取数据。
+* 下载时不会阻塞游戏运行。
+* 能获取二进制或数据对象形式编码的Json数据。
+* 可以返回二进制、字符串或数据对象形式编码的Json数据。
+
+.. _7-7-0-8-2-0-accessibility:
 
 Accessibility
 -------------
 
-The new :scpref:`group_alt` property available on screen language
-displayables allows the creator to specify text that is spoken the first
-time one of a group of related displayables is spoken.
+新增特性 :scpref:`group_alt` 。创作者可以指定一段文本，使自动语音系统首次遇到组内可视组件时播放指定文本对应语音。
 
-The new :scpref:`extra_alt` property available on screen language
-displayables allows the creator to specify text that is spoken when the
-'?' key is pressed, to provide additional information about the displayable.
+新增特性 :scpref:`extra_alt` 。创作者可以指定一段文本，当用户按下键盘问号键时，自动语音系统播放对应指定文本语音，提供可视组件的额外信息。
 
-Both of these properties are inherited by the children of the displayable,
-unless they are overridden by a more specific value in the child.
+可视组件设置了上述两项特性后，其子组件都会继承相同的特性。
+除非子组件自身设置了不同的值，覆盖父组件的特性。
 
-The new :func:`renpy.alt` function can be used to speak text using
-the self-voicing system.
+新增 :func:`renpy.alt` 函数，可以通过自动语音系统播放指定文本。
 
+.. _futurn-in-python:
 
-\_\_future\_\_ in python
-------------------------
+Python中的 \_\_future\_\_
+-------------------------
 
-Ren'Py now allows creators to pass
-`\_\_future\_\_ compiler directives <https://docs.python.org/reference/simple_stmts.html#future>`__
-for Python code run in Ren'Py. This is done using the ``rpy python xxx``
-statement at the top of the .rpy file(s) on which you want them to apply,
-where ``xxx`` is the name of the future feature. For example::
+此版本Ren'Py允许创作者使用Python代码中使用 `\_\_future\_\_ compiler directives <https://docs.python.org/reference/simple_stmts.html#future>`__ 。
+若要使用该功能，需要在.rpy文件顶部添加 ``rpy python xxx``。其中的 ``xxx`` 就是未来(future)功能特性。
+例如：
+
+::
 
     rpy python annotations
 
-Translation Improvements
+.. _7-7-0-8-2-0-translation-improvements:
+
+多语言支持提升
 ------------------------
 
-For most dialogue, Ren'Py will now create one third the number of objects
-to support translations. This helps reduce startup time and reduce memory
-usage.
+Ren'Py目前针对大多数对话，只会创建三分之一的对象用于支持多语言。
+这样减少了启动时间和内存占用。
 
-In addition, Ren'Py can now defer loading translations until a translation
-is  needed. This can improve startup time when the game is large and
-many languages are present.
+此外，Ren'Py可以在明确切换到其他语言之前，不加载多语言相关内容。
+这样减少了启动时间，在游戏很大并且可选语言很多的情况下效果显著。
 
-Deferred translation loading is disabled by default. The documentation on :ref:`deferred-translations`
-explains how to enable it and caveats that apply.
+延迟多语言加载功能默认情况下禁用。:ref:`deferred-translations` 文档描述了如何启用该功能。
 
-Scene, Show, and Hide Transition
+.. _scene-show-and-hide-transition:
+
+scene、show和hide语句中的转场
 --------------------------------
 
-The new scene, show, and hide transitions makes it possible to
-automatically perform a transition after sequences of scene, show,
-and hide statements that are not followed by a with statement, or
-a window show transition.
+scene、show和hide语句新增自动转场的设置。只要这些语句后面不带with从句或widown show，就会自动应用。
 
-This is controlled by the new :var:`_scene_show_hide_transition` variable,
-and documented at :ref:`scene-show-hide-transition`.
+此功能用到新增配置项 :var:`_scene_show_hide_transition`，详见文档 :ref:`scene-show-hide-transition`。
 
-Android
+.. _7-7-0-8-2-0-android:
+
+安卓
 -------
 
-The Android build system has been updated to use recent versions of Gradle
-and the Android Gradle Plugin. This means that Ren'Py now supports and
-requires Java 21, the most recent long-term support version of Java.
+安卓的发布系统已升级，使用Gradle和安卓Gradle插件的近期新版本。
+因此Ren'Py也支持和要求使用Jave 21——最近长期支持(Long Term Support)的Jave版本。
 
-A series of changes have been made to Ren'Py to allow games larger than
-2GB to be be downloaded to a Android or iOS device. How to do this is
-documented at :doc:`downloader`. It fundamentally involves creating two
-games - a very short one that is downloaded to the device, and a larger
-game that is downloaded to the device when the short game is run.
+Ren'Py做了一系列改动，终于可以在安卓和苹果设备上，下载大于2GB的游戏。
+具体内容详见 :doc:`downloader`。大体来说，就是把游戏分成两部分。
+将较小的一部分下载到设备上后，再通过该游戏下载大的另一部分。而较大的部分才是实际游戏内容。
 
-The user-visible version on android is now taken from :var:`build.version`, which
-defaults to :var:`config.version`.
+安卓版对游戏课件的版本号从配置项 :var:`build.version` 获取。其默认值与 :var:`config.version` 相同。
 
-Assets you place in the :file:`rapt/prototype` project will be placed into
-the built project.
+放在目录 :file:`rapt/prototype` 中的游戏资源会放入生成的项目目录中。
 
-The files produced by the Android build process will include the version
-number in their name, making it easier to distinguish between builds.
+生成的安卓版文件名会包含版本号，便于区分。
+
+.. _7-7-0-8-2-0-web:
 
 Web
 ---
 
-The way Ren'Py goes fullscreen on the web platform has been changed, to
-improve compatibility with both desktop and mobile web browsers.
+Web平台的全屏实现方式发生变化，提高了电脑和移动端Web浏览器的兼容性。
 
-Ren'Py now covers the game with a transparent div at start, to help the
-browser detect a click and allow audio to be played. It will proxy the
-click to the game and hide the div once this detection is finished.
+Ren'Py会在游戏开始时，顶部覆盖一个div透明组件，协助浏览器检测点击事件并播放音频。
+div组件会把点击事件重定向到游戏，等检测完成后隐藏自身。
 
-The :doc:`fetch` function is now supported on the web platform, allowing
-web pages to make HTTPS and HTTP requests, subject to the same rules (CORS)
-as other web pages.
+:doc:`fetch` 函数也可以在Web平台使用，只要只要符合相关规则(CORS)，就能向其他页面发送http和https请求。
 
-Updater
+.. _7-7-0-8-2-0-updater:
+
+更新器
 -------
 
-The :doc:`Ren'Py Updater <updater>` has been rewritten to use a new
-format, and is implemented entirely in Ren'Py. That makes it compatible
-with more web hosts, and for the first time it support https.
+:doc:`Ren'Py更新器 <updater>` 已完全重构。其兼容更多Web服务器，并且首次支持https协议。
 
-The updater will create a signing key when it is first run, and will sign
-generated updates with that key. When the updater is run, it will check
-that the updates are run with that key. This means it is no longer extra
+更新器首次运行时将创建一个签名密钥(signing key)，并使用该密钥对更新文件签名。
+更新器运行时后，会使用密钥检查更新。
+This means it is no longer extra
 work to produce a secure update.
 
-Translations
+.. _7-7-0-8-2-0-translations:
+
+多语言支持
 ------------
 
-There is a new Danish translation of the launcher and The Question.
+启动器和样例项目增加了丹麦语。
 
-Many other translations have been updated.
+其他语言也做了一些更新。
 
-Features
+.. _7-7-0-8-2-0-features:
+
+功能特性
 --------
 
-The new :var:`config.layer_transforms` variable allows you to supply
-a list of transforms that will be applied to each layer, or to the
-combination of all layers in :var:`config.layers`.
+配置项 :var:`config.layer_transforms` 可以为各个图层指定一个变换列表并应用，
+也可以为定义在 :var:`config.layers` 中的所有图层设置完全相同的变换列表。
 
-The new :class:`Continue` action will load the last save (by default,
-including autosaves and quick saves). This is intended for use from the
-main menu to continue the game, especially a linear visual novel.
+新增行为 :class:`Continue`，能直接加载最新存档(默认情况下包括自动存档和快速存档)。
+该行为设计用于快速继续游戏，特别是完全线性的视觉小说。
 
-The new :propref:`ruby_line_leading` style property controls additional
-line leading on lines that contain ruby text (furigana). This will generally
-use less space than the existing :propref:`line_leading` property.
+新增样式特性 :propref:`ruby_line_leading`，用于控制包含ruby文本(片假名)时的额外行距。
+该特性通常使用的行距会比 :propref:`line_leading` 小一些。
 
-It is now possible to reset the preferences to their default values
-by calling :func:`Preference` with "reset" as the argument.
+可以使用参数“reset”调用 :func:`Preference`，将环境设定(preference)重置为默认值。
 
-The new :class:`defaultdict` class, which exists in the default Ren'Py
-namespaces, is similar to Python's collections.defaultdict, while
-participating in rollback.
+新增 :class:`defaultdict` 类，存在于Ren'Py默认的命名空间中，类似于Python的collections.defaultdict，
+能够在滚回操作中同步回滚数据。
 
-The new :class:`MultiRevertable` class makes it possible to define a class
-that is both a revertable object and a revertable data structure (like
-list, set, or dict.)
+新增 :class:`MultiRevertable` 类。可以该基类派生出子类，同时拥有可恢复对象和可恢复数据结构(类似列表、集合和字典)的特点。
 
-The new :var:`config.pass_controller_events` and newly-documented
-:var:`config.pass_joystick_events` variables allow the game to access
-controller and joystick events directly.
+新增配置项 :var:`config.pass_controller_events` 和 :var:`config.pass_joystick_events`，
+让游戏可以直接获取控制器和手柄的操作。
 
-The new :var:`renpy.get_screen_variable` and :var:`renpy.set_screen_variable`
-functions make it possible to access screen variables, especially in :class:`Action`
-subclasses.
+新增函数 :func:`renpy.get_screen_variable` 和 :func:`renpy.set_screen_variable`，可以操作界面变量。
+主要通过 :class:`Action` 的派生类操作。
 
-The new :var:`build.time` variable is set to the time the game was built.
+新增变量 :var:`build.time`，可以设置游戏生成时间。
 
-The new :var:`build.info` variable lets you store information at
-build time, and read it back in the distributed game.
+新增变量 :var:`build.info`，可以在存储生成信息，并在发布版中也能看到这些信息。
 
-When the top left pixels of :ref:`presplash <presplash>` image is
-transparent, the presplash will be displayed in a window that uses
-1-bit transparency.
+:ref:`加载等待 <presplash>` 画面左上角像素为透明时，加载等待画面会显示在一个window组件中，并以单字节表示不透明度。
+(译者注：通常不透明度是8字节。)
 
-The new :func:`EditFile` action attempts to open a file and
-line in a text editor.
+新增行为 :func:`EditFile`，用于在文本编辑器中打开一个文件。
 
-The virtual dpi of an SVG file can be set with the new `dpi`
-parameter to :func:`Image`.
+SVG文件的虚拟dpi值可以用于设置 :func:`Image` 新增的 `dpi` 参数。
 
-The new :func:`CopyToClipboard` action copies text to the clipboard.
+新增行为 :func:`CopyToClipboard`，可以把文本复制到剪贴板。
 
-The new :func:`renpy.confirm` function provides a way of using
-the confirmation screen from within Python.
+新增函数 :func:`renpy.confirm`，能使用Python代码弹出确认界面。
 
-The new :func:`renpy.reset_all_contexts` function removes all contexts
-from the stack, and creates a new context that continues at the next
-statement. It can be used to fully reset the game upon load or when
-an error happens.
+新增函数 :func:`renpy.reset_all_contexts`，移除栈中所有上下文(context)，并根据下一条语句创建新的上下文。
+可以在读档或报错之后使用该函数。
 
-The new :func:`renpy.last_say` function returns information about the
-last say statement to run.
+新增函数 :func:`renpy.last_say`，返回最后一条say语句的信息。
 
-The new :func:`iap.request_review` function allows the game to request
-that the player review the game on Google Play and the Apple App Store.
+新增函数 :func:`iap.request_review`，可以向Google Play和苹果App Store发送用户评分请求。
 
-The new :var:`gui.history_spacing` variable controls the spacing between
-history entries in newly created games.
+新增变量 :var:`gui.history_spacing`，可以控制新创建的项目中，各段对话历史的间隔。
 
-The :tt:`nw` text tag can now take a value, which is a number of seconds
-to wait before the line containing the tag is automatically dismissed.
-The common construct "{w=2}{nw}" can now be written as "{nw=2}".
+新增文本标签(text tag) :tt:`nw`，可以指定一个等待时间(单位为秒)，之后立刻显示标签内文本。
+之前的常用写法“{w=2}{nw}”，现在可以写作“{nw=2}”。
 
-:class:`Movie` now takes a `keep_last_frame` parameter. When true, this
-causes a non-looping movie to display its last frame after the movie
-ends.
+:class:`Movie` 类新增参数 `keep_last_frame`。当该参数为True时，非循环播放的影片播放结束后将显示最后一帧画面。
 
-The ``jump expression`` statement can now take a local label name of the form
-".local_name". Previously, only "global_name" or "global_name.local_name" were
-allowed.
+``jump expression`` 语句可以使用“.local_name”格式的本地脚本标签名。
+之前只能使用“global_name”和“global_name.local_name”格式的脚本标签名。
 
-:ref:`creator-defined-sl` can now copy all properties from other screen
-language statements.
+:ref:`creator-defined-sl` 可以从其他界面语言语句复制所有特性(property)。
 
-The new :func:`renpy.invoke_in_main_thread` function can be used by a Python
-thread to invoke a function in the main Ren'Py thread. (Most Ren'Py functions
-can only be called from the main thread.)
+新增函数 :func:`renpy.invoke_in_main_thread`，可以使用Python线程在Ren'Py主线程中调用函数。
+(大多数Ren'Py函数都只能在主线程中调用。)
 
-Launcher Changes
+.. _launcher-changes:
+
+启动器变更项
 ----------------
 
-The launcher now supports :doc:`template_projects`. These are
-indended for use by projects that replace the default GUI.
-If a template project is selected when creating a new project,
-Ren'Py will copy the template project and update the name and translations,
-but will not make other changes to script files and images.
+启动器新增 :doc:`template_projects` 功能。该功能主要用于替换默认GUI之后新建的项目。
+若使用项目模板创建新项目，Ren'Py会将模板内的文件复制到新项目，并更新项目名和翻译文件，但不会修改脚本和其他图片文件。
 
-The launcher has been slightly redesigned to reduce the amount of
-whitespace, allowing more options to appear on some screens while
-still providing room for translations.
+启动器界面布局略有调整，减少了一些空白区域，可以在某些界面容纳更多选项。
+同时依然为多语言保留了足够空间。
 
-A :doc:`cli` has been documented, making it possible to build Ren'Py
-projects from the command line.
+新增 :doc:`cli` 部分的文档。现在可以通过命令行发布Ren'Py游戏。
 
-Other Changes
+.. _7-7-0-8-2-0-other-changes:
+
+其他变更项
 -------------
 
-Hide and replace transform events that are applied to screens are now always
-allowed to run to completion, even if the same screen is shown again. This
-makes it possible to use transform events with screens that may be shown
-again immediately, like the say or bubble screens.
+变换事件hide和relace应用到界面后会执行完，即使在隐藏过程中遇到让同一界面再次显示的事件，
+也会先彻底隐藏或替换，再重新显示。
+这样可以解决某些界面在隐藏过程中突然要求再次显示的问题，比如say界面和气泡。
 
-Containers (including fixed, hbox, vbox, side, grid, viewport, and vpgrid) now
-pass some transform events (hover, idle, insensitive, selected_hover, and selected_idle)
-to their children, meaning that children of a button can have their own transforms
-to respond to those events.
+当前版本开始，容器型组件(包括fixed、hbox、vbox、side、grid、viewport和vpgrid)会将变换事件(hover、idle、insensitive、selected_hover和selected_idle)
+透传给自身的子组件，也就是说某个按钮的子组件可以针对各种事件编写变换效果。
 
-:func:`persistent._clear` will re-run default statements that update
-persistent variables, making it possible to avoid persistent becoming
-entirely de-initialized.
+:func:`persistent._clear` 函数会重新运行所有default语句，并更新持久化变量。但可以避免所有持久化数据都变回初始值。
 
-The pixel transparency test used by :propref:`focus_mask` will now
-only involve the GPU if inside the bounding box of non-transparent pixels,
-improving performance in some cases.
+:propref:`focus_mask` 使用像素不透明测试时，会让GPU仅仅对不透明像素包围框内做测试。
+这在某些情况下可以提升性能。
 
-Ren'Py now uses the GL2 renderer by default on all platforms, and ignores
-the config.gl2 variable. This is because of issues with the old GL renderer
-that are not present in the GL2 renderer. On ancient hardware, it's still
-possible to use the GL renderer by pressing shift+G and enabling it
-directly.
+从此版本起，Ren'Py全平台都是用GL2作为默认渲染器，并忽略配置项 config.gl2 。
+旧的GL渲染器上报告的各种问题，在GL2渲染器上都没有出现。
+若使用比较古老的硬件，依然可以使用快捷键Shift+G启用GL渲染器。
 
-On PC platforms (Windows, Mac, and Linux), when the game window moves,
-its position is stored. The window's position will be restored when the
-game is run again, if:
+在电脑平台(Windows、Mac和Linux)上，当游戏窗口移动后，Ren'Py将记录窗口坐标。
+当游戏再次运行时，窗口坐标将恢复成记录的值，但有前提：
 
-* The layout of the player's monitors hasn't changed.
-* The window is fully contained on the player's monitors.
+* 玩家多个显示器的布局没有改变。
+* 游戏窗口整个都在玩家显示器的显示范围内。
 
-Otherwise, the window will be centered on the primary monitor.
+其他情况下，窗口都会显示在主显示器中心。
 
-On controllers (including the Steam Deck), the function of the B button
-has changed to show and hide the game menu. The previous behavior of the
-B button, selecting a button's alternate function, has been moved to X.
+在控制器方面(包括Steam Deck)，B键的功能改为显示和隐藏游戏菜单。
+之前的B键的功能是某个键的变种，现已转移到X键。
 
-The non-default hardware video playback path has been removed from android
-and ios. This path hadn't been the defaults since 2020, as it supported
-a subset of the video formats Ren'Py supports.
+在安卓和苹果iOS设备上，默认启用视频播放硬件解码。Ren'Py在2020年时，取消了默认启用该功能。
 
-Ren'Py now enforces that the angles given to the :tpref:`angle` and :tpref:`anchorangle`
-properties are in the range 0 to 360 degrees, inclusive of 0 but not of 360.
-Previously, angles outside this range  gave undefined behavior, now the angles
-will be clamped to this range. A 360 degree change will no longer cause motion,
-but will instead be treated as a 0 degree change.
+此版本Ren'Py会将角度值强制限制在0到360度范围内，包括0度但不包括360度。
+之前的版本中，超过这个范围的角度未明确定义。变化360度不再能显示动效，因为该值与0度相同。
 
-When animating :tpref:`angle` and :tpref:`anchorangle` with ATL, if a direction
-is not supplied, the shortest arc will be used, even if it passes through 0.
+使用ATL中的 :tpref:`angle` 和 :tpref:`anchorangle` 特性制作动效时，如果没有指定旋转方向则会使用劣弧，尽管这样旋转角度可能会小于0度。
 
-Ren'Py will now produce an error when an ATL block is present, but the block is
-empty. (For example, ``show eileen happy:`` with no indented lines following it.)
+Ren'Py遇到空的ATL代码块时将报错。(例如，``show eileen happy:`` 后面没有内容时。)
 
-To make it more useful for making interfaces compatible with right-to-left languages,
-the :propref:`box_reverse` style property has changed its
-behavior in two ways:
+为了在UI层面适配某些从右往左书写的语言文字，:propref:`box_reverse` 样式在两方面做了调整：
 
-* Space is offered to displayables in the order the displayables are presented in
-  the screen, where previously the space was offered in reverse order when
-  :propref:`box_reverse` was enabled. This can change the sizes of some displayables.
-* A hbox that has :propref:`box_wrap` set will wrap from top to
-  bottom, rather than bottom to top. A vbox with :propref:`box_wrap`
-  set will wrap from left to right, rather than right to left.
+* 启用 :propref:`box_reverse` 后，计算界面内各可视组件布局位置时，将按照与普通布局完全相反的顺序，
+  计算和添加各组件的额外空白。添加的额外空白可能会改变某些可视组件的尺寸。
+* 拥有 :propref:`box_wrap` 特性的hbox组件会从上往下组织子组件，而不是从下往上。
+  拥有 :propref:`box_wrap` 特性的vbox组件会从左往右组织子组件，而不是从右往左。
 
-When a file causes an autoreload, Ren'Py will check the directory containing
-the file and all parent directories for git lock files. The autoreload will
-be deferred until the lock files are removed when the git operation
-completes.
+某个文件导致自动重新加载时，Ren'Py会检查包含该文件所有上层目录是否有git锁定文件。
+自动重新加载会在git相关操作完成后，所有锁定文件都移除后再执行。
 
 AV1 movies that contained an previously-unsupported colorspace conversion could
 cause Ren'Py to crash, and now will play properly.
+之前AV1编码的视频可能包含不支持的色彩空间转换，并导致Ren'Py崩溃。现在可以正常播放了。
 
-The websockets package is now included in Ren'Py 8. This can be used to connect
-to websockets-based APIs from the desktop and mobile (but not web) ports of
-Ren'Py. As the package depends on Python 3, it's not included in Ren'Py 7.
+Ren'Py 8内置了websockets包，可用于在电脑和手机端(还不包括Web)连接基于Web Socket的API。
+由于websockets包依赖Python 3，所以Ren'Py 7里没有此包。
 
 
 .. _renpy-8.1.3:
@@ -585,36 +512,33 @@ Ren'Py. As the package depends on Python 3, it's not included in Ren'Py 7.
 8.1.3 / 7.6.3
 =============
 
-Changes
+.. _8-1-3-7-6-3-changes:
+
+变更项
 -------
 
-Ren'Py now considers :var:`config.gl2` to be true on macOS. This is because
-there are several fixes for window resizing on newer versions of macOS
-in the gl2 renderer that are not present in the gl renderer.
+Ren'Py可能在后续的macOS版本中，将 :var:`config.gl2` 设置为True。
+因为有一些针对窗口大小调整的修复项，仅仅对gl2渲染器有效。
 
-MMX acceleration for video playback has been re-enabled on Windows and
-Linux.
+Windows和Linux平台再次启用了MMX，实现视频播放加速。
 
-The way the Steam Deck keyboard is shown has changed. They keyboard
-is now shown, once, when a text input is displayed. By default, the
-keyboard is shown at the top of the screen, and the keyboard will
-only be shown once. If it's hidden (for example, the Steam button
-is pressed), the player needs to hit Steam+X to show it. This works
-around issues with the Steam Deck.
+Steam Deck主机的软键盘显示方式发生改变。仅在进入文本输入状态时，才会显示软键盘。
+默认情况下，软键盘开头会覆盖在所有界面之上。
+在某些导致软键盘被隐藏的操作(比如按下Steam Logo按键)后，用户需要同时按下 Steam+X 按键，才能再次显示软键盘。
+该变更项是为了解决Steam Deck自身的缺陷。
 
-The 32-bit windows Live2D library will be installed into Ren'Py 7.
-You may need to reinstall Live2D to get this library.
+32位Windows版的Live2D库已装入Ren'Py 7。可能需要重新安装Live2D相关组件才能使用该库。
 
-Fixes
------
+.. _8-1-3-7-6-3-fixes:
 
-An issue that prevented keys from being bound to text (for example,
-keysyms like "r" rather than "K_r") has been fixed.
+修复项
+------
 
-There have been several documentation fixes.
+按键映射系统无法识别键盘与文本绑定关系的某个问题(例如，可以识别“r”而不是别“K_r”)已修复。
 
-An issue with rollback not working at the start of the game has been
-fixed.
+文档方面做了一些修正。
+
+游戏开头的某个回滚问题已修复。
 
 
 .. _renpy-8.1.2:
@@ -623,80 +547,66 @@ fixed.
 8.1.2 / 7.6.2
 =============
 
-Changes
+.. _8-1-2-7-6-2-changes:
+
+变更项
 -------
 
-There have been many documentation improvements.
+此版本有多处文档方面的提升。
 
-When using :func:`renpy.classify`, a directory will now match patterns
-that do not end with /. (For example, "renpy.app" will match the renpy.app
-directory).
+使用 :func:`renpy.classify` 时，结尾不带 / 的目录名也能识别
+(比如“renpy.app”会识别为 renpy.app 目录)。
 
-ATL has been changed to use a deep compare to determine if a transform should
-be continued or restarted. This means a transform will restart if global
-variables it uses are changed.
+ATL改为深度比对之后再决定，继续动效还是重启。
+也就是说，某些全局变量改变后，相关的变换会重启。
 
-The styles of a viewport's children will not change when it gains drag
-focus. This was rarely used, and the style change could cause drags to
-be slow or to miss.
+viewport组件的子组件由于拖拽而获得焦点时，将无法更改样式。
+涉及这项变更的情况很少见。在拖拽过程中更改样式可能会拖拽响应变慢或无响应。
 
-Load will now roll the game back to the statement after the last statement
-that interacted to the user. (Previously, it would roll back to the start
-of the current statement.) This makes rollback on load match other rollbacks.
+读档后，回滚可以退到上一条带互动的语句。(之前的版本最多只能退到存档点的第一条语句开头。)
+这个变更项使用户读档后可以使用更多回滚操作。
 
-The :var:`_autosave` variable now takes precedence over forced autosaves,
-including those on quit and at choice menus.
+配置项 :var:`_autosave` 能对强制自动存档的点也生效，包括退出游戏和分支选择菜单。
 
-PYTHON* variables are filtered from the environment when launching a
-Ren'Py project from the launcher.
+从启动器运行某个Ren'Py项目时，Python变量的值会从环境变量配置中筛选并应用。
 
-In self-voicing mode, Ren'Py will try to ensure that self-voicing
-notifications are fully spoken to the player, even if the notification
-window fades away.
+自动语音模式下，提示窗口消失后，Ren'Py依然会努力确保念完整条提示窗口的内容。
 
-Self voicing now speaks screens closer to the player before those
-further away from the player.
+自动语音播放界面内容的顺序改为从最顶层到底层。
 
-:func:`Frame` will ensure that the frames it draws are at least one
-pixel in size in both dimensions.
+:func:`Frame` 组件要求绘制的图像至少有1像素。
 
-:func:`renpy.pause` can now roll forward to calls and jumps from screens.
+:func:`renpy.pause` 函数可以前向滚动到call或jump点。
 
-On the web browser, the ``"display" : "window"`` preference now disables
-fullscreen mode.
+在Web浏览器中，``"display" : "window"`` 可以禁用全屏模式。
 
-It is now possible to bind mouse buttons to skipping.
+可以绑定鼠标按键用于快进(skipping)。
 
-Fixes
------
+.. _8-1-2-7-6-2-fiexes:
 
-Problems with the web port entering fullscreen mode have been fixed.
+修复项
+------
 
-The Ren'Py 8 launcher can now launch games on Windows systems where the
-path to Ren'Py is not representable in the system encoding.
+Web端进入全屏时的问题已经修复。
 
-The functionality to import Python from the game/ directory has been
-improved to better comply with Python's :pep:`302`.
+在Windows平台上，由于系统文字编码问题导致Ren'Py用到的环境变量Path不可用时，Ren'Py 8启动器依然可以运行游戏。
 
-:func:`GamepadExist` now works as documented. As a byproduct of this fix,
-the gamepad screen will be displayed in Help when in developer mode.
+从 game/ 目录导入的Python功能做了提升，更好地适配Python :pep:`302` 标准。
 
-An issue analyzing nested comprehensions in screen has been fixed, fixing a
-case where nested comprehensions could cause default variables to not be
-available.
+该修复项还有个副产物，在开发者模式的“帮助”界面会显示gamepad界面。
 
-Viewport inertia continues even if the interaction restarts during the
-animation.
+界面的歧义分析系统导致的一个问题已修复。之前该问题可能会使某些变量不可用。
 
-The if_changed clause to :ref:`play <play-statement>` (and
-:func:`renpy.music.play`) now considers and preserves looping.
+在互动行为重启动画时，viewport的惯性表现依然有效。
 
-VS Code launch has been fixed on Linux.
+:ref:`play语句 <play-statement>` (以及 :func:`renpy.music.play` 函数)中出现 if_changed 从句则会阻止循环。
 
-Several crashes on the web port of Ren'Py 7 have been fixed.
+Linux系统上启动VS Code时的问题已修复。
 
-Movie functions now ensure the relevant channels exist before playing. This
-can fix issue caused by loading a Movie from a save file.
+Ren'Py 7在Web端的某些崩溃问题已修复。
+
+Movie函数会在播放视频前确认对应的通道(channel)可用。
+此项解决了从存档文件中加载视频可能出现的问题。
 
 
 .. _renpy-8.1.1:
@@ -710,72 +620,57 @@ can fix issue caused by loading a Movie from a save file.
 安卓
 -------
 
-When creating keys for Android, Ren'Py will now use the same key for APKs
-and Play Bundles, as for new games it's not necessary to use different keys.
-(For existing games, Ren'Py will continue to use the existing separate
-keys.)
+创建安卓版本密钥(key)时，Ren'Py会让APK和Bundle两种安装包使用相同密钥。
+新游戏用两个不同密钥确实没必要。
+(对于已经之前的游戏，Ren'Py依然会继续使用已存在的两个不同密钥。)
 
-We've received reports of games uploaded to the Google Play as bundles
-having their APKs rejected for having different keys. This was caused by
-an old release of Ren'Py that used the APK key for bundles. A solution to
-this problem is documented in :ref:`incompatible changes <android-key-migration>`.
+我们收到了一些报告，有人把APK和Bundle使用不同密钥的游戏上传到Google Play后，被拒(rejected)了。
+这是某个较早版本Ren'Py导致的问题，将APK的密钥误用到Bundle中。
+解决方法详见 :ref:`不兼容的变更 <android-key-migration>`。
 
+.. _8-1-1-7-6-1-fixes:
 
-Fixes
------
+修复项
+------
 
-The "system cursor" :func:`Preference` now applies to :var:`config.mouse_displayable`,
-when it used to only disable :var:`config.mouse`.
+:func:`Preference` 中的“系统光标”可以使用 :var:`config.mouse_displayable` 配置的鼠标图案。
 
-Web audio now treats the end time as a time, not a duration.
+Web端的音频系统会将结束时间处理为一个时间戳，而不是一个时长。
 
-An issue with that prevented audio volumes and pan from participating
-in rollback has been fixed.
+回滚后音量和声相相关的某个问题已修复。
 
-Fix an issue where Live2D could select an image despite all of the
-required attributes not being present.
+Live2D图像属性(attribute)不全导致可能会发生的问题已修复。
 
-Support for start, end, and loop times in videos has been
-restored.
+支持视频的开头、结束和循环时间。
 
-Hotspots can no longer be const when the images used by the imagemap
-the hotspots come from are not const.
+Imagemap自身不是常量(const)时，其内部的Hotspot也不再是常量(const)。
 
-An issue with non-resizable windows on macOS has been fixed.
+macOS上，导致某些window组件无法改变尺寸的一个问题已修复。
 
-An issue with linting fonts in the font directory has been fixed.
+font目录下关于Lint字体的一个问题已修复。
 
-In some cases, when a class that inherited from the object class was changed
-to no longer inherit from the object class, Ren'Py would crash. Ren'Py
-now diagnoses this error, and :var:`config.ex_rollback_classes` lets you
-suppress the error. The error is only shown to developers, and is otherwise
-silently ignored.
+在某些情况下，某个从其他基类派生的类，如果改成不从基类派生的话，Ren'Py可能会崩溃(crash)。
+现在Ren'Py会追踪这个错误，并且通过设置 :var:`config.ex_rollback_classes` 项可以抑制报错。
+此类报错只会向开发者展示，正常游戏时后台直接忽略。
 
-Other Changes
+.. _8-1-1-7-6-1-other-changes:
+
+其他变更项
 -------------
 
-The Ren'Py sync screens now use styles prefixed with ``sync``, allowing
-basic customization without having to edit the screens.
+Ren'Py可以使用样式前缀 ``sync`` 实现界面同步。不需要编辑界面，只需要一些基础的定制化设置即可实现。
 
-Ren'Py will disable text input methods when text editing is not possible, which
-makes it possible to use the space key to advance the game even if an input
-method that uses the space key is active.
+禁用文本编辑功能后，Ren'Py会禁用text组件的input方法。这样在input允许空格键的情况下，依然可以使用空格键直接让游戏剧情前进。
 
-ATL Transitions now use the animation timebase. This is generally the same
-behavior as before, until the interaction restarts, in which case the
-transition would often incorrectly restart.
+ATL转场使用了动画时间轴。指向改动旨在解决某些互动重启后，转场无法正常展现的情况。
 
-Preferences no longer have defaults, meaning all preferences can be
-changed using the ``default`` statement.
+所有环境设定配置(preference)都不在有默认值。
+所有配置项都可以使用 ``default`` 语句修改值。
 
-The :func:`absolute` type, used to represent absolute amounts of pixels,
-now ensures the result of mathematical operations with integers and
-floats remain absolute numbers. This fixes a class of problems where
-operations performed on absolutes could produce the incorrect
-type, leading to layout problems.
+:func:`absolute` 表示一个绝对的像素数，现在会确保参与计算的整数和浮点数都会转为绝对数值。
+该变更修复了某个类，使用absolute类参数时会产生错误结果并导致布局出错的问题。
 
-Live2D now checks for a motion after evaluating an `attribute_filter`,
-and does not sustain the previous motions if a new motion is present.
+Live2D系统会在计算某个 `attribute_filter` 后检查结果动作，并直接开始演出新动作。
 
 .. _renpy-8.1.0:
 .. _renpy-7.6.0:
@@ -785,8 +680,8 @@ and does not sustain the previous motions if a new motion is present.
 
 .. _7.6-documentation-improvements-and-fixes:
 
-文档提升与修复
----------------
+文档提升与修复项
+----------------
 
 文档提升与修复了多处，很多内容并没有记录在变更日志中。
 
@@ -1942,8 +1837,8 @@ Ren'Py新增 gui.variant 修饰器。其用于修饰某些的函数。
 
 .. _7.4.11-fixed:
 
-修复
------
+修复项
+------
 
 新增配置项 :var:`config.mouse_focus_clickthrough`，用于判断鼠标点击是否让游戏窗口获得焦点，并正常处理点击事件。
 

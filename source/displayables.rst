@@ -31,11 +31,24 @@
 
 最常见的可视组件是通过加载硬盘上的一个文件并显示的图像(image)。由于图像是如此常用，所以每当某个上下文中某字符串给出了一个文件名，并需要将这个文件用作可视组件时，引擎就会自动创建一个图像(image)对象。唯一需要直接使用图像(image)对象的情况是，你想创建一个带样式特性的图像。
 
-.. function:: Image(filename, **properties)
+.. function:: Image(filename, *, optimize_bounds=True, oversample=1, dpi=96, **properties)
 
-    从文件中加载一个图像。 *filename* 是文件名的字符串。
+    从文件中加载一个图像。 `filename` 是一个字符串，表示加载的文件名。
 
-    *filename* 应该是一个JPEG或PNG文件。
+    `filename`
+        应该是一个图片文件名，包括扩展名。
+
+
+    `optimize_bounds`
+        若为True，图片在一个不透明像素构成的包围框(bounding box)内的部分才会加载到显存中。
+        (只有将图片作为着色器输入时，才可能需要将该项设置为False。)
+
+    `oversample`
+        若该参数大于1，表示图像需要过采样(oversample)，实际像素数比逻辑尺寸大。
+        例如分辨率为2048×2048，过采样率为2的图片文件，在各种布局计算时都当作1024×1024大小的图片。
+
+    `dpi`
+        SVG图片的DPI。默认值为96。增大该参数可以把SVG图片渲染得更大，反之则渲染得更小。
 
 ::
 

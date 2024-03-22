@@ -137,15 +137,13 @@ python函数
 
     若影片播放被用户停止则返回True，若在delay定义的预计时间内由于其他原因中断播放则返回False。
 
-.. function:: Movie(fps=24, size=None, channel='movie', play=None, mask=None, mask_channel=None, image=None, play_callback=None, side_mask=False, loop=True, start_image=None, group=None, **properties)
+.. class:: Movie(*, size=None, channel='movie', play=None, side_mask=False, mask=None, mask_channel=None, start_image=None, image=None, play_callback=None, loop=True, group=None, **properties)
 
-    该函数创建了一个可视组件用于显示当前影片。
-
-    `fps`
-        指定影片的播放帧率。(该值通常可以省略。播放时指定的帧率会后向匹配，即高帧率视频可以指定更低帧率播放。影片文件的原始帧率会被自动检测到。)
+    该类是一个可视组件，用于显示影片。
 
     `size`
-        该值有两种情况：指定一个包含指定影片宽度和高度的元组，或空值(None)自适应影片原尺寸。(如果这里设置为空值(None)，可视组件在不播放影片时的值就是(0, 0)。)
+        该参数有两种情况：指定一个包含指定影片宽度和高度的元组，或空值(None)自适应影片原尺寸。
+        (如果这里设置为None，可视组件在不播放影片时的值就是(0, 0)。)
 
     `channel`
         与播放影片相关联的音频通道名。当某个影片在该通道上播放时，就会在对应的影片组件上显示。
@@ -171,7 +169,7 @@ python函数
         当影片开始播放，但第一帧画面还未解码时，会使用此图像顶替。
 
     `image`
-        若入参play给定，但文件可能并不存在或不能播放的情况下，则会显示入参image给定的图片文件。(例如，这个功能可以用于创建一个精简的移动版本，其不包含影片精灵。)当用户遇到系统负荷过重时，也能在特性中选择降低为显示图片而不是播放影片。
+        若给定了参数play的值，但文件可能并不存在或不能播放的情况下，则会显示入参image给定的图片文件。(例如，这个功能可以用于创建一个精简的移动版本，其不包含影片精灵。)当用户遇到系统负荷过重时，也能在特性中选择降低为显示图片而不是播放影片。
 
     `play_callback`
         若不是None，这个函数用于启动影片的播放。(函数的工作可能是将一个转场加入到各个sprite之间。)调用函数时使用下列入参：
@@ -203,3 +201,6 @@ python函数
         如果前一帧同组的其他影片还处于播放状态，那就会把前一帧的画面作为当前影片的初始画面。
         该功能用于避免影片切换时导致的透明闪烁。
 
+    `keep_last_frame`
+        若为True，在影片播放结束后，将显示最后一帧画面，而不是隐藏影片。前提需要把 `loop` 设置为False。
+        (`group` 设置为非None值后也能生效。)
