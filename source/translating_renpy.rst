@@ -97,7 +97,7 @@ Ren'Py自带的默认字体(DejaVuSans)涵盖了大多数的西方语言，不�
     init python:
         translate_font("language", "myfont.ttf")
 
-“language”是需要使用的语言类型(例如，“japannese”)，“myfont.ttf”是使用的字体(例如，“MTLc3m.ttf”)。字体文件应该放在 :file:`launcher/game/tl/language` 目录，这样就可以被启动器找到。
+“language”是需要使用的语言类型(例如，“japanese”)，“myfont.ttf”是使用的字体(例如，“MTLc3m.ttf”)。字体文件应该放在 :file:`launcher/game/tl/language` 目录，这样就可以被启动器找到。
 
 .. _changing-the-launcher-style:
 
