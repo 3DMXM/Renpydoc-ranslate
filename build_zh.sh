@@ -34,7 +34,7 @@ python checks.py
 
 cd ~/renpy-zh/doc-web
 
-sed -i 's/placeholder="Search"/placeholder="搜索"/g' *.html
+sed -i 's/placeholder="Search docs"/placeholder="搜索文档"/g' *.html
 
 sed -i 's/Home Page/官方主页/g' *.html
 
@@ -44,4 +44,9 @@ sed -i 's/Ren\&#39;Py Documentation/Ren\&#39;Py 中文文档/g' *.html
 
 sed -i '0,/https:\/\/www.renpy.org\/doc\/html/s/https:\/\/www.renpy.org\/doc\/html/https:\/\/www.renpy.cn\/forum.php/g' *.html
 
-sed -i 's/Back to top/返回顶部/g' *.html
+sed -i 's/https:\/\/github.com\/renpy\/renpy\/blob\/master/https:\/\/gitee.com\/kurororo666\/Renpydoc-ranslate\/tree\/master/g' *.html
+
+sed -i 's/fa fa-github/fa fa-git-square/g' *.html
+
+sed -i 's/Edit on GitHub/查看码云的源码/g' *.html
+
