@@ -48,5 +48,5 @@ sed -i 's/https:\/\/github.com\/renpy\/renpy\/blob\/master\/sphinx/https:\/\/git
 
 sed -i 's/fa fa-github/fa fa-git-square/g' *.html
 
-sed -i 's/Edit on GitHub/给文档捉虫/g' *.html
+sed -i 's/Edit on GitHub/文档捉虫/g' *.html
 
