@@ -45,7 +45,62 @@ Ren'Py有两套系统可实现定制鼠标光标。
         ( "gui/spin7.png", 7, 7 ),
     ]
 
-若动画由多帧组成，帧率为20fps。Ren'Py只能修改光标的图片或偏移量。
+若该项是多帧动画，则固定以20fps帧率播放。Ren'Py会在图片或偏移值变化后同步修改光标。
+
+下表列举了光标可能处于的各种状态，以及相应使用场景：
+
+.. list-table::
+ :header-rows: 1
+
+ * - 状态关键词
+   - 使用场景
+
+ * - ``default``
+   - 所有场景的缺省项。该项必须赋值，在没有明确指定场景关键词时都将使用该项。
+
+ * - ``say``
+   - 用户处于“say”界面时使用该项。
+
+ * - ``with``
+   - 转场时使用该项。
+
+ * - ``menu``
+   - 用户处于菜单(例如分支选项菜单)时将使用该项。
+
+ * - ``prompt``
+   - 提示用户进行输入时使用该项。
+
+ * - ``imagemap``
+   - 在imagemap组件上使用。
+
+ * - ``button``
+   - 用户鼠标悬停在某个button或imagebutton组件上时使用该项。
+
+ * - ``pause``
+   - 暂停或调用renpy.pause()函数时，使用该项。
+
+ * - ``mainmenu``
+   - 主菜单。
+
+ * - ``gamemenu``
+   - 游戏菜单(gamemenu界面)。
+
+每个状态关键词都附带一个可选的 ``pressed_`` 前缀，表述鼠标左键按下之后切换光标图案。
+例如，``pressed_button`` 会在用户点击某个按钮之后改变光标。
+若要定义默认情况下按下鼠标左键时的光标样式，可以直接使用 ``pressed_default`` 关键词。
+只要没有其他 ``pressed_`` 的状态关键词，就都会应用该默认光标。
+
+样例：
+
+::
+
+    define config.mouse = { }
+    define config.mouse['default'] = [ ( "gui/arrow.png", 0, 0) ]
+    define config.mouse['pressed_default'] = [ ( "gui/arrow_pressed.png", 0, 0) ]
+    define config.mouse['button'] = [ ( "gui/arrow_button.png", 0, 0) ]
+    define config.mouse['pressed_button'] = [ ( "gui/arrow_button_pressed.png", 0, 0) ]
+    define config.mouse['menu'] = [ ( "gui/arrow_menu.png", 0, 0) ] # 用户处于菜单界面时，使用该光标
+    # 由于没有“pressed_menu”光标，将使用默认的“pressed_default”光标
 
 .. _displayable-mouse-cursor:
 
@@ -70,7 +125,7 @@ Ren'Py有两套系统可实现定制鼠标光标。
     define config.mouse_displayable = MouseDisplayable(
         "gui/arrow.png", 0, 0).add("spin", "mouse spin", 9.9, 9.9)
 
-.. function:: MouseDisplayable(cursor, x, y)
+.. class:: MouseDisplayable(cursor, x, y)
 
     用作替换鼠标光标的可视组件。当用户在屏幕内移动鼠标时，该可视组件将跟随鼠标一起移动。
 
@@ -79,6 +134,13 @@ Ren'Py有两套系统可实现定制鼠标光标。
 
     `x, y`
         热区(hotspot)坐标，以鼠标左上角的为原点，虚拟像素数。
+
+    .. method:: add(self, name, cursor, x, y)
+
+        该方法能添加一个光标，根据鼠标状态 `name` 显示对应的光标。
+        该方法返回的是MouseDisplayable对象，因此可以连续调用添加多个不同状态的光标。
+
+        (译者注：MouseDisplayable(cursor, x, y).add(name1, cursor1, x1, y1).add(name2, cursor2, x2, y2).add(name3, cursor3, x3, y3)……)
 
 .. _using-mouse-cursors:
 
@@ -91,7 +153,7 @@ Ren'Py有两套系统可实现定制鼠标光标。
 ::
 
     screen test():
-        textbutton "鼠标测试" actiuon NullAction mouse "spin"
+        textbutton "鼠标测试" actiuon NullAction() mouse "spin"
 
 还可以使用 :var:`default_mouse` 设置全局鼠标光标：
 
