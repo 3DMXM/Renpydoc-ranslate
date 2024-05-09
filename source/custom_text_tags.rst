@@ -69,12 +69,14 @@ Ren'Py支持定义你自己的文本标签(tag)。文本标签系统可以操作
 
 对话文本标签{p}、{w}、{nw}和{fast}在定制文本标签之前优先处理，所以不应该被包含在一个定制文本标签里面，也不应该与定制文本标签互相穿透。
 
-.. _examples:
+.. _ctt-examples:
 
 样例
 --------
 
-样例中的 ``big`` 文本标签使用效果类似于{size}文本标签，不过会对入参使用相乘(multiply)。::
+样例中的 ``big`` 文本标签使用效果类似于{size}文本标签，不过会对入参使用相乘(multiply)。
+
+::
 
     init python:
 
@@ -93,7 +95,9 @@ Ren'Py支持定义你自己的文本标签(tag)。文本标签系统可以操作
 
     "这个字就是 {big=3}大!{/big}"
 
-样例 ``rot13`` 文本标签将rot13变换(transform)应用于文本。注意，rot26——应用两次rot13——就是普通的文本。 ::
+样例 ``rot13`` 文本标签会使文本应用变换(transform)rot13。注意，rot26——应用两次rot13——就是普通的文本。
+
+::
 
     init python:
 
@@ -119,7 +123,7 @@ Ren'Py支持定义你自己的文本标签(tag)。文本标签系统可以操作
             for kind, text in contents:
 
                 if kind == renpy.TEXT_TEXT:
-                    text = text.encode("rot13")
+                    text = rot13_transform(text)
 
                 rv.append((kind, text))
 

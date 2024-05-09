@@ -90,9 +90,9 @@ will render them incapable of running games. (译者注：上一句是吹牛逼�
 presplash
 ---------
 
-Web平台原生使用默认的preslash图片。
-若要更换，需要提供一个名为 `web-preslash` 的图片，图片后缀可以是 `.jpg`、`.png` 或 `.webp`。
-该图片会替换默认的preslash并显示。
+Web平台原生使用默认的presplash图片。
+若要更换，需要提供一个名为 `web-presplash` 的图片，图片后缀可以是 `.jpg`、`.png` 或 `.webp`。
+该图片会替换默认的presplash并显示。
 
 `.webp` 格式文件，可以是多帧动画。
 

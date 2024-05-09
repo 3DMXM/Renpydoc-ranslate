@@ -1018,7 +1018,7 @@ gui/nvl.png
 
     NVL模式下菜单按钮的位置和对齐方式。
 
-Ren'Py并不默认使用NVL模式。调用NVL模式必须使用NVL模式角色，而NVL模式角色需要在 :file:`script.rpy` 文件中定义一系列配置项。
+Ren'Py默认不使用NVL模式。调用NVL模式必须使用NVL模式角色，而NVL模式角色需要在 :file:`script.rpy` 文件中定义一系列配置项。
 
 ::
 
@@ -1031,14 +1031,10 @@ Ren'Py并不默认使用NVL模式。调用NVL模式必须使用NVL模式角色�
 
     这是一个应用以上定制化配置后的NVL界面样例。
 
-    .. figure:: oshs/game/gui/nvl.png
-
-        :file:`gui/nvl.png` 样例图片。
-
     .. figure:: gui/nvl.jpg
         :width: 100%
 
-        应用以上定制化配置后的样例游戏。
+        应用以上定制化配置后的样例。
 
 .. _gui-text:
 
