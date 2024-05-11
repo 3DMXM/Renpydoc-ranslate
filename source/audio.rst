@@ -275,8 +275,6 @@ Ren'Py搜索音频文件时，如果在game目录中没有对应的匹配文件�
 
     play music "opening.ogg"
 
-Will first look for ``game/opening.ogg``. If not found, Ren'Py will look for
-``game/audio/opening.ogg``.
 会先寻找 ``game/opening.ogg``。若未果则会寻找 ``game/audio/opening.ogg`` 。
 
 .. _a-actions:
