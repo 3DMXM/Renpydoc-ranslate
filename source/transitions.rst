@@ -5,7 +5,7 @@
 ===================
 
 在Ren'Py中，转场(transition)可以用作  :ref:`with 语句
-<with-statement>` 及其他语句的一部分，用于场景切换时提供各种效果。Ren'Py自带一写预定义的转场(transition)效果，可以在with语句中直接使用。Ren'Py中还包含transition类，可以用于创建新的transition对象。
+<with-statement>` 及其他语句的一部分，用于场景切换时提供各种效果。Ren'Py自带一些预定义的转场(transition)效果，可以在with语句中直接使用。Ren'Py中还包含transition类，可以用于创建新的transition对象。
 
 .. _pre-defined-transitions:
 
