@@ -137,8 +137,6 @@ ColorMatrix类可以被子类继承，需要重写 ``__call__`` 方法。
 在ATL中，对 :tpref:`matrixcolor` 特性进行插值，要求使用的ColorMatrix对象具有相似结构。
 这表示相同类型的ColorMatrix，使用相同顺序相乘。
 
-As an example, the following will interpolate from normal to a desaturated
-blue tint, and then return to normal. 
 下面的样例中，会对图像插值并转成低饱和度的淡蓝色，然后再转回去：
 
 ::
