@@ -33,6 +33,7 @@ Shift+O 控制台
 * 在游戏过程中追踪Python表达式。
 
 主要命令如下：
+
 * clear：清除控制台历史记录
 * escape：启用转义 Unicode 字符串中的 Unicode 符号。
 * exit：退出控制台
