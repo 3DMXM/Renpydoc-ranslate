@@ -103,7 +103,7 @@ images目录
 在图片需要缩放同时要求细节时，过采样技术十分有用。
 当使用更高细节的图形重制游戏时，过采样可以用来解决 :var:`config.physical_width` 和 :var:`config.physical_height` 与素材间的矛盾。
 
-图片名出去扩展名，以一个 ‘@’ 符号加数字形式结尾时，将自动启用过采样。
+图片名去除扩展名，以一个 ‘@’ 符号加数字形式结尾时，将自动启用过采样。
 例如，:file:`eileen happy@2.png` 表示2倍过采样， :file:`eileen happy@3x.png` 表示3倍过采样。
 使用 :func:`Image` 函数时指定关键字参数 `oversample` 的值也可以启用过采样。
 
