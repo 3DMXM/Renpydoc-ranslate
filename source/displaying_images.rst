@@ -103,7 +103,7 @@ images目录
 在图片需要缩放同时要求细节时，过采样技术十分有用。
 当使用更高细节的图形重制游戏时，过采样可以用来解决 :var:`config.physical_width` 和 :var:`config.physical_height` 与素材间的矛盾。
 
-图片名出去扩展名，以一个 ‘@’ 符号加数字形式结尾时，将自动启用过采样。
+图片名去除扩展名，以一个 ‘@’ 符号加数字形式结尾时，将自动启用过采样。
 例如，:file:`eileen happy@2.png` 表示2倍过采样， :file:`eileen happy@3x.png` 表示3倍过采样。
 使用 :func:`Image` 函数时指定关键字参数 `oversample` 的值也可以启用过采样。
 
@@ -129,7 +129,7 @@ image语句用于定义图像(image)。一条image语句由以下部分组成：
 
     image eileen happy = "eileen/happy.png"
 
-image语句在初始化阶段就运行，在开始标签(label)运行或者初始菜单展现之前。就算image语句不放在初始化语句块(block)中，它们依然会获得初始化语句块同样的优先级级别500。
+image语句会在初始化阶段(init block)中运行，即在开始标签(label start)运行或者初始菜单展现之前。就算image语句不放在初始化语句块(init block)中，它们依然会像在初始化语句块中运行一样，并且它们的优先级级别是500。
 
 其他信息可以参考 :ref:`ATL的image语句变种 <atl-image-statement>` 。
 
