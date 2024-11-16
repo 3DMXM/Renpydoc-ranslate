@@ -12,20 +12,25 @@
 预定义的转场(Pre-Defined Transitions)
 ========================================
 
-预定义的转场(transition)可以直接使用在with语句中。举例：
+预定义的转场(transition)可以直接使用在 :ref:`with语句 <with-statement>`中。举例：
 
 ::
 
     show bg washington
     with dissolve
 
-.. var:: fade
+.. _pre-defined-transitions:
 
-    0.5秒时间画面逐渐暗淡至全黑，然后0.5秒时间画面从全黑逐渐变亮成新界面。一个 :func:`Fade()` 转场类的实例。
+预定义转场
+=======================
 
 .. var:: dissolve
 
     0.5秒时间，使用溶解效果从旧界面切到新界面。一个 :func:`Dissolve()` 转场类的实例。
+
+.. var:: fade
+
+    0.5秒时间画面逐渐暗淡至全黑，然后0.5秒时间画面从全黑逐渐变亮成新界面。一个 :func:`Fade()` 转场类的实例。
 
 .. var:: pixellate
 
@@ -71,7 +76,7 @@
 .. var:: vpunch
 
     这种转场效果，会垂直摇晃界面0.25秒。
-    若要修改此转场和 :var:`hpunch`，可以使用 :ref:`atl-transitions`.
+    可以使用 :ref:`atl-transitions` 仿写一个vpunch转场和 :var:`hpunch` 类似的效果。
 
 .. var:: hpunch
 
@@ -121,6 +126,7 @@
 ==================
 
 转场(transition)类是可以用于创建新转场效果的功能函数。这些函数是参数化的，允许创建一个系列的转场。
+与表象有差别的是，这些通常在Python中不认为是通常的“类(class)”，也不应视为具有各种类特征的抽象。
 
 使用with语句就可以调用转场类。举例：
 
@@ -133,11 +139,11 @@
 
 ::
 
-    define annoytheuser = Dissolve(1.0)
+    define dissolve1 = Dissolve(1.0)
 
     label start:
         show bg washington
-        with annoytheuser
+        with dissolve1
 
 time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多个转场对象，
 详见 :ref:`warpers <warpers>` 。
@@ -504,6 +510,69 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
     define config.window_hide_transition = { "screens" : Dissolve(.25) }
 
 因为对话窗口整个都在界面(screen)层上所以可以修复这个问题。
+
+.. _atl-transitions:
+
+ATL转场
+===============
+
+*其他参考* :ref:`atl`
+
+可以使用ATL变换定义一个转场(transition)。
+这样定义的转场需要接受 `old_widget` 和 `new_widget` 入参，分别指定转场的起始和结束使用的可视组件。
+
+ATL转场必须设置 :tpref:`delay` 特性，表示转场时间，单位为秒。
+还可以使用 :tpref:`events` 特性，使旧组件屏蔽事件消息。
+
+::
+
+    transform spin(duration=1.0, new_widget=None, old_widget=None):
+
+        # 设置变换耗时
+        delay duration
+
+        # 置于正中
+        xcenter 0.5
+        ycenter 0.5
+
+        # 转动旧组件
+        old_widget
+        events False
+        rotate 0.0
+        easeout (duration / 2) rotate 360.0
+
+        # 转动新组件
+        new_widget
+        events True
+        easein (duration / 2) rotate 720.0
+
+
+.. _transitions-python:
+
+Python转场
+==================
+
+一个Python可调用对象也可用做转场。若要如此做，其必须可以使用两个入参 `old_widget` 和 `new_widget`，
+并返回一个可视组件用演示转场效果——通常会委托给另一个转场。
+入参 `old_widget` 表示转场的起始画面，入参 `new_widget` 表示转场的结束画面。
+
+The displayable returned by the callable should have a ``delay`` attribute,
+set to the number of seconds that the transition should run for.
+用作转场的Python可调用对象，返回结果需要有 ``delay`` 属性，用作设置转场的持续时间。
+
+例如：
+
+::
+
+    init python:
+        def dissolve_or_pixellate(old_widget=None, new_widget=None):
+            if persistent.want_pixellate:
+                return pixellate(old_widget=old_widget, new_widget=new_widget)
+            else:
+                return dissolve(old_widget=old_widget, new_widget=new_widget)
+
+这样定义后，各种转场都可以被正常调用，并传入需要的参数，演示可视组件的动画效果。
+
 
 .. _scene-show-hide-transition:
 

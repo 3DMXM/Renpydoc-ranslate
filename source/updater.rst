@@ -54,6 +54,10 @@ updates.json
 updates.ecdsa
    updates.json文件签名，用于验证是否已经在本地缓存。
 
+rpu/
+    rpu目录内包含更新其的元数据和数据。
+
+
 创作者必须把所有这些文件都上传到web服务器的同一目录下。
 
 .. _updater-functions:
@@ -216,7 +220,7 @@ updates.ecdsa
 更新界面可以有一个入参，即一个Update类对象，参数名必须为 `u`。
 Update对象包含下列字段，可用于界面定制化：
 
-.. class:: update.Updater
+.. class:: updater.Updater
 
     .. attribute:: state
 

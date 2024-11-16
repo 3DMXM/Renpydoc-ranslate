@@ -76,35 +76,35 @@ screen语句
 
 screen语句使用一个参数，即界面名。界面名不是一个简单表达式，可以使用以下特性：
 
-.. screen-property:: `modal`
+.. screen-property:: modal
 
     若为True，该界面是一个模态框(modal)。一个模态框界面防止用于与它下层的可视组件发生互动，除了默认的keymap类。
 
-.. screen-property:: `sensitive`
+.. screen-property:: sensitive
 
     决定界面是否被启用的表达式。每次交互行为时，该表达式都至少会被计算一次。
 
-.. screen-property:: `tag`
+.. screen-property:: tag
 
     被当作一个变量名处理，而不是一个表达式。该特性指定一个与界面关联的图像标签(tag)。显示某个界面会替换带用相同图像标签的其他界面。这可以用来确保在相同的上下文环境下，同一时间只有显示一个菜单界面。
 
-.. screen-property:: `zorder`
+.. screen-property:: zorder
 
     该特性用于控制向用户显示界面的远近。数值越大，界面距离用户越近。默认值是0。
 
-.. screen-property:: `variant`
+.. screen-property:: variant
 
     如果该特性出现，应该是一个字符串或者字符串的列表，给定了待定义的变种界面。详见 :ref:`界面变种 <screen-variants>`。
 
-.. screen-property:: `style_prefix`
+.. screen-property:: style_prefix
 
     该特性是一个字符串，用于向界面所有子组件的样式提供一个前缀， :ref:`如下描述 <style-prefix>`。
 
-.. screen-property:: `layer`
+.. screen-property:: layer
 
     该特性是一个字符串，给定了显示界面的默认图层(layer)名。
 
-.. screen-property:: `roll_forward`
+.. screen-property:: roll_forward
 
     若为True，使用 ``call screen`` 语句时将启用前向滚动。
     若为False，禁用前向滚动。
@@ -145,7 +145,7 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 
 所有用户接口语句使用下列通用特性：
 
-.. screen-property:: `at`
+.. screen-property:: at
 
     一个transform、transform的列表或者匿名transform(未定义直接在at中使用的transform)。
 
@@ -166,7 +166,7 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 
     例如，如果某个vbox在某transform中被wrap，并直接添加到界面上，事件消息就会传给那个transform。但如果某个按键文本是添加到vbox再被加入transform中被warp，那么第二层的transform就不会接收到事件消息。
 
-.. screen-property:: `default_focus`
+.. screen-property:: default_focus
 
     如果出现了该特性，并且值为True，默认情况下该可视组件会得到焦点。只有一个可视组件可以拥有该特性。
 
@@ -197,11 +197,11 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
     可视组件的所有子组件都会继承该 ``group_alt`` 特性。
     除非子组件设置了自己的  ``group_alt`` 特性。
 
-.. screen-property:: `id`
+.. screen-property:: id
 
     用户接口语句的标识号。当某个界面显示时，特性值可以通过给定的标识符提供给可视组件。某些界面会根据创建的标识号请求某个可视组件。
 
-    默认情况下，这个 ``id`` 是自动生成的。
+    使用某个id创建可视组件后，该id就会存储为可视组件对象的id属性，类型为字符串。
 
 .. screen-property:: prefer_screen_to_id
 
@@ -209,11 +209,11 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
     若为默认值False，则选用可视组件的特性。
     (该项可以用于，角色对象设置覆盖界面特性的需求。)
 
-.. screen-property:: `style`
+.. screen-property:: style
 
     应用于可视组件的样式名。其可能是一个字符串名，也可能是一个样式对象。该样式指定样式特性的默认值。
 
-.. screen-property:: `style_prefix`
+.. screen-property:: style_prefix
 
     .. _style-prefix:
 
@@ -227,27 +227,27 @@ screen语句使用一个参数，即界面名。界面名不是一个简单表�
 
     如果样式不存在的话，使用这种方式接入的样式会被自动创建。将前缀设置为 ``None`` 会将可视组件及其子组件的所有前缀都移除。
 
-.. screen-property:: `style_group`
+.. screen-property:: style_group
 
     `style_prefix` 的一个别名，用在旧版本的Ren'Py中。
 
-.. screen-property:: `style_suffix`
+.. screen-property:: style_suffix
 
     指定后缀，与 `style_prefix` 连在一起创建一个样式名。如果后缀是 ``"small_button"`` ，前缀是 ``"pref"`` ，实用的样式名就是 ``"pref_small_button"`` 。
 
     如果不使用样式前缀，就是直接使用样式名。样式后缀就会只应用于某一个可视组件，而不会用于其子组件。
 
-.. screen-property:: `tooltip`
+.. screen-property:: tooltip
 
     声明某个可视组件的工具提示框。当可视组件获得焦点时，该特性值会启用
     :func:`GetTooltip` 函数。详见 :ref:`tooltips` 章节。
     传入工具提示框的对象必须支持相等性(equality)。如果不支持比较相等，可能会导致无限死循环。
 
-.. screen-property:: `arguments`
+.. screen-property:: arguments
 
     一个元组或列表，包含传入可视组件的额外固定位置入参。
 
-.. screen-property:: `properties`
+.. screen-property:: properties
 
     一个字典，包含传入可视组件的额外特性。
 
@@ -263,32 +263,32 @@ bar
 
 创建一个原本水平的条(bar)，可用于查看和调整数据。其使用以下特性：
 
-.. screen-property:: `value`
+.. screen-property:: value
 
     条(bar)的当前值。可以是一个 :ref:`条(bar)值 <input-values>`
     对象，或者一个数值。
 
-.. screen-property:: `range`
+.. screen-property:: range
 
     条(bar)的最大值。如果 `value` 是一个数值的话，这个特性是必须的。
 
-.. screen-property:: `adjustment`
+.. screen-property:: adjustment
 
     该条(bar)所调整的 :func:`ui.adjustment` 对象。
 
-.. screen-property:: `changed`
+.. screen-property:: changed
 
     若该值存在，应该是一个Python函数。当 *adjustment* 改变时，这个函数会用调整后的值被调用。
 
-.. screen-property:: `hovered`
+.. screen-property:: hovered
 
     当条(bar)获取焦点后的行为。
 
-.. screen-property:: `unhovered`
+.. screen-property:: unhovered
 
     当条(bar)失去焦点后的行为。
 
-.. screen-property:: `released`
+.. screen-property:: released
 
     在条(bar)被释放时执行指定的行为。甚至条的数值没有发生变化时依然会被调用执行。
 
@@ -316,49 +316,49 @@ bar
 按钮(button)
 -------------
 
-创建界面的一块区域，可以通过点击激活并运行一个行为。按钮(button)不接受参数，可以使用下列特性。
+创建界面的一块区域，可以通过点击激活并运行一个行为。按钮(button)不接受参数，可以拥有下列特性。
 
-.. screen-property:: `action`
+.. screen-property:: action
 
     当按键激活时会执行的行为。按钮被点击时会被激活，用户也可以使用其他方法选中按钮并按下键盘“Enter”键。在 `sensitive`
     特性没有提供的情况下，它还能控制让按钮改为sensitive(启用)状态；同样，在 `selected` 特性没有提供的情况下，它也能控制按钮被选中。
 
-.. screen-property:: `alternate`
+.. screen-property:: alternate
 
     使用转化过的办法在按钮激活后运行的行为。当用户在基于鼠标的平台上那个点击鼠标右键，或者用户在基于触控的平台上长按某个按钮，都会触发。
 
-.. screen-property:: `hovered`
+.. screen-property:: hovered
 
     当按钮获取焦点时运行的行为。
 
-.. screen-property:: `unhovered`
+.. screen-property:: unhovered
 
     当按钮失去焦点时运行的行为。
 
-.. screen-property:: `selected`
+.. screen-property:: selected
 
     决定按钮是否被选择的表达式。每次交互行为时，该表达式都至少会被计算一次。如果该特性没有提供，用户行为会最终决定按钮是否被选择。
 
-.. screen-property:: `sensitive`
+.. screen-property:: sensitive
 
     决定按钮是否被启用的表达式。每次交互行为时，该表达式都至少会被计算一次。如果该特性没有提供，用户行为会最终决定按钮是否被启用。
 
-.. screen-property:: `keysym`
+.. screen-property:: keysym
 
     给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的行为。
 
-.. screen-property:: `alternate_keysym`
+.. screen-property:: alternate_keysym
 
     给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的可选变换行为。
 
-它还可以使用下列特性：
+它还可以拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
 * :ref:`窗口样式特性 <window-style-properties>`
 * :ref:`按钮样式特性 <button-style-properties>`
 
-按钮使用一个子组件。如果0个、两个或者更多子组件被应用，他们全部会自动整合为一个固定布局(fixed)，并添加到按钮上。
+按钮拥有一个子组件。如果0个、两个或者更多子组件被应用，他们全部会自动整合为一个固定布局(fixed)，并添加到按钮上。
 
 .. _sl-dismiss:
 
@@ -370,22 +370,22 @@ dismiss
 
 dismiss组件的应用场景不多，大多数时候与某个模态frame搭配，当用户点击frame之外的区域时激活dismiss。此外，偶尔也能用作弹窗。
 
-该组件可使用下列特性：
+该组件可拥有下列特性：
 
-.. screen-property:: `action`
+.. screen-property:: action
 
     当dismiss组件激活时执行的行为。该特性必须指定。
 
-.. screen-property:: `keysym`
+.. screen-property:: keysym
 
     指定一个字符串，代替默认的 :doc:`keysym <keymap>` 字典中dismiss键对应的值。
 
-.. screen-property:: `modal`
+.. screen-property:: modal
 
     默认情况下，dismiss组件是模态的，不允许向其“背后”的其他可视组件传递事件消息。
 
 
-该组件还可使用下列特性：
+该组件还可拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :propref:`hover_sound` 和 :propref:`activate_sound` 样式特性。
@@ -452,13 +452,13 @@ fix使用多个子组件，它们会被添加到固定布局中。
 框架(frame)
 ------------
 
-框架(frame)是一个窗口。该窗口包含一个背景，可用于显示用户接口元素，例如按钮、条(bar)和文本。其使用下列特性：
+框架(frame)是一个窗口。该窗口包含一个背景，可用于显示用户接口元素，例如按钮、条(bar)和文本。其拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
 * :ref:`窗口样式特性 <window-style-properties>`
 
-frame使用一个子组件。如果0个、两个或者更多子组件被应用，他们全部会自动整合为一个固定布局(fixed)，并添加到按钮上。
+frame拥有一个子组件。如果0个、两个或者更多子组件被应用，他们全部会自动整合为一个固定布局(fixed)，并添加到按钮上。
 
 ::
 
@@ -482,9 +482,9 @@ grid
 
 grid在一个网格系统中显示其子组件。每个子组件都会分配相同的区域大小，这个区域大小可以容纳最大的子组件。
 
-grid使用两个参数。第一个参数是网格的行号，第二个参数是网格的列号。其使用下列特性：
+grid使用两个参数。第一个参数是网格的行号，第二个参数是网格的列号。其拥有下列特性：
 
-.. screen-property:: `transpose`
+.. screen-property:: transpose
 
     若值为False，网格转置。
 
@@ -535,9 +535,9 @@ UI可视组件的子组件会被添加到方框(box)中。
 图片按钮(imagebutton)
 ----------------------
 
-创建一个包含图像的按钮，当指针悬停在按钮上时，图像状态会发生改变。其不接受参数，使用下列特性：
+创建一个包含图像的按钮，当指针悬停在按钮上时，图像状态会发生改变。其不接受参数，拥有下列特性：
 
-.. screen-property:: `auto`
+.. screen-property:: auto
 
     按钮使用图片自动定义。这个特性是个包含 %s 的字符串。如果某个图片特性是省略的，%s会被替换为对应特性名称，并使用对应值作为对应特性的默认值。
 
@@ -547,59 +547,59 @@ UI可视组件的子组件会被添加到方框(box)中。
     :var:`config.imagemap_auto_function` 实现定制化。
 
 
-.. screen-property:: `insensitive`
+.. screen-property:: insensitive
 
     当按钮不可用状态时，使用在按钮上的图像。
 
-.. screen-property:: `idle`
+.. screen-property:: idle
 
     当按钮没有得到焦点状态时，使用在按钮上的图像。
 
-.. screen-property:: `hover`
+.. screen-property:: hover
 
     当按钮得到焦点状态时，使用在按钮上的图像。
 
-.. screen-property:: `selected_idle`
+.. screen-property:: selected_idle
 
     当按钮被选中但是没有得到焦点状态时，使用在按钮上的图像。
 
-.. screen-property:: `selected_hover`
+.. screen-property:: selected_hover
 
     当按钮被选中而且得到焦点状态时，使用在按钮上的图像。
 
-.. screen-property:: `action`
+.. screen-property:: action
 
     当按钮被激活时运行的行为。当  `sensitive` 和  `selected` 特性没有提供的情况下， *action* 特性也控制那两种特性表现。
 
-.. screen-property:: `alternate`
+.. screen-property:: alternate
 
     使用转化过的办法在按钮激活后运行的行为。当用户在基于鼠标的平台上那个点击鼠标右键，或者用户在基于触控的平台上长按某个按钮，都会触发。
 
-.. screen-property:: `hovered`
+.. screen-property:: hovered
 
     当按钮获取焦点时运行的行为。
 
-.. screen-property:: `unhovered`
+.. screen-property:: unhovered
 
     当按钮失去焦点时运行的行为。
 
-.. screen-property:: `selected`
+.. screen-property:: selected
 
     决定按钮是否被选择的表达式。每次交互行为时，该表达式都至少会被计算一次。如果该特性没有提供，用户行为会最终决定按钮是否被选择。
 
-.. screen-property:: `sensitive`
+.. screen-property:: sensitive
 
     决定按钮是否被启用的表达式。每次交互行为时，该表达式都至少会被计算一次。如果该特性没有提供，用户行为会最终决定按钮是否被启用。
 
-.. screen-property:: `keysym`
+.. screen-property:: keysym
 
     给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的行为。
 
-.. screen-property:: `alternate_keysym`
+.. screen-property:: alternate_keysym
 
     给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的变换行为。
 
-它还可以使用下列特性：
+它还可以拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -629,57 +629,57 @@ UI可视组件的子组件会被添加到方框(box)中。
 
 input语句不接受参数，可以跟下列特性：
 
-.. screen-property:: `value`
+.. screen-property:: value
 
     此次输入使用的 :ref:`input value <input-values>` 对象。输入值对象决定了以下情况的默认处理方式：默认值从哪里获取，文本改变时会发生什么，用户输入回车后会发生什么，以及文本是否可编辑。
 
     `value` 应跟 `default` 和 `changed` 在相同的时间点给定。
 
-.. screen-property:: `default`
+.. screen-property:: default
 
     在输入框中的默认文本。
 
-.. screen-property:: `length`
+.. screen-property:: length
 
     输入框中允许的最大文本长度。
 
-.. screen-property:: `pixel_width`
+.. screen-property:: pixel_width
 
     输入框最大像素宽度。如果输入一个字符会导致输入超出这个宽度，按键(keypress)事件消息就会被忽略。
 
-.. screen-property:: `allow`
+.. screen-property:: allow
 
     包含所有允许输入字符的字符串。(默认情况下允许输入任何字符。)
 
-.. screen-property:: `exclude`
+.. screen-property:: exclude
 
     包含不允许输入字符的字符串。(默认情况下为空“{}”。)
 
-.. screen-property:: `copypaste`
+.. screen-property:: copypaste
 
     若为True，可以在这个输入栏中启用复制粘贴功能。(默认禁用。)
 
-.. screen-property:: `prefix`
+.. screen-property:: prefix
 
     一个不可变的字符串，自动添加在用户输入前面。
 
-.. screen-property:: `suffix`
+.. screen-property:: suffix
 
     一个不可变的字符串，自动添加在用户输入后面。
 
-.. screen-property:: `changed`
+.. screen-property:: changed
 
     当用于输入字符串改变时，使用输入字符串调用的一个Python函数。
 
-.. screen-property:: `mask`
+.. screen-property:: mask
 
     该值是一个字符串，可将文本中的字符都替换显示为指定字符串。可用于表现一个密码。
 
-.. screen-property:: `caret_blink`
+.. screen-property:: caret_blink
 
     若非False，指定光标闪烁间隔时间。此项将覆盖 :var:`config.input_caret_blink` 配置项。
 
-.. screen-property:: `multiline`
+.. screen-property:: multiline
 
     若为True，可以使用键盘将光标移动到下一行(默认键盘输入为Shift+Enter换行，可以修改config.keymap['input_next_line']来改为其他按键方式)。
 
@@ -690,7 +690,7 @@ input语句不接受参数，可以跟下列特性：
 
     该项主要用于对输入结果 `value` 做预处理的需求场景。
 
-输入框还使用下列特性：
+输入框还拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -717,11 +717,11 @@ key语句创建一个键盘按键绑定，可以通过按键运行某个行为�
 
 key语句有一个固定位置参数，一个需要绑定的按键名字符串。详见 :doc:`keymap` 。key语句使用两个特性：
 
-.. screen-property:: `action`
+.. screen-property:: action
 
     这个特性给定了按键(keypress)事件发生后触发的行为。该特性必须存在。
 
-.. screen-property:: `capture`
+.. screen-property:: capture
 
     若为True，即默认值，捕获事件并不会由其他可视组件处理。
     若为False，则按键行为不会结束此次交互，其他可视组件会处理事件。
@@ -743,13 +743,13 @@ key不包含子组件。
 
 使用脚本标签(label)样式创建一个窗口(window)，并且将文本内容放置在窗口内。这种联合体用于在某个框架(frame)中将某些元素标签化。
 
-label语句包含一个固定位置参数，即标签的文本。其使用下列特性：
+label语句包含一个固定位置参数，即标签的文本。其拥有下列特性：
 
-.. screen-property:: `text_style`
+.. screen-property:: text_style
 
     用于按钮文本的样式名。如果未提供并且样式特性是一个字符串的话， ``"_text"`` 会自动添加到字符串后面作为默认的文本样式。
 
-.. screen-property:: `text_`-
+.. screen-property:: text_-
 
    其他有 text_ 前缀的特性会把前缀去掉，然后传给文本组件(text displayable)。
 
@@ -778,21 +778,21 @@ label语句不包含任何子组件。
 mousearea
 ---------
 
-mousearea是界面上划出一块区域，用于检测鼠标的进入或离开。与按钮(button)不同的是，鼠标区域不能获得焦点，所以在按钮内部可以存在一块鼠标区域。mousearea语句不接受参数，可以使用下列特性：
+mousearea是界面上划出一块区域，用于检测鼠标的进入或离开。与按钮(button)不同的是，鼠标区域不能获得焦点，所以在按钮内部可以存在一块鼠标区域。mousearea语句不接受参数，可以拥有下列特性：
 
-.. screen-property:: `hovered`
+.. screen-property:: hovered
 
     当鼠标进入鼠标区域时运行的行为。
 
-.. screen-property:: `unhovered`
+.. screen-property:: unhovered
 
     当鼠标离开鼠标区域时运行的行为。
 
-.. screen-property:: `focus_mask`
+.. screen-property:: focus_mask
 
     :propref:`focus_mask` 样式特性，可以是某个可视组件或者None。如果是一个可视组件，鼠标区域值应只放在可视组件不透明的部分上面。(那个可视组件不会展示给用户。)
 
-mousearea语句使用下列特性：
+mousearea语句拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -832,24 +832,24 @@ nearrect
 通常使用 :func:`CaptureFocus` 行为函数获取焦点附近的矩形区域。
 nearrect可以用于提示信息和下落、下拉菜单。
 
-nearrect组件使用下列特性：
+nearrect组件拥有下列特性：
 
-.. screen-property:: `rect`
+.. screen-property:: rect
 
     若给定，参数应该是一个(x, y, w, h)形式的矩形，将子组件的位置信息与矩形关联。具体关联方式见下面的描述。
 
-.. screen-property:: `focus`
+.. screen-property:: focus
 
     若给定，该参数应该是一个字符串。字符串传递给 :func:`GetFocusRect` 函数并寻找合适的矩形区域。
     若找到了合适的矩形，则渲染对应子组件。
 
     将参数设置为“tooltip”时，将会在最后获得焦点的可视组件位置显示提示信息。
 
-.. screen-property:: `prefer_top`
+.. screen-property:: prefer_top
 
     若给定，将子组件的位置设置为获得焦点矩形区域的上层。
 
-该组件还可使用下列特性：
+该组件还可拥有下列特性：
 
 * :ref:`通用特性 Common Properties <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -930,13 +930,13 @@ nearrect最好放置在界面顶层，变换和位置特性应用到其子组件
 null
 ----
 
-null语句在界面中插入了一块空的区域。其可以用于物体分隔开。null语句不包含参数，可以使用下列特性：
+null语句在界面中插入了一块空的区域。其可以用于物体分隔开。null语句不包含参数，可以拥有下列特性：
 
-.. screen-property:: `width`
+.. screen-property:: width
 
     空区域的宽度，单位是像素。
 
-.. screen-property:: `height`
+.. screen-property:: height
 
     空区域的高度，单位是像素。
 
@@ -968,7 +968,7 @@ side语句把可视组件放置在一个网格的角落或者中间。其使用�
 
 side语句使用下列的特性：
 
-.. screen-property:: `spacing`
+.. screen-property:: spacing
 
     网格中各行和各列之间的间隔。
 
@@ -999,7 +999,7 @@ side语句还可以使用如下特性：
 text
 ----
 
-text语句会显示文本。其使用一个参数，就是用于显示的文本内容。其也使用下列特性：
+text语句会显示文本。其使用一个参数，就是用于显示的文本内容。其也拥有下列特性：
 
 * :ref:`通用特性 Common Properties <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -1017,45 +1017,45 @@ text语句没有子组件。
 textbutton
 ----------
 
-创建一个包含脚本标签(label)的按钮。按钮使用一个参数，即按钮内显示的文本内容。其可以使用下列特性：
+创建一个包含脚本标签(label)的按钮。按钮使用一个参数，即按钮内显示的文本内容。其可以拥有下列特性：
 
-.. screen-property:: `action`
+.. screen-property:: action
 
     当按钮被激活时运行的行为。当 `sensitive` 和 `selected` 特性没有提供的情况下， *action* 特性也控制那两种特性表现。
 
-.. screen-property:: `alternate`
+.. screen-property:: alternate
 
     使用转化过的办法在按钮激活后运行的行为。当用户在基于鼠标的平台上那个点击鼠标右键，或者用户在基于触控的平台上长按某个按钮，都会触发。
 
-.. screen-property:: `hovered`
+.. screen-property:: hovered
 
     当按钮获取焦点时运行的行为。
 
-.. screen-property:: `unhovered`
+.. screen-property:: unhovered
 
     当按钮失去焦点时运行的行为。
 
-.. screen-property:: `selected`
+.. screen-property:: selected
 
     决定按钮是否被选择的表达式。每次交互行为时，该表达式都至少会被计算一次。如果该特性没有提供，用户行为会最终决定按钮是否被选择。
 
-.. screen-property:: `sensitive`
+.. screen-property:: sensitive
 
     决定按钮是否被启用的表达式。每次交互行为时，该表达式都至少会被计算一次。如果该特性没有提供，用户行为会最终决定按钮是否被启用。
 
-.. screen-property:: `keysym`
+.. screen-property:: keysym
 
     给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的行为。
 
-.. screen-property:: `alternate_keysym`
+.. screen-property:: alternate_keysym
 
     给定了一个 :doc:`keysym <keymap>` 的字符串。字符串描述了键盘对应的按键，当那个按键被按下后，会调用按钮的变换行为。
 
-.. screen-property:: `text_style`
+.. screen-property:: text_style
 
     用于按钮文本的样式名。如果未提供并且样式特性是一个字符串的话， ``"_text"`` 会自动添加到字符串后面作为默认的文本样式。
 
-.. screen-property:: `text_`-
+.. screen-property:: text_-
 
    其他有 text_ 前缀的特性会把前缀去掉，然后传给文本组件(text displayable)。
 
@@ -1081,17 +1081,17 @@ textbutton还可以使用如下特性：
 timer
 -----
 
-timer语句会创建一个计时器，当预订的时间结束后运行某个行为。其使用一个固定位置参数，给出计时的时间值，单位为秒。timer语句使用下列特性：
+timer语句会创建一个计时器，当预订的时间结束后运行某个行为。其使用一个固定位置参数，给出计时的时间值，单位为秒。timer语句拥有下列特性：
 
-.. screen-property:: `action`
+.. screen-property:: action
 
     计时结束后会运行的行为。这项特性是必须存在的。
 
-.. screen-property:: `repeat`
+.. screen-property:: repeat
 
     若为True，计时结束后重置时间并重新开始计时。
 
-.. screen-property:: `modal`
+.. screen-property:: modal
 
     若为True，模态界面不会触发计时器。若为False或没有指定值，模态界面显示状态下依然进行计时。
 
@@ -1111,7 +1111,7 @@ timer不包含子组件。
 transform
 ---------
 
-将一个transform应用于其子组件。transform没有参数，可以使用下列特性：
+将一个transform应用于其子组件。transform没有参数，可以拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`Transform特性列表 <transform-properties>`
@@ -1142,7 +1142,7 @@ vbar
 vbox
 ----
 
-纵向排列子组件的不可是垂直方框(box)。vbox不接受参数，可以使用下列特性：
+纵向排列子组件的不可是垂直方框(box)。vbox不接受参数，可以拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -1165,12 +1165,12 @@ viewport
 
 视口(viewport)是界面中的某块区域，可以使用鼠标滚轮或者滚动条进行滚动。视口可以用于显示某些比界面更大的东西。其使用以下特性：
 
-.. screen-property:: `child_size`
+.. screen-property:: child_size
 
     待渲染子组件的尺寸，是一个 (`xsize`, `ysize`) 形式的元组。
     该值通常是省略的，子组件可以自己计算尺寸。如果所有组件的size特性都为空，则使用子组件的尺寸信息。
 
-.. screen-property:: `mousewheel`
+.. screen-property:: mousewheel
 
     该值可以是下列之一：
 
@@ -1185,12 +1185,12 @@ viewport
     "horizontal-change"
         与change模式一同使用，决定水平滚动的情况。
 
-.. screen-property:: `draggable`
+.. screen-property:: draggable
 
     若为True，鼠标拖动就能滚动视口。
     该项可以设置为 :ref:`variant <screen-variants>`，这样视口也可以拖动。(例如，设置为 ``draggable "touch"``。)
 
-.. screen-property:: `edgescroll`
+.. screen-property:: edgescroll
 
     当鼠标到达视口边缘时，控制滚动行为。若该值非空，应该是一个2元或者3元的元组。
 
@@ -1200,23 +1200,23 @@ viewport
 
     * 如果元组内存在第三个元素，它是一个调整滚动速度的函数，取决于鼠标指针与界面边缘的距离。函数入参为一个介于-1.0和1.0之间的数值，返回一个同样区间内的数值。函数默认值与输入相同，且按比例进行滚动。函数返回值是-1.0还是1.0，取决于输入值的符号，并实现匀速滚动。
 
-.. screen-property:: `xadjustment`
+.. screen-property:: xadjustment
 
     :func:`ui.adjustment` 对象，用作视口x轴的调整。当该特性省略时，就会创建一个新的adjustment对象。
 
-.. screen-property:: `yadjustment`
+.. screen-property:: yadjustment
 
     :func:`ui.adjustment` 对象，用作视口y轴的调整。当该特性省略时，就会创建一个新的adjustment对象。
 
-.. screen-property:: `xinitial`
+.. screen-property:: xinitial
 
     视口初始水平偏移量。其可以是一个整数，表示像素数；也可以是一个浮点数，表示一个可能的偏移比例。
 
-.. screen-property:: `yinitial`
+.. screen-property:: yinitial
 
     视口初始垂直偏移量。其可以是一个整数，表示像素数；也可以是一个浮点数，表示一个可能的偏移比例。
 
-.. screen-property:: `scrollbars`
+.. screen-property:: scrollbars
 
     若不为None，滚动条会添加到视口上。scrollbar会创建一个单边布局(layout)，并把视口放在单边的中间。如果 `scrollbars` 的值是 "horizontal"，就在视口上创建一个水平的滚动条。如果 `scrollbars`
     的值是 "vertical"，就在视口上创建一个垂直的滚动条。如果 `scrollbars` 的值是 "both"，水平和垂直滚动条都会被创建。
@@ -1231,11 +1231,11 @@ viewport
     也能使用没有前缀的特性。
     :ref:`position-style-properties` 会传给side，其他无前缀特性会应用到视口。
 
-.. screen-property:: `arrowkeys`
+.. screen-property:: arrowkeys
 
     若为True，视口可以使用上下左右方向键进行滚动。这种情况下方向键的作用优先于方向键的其他功能。当视口到达限制时，方向键会改变焦点。
 
-.. screen-property:: `pagekeys`
+.. screen-property:: pagekeys
 
     若为True，视口可以使用翻页键向上和向下滚动。这会让翻页键原本的功能失效。原本的功能是回滚和前进。
 
@@ -1274,17 +1274,17 @@ vpgrid假设是由子组件都是相同尺寸，该尺寸来源于第一个子�
 
 vpgrid必须至少给定  `cols` 和 `rows` 特性。如果有其中之一省略或者是None，另一个特性就会根据子组件的尺寸、空间和数量自动决定。
 
-vpgrid使用下列特性：
+vpgrid拥有下列特性：
 
-.. screen-property:: `cols`
+.. screen-property:: cols
 
     网格(grid)的行数。
 
-.. screen-property:: `rows`
+.. screen-property:: rows
 
     网格(grid)的列数。
 
-.. screen-property:: `transpose`
+.. screen-property:: transpose
 
     若为True，单位网格按列填充。该特性的默认值取决于 `cols` 和 `rows` 的特性。如果 `cols` 出现，单元网格会先按列填充，否则按行填充。
 
@@ -1324,7 +1324,7 @@ vpgrid使用下列特性：
 window
 ------
 
-window是个包含背景的窗口，用于显示游戏内对话。其使用下列特性：
+window是个包含背景的窗口，用于显示游戏内对话。其拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -1378,7 +1378,7 @@ imagemap
 
 imagemap语句用于指定一个imagemap。其不接受参数，后面跟下列特性：
 
-.. screen-property:: `auto`
+.. screen-property:: auto
 
     自动定义imagemap使用的图像。图像名是一个字符串，包含“%s”。如果文件存在，且某个图像特性是省略的，“%s”会使用对应特性名替换，其值作为特性的默认值。
 
@@ -1388,39 +1388,39 @@ imagemap语句用于指定一个imagemap。其不接受参数，后面跟下列�
     `auto` 的行为可以修改
     :var:`config.imagemap_auto_function` 实现定制化。
 
-.. screen-property:: `ground`
+.. screen-property:: ground
 
     用于imagemap的背景图像，即不是hotspot也不是hotbar。
 
-.. screen-property:: `insensitive`
+.. screen-property:: insensitive
 
     当hotspot或者hotbar不启用时使用的图像。
 
-.. screen-property:: `idle`
+.. screen-property:: idle
 
     当hotspot没有被选中且没有获得焦点时使用的图像，也用于没有获得焦点hotbar空的部分。
 
-.. screen-property:: `hover`
+.. screen-property:: hover
 
     当hotspot没有被选中但获得焦点时使用的图像，也用于获得焦点hotbar空的部分。
 
-.. screen-property:: `selected_idle`
+.. screen-property:: selected_idle
 
     当hotspot被选中但没有获得焦点时使用的图像，也用于没有获得焦点hotbar满的部分。
 
-.. screen-property:: `selected_hover`
+.. screen-property:: selected_hover
 
     当hotspot被选中且获得焦点时使用的图像，也用于获得焦点hotbar满的部分。
 
-.. screen-property:: `alpha`
+.. screen-property:: alpha
 
     若为True，也就是默认值，只有当鼠标悬停在不透明图像上方时，hotspot才会获得焦点。若为False，无论鼠标是否在imagemap矩形区域中，hotspot都会获得焦点。
 
-.. screen-property:: `cache`
+.. screen-property:: cache
 
     若为True，也就是默认值，hotspot数据会缓存，用于提升应用性能，代价是会消耗额外的磁盘空间。
 
-imagemap使用下列特性：
+imagemap拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`位置样式特性 <position-style-properties>`
@@ -1434,41 +1434,41 @@ imagemap会创建一个固定位置布局，允许任意子组件被添加到那
 hotspot
 -------
 
-hotspot是由imagemap内一部分图像组成的按钮。其使用一个参数，一个(x, y, width, height)形式的元组，给定了imagemap内组成按钮的区域。其也使用下列特性：
+hotspot是由imagemap内一部分图像组成的按钮。其使用一个参数，一个(x, y, width, height)形式的元组，给定了imagemap内组成按钮的区域。其也拥有下列特性：
 
-.. screen-property:: `action`
+.. screen-property:: action
 
     当button激活时运行的行为。这也可用于控制按钮启用状态下，被选中时的行为。
 
-.. screen-property:: `alternate`
+.. screen-property:: alternate
 
     当hotspot使用变换方法激活时运行的行为。变换激活发生在两种情况下，基于鼠标平台时用户点击鼠标右键，基于触控平台时用户长按。
 
-.. screen-property:: `hovered`
+.. screen-property:: hovered
 
     当按钮获得焦点时运行的行为。
 
-.. screen-property:: `unhovered`
+.. screen-property:: unhovered
 
     当按钮失去焦点时运行的行为。
 
-.. screen-property:: `selected`
+.. screen-property:: selected
 
     一个决定按钮是否被选中的表达式。每次交互行为，这个表达式都会至少被计算一次。如果没有提供表达式，这个行为会用于决定按钮被选中。
 
-.. screen-property:: `sensitive`
+.. screen-property:: sensitive
 
     一个决定按钮是否被启用的表达式。每次交互行为，这个表达式都会至少被计算一次。如果没有提供表达式，这个行为会用于决定按钮启用。
 
-.. screen-property:: `keysym`
+.. screen-property:: keysym
 
     给出一个 :doc:`keysym <keymap>` ，当对应键盘的按键被按下后，调用对应的按键行为。
 
-.. screen-property:: `alternate_keysym`
+.. screen-property:: alternate_keysym
 
     给出一个 :doc:`keysym <keymap>` ，当对应键盘的按键被按下后，调用对应的变换按键行为。
 
-hotspot使用下列特性：
+hotspot拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`按钮样式特性 <button-style-properties>`
@@ -1482,22 +1482,22 @@ hotspot可以被赋予 ``alt`` 样式特性，允许Ren'Py的自动语音特性�
 hotbar
 ------
 
-hotbar是由imagemap内一部分图像组成的条(bar)。其使用一个参数，一个(x, y, width, height)形式的元组，给定了imagemap内组成条(bar)的区域。其也使用下列特性：
+hotbar是由imagemap内一部分图像组成的条(bar)。其使用一个参数，一个(x, y, width, height)形式的元组，给定了imagemap内组成条(bar)的区域。其也拥有下列特性：
 
-.. screen-property:: `value`
+.. screen-property:: value
 
     条(bar)的当前值。可以是一个 :ref:`条(bar)值 <input-values>`
     对象，也可以是一个数值。
 
-.. screen-property:: `range`
+.. screen-property:: range
 
     条(bar)的最大值。当 `value` 是一个数值的情况下，`range` 是必须的。
 
-.. screen-property:: `adjustment`
+.. screen-property:: adjustment
 
     一个用于该条(bar)调整的 :func:`ui.adjustment` 对象。
 
-hotbar必须给定一个 `value` 或者一个 `adjustment` 对象。除此之外，还可以使用下列特性：
+hotbar必须给定一个 `value` 或者一个 `adjustment` 对象。除此之外，还可以拥有下列特性：
 
 * :ref:`通用特性 <common-properties>`
 * :ref:`条(bar)样式特性 <bar-style-properties>`

@@ -10,7 +10,7 @@ Ren'Py的一个特色是，看起来挺萌的GUI系统。有需要的话还可�
 和 :doc:`界面 <screens>` (包括 :doc:`界面行为 <screen_actions>`
 和 :doc:`特殊界面 <screen_special>` )。
 
-这是基于你在使用新样式的Ren'Py GUI为前提(定制化配置包含在 :file:`gui.rpy` 文件中)。使用老版本的GUI(使用 :file:`screens.rpy` 文件进行定制化配置)的用户，应该把本页内容当作是深度定制化指导。
+以上是默认创作者正在使用新样式的Ren'Py GUI(定制化配置包含在 :file:`gui.rpy` 文件中)。使用老版本的GUI(使用 :file:`screens.rpy` 文件进行定制化配置)的创作者，应该把本页内容当作是深度定制化指导。
 
 .. _simple-gui-customization:
 
@@ -1119,6 +1119,7 @@ gui命名空间是特殊的，在初始化阶段后gui命名空间内的设置�
 
 如果忘了写第二个语句，DejaVuSans将依然被作为按钮文本的字体使用。
 
+.. _more_advanced_gui:
 .. _advanced-customization:
 
 高级定制化

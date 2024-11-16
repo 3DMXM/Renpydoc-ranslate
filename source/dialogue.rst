@@ -38,8 +38,7 @@ say语句的最后一种形式是一个字符串及with分句的一个转场(tra
 
 ::
 
-    ###
-        "I walked past a sign saying, \"Let's give it 100%!\""
+    "I walked past a sign saying, \"Let's give it 100%%!\""
 
 也可以使用代理函数代替角色对象。详见 :ref:`此章节 <say-proxy>`。
 
@@ -56,7 +55,7 @@ say语句的最后一种形式是一个字符串及with分句的一个转场(tra
 
 ::
 
-        e "Hello, world."
+    e "Hello, world."
 
 角色(Character)是一个python函数，该函数包含一大串的关键词参数。这些关键词参数控制着角色行为。
 
@@ -112,9 +111,6 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
     `advance`
         若该值为True，默认情况下用户可以快进语句执行，还有一些其他的快进方式(比如跳过skip和auto-forward mode自动前进模式)也将生效。若该值为False，用户不能跳过say语句，除非脚本中出现某些替换方法(比如跳转超链接)。
 
-    `mode`
-        该参数是一个字符串，给定了角色发言时进入的模式(mode)。详见 :ref:`模式(mode) <modes>` 章节。
-
     `callback`
         角色发言时，若有事件(event)发生则会被调用的函数。详见 :ref:`角色(character)回调(callback) <character-callbacks>` 章节。
 
@@ -168,7 +164,7 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
     label start:
 
-        show eileen mad
+        show eileen concerned
         e "我对你有点失望。"
 
         e happy "不过这都是过去的事了。"
@@ -179,14 +175,14 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
     label start:
 
-        show eileen mad
+        show eileen concerned
         e "我对你有点失望。"
 
         show eileen happy
         e "不过这都是过去的事了。"
 
-在上面的例子中，``mad`` 和 ``happy`` 会互相替换。
-不过也可以可以直接从 ``happy`` 恢复而不用指定 ``mad`` 属性。
+在上面的例子中，``concerned`` 和 ``happy`` 会互相替换。
+不过也可以可以直接从 ``happy`` 恢复而不用指定 ``concerned`` 属性。
 办法是使用减号(-)，具体请参考 :ref:`show语句 <show-statement>`。
 
 举例：
@@ -198,7 +194,7 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
     label start:
 
         show eileen
-        e mad "我对你有点失望。"
+        e concerned "我对你有点失望。"
 
         e happy "虽然还挺有趣的。"
 
@@ -212,7 +208,7 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
     label start:
 
-        show eileen mad
+        show eileen concerned
         e "我对你有点失望。"
 
         e @ happy "虽然还挺有趣的。"
@@ -229,7 +225,7 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 
 ::
 
-    e @ right -mad "我的怒火暂时得到了平息……"
+    e @ right -concerned "我的怒火暂时得到了平息……"
     e "但是！"
 
 使用这个方式，若需要在图片改变时触发一个转场(transition)效果的话，将config.say_attribute_transition设置为一种转场(transition)即可。
@@ -281,7 +277,9 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
     扩展(extend)能识别NVL模式，并正确处理该模式下的内容。
     但在NVL模式下修改语言设置，则extend内容将无法正确显示。
 
-举例::
+举例：
+
+::
 
     # 展现对话的第一行台词，等待一个点击事件，变更角色表情，然后展示其余台词。
 
@@ -307,13 +305,16 @@ define语句会计算其自身的表达式，并声明为一个给定的变量�
 Ren'Py中包括几种语句，允许管理对话窗口。由于对话窗口在对话中一直是展现的，这些窗口控制语句在非对话互动的情况下控制窗口的出现或者消失。
 
 ``window show``
-  window show语句触发窗口展现。该语句接受一个可选入参，入参为transition，用于窗口出现的转场效果。如果transition参数为空，将使用定义在  :var:`config.window_show_transition` 的值。
+    window show语句触发窗口展现。该语句接受一个可选入参，入参为transition，用于窗口出现的转场效果。如果transition参数为空，将使用定义在  :var:`config.window_show_transition` 的值。
 
 ``window hide``
-  window hide语句触发窗口隐藏。该语句接受一个可选入参，入参为transition，用于窗口隐藏的转场效果。如果transition参数为空，将使用定义在  :var:`config.window_hide_transition` 的值。
+    window hide语句触发窗口隐藏。该语句接受一个可选入参，入参为transition，用于窗口隐藏的转场效果。如果transition参数为空，将使用定义在  :var:`config.window_hide_transition` 的值。
 
-``window auto``
-  window auto语句启用了窗口自动管理。在 :var:`config.window_auto_show` 中列出的语句——默认是say语句前，窗口会自动展现。在 :var:`config.window_auto_hide` 中列出的语句——默认是 ``scene`` 和 ``call screen`` 以及带标题的 ``menu`` 语句前，窗口会自动隐藏。(只有直接显式使用该语句才有效，而函数返回该语句内容相同的字符串不生效。)
+``window auto True``
+    该语句启用了窗口自动管理。在 :var:`config.window_auto_show` 中列出的语句——默认是say语句前，窗口会自动展现。在 :var:`config.window_auto_hide` 中列出的语句——默认是 ``scene`` 和 ``call screen`` 以及带标题的 ``menu`` 语句前，窗口会自动隐藏。(只有直接显式使用该语句才有效，而函数返回该语句内容相同的字符串不生效。)
+
+``window auto False``
+    该语句关闭自动管理对话窗口的功能。对话窗口不会自动显示或隐藏。
 
 ``window auto`` 语句分别使用 :var:`config.window_show_transition` 和 :var:`config.window_hide_transition` 作为显示和隐藏窗口的转场效果。 ``window auto`` 启用的自动化管理可以被 ``window show`` 或者 ``window hide`` 语句关闭。
 
@@ -331,14 +332,20 @@ Ren'Py中包括几种语句，允许管理对话窗口。由于对话窗口在�
     window hide dissolve # 使用融化(dissolve)效果隐藏窗口
     pause                # 在暂停中依然隐藏窗口
 
-
-    window auto
+    window auto True
 
     "The window is automatically shown before this line of dialogue."
     pause                # 在暂停中依然显示窗口
 
     scene bg washington  # 在场景(scene)切换前隐藏窗口
     with dissolve
+
+    window show     # 在窗口自动显示之前强行要求显示
+
+    show eileen
+    with dissolve
+
+    "Without window show, the window would have been shown here."
 
 对话窗口管理是
 :func:`Preference` 特性构造器“show empty window”一项的主题。若“show empty window”特性被关闭，以上语句均不会产生任何效果。
@@ -354,7 +361,7 @@ Ren'Py中包括几种语句，允许管理对话窗口。由于对话窗口在�
 
 传入say语句的参数首先会被 var:`config.say_arguments_callback` 回调函数处理，前提是入参不是None。若有回调函数无法处理的参数，将会被传给角色(character)，因为这些参数会被看作定义角色所需。上面的样例会将对话显示为绿色。
 
-特殊关键词 `_mode` 和 `_with_node` 将在本次互动中覆盖原设置的字符。
+特殊关键词 `_with_node` 将在本次互动中角色的 `with_none` 属性(attribute)。
 
 `interact` 参数是个特殊情况：当定义角色对象时就把该参数设置为False后，即使后面再次传入 ``interact=True`` 也依然不能覆盖原设置，也就是说角色依然不会对互动有反应。
 

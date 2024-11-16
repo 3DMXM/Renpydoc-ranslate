@@ -59,9 +59,9 @@
 
     若为None，Ren'Py会尝试使用显示设备的当前最高帧率绘制图像。
 
-.. var:: preferences.gl_powersave = "auto"
+.. var:: preferences.gl_powersave = True
 
-    这项决定了Ren'Py对未改变过的界面的重绘频率。若为True，Ren'Py会每秒绘制界面5次。若为False，Ren'Py会尽可能以最高帧率绘制。若为“auto”，Ren'Py会在设备接通外置电源时使用最高帧率绘制，在设备使用电池运行时降低绘制频率到5Hz。
+    这项决定了Ren'Py对未改变过的界面的重绘频率。若为True，Ren'Py会每秒绘制界面5次。若为False，Ren'Py会尽可能以最高帧率绘制。若为True，Ren'Py会在设备接通外置电源时使用最高帧率绘制，在设备使用电池运行时降低绘制频率到5Hz。
 
 .. var:: preferences.gl_tearing = False
 
@@ -129,6 +129,44 @@
     若为True，显示游戏菜单时继续播放语音。
     若为False，显示游戏菜单时立刻停止语音。
     等效于设置“voice after menu”选项。
+
+.. var:: preferences.restore_window_position = True
+
+    若为True，Ren'Py会在游戏重启后尝试重新记录窗口坐标。
+    若为False，Ren'Py则不会如此做。等效于环境配置“restore window position”。
+
+.. _mixer-defaults:
+
+混音器默认配置
+--------------
+
+下列变量只能使用 ``default`` 语句修改。
+
+.. var:: preferences.volume.main = 1.0
+
+    main混音器的默认音量，对所有音频通道都会生效。该值介于0.0与1.0之间。1.0表示最大音量。
+
+.. var:: preferences.volume.music = 1.0
+
+    music混音器的默认音量，对music和movie音频通道生效。该值介于0.0与1.0之间。1.0表示最大音量。
+
+.. var:: preferences.volume.sfx = 1.0
+
+    sfx混音器的默认音量，对sound和audio音频通道生效。该值介于0.0与1.0之间。1.0表示最大音量。
+
+.. var:: preferences.volume.voice = 1.0
+
+    voice混音器的默认音量，对voice音频通道生效(并且阻止voice语句和auto-voice生效)。该值介于0.0与1.0之间。1.0表示最大音量。
+
+如果使用 :func:`renpy.music.register_channel` 注册了新音频通道 `mixer`，
+则可以使用 preferences.volume.`mixer` 设置该音频通道的音量。
+
+下面的样例中，将music混音器设置为75%，将sfx混音器设置为50%：
+
+::
+
+    default preferences.volume.music = 0.75
+    default preferences.volume.sfx = 0.5
 
 .. _mixer-functions:
 

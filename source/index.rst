@@ -36,6 +36,7 @@
     python
     conditional
     audio
+    audio_filters
     movie
     voice
 
@@ -47,8 +48,8 @@
     translation
     displayables
     transforms
+    transform_properties
     transitions
-    atl
     matrixcolor
     layeredimage
     3dstage
@@ -68,6 +69,7 @@
     preferences
     store_variables
     mouse
+    textshaders
 
 .. toctree::
     :maxdepth: 1
@@ -102,10 +104,8 @@
     statement_equivalents
     save_load_rollback
     persistent
-    trans_trans_python
     gui_advanced
     screen_python
-    modes
     cdd
     cds
     custom_text_tags
@@ -117,6 +117,7 @@
     other
     ren_py
     fetch
+    screenshot
 
 .. toctree::
     :maxdepth: 1
@@ -164,7 +165,6 @@
     changelog
     changelog6
     incompatible
-    distributor
     license
     credits
     sponsors
@@ -179,6 +179,7 @@
 * `变量(Variable)和定义索引 <std-var-index.html>`_
 * `函数(Function)和类(Class) 索引 <py-function-class-index.html>`_
 * `保留名称索引 <reserved.html>`_
+* `着色器索引 <shader_parts.html>`_
 * `总索引 <genindex.html>`_
 
 .. _example-scripts:

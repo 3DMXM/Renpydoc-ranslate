@@ -29,6 +29,8 @@ Ren'Py支持在Web浏览器上运行游戏。
 * 网络功能也不支持。虽然听起来很让人震惊，但浏览器的沙盒环境不允许Ren'Py发起网络请求。
   这表示使用socket端口和requests库在Web浏览器上都会报错。
 
+* 暂不支持Live2D。
+
 除此之外，还有一些限制是由服务器主机造成的。有些主机对单个项目的游戏大小和文件总数量有限制。
 例如 `itch.io <https://itch.io/docs/creators/html5#zip-file-requirements>`_ 就有这样的限制。
 浏览器则有其他限制：超过50MB大小的文件不会被cache缓存，因此较大的文件每次运行游戏都要重新下载。
@@ -73,6 +75,14 @@ will render them incapable of running games. (译者注：上一句是吹牛逼�
 打开构建目录
     选择该项，会打开构建后包含生成文件的目录。
 
+.. _generated-folders:
+
+生成目录
+-------------
+
+假设项目目录为renpy/projects/main/yourproject，游戏打包结束后将生成一个新的renpy/projects/main/yourproject-1.0-dists目录。
+该目录中包含yourproject-1.0-web子目录，以及对应的yourproject-1.0-web.zip文件。
+
 .. _uploading-your-game:
 
 上传游戏
@@ -84,6 +94,8 @@ will render them incapable of running games. (译者注：上一句是吹牛逼�
 
 如果你为自己的游戏搭建了主机，需要确保自己的Web服务中的 .wasm 文件使用 application/wasm MIME 类型。
 这样设置可以更快加载游戏，并且防止运行时的警告(warning)信息。
+
+某些Web主机可能不允许使用game.zip文件。这种情况下，可以把该文件改名为game.data，并修改index.html，把game.zip改为game.data。
 
 .. _web-presplash:
 
@@ -115,7 +127,7 @@ Ren'Py支持流程化下载功能特性，可以在项目底层目录中的 ``pr
 ::
 
     # RenPyWeb progressive download rules - first match applies"
-    # '+' = progressive download, '-' = keep in game.zip (default)
+    # '+' = progressive download, '-' = keep in game.data (default)
     # See https://www.renpy.org/doc/html/build.html#classifying-and-ignoring-files for matching
     #
     # +/- type path
@@ -187,16 +199,17 @@ Javascript
 Ren'Py可以通过 ``emscripten`` 模块中的3个函数运行Javascript。
 emscripten模块仅在Web浏览器端才会被使用。
 可以使用 :var:`renpy.emscripten` 的值测试，根据结果决定在使用前是否还需要引入emscripten模块。
+非Web平台上运行结果是False。
 
-.. function:: emscripten.run_script(script)
+.. function:: renpy.emscripten.run_script(script)
 
     运行指定的Javascript脚本。不会有返回值。
 
-.. function:: emscripten.run_script_int(script)
+.. function:: renpy.emscripten.run_script_int(script)
 
     运行指定的Javascript脚本，将运行结果作为一个整型数值返回。
 
-.. function:: emscripten.run_script_string(script)
+.. function:: renpy.emscripten.run_script_string(script)
 
     运行指定的Javascript脚本，将运行结果作为一个字符串返回。
 

@@ -384,28 +384,6 @@ SVG图片在缩放后依然能保持锐度。
         with {'master': dissolve, 'broadcast': moveinright}
         pause
 
-
-.. _applying-transforms-to-displayables:
-
-应用于可视组件的变换(transform)
------------------------------------
-
-At函数使用某个可视组件和若干个 :ref:`变换(transform) <transforms>` 产生一个新的可视组件。
-
-.. function:: At(d, *args)
-
-    对给定的源可视组件 *d* ，将 *args* 中所有变换(transform)都应用于该组件。所有变换(transform)参数的应用顺序是从左到右，所以最外层的变换(transform)效果是最右边的入参。
-
-    ::
-
-        transform birds_transform:
-            xpos -200
-            linear 10 xpos 800
-            pause 20
-            repeat
-
-        image birds = At("birds.png", birds_transform)
-
 .. _layout-boxes-and-grids:
 
 布局框和坐标系

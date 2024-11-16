@@ -53,10 +53,11 @@ Ren'Py的处理器并不预先知道这段代码的功能和执行结果。Ren'P
 
         def lint_random(parsed_object):
             for i in parsed_object:
-                renpy.check_text_tags(i.what)
-
-
-        renpy.register_statement(
+                check = renpy.check_text_tags(i.block[0].what)
+                if check:
+                    renpy.error(check)
+ 
+       renpy.register_statement(
             name="random",
             block=True,
             parse=parse_random,

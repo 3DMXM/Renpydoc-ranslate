@@ -76,6 +76,10 @@ Ren'Py支持一种模式，可以让气泡在某些对话进行中保持存在�
 
     数据库文件，存储在game目录下，包含气泡式对话配置信息。
 
+.. var:: bubble.clear_retain_statements = [ "call screen", "menu",  "say", "say-centered", "say-nvl", "scene", ]
+
+    这是一个语句列表，列表中的语句会自动清除残留的气泡。
+
 .. var:: bubble.cols = 24
 
     更改气泡位置时，用于定位的位置和大小的横向分割数，即列数。
@@ -87,6 +91,29 @@ Ren'Py支持一种模式，可以让气泡在某些对话进行中保持存在�
 .. var:: bubble.default_area = (15, 1, 8, 5)
 
     台词气泡的默认区域。该值是一个(x, y, w, h)形式的元组，每个元素的单位都是坐标分割后的小方块(cell)。
+
+.. var:: bubble.expand_area = { ... }
+
+    该项是一个(left, top, right, bottom)特性组合而成的字典。
+    如果在对应集合中找到同名集合，则台词气泡会根据指定的数值向外扩展对应的像素数。
+
+    这项设置会让气泡比拖拽选定的区域会更大一些。这样设计的主要原因是，拖拽选择的区域可以不用考虑台词气泡的尾部需要占据空间，
+    以及台词文本更不容易跑出气泡范围，尤其是样式集合发生变化和气泡尾部位置变动的情况。
+
+    默认的扩展值配置为：
+
+    ::
+
+        define bubble.expand_area = {
+            "bottom_left" : (0, 0, 0, 22),
+            "bottom_right" : (0, 0, 0, 22),
+            "top_left" : (0, 22, 0, 0),
+            "top_right" : (0, 22, 0, 0),
+        }
+
+.. var:: bubble.layer = "screens"
+
+    非长期保留的气泡框显示的图层。
 
 .. var:: bubble.properties = { ... }
 
@@ -143,24 +170,9 @@ Ren'Py支持一种模式，可以让气泡在某些对话进行中保持存在�
     以列表或元组中的顺序，最终应用到对应图像标签上。
     该项的优先级高于 bubble.properties_order ，可以定制角色台词气泡的各种样式。
 
-.. var:: bubble.expand_area = { ... }
+.. var:: bubble.retain_layer = "screens"
 
-    将某个特性集合的名称映射为一个(left, top, right, bottom)元组。
-    如果在对应集合中找到同名集合，则台词气泡会根据指定的数值向外扩展对应的像素数。
-
-    这项设置会让气泡比拖拽选定的区域会更大一些。这样设计的主要原因是，拖拽选择的区域可以不用考虑台词气泡的尾部需要占据空间，
-    以及台词文本更不容易跑出气泡范围，尤其是样式集合发生变化和气泡尾部位置变动的情况。
-
-    默认的扩展值配置为：
-
-    ::
-
-        define bubble.expand_area = {
-            "bottom_left" : (0, 0, 0, 22),
-            "bottom_right" : (0, 0, 0, 22),
-            "top_left" : (0, 22, 0, 0),
-            "top_right" : (0, 22, 0, 0),
-        }
+    长期保留的气泡框显示的图层。
 
 .. _bubble-screen:
 

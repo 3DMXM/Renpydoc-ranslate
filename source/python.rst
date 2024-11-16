@@ -151,7 +151,7 @@ define语句可选择带一个索引值，使其可以在一个字典中设置�
 ::
 
     define config.keymap["dismiss"] += [ "K_KP_PLUS" ]
-    define endings |= { "best_ending }
+    define endings |= { "best_ending" }
 
 使用define语句的一个优点是，在声明时它会记录下文件名和该行脚本编号，供启动器(launcher)的导航(navigation)特性使用。
 另一个优点是，:ref:`lint` 可以检查define后面的值，例如是否重复定义为不同的值。
@@ -400,3 +400,17 @@ Ren'Py可以导入(import)纯python的模块和包。创作者需要用在游戏
     在.rpy文件里定义的Python语句会格式转换，使其允许回滚。从.py文件导入(import)的文件则不会发生这种格式转换。因此，在Python中创建的对象无法使用回滚(rollback)操作，且在创建之后就最好不要更改。
 
     并非所有的Python包都与Ren'Py兼容。创作者需要自己先安装并确保对应的包可以正常工作。
+
+.. _exec_py:
+
+注入型Python
+----------------
+
+在根目录中创建一个名为 ``exec.py`` 的文件后，就可以在游戏运行状态注入(inject)Python。
+推荐先在其他地方使用其他文件名，编辑完成后再改名并移动到根目录。
+
+Ren'Py发现 ``exec.py`` 文件后，会加载文件内容，删除文件，并在游戏存储区使用Python的 ``exec`` 可执行文件运行文件内容。
+这通常发生在某个交互行为中。
+
+注入型Python还可以用于添加debug工具。启用开发者模式后，默认也启用了注入型Python功能。
+此外，也可以只将环境变量 RENPY_EXEC_PY 的值修改为True来启用注入型Python功能。

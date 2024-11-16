@@ -66,7 +66,7 @@ Ren'Py包含许多变量需要基于运行的平台进行设置。
 
 .. var:: renpy.emscripten
 
-    在浏览器内运行时为True。
+    在浏览器内运行时为True。该变量仅在浏览器内才能通过emscripten模块获取，详见 :func:`renpy.emscripten.run_script`。
 
 .. var:: renpy.mobile
 
@@ -574,29 +574,6 @@ Ren'Py不保证包含的SDL2版本编译后包含或不包含某些特性(featur
     重新启动当前交互行为。包括以下内容，将显示的图像添加到场景(scene)，重新规划界面(screen)，并启动所有队列中的转场(transition)。
 
     仅在某个交互行为中，该函数才会执行所有工作。交互行为之外，该函数不产生任何效果。
-
-.. function:: renpy.screenshot(filename)
-
-    将截屏保存为 *filename* 。
-
-    如果截屏保存成功就返回True。如果由于某些原因保存失败就返回False。
-
-.. function:: renpy.screenshot_to_bytes(size)
-
-    以二进制对象形式返回一个截屏，可以作为参数传入 :func:`im.Data` 。该二进制对象将是一张png格式图片，例如：
-
-    ::
-
-        $ data = renpy.screenshot_to_bytes((640, 360))
-        show expression im.Data(data, "screenshot.png"):
-            align (0, 0)
-
-    将显示一个截屏图像。这个二进制对象可以存储到存档文件和持久化数据中。不过这个对象可能很大，注意不要存储太多类似的对象。
-
-    `size`
-        截屏后重新缩放的目标尺寸。若为None，截屏将按用户窗口的尺寸进行调整，不包含窗口的标题栏。
-
-    该函数运行可能比较慢，通常用在类似存档的截屏需求中，而不应该用在需要实时生效的功能中。
 
 .. function:: renpy.scry()
 

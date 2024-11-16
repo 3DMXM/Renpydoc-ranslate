@@ -21,7 +21,139 @@ Ren'Py 8.1发布1年后，即2024年5月，将停止对Python2和Ren'Py 7的支�
 Ren'Py 8.1发布1年后，即2024年5月，将移除原生OpenGL渲染器。
 Ren'Py 8.2和7.7起将彻底禁用 :var:`config.gl2` 这个标识。GL2渲染器将用作默认渲染器，除非用户选择另一个渲染器。
 
-2024年5月后停止对Windows 7、8和8.1的支持。这样可以使用仅能在Windows10及后续Windows上运行的搞版本Python。
+2024年5月后停止对Windows 7、8和8.1的支持。这样可以使用仅能在Windows10及后续Windows上运行的高版本Python。
+
+.. _incompatible-8.3.0:
+.. _incompatible-7.8.0:
+
+8.3.0 / 7.8.0
+-------------
+
+**box_reverse和box_align** :propref:`box_reverse` 不再会影响 :propref:`box_align` 。
+若要修改box组件的对齐效果，将 :propref:`box_align` 设置为1.0，或在脚本中定义：
+
+::
+
+    define config.box_reverse_align = true
+
+这样能恢复8.2版本的功能。
+
+**长期保留的对话框气泡** 在某些情况下也会自动清除，比如其他角色的say语句、menu语句和call screen语句。
+该功能由 :var:`bubble.clear_retain_statements` 控制。
+
+若要禁用此功能，需在脚本中添加：
+
+::
+
+    define bubble.clear_retain_statements = [ ]
+
+**ATL如何使用参数设置子组件** ATL变换中如何根据收到的参数修改子组件的规则有调整。
+这个改动对之前的游戏不太可能有严重影响，尤其是创作者仅根据文档的规则进行开发。
+
+- :var:`bubble.clear_retain_statements` 参数会从固定位置入参获取一个值，但不会传给子组件。此处有一个文档缺失 :ref:`atl-transitions` ：
+
+::
+
+    transform t(old_widget):
+        ...
+
+    t("eileen") # 不再会将子组件设置传给图像“eileen”
+
+- 入参列表中包含 `child` 的变换会将同名参数的值或者传给子组件。
+  或者入参列表中包含 `child` ，但使用时不通过关键词参数而是固定位置参数给child赋值，也会传给子组件。
+  再或者入参列表中不包含 `child` 的变换，但赋值时就是有关键词参数child，也当作原变换的入参列表中包含child，并将值传给子组件。
+  之前的文档描述比较模糊。
+
+::
+
+    transform t1(child):
+        ...
+
+    transform t2(delay=1.0):
+        ...
+
+    t1(child="eileen happy") # 当前版本会赋值给“eileen happy”的子组件，之前的版本则不会赋值。
+    t2(child="eileen happy") # child被正确赋值，跟以前一样。
+    t1("eileen happy")       # child被正确赋值，跟以前一样。
+
+**角色回调函数** 的入参列表扩大，详见 :doc:`character_callbacks`。
+现在角色回调函数会忽略未知的关键词入参，所以并不一定需要修改之前写的角色回调函数。
+
+**window语句** ``window show`` 和``window hide`` 语句不会禁用``window auto`` 的标识。
+如果需要恢复旧功能，可以使用新的 ``window auto False``，或者在脚本中添加：
+
+::
+
+    define config.window_functions_set_auto = True
+
+当 ``window show`` 出现在 ``window hide`` 后面时，Ren'Py会寻找下一条say语句，以确认下次显示的对话窗口类型。
+之前的版本中，Ren'Py会往回找，用上一条say语句的信息。若要使用之前的功能，需要在脚本中添加：
+
+::
+
+    define config.window_next = False
+
+.. _munge-8.3.0:
+
+**字符串转换** 开头有且仅有一个“__”(双下划线)的变量名，会在字符串中自动识别并转换为另一个变量名。
+比如下面的例子：
+
+::
+
+    $ __foo = 1
+    "Add one and __foo and you get [1 + __foo]."
+
+会自动转换为：
+
+::
+
+    $ _m1_script__foo = 1
+    "Add one and _m1_script__foo and you get [1 + _m1_script__foo]."
+
+若要禁用该功能，在game目录下找到一个名为01nomunge.rpy文件，在里面添加：
+
+::
+
+    define config.munge_in_strings = False
+
+**可视组件包围框外的部分将被裁减** 把可视组件放在一个比它大的box组件中后再裁减，结果会有一些变化。
+在当前版本中，传给 :func:`Crop`，:tpref:`crop`，:tpref:`corner1` 和 :tpref:`corner2` 的值不再受到可视组件自身的原始包围框大小限制。
+
+Ren'Py 8.2.x和7.7.x版本中，裁减行为固定从可视组件右侧和底部开始，保留左侧和顶部。
+若要使用旧功能，需要在脚本中添加：
+
+::
+
+    define config.limit_transform_crop = True
+
+在8.2和7.7版本之前，只有当剪裁的值是浮点数时，才会从右侧和底部开始剪裁。
+若要保留旧功能，需要在脚本中添加：
+
+::
+
+    define config.limit_transform_crop = "only_float"
+
+.. _incompatible-8.2.2:
+.. _incompatible-7.7.2:
+
+8.2.2 / 7.7.2
+-------------
+
+**fill和frame组件** 8.2.1或更早版本中，某些情况下 :propref:`xfill` 和 :propref:`yfill` 特性会导致frame、window和按钮组件的尺寸缩小。
+现在统一使用expansion。若要使用旧功能，需要在脚本中添加：
+
+::
+
+    define config.fill_shrinks_frame = True
+
+.. _incompatible-8.2.1:
+.. _incompatible-7.7.1:
+
+8.2.1 / 7.7.1
+--------------
+
+**垂直文本** 使用hardbuzz文字引擎提升了垂直文本，并能在正确的位置渲染文字了。
+使用新版本可能会导致垂直文本的位置发生变化。由于之前的版本中一直有问题，所以这次就没有考虑兼容。
 
 .. _incompatible-8.2.0:
 .. _incompatible-7.7.0:

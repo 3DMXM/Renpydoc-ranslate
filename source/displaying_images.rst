@@ -104,8 +104,10 @@ images目录
 当使用更高细节的图形重制游戏时，过采样可以用来解决 :var:`config.physical_width` 和 :var:`config.physical_height` 与素材间的矛盾。
 
 图片名去除扩展名，以一个 ‘@’ 符号加数字形式结尾时，将自动启用过采样。
-例如，:file:`eileen happy@2.png` 表示2倍过采样， :file:`eileen happy@3x.png` 表示3倍过采样。
+例如，:file:`eileen happy@2.png` 表示2倍过采样， :file:`eileen happy@3.png` 表示3倍过采样。
 使用 :func:`Image` 函数时指定关键字参数 `oversample` 的值也可以启用过采样。
+
+目录名称也可以表示内部文件的过采样倍率。例如 :file:`images/@2/eileen happy.png` 也会以2倍过采样。
 
 .. _image-statement:
 
@@ -226,10 +228,10 @@ show语句样例如下：
     # 再次显示正常的苏珊
     show susan -happy
 
-.. _show-expression:
+.. _show-expression-statement:
 
-show expression
----------------
+show expression语句
+---------------------
 
 show语句的一个变种，使用关键词 ``expression`` 代替图像名，后面跟一个简单表达式。表达式必须能解析为一个可视组件，而该可视组件会在图层上显示。若要隐藏该可视组件，必须使用as语句指定一个图像标签(tag)。
 

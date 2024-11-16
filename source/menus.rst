@@ -117,6 +117,5 @@ menu语句后面可以使用一个set从句。set从句单独占一行。
 
 除了 `screen` 入参选择对应界面，`nvl` 入参选择 :ref:`NVL模式菜单 <nvl-mode-menu>`，其他传入菜单的入参会应用在界面上。
 传给菜单选项的入参会应用在菜单界面的所有元素。
-还有一个特殊关键词 `_mode` ，设置互动模式，默认值为“menu”。选项的入参会成为对应元素的入参，并传给菜单界面。
 
 详见 :ref:`选项界面 <choice-screen>` 和 :var:`config.menu_arguments_callback`。

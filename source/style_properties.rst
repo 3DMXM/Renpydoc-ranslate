@@ -377,7 +377,9 @@
 
 .. style-property:: black_color color
 
-    当渲染某个基于图像的字体时，黑色会被映射为需要的颜色。这个特性对全真(truetype)字体无效。
+    当渲染某个基于图像的字体时，黑色会被映射为需要的颜色。这个特性对truetype字体无效。
+
+    在处理ruby/片假名文本时，该特性可以是None，表示使用主文本同样的颜色。
 
 .. style-property:: bold boolean
 
@@ -391,6 +393,8 @@
 .. style-property:: color color
 
     文本渲染使用的色彩。当使用某个全真(truetype)字体时，字体会直接使用色彩渲染。当使用基于图像的字体时，白色会映射为指定的色彩。
+
+    在处理ruby/片假名文本时，该特性可以是None，表示使用主文本同样的颜色。
 
 .. style-property:: emoji_font string
 
@@ -900,9 +904,30 @@
     当box_wrap为True时，box_wrap_spacing项用于指定被wrap的行或列的间距。
     (行间距就是被warp的hbox在垂直方向空间，列间距就是被warp的vbox在水平方向的空间。)
 
+.. style-property:: box_align float or None
+
+    该特性决定了box组件内行或列的对齐方式。
+    若为默认值0.0，列使用左对齐，行使用上对齐。
+    若为0.5，则居中对齐。
+
+    若该特性值为None，且设置了 :propref:`xfill` 或 :propref:`yfill` 的值，则不会给子组件添加额外的空白，
+    并忽略box主方向内子组件的坐标值。
+
+
 .. style-property:: order_reverse boolean
 
     若为False，也就是默认值，方框内元素会从前往后绘制，第一个元素下面是第二个元素。若为True，顺序会倒过来，第一个元素会在方框最底层。
+
+.. style-property:: box_justify boolean or "first" or "all"
+
+    若不为False，box中的内容两端对齐——即一行中的各元素间会被添加合适的空间，使首尾正好充满一行。
+    若为True，则除了最后一行都将两端对齐。
+    若为“first”，则只有首行两端对齐。
+    若为“all”，则每一行都两端对齐，包括最后一行。
+    设置两端对齐后，其他对齐效果不再生效，除非某行只有一个元素。
+
+    若该特性值不为False，且设置了 :propref:`xfill` 或 :propref:`yfill` 的值，则不会给子组件添加额外的空白，
+    并忽略box主方向内子组件的坐标值。
 
 .. _grid-style-properties:
 

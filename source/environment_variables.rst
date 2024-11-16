@@ -7,6 +7,9 @@ Ren'Py受一些环境变量的影响。在不同版本的Ren'Py中，这些环�
 
 下列环境变量控制Ren'Py的行为表现：
 
+``RENPY_DEBUG_SOUND``
+    如果设置了该项，Ren'Py遇到音频错误时会抛异常。
+
 ``RENPY_DISABLE_JOYSTICK``
     如果设置了该项，禁用手柄检测。如果出现一个有问题的手柄导致Ren'Py出现误操作的情况下就使用该项。
 
@@ -45,6 +48,9 @@ Ren'Py受一些环境变量的影响。在不同版本的Ren'Py中，这些环�
 
 ``RENPY_LESS_UPDATES``
     该项让Ren'Py减少界面更新时界面的数量。
+
+``RENPY_LOG_EVENTS``
+    如果设置了该项，Ren'Py会在log.txt中记录pygame样式的事件。这样做会影响性能，但对某些问题的debug可能有用。
 
 ``RENPY_MULTIPERSISTENT``
     Ren'Py多重持久化数据保存的目录路径。

@@ -483,23 +483,70 @@ menu语句能够给玩家提供一个分支选项::
 以美元标志符“$”开头那行文本会被识别为Python语句。assignment(赋值)语句将这里的“book”判定为一个变量而不是一个值。Ren'Py已经支持一些其他包含Python代码的办法，例如多行的Python语句。我们将在本手册的其他章节讨论这点。
 Ren'Py现在支持Python 2.7。不过我们还是强烈推荐写可以同时在Python2和Python3两个版本正常运行的Python语句。
 
-需要检查flag(标识)时，请使用if语句::
+需要检查flag(标识)时，请使用if语句：
 
-        if book:
+::
 
-            "我们的第一个游戏是基于希尔维亚的一个主意，但是后面我想实现一个自己设计的故事。"
+    if book:
 
-如果结果为True，if语句下的脚本语句块(block)将执行。相反，if语句下的脚本语句块(block)将被跳过。if语句也可以包含一个else分句，当if结果为False时，将执行else分句中的脚本语句块(block)。::
+        "我们的第一个游戏是基于希尔维亚的一个主意，但是后面我想实现一个自己设计的故事。"
 
-        if book:
+如果结果为True，if语句下的脚本语句块(block)将执行。相反，if语句下的脚本语句块(block)将被跳过。if语句也可以包含一个else分句，当if结果为False时，将执行else分句中的脚本语句块(block)。
 
-            "我们的第一个游戏是基于希尔维亚的一个主意，但是后面我想实现一个自己设计的故事。"
+::
 
-        else:
+    if book:
 
-            "我们的第一个视频游戏中，希尔维亚在脚本方面给了很多帮助。"
+        "我们的第一个游戏是基于希尔维亚的一个主意，但是后面我想实现一个自己设计的故事。"
+
+    else:
+
+        "我们的第一个视频游戏中，希尔维亚在脚本方面给了很多帮助。"
 
 Python变量不仅仅可以是简单的布尔值。变量也可以存储玩家名字、分数或者其他一些想要记录的事情。由于Ren'Py支持Python编程语言的所有功能，许多想法都可能实现。
+
+.. _files-in-template:
+
+项目模板中的文件
+-------------------
+
+创建的项目中game目录下会包含下列目录和文件。
+
+**audio/**
+    该目录用户保存音频文件。详见 :doc:`audio`。
+
+**cache/**
+    该目录包含缓存文件。创作者不需要编辑这些文件。
+
+**gui/**
+    该目录保存GUI使用的图片文件。详见 :ref:`GUI定制化指导 <gui>`。
+
+**images/**
+    该目录用于保存图片文件。详见 :doc:`displaying_images`。
+
+**tl/**
+    该目录保存翻译文件。详见 :doc:`translation`。
+
+**gui.rpy**
+    所有GUI相关变量都定义在该文件中。详见 :ref:`GUI定制化指导 <gui>`。
+
+**options.rpy**
+    配置和构筑相关变量，一部分环境设定配置，以及一部分GUI的变量都定义在该文件中。
+    详见 :doc:`config`、:doc:`preferences`、:doc:`build` 和 :ref:`GUI定制化指导 <gui>`。
+
+**screens.rpy**
+    界面都定义在该文件中。创作者可以编辑该文件，实现 :ref:`高级GUI定制化 <more_advanced_gui>`。
+    详见 :doc:`style`、:doc:`style_properties`、:doc:`screens`、:doc:`screen_actions`、:doc:`screen_special` 和 :doc:`screen_optimization`。
+
+**script.rpy**
+    该文件用于在剧情脚本，并可以引入其他脚本文件。
+    创作者也可以根据需要添加或删减 :file:`.rpy` 文件。
+    详见 :doc:`language_basics`。
+
+**\*.rpyc**
+    这些文件是 :file:`.rpy` 文件编译后的产物，用于节省加载时间。
+    如果不删除对应的 :file:`.rpy` 文件，仅修改这些文件是没有效果的。详见 :doc:`language_basics`。
+
 
 .. _releasing-your-game:
 

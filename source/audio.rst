@@ -60,23 +60,23 @@ play语句
 
 ::
 
-        label market_side:
-            play music market
-            "我们正在进入市场。"
-            jump market_main
+    label market_side:
+        play music market
+        "我们正在进入市场。"
+        jump market_main
 
-        label market_main:
-            play music market if_changed
-            "我们可能刚进入市场，也可能已经在市场里一段时间了。"
-            "如果我们已经在市场里一段时间了，音乐不会停止并重从播放，只是继续播放。"
-            jump market_main
+    label market_main:
+        play music market if_changed
+        "我们可能刚进入市场，也可能已经在市场里一段时间了。"
+        "如果我们已经在市场里一段时间了，音乐不会停止并重从播放，只是继续播放。"
+        jump market_main
 
 ``volume`` 从句也是可选的，可以指定音量值，音量范围为0.0到1.0。
 这样每次指定音频文件时，也可以同时设置音量。
 
 ::
 
-        play sound "woof.mp3" volume 0.5
+    play sound "woof.mp3" volume 0.5
 
 在audio通道上，同时播放多个音效文件：
 
@@ -89,16 +89,30 @@ play语句
 
 ::
 
-        play music illurock
+    play music illurock
 
 放入audio命名空间的文件会根据文件名自动定义变量并使用。
+
+.. _synchro-start:
+
+Ren'Py支持一种功能，可以确保多个音频文件同步播放。
+该功能默认在不断循环的音频通道(比如music)上启用，
+但也可以通过 `synchro_start` 选项用于 :func:`renpy.music.register_channel` 或 :func:`renpy.music.play` 。
+
+启用synchro start功能后，多个play语句会同时运行，多个音频通道同步播放。
+满足以下条件时，synchro就会开始：
+
+* 当各音频通道的音频文件都已加载并且音频采样功能可用时。
+* 当所有音频通道播放的内容都已淡出(fade out)时。
+
+两个条件都满足时，还可以加入新的音频。
 
 .. _stop-statement:
 
 stop语句
 --------------
 
-stop语句以关键词 ``stop`` 开头，后面跟需要静音的音频通道名。最后有一个可选的 ``fadeout`` 分句。
+``stop`` 语句以关键词 ``stop`` 开头，后面跟需要静音的音频通道名。最后有一个可选的 ``fadeout`` 分句。
 如果没有fadeout时间没有指定，就使用 :var:`config.fadeout_audio` 的配置值。
 
 ::
@@ -191,8 +205,9 @@ Ren'Py支持节选播放音频文件。节选播放的语法是，在play语句�
 
     play music_2 [ "<sync music_1>layer_2.opus", "layer_2.opus" ]
 
-会直接将 ``layer_2.opus`` 从当前播放 music_1 的音轨时间点开始播放。
+会直接将 :file:`layer_2.opus` 从当前播放 music_1 的音轨时间点开始播放。
 music_1从头开始播放时也跟随从头播放，而不再会播放完之后再循环。
+(默认情况下，:file:`layer_2.opus` 起始时间点的修改会永久生效。)
 
 .. _volume:
 
@@ -260,13 +275,13 @@ audio和sound音频通道相关的混音器为“sfx”，music音频通道相�
 Ren'Py会将 ``game/audio`` 目录下的文件自动识别为音频文件，并根据文件名在audio命名空间中生成对应变量。
 该目录下直接支持的几种音频音频，会被去掉文件扩展名(当前包括.wav、.mp2、.mp3、.ogg和.opus)，剩下的文件名强制转为小写字母，并放入audio命名空间。
 
-需要注意，文件名会放入audio命名空间并不表示就会播放。如果需要播放一个名为“opening_song.ogg”文件，需要写：
+需要注意，文件名会放入audio命名空间并不表示就会播放。如果需要播放一个名为 :file:`opening_song.ogg` 文件，需要写：
 
 ::
 
     play music opening_song
 
-某些文件名无法使用这种方式，因为这些文件名不符合Python变量命名规范。例如，“my song.mp3”、“8track.opus”和“this-is-a-song.ogg”就有这种情况。
+某些文件名无法使用这种方式，因为这些文件名不符合Python变量命名规范。例如，:file:`my song.mp3`、:file:`8track.opus` 和 :file:`this-is-a-song.ogg` 就有这种情况。
 
 Ren'Py搜索音频文件时，如果在game目录中没有对应的匹配文件，会再次在audio目录中寻找。
 例如：
@@ -275,7 +290,7 @@ Ren'Py搜索音频文件时，如果在game目录中没有对应的匹配文件�
 
     play music "opening.ogg"
 
-会先寻找 ``game/opening.ogg``。若未果则会寻找 ``game/audio/opening.ogg`` 。
+会先搜索 :file:`game/opening.ogg`。若未果则会搜索 :file:`game/audio/opening.ogg`。
 
 .. _a-actions:
 
@@ -453,6 +468,31 @@ Ren'Py搜索音频文件时，如果在game目录中没有对应的匹配文件�
 
     `framedrop`
         该参数控制视频卡顿时的处理方式。若为True，则会跳帧以保持音视频同步。若为False，Ren'Py会无视视频迟延。
+
+.. function:: renpy.music.set_audio_filter(channel, audio_filter, replace=False, duration=0.016)
+
+    将指定的音频滤波器加入到 `audio_filter` 队列。
+
+    `audio_filter`
+        该项必须是一个 :doc:`音频滤波器<audio_filters>` 对象或者音频滤波器列表。
+        该项也可以是None，表示移除当前所有音频滤波器。
+
+    `replace`
+        若为True，音频滤波器会立刻替换当前使用的音频滤波器，修改当前正在播放或播放队列中的声音。
+        若为False，新的音频滤波器会在下次播放的声音或播放队列中的下一个声音才生效。
+
+    `duration`
+        从当前音频滤波器到新的滤波请生效的时长，单位为秒。
+        该项可以防止突然更改滤波器时产生的爆音。
+
+.. function:: renpy.music.set_mixer(channel, mixer, default=False)
+
+    该函数可以设置指定音频通道的混音器。默认情况下，至少有两个混音器，分别是“sfx”和“music”。
+    “sfx”占用的音频通道编号为0到3，“music”占用的音频通道标号为3到7。
+    voice模块调用该函数时，会将2号音频通道用于语音。
+    创作者可以创建自己的混音器，但也需要提供一个配置项，可以调整和设置该混音器。
+
+    只能在初始化语句块中调用该函数。
 
 .. function:: renpy.music.set_pan(pan, delay, channel='music')
 

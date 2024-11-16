@@ -57,7 +57,7 @@ Ren'Py会自动给摄像机坐标设置一个坐标偏移量(`width` / 2, `heigh
 在此特殊平面上的图像，正好能显示原来的尺寸(忽略整个应用窗口的缩放效果)。
 增大摄像机的z轴坐标可以让所有显示内容变小，相反则会让显示内容变大。
 
-最后一点， :tpref:`perspective` 和 :var:`config.perspective` 设置了摄像机可视范围，默认的最近和最远距离分别是100和10000.
+最后一点， :tpref:`perspective` 和 :var:`config.perspective` 设置了摄像机可视范围，默认的最近和最远距离分别是100和100000。
 当图像与摄像机的z轴距离小于100或大于100000时，图像将不会显示。
 
 .. var:: config.perspective = (100, z, 100000)
@@ -199,7 +199,7 @@ Ren'Py提供了一个简单方式修复这个问题—— :tpref:`zzoom` 。
 
 .. _matrix-transforms:
 
-矩阵变化
+矩阵变换
 -----------------
 
 Ren'Py中可以使用 :tpref:`matrixtransform` 变化特性，将某个矩阵应用到可视组件上，实现三维空间中图像的伸缩、位移和旋转。
@@ -279,6 +279,11 @@ TransformMatrix的子类必须要实现 ``__call__`` 方法。该方法需要两
 
 内建的TransformMatrix子类
 -------------------------
+
+.. seealso:: :class:`SplineMatrix`, which works with TransformMatrix subclasses.
+.. seealso::
+
+    :class:`SplineMatrix` 类如何与其他TransformMatrix子类同时生效。
 
 下面的列表是Ren'Py内建的TransformMaxtrix子类：
 

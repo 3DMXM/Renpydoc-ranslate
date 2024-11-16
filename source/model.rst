@@ -71,7 +71,7 @@ Ren'Py在常规操作中将自动创建模型对象。
 
 Live2D
     Live2D型可视组件在渲染时可能会创建多个模型对象，即每个图层一个模型对象。
-    
+
 
 :func:`Transform` 和 ATL
     Transform对象在 :tpref:`mesh` 为True或 :tpref:`blur` 特性时创建一个模型对象。
@@ -186,6 +186,18 @@ uniform变量开头必须为 u\_，attribute变量开头必须为 a\_，varying�
 
     若该配置项为True，GLSL着色器程序的源代码会在启动阶段写入 log.txt 文件中。
 
+.. _shader-local-variables:
+
+着色器本地变量
+---------------------------
+
+着色器使用的本地变量可以用 ``u__``、``a__``、``v__`` 或 ``l__`` 作为前缀。
+接着，所有的双下划线都会用着色名补充完整，着色器名中的“.”则会再替换为单下划线。
+例如，着色器叫 ``example.gradient``，前缀 ``u__`` 会被替换为 ``u_example_gradient_``。
+
+该功能的主要用于 :doc:`文本着色器 <textshaders>` ，大多数uniform变量都是着色器本地变量。
+另外，着色器内部定义的变量都需要使用前缀 ``l__``。
+
 .. _transforms-and-model-based-rendering:
 
 Transform类和基于模型的渲染
@@ -256,7 +268,8 @@ Transform类和基于模型的渲染
 .. var:: config.gl_blend_func = { ... }
 
     一个字典型数据，用作遮罩模式名与遮罩函数的映射关系。
-    遮罩模式名称见下表：
+    blend modes are supplied to the :ref:`gl_blend_func <gl-blend-func>` property, given below.
+    遮罩模式会赋值给 :ref:`gl_blend_func <gl-blend-func>` ，详见下表。
 
 默认的遮罩模式有：
 
@@ -268,7 +281,11 @@ Transform类和基于模型的渲染
     gl_blend_func["min"] = (GL_MIN, GL_ONE, GL_ONE, GL_MIN, GL_ONE, GL_ONE)
     gl_blend_func["max"] = (GL_MAX, GL_ONE, GL_ONE, GL_MAX, GL_ONE, GL_ONE)
 
-.. _uniforms-and-attributes:
+由于Ren'Py会使用alpha预乘，导致某些像素的最终结果是半透明的。
+在GPU中，颜色(r, g, b, a)会变成(r * a, g * a, b * a, a)，并传给遮罩函数。
+这种机制可能会导致渲染出的颜色与绘图软件中的结果不一致。
+
+.. _model-uniforms:
 
 uniform和attribute变量
 -----------------------
@@ -298,6 +315,19 @@ uniform和attribute变量
     u_viewport.xy表示从视口左下角为原点的坐标。
     u_viewport.pq表示视口的宽度和高度。
 
+``vec2 u_virtual_size``
+
+    游戏的虚拟分辨率(:var:`config.screen_width` ， :var:`config.screen_height`)。
+    从gl_Position转化为虚拟坐标可以使用如下代码：
+
+    .. code-block:: glsl
+
+        v_position = u_virtual_size * vec2(gl_Position.x * .5 + .5, -gl_Position.y * .5 + .5)
+
+``vec2 u_drawable_size``
+    窗口的可绘制区域尺寸，单位是像素，一般等于游戏运行时的分辨率。
+    例如1280×720分辨率的游戏拉伸到1920×1080运行，那么此项的值就是(1920, 1080)。
+
 ``sampler2D tex0``, ``sampler2D tex1``, ``sampler2D tex2``
     如果纹理可用，对应的sampler2D类型数据可以存入这些变量。
 
@@ -308,7 +338,7 @@ uniform和attribute变量
 以下attribute型变量对所有模型都可直接使用。
 
 ``vec4 a_position``
-    待渲染顶点位置信息。
+    待渲染顶点位置信息。该值表示虚拟像素，以纹理左上角为原点。
 
 如果纹理可用，还有下面的attribute型变量：
 
@@ -322,6 +352,8 @@ GL特性(property)
 
 GL特性会更改OpenGL或基于模型渲染器的全局状态。
 这些特性可以与Transform对象一起使用，或者 :func:`Render.add_property` 函数一起使用。
+
+.. _gl-blend_func:
 
 ``gl_blend_func``
     该特性应是一个6元元组，用作一个方程的计算。此方程会根据遮罩像素、被遮罩像素等信息算出最终结果。
@@ -373,7 +405,7 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
 ``gl_texture_wrap``
     该项决定了将纹理映射到网格的方式。其值应该是一个2元元组，
     第一个元素用于设置GL_TEXTURE_WRAP_S，第二个元素用于设置GL_TEXTURE_WRAP_T，
-    这两项通常用作纹理的X和Y轴信息。
+    这两项通常用作纹理的X和Y轴映射方式。
 
     这些OpenGL常量应从renpy.uguu中引入：
 
@@ -381,6 +413,10 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
 
         init python:
             from renpy.uguu import GL_CLAMP_TO_EDGE, GL_MIRRORED_REPEAT, GL_REPEAT
+
+    该项可以针对不同纹理设置不同的值。`gl_texture_wrap_tex0` 控制第一纹理，`gl_texture_wrap_tex1` 控制第二纹理，
+    `gl_texture_wrap_tex2` 控制第三纹理，`gl_texture_wrap_tex3` 控制第四纹理。在Transform对象中只能使用这4个默认纹理。
+    如果需要同时使用更多纹理则可以使用Render.add_property添加“texture_wrap_tex4”或者“texture_wrap_myuniform”等。
 
 .. _model-displayable:
 
@@ -473,6 +509,33 @@ GL特性会更改OpenGL或基于模型渲染器的全局状态。
 
         u_renpy_dissolve 0.0
         linear delay u_renpy_dissolve 1.0
+
+.. _animated-shaders:
+
+带动画的着色器
+----------------
+
+当着色器依靠 ``u_time`` 来实现动画是，就要特别注意了。
+Ren'Py并没有固定的刷新率，就算满屏的各个着色器都在每帧显示不同内容，
+如果没有可视组件申请重绘，依然可能会把刷新率降低到5fps。
+
+当在ATL变换中使用带动画的着色器时，可能会出现卡顿。
+但同时屏幕上的其他动画却运行顺畅，原因可能就是使用着色器的变换没有申请重绘。
+为了解决此类问题，可以写一个空的ATL循环，强制重绘：
+
+::
+
+    transform fancy_shader:
+        shader 'my_fancy_shader'
+        pause 0
+        repeat
+
+``pause 0`` 会尽可能快地循环绘制。创作者可以修改 ``pause`` 时间，来设置自己需要的最小刷新率，比如 ``pause 1.0/30``。
+
+Shader Parts
+------------
+
+Ren'Py使用的着色器请详见 :doc:`shader_parts`。
 
 .. _default-shader-parts:
 

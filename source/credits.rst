@@ -14,7 +14,9 @@
 * Ajkahn96
 * Aleema
 * Alessio
+* Aleksandar Belic Aleksanchez
 * Alex
+* Alexandre Detiste
 * Alexandre Tranchant
 * Alisha Taylor
 * Altskop
@@ -26,19 +28,23 @@
 * Arowana-vx
 * Asfdfdfd
 * Auro-Cyanide
+* Avonder
 * Awakening
 * Ayowel
 * Baekansi
+* Bas Couwenberg
 * Bbs3223474
 * Ben Wright
 * BlackDragonHunt/Mangagamer
 * Brainos
+* Brimbel
 * Bryan Tsang
 * Carl
 * Capntrips
 * Caryoscelus
 * CensoredUsername (C)
 * Charles Surett
+* Chengtian He
 * Cherie Davidson
 * Chrisclone
 * Chris Mear
@@ -47,6 +53,7 @@
 * Clinton Nguyen
 * CobaltCore
 * CodePsy
+* Craig de Stigter
 * Craig P. Donson
 * CursedOctopus
 * DaFool
@@ -62,6 +69,8 @@
 * Derik
 * Diapolo10
 * DinakiS
+* Dipesh Aggarwal
+* Do10HM
 * Dogtopus
 * Doomfest
 * Donghyeok Tak
@@ -93,11 +102,13 @@
 * GNCanva
 * Gouvernathor
 * Gratusfr
+* Gregor Riepl
 * Gregory Pease
 * Grey
 * Gustavo Carvalho
 * Haelwenn (lanodan) Monnier
 * Hanaka
+* HB38
 * Helloise
 * Helmut K. C. Tessarek
 * Hentai Senshi
@@ -108,6 +119,8 @@
 * Huanxuantian
 * Hyper Sonic
 * Ian Leslie
+* Iivusly
+* ImJustAQ
 * JackkelDragon
 * Jackmcbarn
 * Jacob Kauffmann
@@ -141,12 +154,14 @@
 * Konstantin Mozheyko
 * Konstantin Nikolayev
 * KorDen
+* Kuro
 * Kuroonehalf
 * Kyouryuukunn
 * Lapalissiano
 * LaUwUrence
 * Lee Yunseok
 * Lent1
+* Levicratic
 * Lezalith
 * Llyama
 * LoafyLemon
@@ -154,13 +169,17 @@
 * Liu Wenyuan
 * Lore
 * Lucas Ramage
+* Luejerry
+* M-From-Space
 * Maciej Katafiasz
 * Maissara Moustafa
 * Mal Graty
 * Marcel
+* Mark
 * Markus Koschany
 * Mason Chou
 * Matias B.
+* Matěj Račinský
 * Matt George
 * Matthew Vimislik
 * Max le Fou
@@ -170,6 +189,7 @@
 * Michael
 * Midgethetree
 * mikey (ATP Projects)
+* Minger0
 * Morgan Willcock
 * Moshibit
 * MrStalker
@@ -184,9 +204,12 @@
 * NoJoker
 * Nolanlemahn
 * Noriverwater
+* Npckc
 * Numerlor
 * Nxcrft
 * Nyaatrap
+* OctoSpacc
+* OleSTEEP
 * Oscar Six
 * Oshi-Shinobu
 * Patrick Dawson
@@ -194,6 +217,7 @@
 * Paul Morio
 * Pavel Langwell
 * Peter DeVita
+* Petr Abdulin
 * Philat
 * Pionere
 * Piroshki
@@ -229,6 +253,7 @@
 * Siege-Wizard
 * SleepKirby
 * Spiky Caterpillar
+* Sunrise Sarsaparilla
 * Susnux
 * Sylvain Beucler
 * Symegac
@@ -241,17 +266,21 @@
 * Totally a booplicate
 * Vadim Karpenko
 * Valery Iwanofu
+* Veydzh3r
+* Viktoras Agejevas
 * Viliam Búr
 * Vladya
 * Vollschauer
 * William Tumeo
 * Winter Wolves
+* Woolion
 * Xavi-Mat
 * Xareyli
 * Xela
 * Zedraxlo
 * Zhangning
 * Zigmut
+* Zout141
 * ねゆんせ
 * 琴梨梨
 

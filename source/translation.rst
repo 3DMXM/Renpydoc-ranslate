@@ -398,6 +398,18 @@ Ren'Py会运行所有与当前激活语言相关的 ``translate python`` 语句�
 * 游戏第一次运行时，使用 :var:`config.default_language` 。
 * 以上情况都未配置，使用None语言。
 
+.. _translation-info-screen:
+
+多语言信息界面
+=======================
+
+进入开发者菜单(Shift+D)后选择“Show Translation Info”，可以发现一个关于多语言的界面。
+对于非开发人员，该界面可以使用如下脚本显示：
+
+::
+
+    show screen _translation_info
+
 .. _translation-actions-functions-and-variables:
 
 多语言支持的行为、函数和变量

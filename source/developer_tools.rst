@@ -118,7 +118,7 @@ Shift+I 样式检查
 
 .. _fast-skipping:
 
-> Fast Skipping
+>键快速跳过
 ---------------
 
 当 :var:`config.developer` 或 :var:`config.fast_skipping` 为True时，使用“快速跳过”快捷键(默认是“>”)，将触发游戏立刻跳到下一个重要互动。出于这种需求，重要互动不由say语句、转场(transition)和暂停(pause)命令触发的。通常情况下，快速跳过会直接跳到下一个菜单选项，但也会在用户自定义的互动行为前停止。
@@ -170,3 +170,36 @@ Ren'Py支持脚本中“传送(warp)至某行”功能，不需要开发者运�
 .. function:: renpy.watch(expr)
 
     监视(watch)指定的Python表达式，信息显示在屏幕的右上角。
+
+.. _launcher-customization:
+
+定制启动器
+----------------------
+
+现在可以定制Ren'Py的启动器，锁定某些文件或目录。
+若有这种需求，可以创建一个如下的 project.json 文件：
+
+::
+
+    {
+        "renpy_launcher":
+        {
+            "open_directory":
+            {
+                "game": "game",
+                "base": ".",
+                "images": "game/images",
+                "audio": "game/audio",
+                "gui": "game/gui"
+            },
+            "edit_file":
+            {
+                "script.rpy": "game/script.rpy",
+                "options.rpy": "game/options.rpy",
+                "gui.rpy": "game/gui.rpy",
+                "screens.rpy": "game/screens.rpy"
+            }
+        }
+    }
+
+若此文件已存在，创作者可以直接编辑 renpy_launcher 下的元素，将目录和文件改为自己指定的内容。

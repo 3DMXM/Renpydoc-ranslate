@@ -201,15 +201,15 @@ NVL模式角色可以使用定制，具有几种不同的外观。希望创作�
 
 .. var:: config.nvl_list_length = None
 
-    若非None，这项表示NVL对话列表的最大长度。配置这项值(通常用于将对话强制限制在一个固定高度内)，可以模仿一个无限的可滚动NVL窗口。
+    若非None，该项表示NVL对话列表的最大长度。配置该项(通常用于将对话强制限制在一个固定高度内)，可以模仿一个可无限滚动的NVL窗口。
 
 .. var:: config.nvl_page_ctc = None
 
-    若非None，这是用于NVL模式角色的“点击继续”提示，当到底页面底部时出现。(也就是后面跟一个“nvl clear”语句)。这项代替了 :func:`Character` 的ctc参数。
+    若非None，该项元素用于NVL模式角色的“点击继续”提示，会在底页面底部出现。(也就是后面跟一个“nvl clear”语句)。该项代替了 :func:`Character` 的ctc参数。
 
 .. var:: config.nvl_page_ctc_position = "nestled"
 
-    若非None，这是用于NVL模式角色的“点击继续”提示坐标，当到底页面底部时出现。(也就是后面跟一个“nvl clear”语句)。这项代替了 :func:`Character` 的ctc_position参数。
+    若非None，该项元素用于NVL模式角色的“点击继续”提示坐标，会在页面底部时出现。(也就是后面跟一个“nvl clear”语句)。该项代替了 :func:`Character` 的ctc_position参数。
 
 .. var:: config.nvl_paged_rollback = False
 
@@ -222,29 +222,29 @@ Python 函数
 
 .. function:: nvl_clear()
 
-  等效于 ``nvl clear`` 语句。
+    等效于 ``nvl clear`` 语句。
 
 .. function:: nvl_hide(with_)
 
-  等效于 ``nvl hide`` 语句。
+    等效于 ``nvl hide`` 语句。
 
-  `with_`
-    隐藏NVL模式窗口使用的转场(transition)。
+    `with_`
+        隐藏NVL模式窗口使用的转场(transition)。
 
 .. function:: nvl_menu(items)
 
-  使用NVL样式显示窗口的Python函数。很少直接使用。通常用于声明菜单变量，像这样：
+    使用NVL样式显示窗口的Python函数。很少直接使用。通常用于声明菜单变量，像这样：
 
-  ::
+    ::
 
-      define menu = nvl_menu
+        define menu = nvl_menu
 
 .. function:: nvl_show(with_)
 
-  等效于 ``nvl show`` 语句。
+    等效于 ``nvl show`` 语句。
 
-  `with_`
-    显示NVL模式窗口使用的转场(transition)。
+    `with_`
+        显示NVL模式窗口使用的转场(transition)。
 
 .. _paged-rollback:
 

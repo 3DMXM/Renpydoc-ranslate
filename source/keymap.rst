@@ -26,13 +26,13 @@ alt
     当alt键被同时按下时匹配。不同时按下alt键的keysym与不带前缀的匹配。
 
 meta
-    当meta、command或windows键被同时按下时匹配。不同时按下那些键的keysym与不带前缀的匹配。
+    当meta、command或windows键被按下时匹配。不同时按下那些键的keysym与不带前缀的匹配。
 
 ctrl
     当ctrl键被同时按下时匹配。不同时按下ctrl键的keysym与不带前缀的匹配。(ctrl键很少用，因为它通常会触发跳过。)
 
 osctrl
-    针对Mac系统的alt键，和其他系统的ctrl键。
+    针对Macintosh的alt键，和其他系统的ctrl键。
 
 shift
     当shift键被同时按下时匹配。
@@ -55,7 +55,7 @@ nonum
 repeat
     按键长按状态时，则匹配为repeat。不能长按的keysym或者不带这个前缀的keysym不会匹配到repeat。(鼠标按键无效)
 
-any
+anyrepeat
     匹配任意按键的按下或持续按下状态。
 
 keydown
@@ -99,7 +99,7 @@ keyup
         help = [ 'K_F1', 'meta_shift_/' ],
         choose_renderer = ['alt_K_g', 'shift_K_g' ],
         progress_screen = [ 'alt_shift_K_p', 'meta_shift_K_p', 'K_F2' ],
-        accessibility = [ 'K_a' ],
+        accessibility = [ 'shift_K_a' ],
 
         # 数据读取。
         self_voicing = [ 'alt_K_v', 'K_v' ],
@@ -216,13 +216,14 @@ keyup
         "pad_start_press" : [ "game_menu", ],
 
         "pad_y_press" : [ "hide_windows", ],
+        "pad_x_press" : [ "button_alternate", ],
 
         "pad_rightshoulder_press" : [ "rollforward", ],
         "repeat_pad_rightshoulder_press" : [ "rollforward", ],
 
         "pad_righttrigger_pos" : [ "dismiss", "button_select", "bar_activate", "bar_deactivate" ],
         "pad_a_press" : [ "dismiss", "button_select", "bar_activate", "bar_deactivate"],
-        "pad_b_press" : [ "button_alternate" ],
+        "pad_b_press" : [ "game_menu" ],
 
         "pad_dpleft_press" : [ "focus_left", "bar_left", "viewport_leftarrow" ],
         "pad_leftx_neg" : [ "focus_left", "bar_left", "viewport_leftarrow" ],
