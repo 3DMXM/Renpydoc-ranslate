@@ -49,11 +49,11 @@ Ren'Py同时支持Cubism 3和Cubism 4格式的Live2D动画，即这两种格式�
 定义动画
 ---------
 
-使用Live2D可是组件与image语句可以定义Live2D动画：
+使用Live2D可视组件与image语句可以定义Live2D动画：
 
 .. function:: Live2D(filename, zoom=None, top=0.0, base=1.0, height=1.0, alias={}, loop=False, fade=None, seamless=None, attribute_function=None, attribute_filter=None, update_function=None, **properties)
 
-    该可是组件会播放一段Live2D动画。
+    该可视组件会播放一段Live2D动画。
 
     `filename`
         该值应该是一个 model3.json 或 .exp3.json 文件，文件内定义了Live2D动画参数。例如，“Resources/Hiyori/Hiyori.model3.json”。
