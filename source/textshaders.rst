@@ -25,96 +25,89 @@ Ren'Py中包含一个文本着色器(text shader)系统，可以控制文本的�
 
 总共有三种方法可以使用文本着色器：
 
-**Default Text Shader** The first is to set the default
-text shader, using :var:`config.default_textshader`. ::
+**默认文本着色器** 第一种方法，使用 :var:`config.default_textshader` 设置默认的文本着色器。
+
+::
 
     define config.default_textshader = "wave:10"
 
-When set this way, the text shader will be used for all text that does not
-specify a text shader. It will also be combined with text shaders that
-include the default text shader, which is most of them.
+这样设置后，指定的文本着色器将用于所有文本，除了某些额外指定了文本着色器的内容。
+该设置项还可以合并多个文本着色器，其中大部分都是默认着色器。
 
-Generally, the default textshader should take care of slow text and
-shouldn't add more complicated effects.
+默认文本着色器需要小心慢速文本的情况，并且不应产生副作用。
 
-**Styles** The second way to use text shaders is to set the :propref:`textshader`
-style property, either directly or in one of the many ways provided by Ren'Py to
-set styles. ::
+**样式** 第二种方法，使用样式特性 :propref:`textshader`。可以直接指定样式特性，也可以使用Ren'Py提供的多种样式设置方式。
+
+::
 
     style default:
         textshader "dissolve"
 
-    define goldfinger = Character("Goldfinger", what_textshader="linetexture:gold.png")
+    define goldfinger = Character("金手指", what_textshader="linetexture:gold.png")
 
     screen purchase():
         vbox:
-            text "Buy the DLC for more!" textshader "wave"
-            textbutton "Buy Now":
+            text "购买DLC内容！" textshader "wave"
+            textbutton "立刻购买":
                 text_textshader "wave" action iap.Purchase("dlc")
 
-**Text Tags** The third way to use text shaders is to use the :tt:`appropriate text tag <shader>`
-to change the look of a portion of text. ::
+**文本标签** 第三种方法，使用 :tt:`对应的文本标签 <shader>` 修改部分文本的显示效果。
 
-    "What's this? A letter from {shader=zoom}out of nowhere{/shader}?"
+::
 
-**Note** A text block should either use text shaders or not - mixing is not
-supported. For example, you should set :var:`config.default_textshader`
-or :propref:`textshader` style property if you use the text tag like above.
+    "这是什么？  {shader=zoom}突然出现{/shader} 的一封信？"
 
-Specifying Text Shaders
+**注意** 一个文本段落要么都使用文本着色器，要么都不使用，不能混着用。
+例如，应该通过设置 :var:`config.default_textshader` 或样式特性 :propref:`textshader`，再使用文本标签显示效果。
+
+.. _specifying-text-shaders:
+
+指定文本着色器
 -----------------------
 
-Text shaders are specified as strings like::
+在脚本中可以使用字符串来指定文本着色器：
+
+::
 
     "dissolve"
     "jitter:u__jitter=1.0, 3.0"
     "texture:gold.png"
 
-The first part of the string, before the first colon, is the name of the text shader.
-The rest of the string is a series of uniforms that are passed to the shader,
-separated by colons. (Uniforms are parameters that are passed to the shader,
-that can be used to control how the shader works.)
+字符串的第一部分，即第一个冒号前的内容，表示文本着色器的名称。
+字符串的其他部分，对应传给着色器的一些uniform变量，使用冒号分隔。
+(uniform变量是着色器程序的控制变量。)
 
-Uniforms can be specified by name followed by =, or the name can be
-omitted to set each uniform in order. (Omitting the name is not supported in Ren'Py 7.) While
-internally all uniforms begin with u\_, the u\_ can be omitted for brevity.
+uniform变量可以使用等号(=)赋值。也可以省略uniform变量名，按顺序依次对所有uniform变量赋值。(Ren'Py 7不支持省略uniform变量名。)
+所有内置变量名均以 u\_ 开头，处于简洁也可以省略这个 u\_ 。
 
-The value of a uniform can be:
+uniform变量的值可能是以下类型：
 
-* Between 1 and 4 numbers, separated by commas. These can be used with the
-  the float, vec2, vec3, or vec4 types.
-* A color, beginning with #. (For example, #f00 or #ff0000 for red.) This
-  creates a vec4 corresponding to that color. This color will be
-  premultiplied by its alpha channel.
-* A :doc:`displayable <displayables>` that will be
-  used as a texture. This creates a sampler2D that can be used to sample
-  the texture.
+* 至少1个至多4个的数字，使用逗号分隔。分别用于float、vec2、vec3和vec4类型的变量。
+* 以#开头，表示颜色。(例如，#f00和#ff0000都表示红色。)该值会创建一个颜色对应的vec4向量。颜色会预乘上alpha通道的值。
+* 一个 :doc:`可视组件 <displayables>`，会用做一张纹理。纹理会创建一个sampler2D对象，并用于纹理采样。
 
-Uniform values can't be expressions or access variables, though it is
-possible to use text interpolation to create a string that can be
-evaluated as a textshader tag or its parameter.
+uniform值不能使用表达式或从某个变量读取，但可以使用文本内插创建一个字符串并计算出某个文本着色器的标签或参数。
 
+最后，文本着色器可以使用 | 符号联用。例如：
 
-Finally, text shaders can be combined with each other using the | operator.
-For example::
+::
 
     "jitter:1.0, 3.0|wave"
 
-This will apply both the jitter and wave shaders to the text. This only works
-if the shaders are compatible with each other, and do not use the same
-uniforms (or use the uniform in a way that is compatible with each other, in
-which case it takes the value from the last shader in the list).
+上面这句脚本会在文本中同时应用jitter和wave两个着色器，前提是两个着色器互相兼容，并且没有同名的uniform变量
+(或具有同名且同类型的uniform变量，能够互相兼容，取值固定使用着色器列表中最后一个同名uniform变量的值)。
 
-Unless a textshader has `include_default` set to False, the default textshader
-will be combined with the textshader specified in the style or tag.
+除非文本着色器显式将 `include_default` 设置为False，通过样式或文本标签应用文本着色器时都将联用默认的文本着色器。
 
+.. _text-shader-callback:
 
-Text Shader Callbacks
+文本着色器回调
 ---------------------
 
-The :var:`config.textshader_callbacks` variable can be used to set a callback that
-is run when a text shader is applied. This can be used to customize the text
-shader based on a preference. ::
+配置项 :var:`config.textshader_callbacks 可以设置回调函数，在启用某个文本着色器之后就会调用设置的回调函数。
+该功能可以基于个人设置(preference)定制文本着色器。
+
+::
 
 
     default persistent.dissolve_text = True
@@ -129,128 +122,265 @@ shader based on a preference. ::
     define config.default_textshader = "default"
     define config.textshader_callbacks["default"] = get_default_textshader
 
-Built-In Text Shaders
+.. _built-in-text-shaders:
+
+内建的文本着色器
 =====================
 
-Ren'Py includes a number of built-in text shaders. These are:
+以下是Ren'Py内建的文本着色器：
 
-.. include:: inc/builtintextshaders
+.. function:: dissolve
 
+    dissolve文本着色器可以将文本以溶解(dissolve)形式缓慢显示出来。dissolve指定范围的字符，按顺序依次显示，直到显示完最后一个字符。
 
-Creating Text Shaders
+    `u__duration = 10.0`
+        过渡效果持续时间。若设为0，立刻显示没有过渡效果。
+
+.. function:: flip
+
+    flip文本着色器会将文本在水平方向上翻转。开头的字符先翻转，最后的字符最后翻转。
+
+    `u__duration = 10.0`
+        过渡效果持续时间。若设为0，立刻翻转没有过渡效果。
+
+.. function:: jitter
+
+    jitter文本着色器会让文本抖动，即根据文本原显示位置添加一个随机偏移量，且每帧的位置偏移量都重新计算。
+
+    `u__jitter=(3.0, 3.0)`
+        抖动幅度，单位为像素。
+
+.. function:: linetexture
+
+    将文本与某个纹理相乘，各行单独计算。用到的纹理在水平方向会与文本左端对齐。
+    纹理的中心点在垂直方向上会与文本底部对齐，这也意味着纹理下半部分几乎就看不到了。
+
+    `u__texture = ...`
+        与文本相乘使用的纹理。
+
+    `u__scale = (1.0, 1.0)`
+        纹理的缩放系数。例如(1.0, 0.5)可以让纹理变为原本的一半高度。
+
+.. function:: offset
+
+    offset文本着色器可以让文本位置偏移一个固定的值。
+
+    `u__offset = (0.0, 0.0)`
+        文本偏移量，单位为像素。
+
+.. function:: slowalpha
+
+    slowalpha着色器用于配合另一个慢速文本着色器，比如typewriter或dissolve。
+    它可以让未被其他文本着色器生效的文本内容以一个半透明的状态显示而不是完全不可见，即参数u__alpha的值。
+
+    `u__alpha = 0.2`
+        其他文本着色器还未生效部分的文本不透明度。
+
+.. function:: texture
+
+    texture文本着色器会将多行文本与某个纹理的颜色相乘。
+    它不对轮廓线(outline)和偏移(offset)生效。用到的纹理将与整段文本的左上角对齐。
+
+    `u__texture = ...`
+        与文本相乘使用的纹理。
+
+.. function:: typewriter
+
+    typewriter文本着色器配合低速文本，可以让字符逐个出现，模仿人类打字员的行为。
+
+    使用该着色器后，默认文本着色器将不生效。
+
+.. function:: wave
+
+    wave文本着色器可以让文本向波浪一样上下弹跳。
+
+    `u__amplitude = 5.0`
+        文本的上下位移幅度，单位为像素。
+
+    `u__frequency = 2.0`
+        移动频率，表示每秒完成整个弹跳的次数。
+
+    `u__wavelength = 20.0`
+        整个波长范围涉及的字符数。
+
+.. function:: zoom
+
+    zoom文本着色器可以让低速文本从某个初始大小逐步放大到完整尺寸。初始大小的值由参数u__zoom决定，默认为0.0。
+
+    `u__zoom = 0.0`
+        字符显示时的初始大小。
+
+    `u__duration = 10.0`
+        过渡效果持续时间。若设为0，立刻变大没有过渡效果。
+
+    使用该着色器后，默认文本着色器将不生效。
+
+.. _creating-text-shaders:
+
+创建文本着色器
 =====================
 
-Text shaders are GLSL programs that are run on the GPU. These shaders are
-registered using the renpy.register_text_shader function.
+文本着色器是运行在GPU上的GLSL程序。可以使用 renpy.register_text_shader 函数注册文本着色器。
 
-.. include:: inc/textshader
+.. function:: renpy.register_textshader(name, shaders=(), extra_slow_time=0.0, extra_slow_duration=0.0, redraw=None, redraw_when_slow=0.0, include_default=True, adjust_function=None, doc=None, **kwargs)
 
-Variables in Text Shaders
+    该函数会创建一个文本着色器，并注册着色器名 `name` 。
+
+    该函数使用下列入参：
+
+    `name`
+        文本着色器名。同时也会注册一个名为 `name` 的着色器程序。
+
+    `shaders`
+        应用到文本的着色器程序。该项可以是一个字符串，字符串列表或字符串元组。
+        该项中包含的着色器程序必须是通过 :func:`renpy.register_shader` 或本函数注册过的着色器。
+        如果着色器名前带一个‘-’，表示从着色器列表中移除对应的着色器程序。
+        (例如，“-textshader.typewriter”表示移除typerwriter着色器。)
+
+        注意，通过该函数注册的着色器名自动添加了前缀“textshader.”，在作为参数时需要传入完整的着色器名。
+
+    `extra_slow_time`
+        添加一个额外的时间。Ren'Py计算当前字符的效果时间时将加上该时间。
+        某些着色器做字符过渡效果时间不足时，该参数就可以用上。
+
+    `extra_slow_duration`
+        该参数也是一个时间值，会除以同时生效字符总数然后再加到 `extra_slow_time` 上。
+
+    `redraw`
+        所有低速文本显示并且经过 `extra_slow_time` 时间后，再次重新绘制的时间间隔，单位为秒。
+
+    `redraw_when_slow`
+        文本已绘制并且显示低速文本时，再次重新绘制的时间间隔，单位为秒。
+
+    `include_default`
+        若为True，将会联用 :var:`config.default_textshader` 中的着色器。
+
+    `adjust_function`
+        该参数是一个函数，通过某个对象调用。传给文本着色器的uniform变量会先使用该函数处理。
+        该函数可以设置来源对象的 `extra_slow_time`、`extra_slow_duration`、
+        `redraw` 和 `redraw_when_slow` 这4个字段。
+
+    `doc`
+        包含文档信息的一个字符串。该参数为Ren'Py的文档系统所设计。
+
+    以 ``u_`` 开头的关键字入参会传给着色器作为uniform变量，以 ``#`` 开头的字符串会识别为某种颜色。
+    大多数uniform变量都应该以 ``u__`` 开头，使用 :ref:`着色器本地变量 <shader-local-variables>` 防止与其他着色器发生变量名冲突。
+
+    名为 `variables` 的关键字入参和所有以 `fragment_`、`vertex_` 开头的关键字入参都会传给 :func:`renpy.register_shader` 函数，
+    并注册对应的着色器。
+
+.. _variables-in-text-shaders:
+
+文本着色器中的变量
 -------------------------
 
-In additions to the uniforms you provided to the text shader (generally beginning with ``u__``),
-Ren'Py makes the following variables available to text shaders. To use a variable in a text shader,
-it needs to be declared in the `variables` argument to renpy.register_text_shader.
+除了创作者自己设计文本着色器时指定的uniform变量(通常以 ``u__`` 开头)，Ren'Py还使下列变量可以直接在文本着色器中使用。
+若要在文本着色器中使用某个变量，需要将变量名通过 `variables` 参数传入 renpy.register_text_shader 函数。
 
-In addition to these, the model :ref:`uniforms and attributes <model-uniforms>` are available, with
-`a_position`, `a_tex_coord`, `u_time` and `u_random` being particularly useful.
+除此之外，针对模型还可以使用 :ref:`uniform和attribute变量 <model-uniforms>`，
+常用的包括 `a_position`、`a_tex_coord`、`u_time` 和 `u_random`。
 
+.. _uniforms:
 
-Uniforms
-^^^^^^^^
+uniform变量
+^^^^^^^^^^^
 
 ``float u_text_depth``
-    The depth of the text from the top. The topmost text has a depth of 0.0, the first outline or shadow has a
-    depth of 1.0, the second outline or shadow has a depth of 2.0, and so on.
+    从最顶层算起，文本的深度(depth)。最顶层的文本深度为0.0，第一层轮廓线或投影的深度为1.0，第二层罗廓线或投影的深度为2.0，以此类推。
 
 ``float u_text_main``
-    If this is 1.0, the text is the main text. If this is 0.0, the text is the outline or shadow of the main text.
+    若该变量值为1.0，则对应文本为主要文本。若该变量值为0.0，则对应文本为主要文本的轮廓线或投影。
 
 ``float u_text_max_depth``
-    The maximum value of u_text_depth. This is the number of outlines and shadows that will be drawn. When u_text_depth
-    is equal to this value, the texct is the last outline or shadow, which may be useful for drawing backgrounds.
+    u_text_depth的最大值，表示能绘制的轮廓线和投影总数量。
+    当u_text_depth等于u_text_max_depth时，意味着当前文本是最后一层轮廓线或投影，该功能在绘制背景时可能有用。
 
 ``vec2 u_text_offset``
-    The offset of the text from the center of the character. This is in drawable pixels in x, y order.
+    文本相对字符中心点的偏移量。按照先在x轴方向偏移再y轴方向偏移的顺序计算，单位为像素。
 
 ``float u_text_outline``
-    The width of the outline around the text. This is in drawable pixels, and is the distance from the edge of the text to the edge of the outline.
+    文本轮廓线宽度。轮廓线只考虑能绘制的像素点。该变量表示从文本外缘到轮廓线外援的距离，单位为像素。
 
 ``float u_text_slow_duration``
-    The duration of a single slow character, when showing slow text. 0.0 if not showing slow text.
+    使用低速文本时，单个字符的效果时间。设置为0.0表示不显示低速文本。
 
 ``float u_text_slow_time``
-    The time in seconds since the start of the slow text effect. This will only increase until the end of slow
-    text, when it will max out. If the user clicks to terminate slow text, this will max out. It should only
-    be used for slow text - use
+    低速文本效果的时间戳，从效果生效开始计算，单位为秒。仅当低速文本效果结束时该值才会增加，并输出最大值。
+    如果用户点击并结束了低速文本，也会输出最大值。其应只能用于低速文本。
 
 ``float u_text_to_drawable``
-    The ratio of virtual pixels to drawable pixels. This is used to convert from virtual pixels to drawable pixels.
+    虚拟像素向可绘制像素的转换比例。
 
 ``float u_text_to_virtual``
-    The ratio of drawable pixels to virtual pixels. This is used to convert from drawable pixels to virtual pixels.
+    可绘制像素向虚拟像素的转换比例。
 
 ``sampler2D tex0``
-    This texture contains the rendered text at the current depth.
+    在当前深度(depth)包含渲染文本的对应纹理。
 
 ``vec2 res0``
-    The resolution of tex0, in drawable pixels.
+    tex0的分辨率，以可绘制像素计。
 
+.. _attributes:
 
-Attributes
-^^^^^^^^^^
+attribute变量
+^^^^^^^^^^^^^
 
-When drawing text, each vertex corresponds to a single glyph. Multiple glyphs may have vertices that share
-locations, but these are passed to the shader as different vertices.
+绘制文本时，每个字形(glyph)都有自身对应的顶点(vertex)。多个字形可能会有一些顶点的坐标是相同的，但依然会看作不同顶点传入着色器。
+
+(译者注：baseline、ascent和descent是字母型文字才需要考虑的东西，纯中文用户完全不用管。)
 
 ``float a_text_ascent``
-    The ascent of the current glyph's font above the baseline, in drawable pixels.
+    当前字形的字体在基线以上的ascent高度，以可绘制像素计。
 
 ``vec2 a_text_center``
-    The position of the center of the glyphs's baseline, in drawable pixels. This is not the
-    center of the rectangle, it's a point on the baseline and around the center of the character.
+    字形基线的中心坐标，以可绘制像素计。该坐标并不是三角形中心，由基线与字符中心的距离决定。
 
 ``float a_text_descent``
     The descent of the current glyph below the baseline, in drawable pixels.
+    当前字形的字体在基线以下的descent高度，以可绘制像素计。
 
 ``float a_text_index``
-    The index of the glyph being drawn. This is 0 for the first vertex and goes up by one for each vertex.
+    正在绘制字形的索引号。顶点索引从0开始，依次递增。
 
 ``vec2 a_text_min_time``
-    The minimum time at which any vertex of the glyph should be shown. When showing from left-to-right,
-    this is the time the leftmost vertices should be shown. When the text is meant to be shown instantly
-    but ``u_text_slow_duration`` is not 0.0, this will be -3600.0.
+    所有字形的任意顶点需要显示的最小时间。从左往右显示时，即最左端顶点的显示时间。
+    若要让文本立刻显示，但 ``u_text_slow_duration`` 的值又不是0.0，该项应设置为-3600.0。
 
 ``vec2 a_text_max_time``
-    The maximum time at which any vertex of the glyph should be shown. When showing from left-to-right,
-    this is the time the rightmost vertices should be shown. When the text is meant to be shown instantly
-    but ``u_text_slow_duration`` is not 0.0, this will be -3600.0.
+    所有字形的任意顶点需要显示的最大时间。从左往右显示时，即最右端顶点的显示时间。
+    若要让文本立刻显示，但 ``u_text_slow_duration`` 的值又不是0.0，该项应设置为-3600.0。
 
 ``float a_text_time``
-    The time at which this vertex should be shown. When the text is meant to be shown instantly
-    but ``u_text_slow_duration`` is not 0.0, this will be -3600.0.
+    对应顶点的显示时间。
+    若要让文本立刻显示，但 ``u_text_slow_duration`` 的值又不是0.0，该项应设置为-3600.0。
 
 ``vec4 a_text_pos_rect``
-    The rectangle containing the glyph, in drawable pixels. This is a vec4 with the x, y, width, and height of the rectangle,
-    in drawable pixels. This can be converted to texture coordinates by dividing it by ``res0``.
+    整个字形的包围框，以可绘制像素计。该变量是一个vec4类型，分别表示包围狂的x、y、宽度和高度，以可绘制像素计。
+    可以通过除以 ``res0`` 来获得纹理坐标值。
 
-Pseudo-Glyphs
+.. _pseudo-glyphs:
+
+伪字形
 -------------
 
-When drawing outlined text, Ren'Py will creates pseudo-glyphs that cover the start and end of each line. If a line
-is blank, one pseudo-glyph is created covering the whole line. These pseudo-glyphs are necessary to cover areas
-where outlines may extend into a line above or below the current line.
+Ren'Py绘制带轮廓线的文本时，会创建覆盖文本开头和结尾的伪字形(pseudo-glyph)。
+如果遇到空行，则会创建覆盖整行的伪字形。
+这些伪字形用于计算轮廓线超出文字顶部和底部的区域。
 
-Example
+.. _text-shaders-example:
+
+样例
 -------
 
-This is an example of a text shader that spins text when shown. ::
+这是一个文本着色器样例，能让文本显示后转动。
+
+::
 
     init python:
 
         def adjust_extra_slow_time(ts, u__delay, **kwargs):
             """
-            Adjusts a text shader's extra slow time to support the spinning text shader.
+            调整文本着色器的额外显示时间，以支持旋转文本着色器。
             """
             ts.extra_slow_time = u__delay
 
@@ -287,11 +417,12 @@ This is an example of a text shader that spins text when shown. ::
             u__offset = 0,
         )
 
+之后就可以在如下脚本中使用：
 
-It can be used witt the following script::
+::
 
     define config.default_textshader = "typewriter"
 
     label start:
 
-        "This is a test of the {shader=spin:0.5:-5}spin{/shader} text shader."
+        "这是一个 {shader=spin:0.5:-5}旋转{/shader} 文本着色器测试。"
