@@ -193,6 +193,15 @@ return语句会在调用栈中弹出最顶层的那条语句，并将主控流�
     若该标签存在，当玩家使用鼠标右键或键盘H键隐藏对话窗口时，将调用此标签。
     若标签返回值为True，隐藏对话窗口行为将取消(依然当作隐藏已经发生)。否则，继续隐藏对话窗口。
 
+Ren'Py also uses the following labels to show some of the :doc:`special screens <screen_special>`:
+Ren'Py还是用下列标签显示某些 :doc:`特殊界面 <screen_special>` ：
+
+* ``main_menu_screen``
+* ``load_screen``
+* ``save_screen``
+* ``preferences_screen``
+* ``joystick_preferences_screen``
+
 .. _labels-control-flow-functions:
 
 脚本标签(label)和主控流程函数

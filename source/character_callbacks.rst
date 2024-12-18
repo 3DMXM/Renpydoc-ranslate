@@ -29,7 +29,7 @@
     如果对话触发了某个交互行为，则返回True。
 
 `type`
-    绝对类型(“nvl”、“adv”、"bubble"等)。
+    角色类型(“nvl”、“adv”、"bubble"等)。
 
 `what`
     一段文本，将应用到可视组件what上。

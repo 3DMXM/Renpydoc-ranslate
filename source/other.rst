@@ -387,6 +387,11 @@ Ren'Py不保证包含的SDL2版本编译后包含或不包含某些特性(featur
 
     如果Ren'Py跳过中则返回True，如果Ren'Py快速跳过中则返回“fast”，如果Ren'Py不在跳过状态则返回False。
 
+.. function:: renpy.get_statement_name()
+
+    返回当前语句的名称，结果是一个字符串，类似“say”、“say-nvl”或“window hide”。
+    函数的返回结果与 :var:`config.statement_callbacks` 用到的语句名相同。
+
 .. function:: renpy.get_transition(layer=None)
 
     获取 *lay* 的转场(transition)，如果 *layer* 为None则获取整个场景(scene)的转场。该函数返回了在下次交互行为中，队列上层的转场(transition)。如果不存在符合条件的转场则返回None。
@@ -627,6 +632,10 @@ Ren'Py不保证包含的SDL2版本编译后包含或不包含某些特性(featur
     ::
 
         text_properties, button_properties = renpy.split_properties("text_", "")
+
+.. function:: renpy.stop_skipping()
+
+    若Ren'Py处于跳过(skipping)状态，则停止跳过。
 
 .. function:: renpy.transition(trans, layer=None, always=False)
 

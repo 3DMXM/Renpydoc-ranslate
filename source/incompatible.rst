@@ -23,6 +23,47 @@ Ren'Py 8.2和7.7起将彻底禁用 :var:`config.gl2` 这个标识。GL2渲染器
 
 2024年5月后停止对Windows 7、8和8.1的支持。这样可以使用仅能在Windows10及后续Windows上运行的高版本Python。
 
+.. _incompatible-8.4.0:
+
+8.4.0
+-----
+
+**显示表达式。** ``show expression`` 语句发生变化：
+
+::
+
+    show expression "bg washington"
+
+等效于：
+
+::
+
+    show bg washington
+
+之前的版本中，表达式自身会被用作图像标签(tag)。若表达式不是字符串，会在show expression语句中创建一个唯一的标签。
+若要使用之前的功能，在脚本中添加：
+
+::
+
+    define config.old_show_expression = True
+
+.. _incompatible-8.3.4:
+.. _incompatible-7.8.4:
+
+
+8.3.4 / 7.8.4
+-------------
+
+**不同尺寸可视组件间的dissolve效果，第二部分** 如果ImageDissolving或AlphaDissolving使用了两个不同尺寸的可视组件，
+Ren'Py会将两个组件的尺寸都设置为更大的那个。若要使用之前的功能(各个轴都用更小的那个)，在脚本中添加：
+
+::
+
+    define config.dissolve_shrinks = True
+
+**移除ATL中的“update”事件** 在以前的Ren'Py中，界面发生各种变化时(比如多语言切换)会广播“update”事件，让界面中的ATL都收到。
+但该事件并不可靠，并且也很少有人使用，所以干脆移除了。
+
 .. _incompatible-8.3.0:
 .. _incompatible-7.8.0:
 
@@ -319,6 +360,19 @@ Ren'Py在必要时会自动使用Emoji字体。若要禁用该功能：
 ::
 
     define config.screens_never_cancel_hide = False
+
+.. _incompatible-8.1.2:
+.. _incompatible-7.6.2:
+
+8.1.2 / 7.6.2
+-------------
+
+**不同尺寸可视组件间的dissolve效果** 两个不同尺寸的可视组件使用dissolve效果替换时，Ren'Py会将两个组件的尺寸都设置为更大的那个。
+若要使用之前的功能，在脚本中添加：
+
+::
+
+    define config.dissolve_shrinks = True
 
 .. _incompatible-8.1.1:
 .. _incompatible-7.6.1:

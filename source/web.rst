@@ -108,12 +108,14 @@ Web平台原生使用默认的presplash图片。
 
 `.webp` 格式文件，可以是多帧动画。
 
-Icon
+.. _web-icon:
+
+图标
 ---------
 
-If no custom image is given, the default Ren'Py icon is used.
 在项目根目录中放入名为 `web-icon.png` 的图片文件，就更改了Web版本的页面图标。
 该图标文件必须宽高相等，并且分辨率不小于512×512像素。
+如果没有自定义图标，则会使用默认的Ren'Py图标。
 
 .. _progressive-downloading:
 
@@ -197,8 +199,7 @@ Javascript
 ----------
 
 Ren'Py可以通过 ``emscripten`` 模块中的3个函数运行Javascript。
-emscripten模块仅在Web浏览器端才会被使用。
-可以使用 :var:`renpy.emscripten` 的值测试，根据结果决定在使用前是否还需要引入emscripten模块。
+在Web浏览器端可以使用 :var:`renpy.emscripten` 的值测试，只有结果为True才能使用。
 非Web平台上运行结果是False。
 
 .. function:: renpy.emscripten.run_script(script)

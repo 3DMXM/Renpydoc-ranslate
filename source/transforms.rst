@@ -841,9 +841,6 @@ event语句
 ``replaced``
     transform被另一个transform替换时触发。原transform的图像实际上并不会隐藏或移除，直到整个ATL语句块(block)执行完。
 
-``update``
-    目前正在显示的界面发生更新，并且不是被另一个界面替换的情况时触发。随着这种情况很罕见却确实会出现，比如游戏加载资源时或者风格或者语言切换时。
-
 ``hover``、``idle``、``selected_hover``、``selected_idle``、``insensitive``、``selected_insensitive``
    当包含此transform的按钮或者被此transform包含的按钮，出现对应的状态名称时触发。
 

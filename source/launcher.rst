@@ -12,3 +12,11 @@ Projects.txt
 
 若项目目录中存在名为 ``projects.txt``，其内容为项目文件的完整路径列表。
 文件中的所有路径都会在出现在启动器界面中。
+
+.. _no-launcher-links:
+
+启动器无外部链接
+-----------------
+
+如果Ren'Py自身的基目录(即renpy.exe、renpy.sh和renpy.app所在目录)中存在一个名为 ``no_launcher_links.txt`` 的文件，
+启动器将禁用跳转到 renpy.org 的链接。该功能是考虑到教育或学校、家庭等场景，防止未成年用户浏览成人网站赞助内容。

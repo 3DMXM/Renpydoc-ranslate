@@ -851,9 +851,10 @@
 
     若非None，这是一个绘制在条(bar)的各条边空间内的可视组件。
 
-.. style-property:: thumb_offset int
+.. style-property:: thumb_offset int or tuple of (int, int)
 
     滑块与条(bar)重叠部分的大小，单位为像素。如果想让条(bar)的左右两边看起来不像被截断的样子，就把滑块的宽度设为条(bar)宽度的一半。
+    该值也可以是一个(int, int)元组。第一个元素用于滑块向左/向上的偏移量，第二个元素用于滑块向右/向下的偏移量。
 
 .. style-property:: mouse string
 

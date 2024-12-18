@@ -245,7 +245,7 @@ Notify
     screen notify(message):
         zorder 100
 
-        text message at _notify_transform
+        text "[message!tq]" at _notify_transform
 
         # 这控制界面第一次显示和隐藏之间的时间。
         timer 3.25 action Hide('notify')

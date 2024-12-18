@@ -857,7 +857,12 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 
 .. var:: config.has_autosave = True
 
-    若为True，游戏会启动自动保存。若为False，禁用自动保存。
+    若为True，游戏会启用自动保存。若为False，禁用自动保存。
+
+.. var:: config.keep_screenshot_entering_menu = False
+
+    若为True，进入游戏菜单时将保存一个 :class:`FileTakeScreenshot` 截屏。
+    若为False，则会截屏进入菜单前的画面。
 
 .. var:: config.load_failed_label = None
 
@@ -1479,6 +1484,13 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 .. var:: config.translate_clean_stores = [ "gui", ... ]
 
     一个命名存储区的列表。当使用的语言改变时，列表内存储区的状态会清除并恢复为初始化阶段的值。
+
+.. var:: config.translate_additional_strings_callbacks = [ ]
+
+    多语言系统在搜索字符串时将执行的一个回调函数列表。每个回调函数都需要返回一个迭代器(iterator)或可迭代的(文件名、行号、字符串)元组。
+    返回的字符串会添加原文本并一起进行多语言转换。
+
+    行号不需要与文件中的实际行号完全一致，只是用于控制翻译文件中不同字符串的相对顺序。
 
 .. var:: config.translate_ignore_who = [ ]
 

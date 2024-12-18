@@ -77,6 +77,7 @@
 * DragoonHP
 * Duanemoody
 * Edward Betts
+* Edward Nicholes Jr.
 * Edwin
 * Eevee (Lexy Munroe)
 * Elckarow
@@ -88,6 +89,7 @@
 * Eric Ahn
 * Erufailon4
 * Evilantishad0w
+* Farzher
 * Felix Lampe
 * Franck_v
 * Frédéric Chapoton
@@ -197,6 +199,7 @@
 * Muhammad Nur Hidayat Yasuyoshi
 * Multimokia
 * NattyanTV
+* Naughty Road
 * Neotus
 * Neyunse
 * NetGenSuperstar
