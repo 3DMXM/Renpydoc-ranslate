@@ -268,7 +268,6 @@ Transform类和基于模型的渲染
 .. var:: config.gl_blend_func = { ... }
 
     一个字典型数据，用作遮罩模式名与遮罩函数的映射关系。
-    blend modes are supplied to the :ref:`gl_blend_func <gl-blend-func>` property, given below.
     遮罩模式会赋值给 :ref:`gl_blend_func <gl-blend-func>` ，详见下表。
 
 默认的遮罩模式有：
@@ -353,7 +352,7 @@ GL特性(property)
 GL特性会更改OpenGL或基于模型渲染器的全局状态。
 这些特性可以与Transform对象一起使用，或者 :func:`Render.add_property` 函数一起使用。
 
-.. _gl-blend_func:
+.. _gl-blend-func:
 
 ``gl_blend_func``
     该特性应是一个6元元组，用作一个方程的计算。此方程会根据遮罩像素、被遮罩像素等信息算出最终结果。
@@ -537,7 +536,7 @@ Shader Parts
 
 Ren'Py使用的着色器请详见 :doc:`shader_parts`。
 
-.. _default-shader-parts:
+.. _model-default-shader-parts:
 
 默认着色器名称
 ---------------

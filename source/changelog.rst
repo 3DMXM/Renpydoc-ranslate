@@ -236,7 +236,7 @@ Character对象的多个参数都可以传入  :doc:`character_callbacks`。
 8.3.0 / 7.8.0
 =============
 
-.. _audio-filters:
+.. _8-3-0-7-8-0-audio-filters:
 
 音频滤波器
 -------------
@@ -276,7 +276,7 @@ Character对象的多个参数都可以传入  :doc:`character_callbacks`。
 .. _other-shader-changes:
 
 关于着色器的其他变更点
---------------------
+-----------------------------
 
 使用 :ref:`着色器程序本地变量 <shader-local-variables>` 可以防止多个着色器之间变量名冲突的问题。
 对于大多数文本着色器来说，着色器程序本地变量被所有着色器共用。
@@ -489,7 +489,7 @@ NVL模式与对话窗口
 .. _8-2-2-7-7-2-fixed:
 
 修复项
------
+---------
 
 Ren'Py在安卓上运行时，如果窗口失去焦点可能会导致锁死的两个问题已修复。
 
@@ -2157,7 +2157,7 @@ ATL和变化
 
     linear 2.0 xalign 1.0 yalign 1.0
 
-关于 :ref:`ATL 转场 <atl-transitions>` 和 :ref:`特殊ATL关键字参数 <atl-keyword-parameters>` 的信息，已添加对应文档。
+关于 :ref:`ATL 转场 <atl-transitions>` 和 :ref:`特殊ATL关键字参数 <atl-child-param>` 的信息，已添加对应文档。
 
 ``pause 0`` 语句作为特殊情况，将显示1帧，并且是唯一可以保证至少显示1帧的方式。
 从6.99.13起，Ren'Py尝试了各种方式实现单帧显示，然而大部分都会有画面撕裂的问题。

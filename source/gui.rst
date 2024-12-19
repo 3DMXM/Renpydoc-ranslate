@@ -1,3 +1,4 @@
+.. _gui:
 .. _gui-customization-guide:
 
 ===========================

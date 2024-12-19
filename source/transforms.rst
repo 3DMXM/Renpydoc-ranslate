@@ -481,6 +481,7 @@ repeat语句必须是一个语句块(block)的最后一个语句：
         linear 1.0 xalign 1.0
         linear 1.0 xalign 0.0
         repeat
+
 .. _block-statement:
 
 block语句
@@ -1115,6 +1116,7 @@ ATL变换在Python中等效于一个Transform对象。
 
         当变换特性(property)字段在 `function` 参数指定的回调方法之外被更新时，这个方法会被调用，确保修改生效。
 
+.. _transforms-python:
 .. _callables-as-transforms:
 
 可调用对象用作变换

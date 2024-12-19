@@ -1,5 +1,4 @@
 .. _thequestion:
-.. _script-of-the-question:
 
 “The Question”游戏脚本
 ======================

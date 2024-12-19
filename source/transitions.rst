@@ -4,15 +4,8 @@
 转场(transition)
 ===================
 
-在Ren'Py中，转场(transition)可以用作  :ref:`with 语句
-<with-statement>` 及其他语句的一部分，用于场景切换时提供各种效果。Ren'Py自带一些预定义的转场(transition)效果，可以在with语句中直接使用。Ren'Py中还包含transition类，可以用于创建新的transition对象。
-
-.. _pre-defined-transitions:
-
-预定义的转场(Pre-Defined Transitions)
-========================================
-
-预定义的转场(transition)可以直接使用在 :ref:`with语句 <with-statement>`中。举例：
+在Ren'Py中，转场(transition)可以用作  :ref:`with 语句 <with-statement>` 及其他语句的一部分，用于场景切换(或将某个可视组件切换为另一个)时提供各种效果。
+Ren'Py自带一些预定义的转场(transition)效果，可以直接使用在 :ref:`with语句 <with-statement>` 中。例如：
 
 ::
 
@@ -295,9 +288,8 @@ time_warp参数可以使用 ``_warper`` 模块中内建warper类中对应的多�
     使用这些转场时，图像会用新旧场景插值计算，因此移动场景切换会更顺滑。
 
     由于只有图层标签(layer tag)，MoveTransition只能使用 :ref:`with语句 <with-statement>` 应用在单个图层或同时应用在所有图层。
-    其不能在其他场景下生效，比如 :ref:`ATL <expression-atl-statement>`、:func:`ComposeTransition` 等。
     在不同上下文(context)中无法使用MoveTransition，
-    例如 :ref:`ATL <expression-atl-statement>`、:func:`ComposeTransition` 等其他转场。
+    例如 :ref:`ATL <displayable-atl-statement>`、:func:`ComposeTransition` 等其他转场。
 
     `delay`
         插入效果耗时。

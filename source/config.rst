@@ -209,7 +209,7 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 
     不使用入参调用的函数列表，在某行带pause分句的对话中，第二次或之后其他互动行为时被调用。该函数用于在暂停状态保持语音播放。
 
-.. _choice-menus:
+.. _config-choice-menus:
 
 选项菜单
 ---------
@@ -350,7 +350,7 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 
     Ren'Py保存的对话历史层的数量。该项被默认GUI设置为250。
 
-.. _input-focus-and-events
+.. _input-focus-and-events:
 
 输入、获取焦点和事件
 ---------------------
@@ -1224,7 +1224,7 @@ Ren'Py执行器会假设，GUI系统已完成初始化，配置项变量不会�
 
     若为True，当使用脚本跳过功能时，库(library)会显示一个跳过提醒标志。
 
-.. _config-text-and-fonts
+.. _config-text-and-fonts:
 
 文本和字体
 -----------
