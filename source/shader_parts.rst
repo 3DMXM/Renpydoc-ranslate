@@ -22,23 +22,23 @@ Ren'Py使用顶点着色器的优先级如下：
 
 按顺序列出：
 
-0. :ref:`renpy.geometry <shader-renpy-geometry>`
-10. :ref:`textshader.linetexture <shader-textshader-linetexture>`
-10. :ref:`textshader.texture <shader-textshader-texture>`
-20. :ref:`textshader.flip <shader-textshader-flip>`
-25. :ref:`textshader.zoom <shader-textshader-zoom>`
-30. :ref:`textshader.jitter <shader-textshader-jitter>`
-35. :ref:`textshader.offset <shader-textshader-offset>`
-40. :ref:`textshader.wave <shader-textshader-wave>`
-100. :ref:`renpy.geometry <shader-renpy-geometry>`
-200. :ref:`renpy.alpha_mask <shader-renpy-alpha-mask>`
-200. :ref:`renpy.blur <shader-renpy-blur >`
-200. :ref:`renpy.dissolve <shader-renpy-dissolve>`
-200. :ref:`renpy.imagedissolve <shader-renpy-imagedissolve>`
-200. :ref:`renpy.mask <shader-renpy-mask>`
-200. :ref:`renpy.texture <shader-renpy-texture>`
-200. :ref:`textshader.dissolve <shader-textshader-dissolve>`
-200. :ref:`textshader.typewriter <shader-textshader-typewriter>`
+|  0. :ref:`renpy.geometry <shader-renpy-geometry>`
+|  10. :ref:`textshader.linetexture <shader-textshader-linetexture>`
+|  10. :ref:`textshader.texture <shader-textshader-texture>`
+|  20. :ref:`textshader.flip <shader-textshader-flip>`
+|  25. :ref:`textshader.zoom <shader-textshader-zoom>`
+|  30. :ref:`textshader.jitter <shader-textshader-jitter>`
+|  35. :ref:`textshader.offset <shader-textshader-offset>`
+|  40. :ref:`textshader.wave <shader-textshader-wave>`
+|  100. :ref:`renpy.geometry <shader-renpy-geometry>`
+|  200. :ref:`renpy.alpha_mask <shader-renpy-alpha-mask>`
+|  200. :ref:`renpy.blur <shader-renpy-blur>`
+|  200. :ref:`renpy.dissolve <shader-renpy-dissolve>`
+|  200. :ref:`renpy.imagedissolve <shader-renpy-imagedissolve>`
+|  200. :ref:`renpy.mask <shader-renpy-mask>`
+|  200. :ref:`renpy.texture <shader-renpy-texture>`
+|  200. :ref:`textshader.dissolve <shader-textshader-dissolve>`
+|  200. :ref:`textshader.typewriter <shader-textshader-typewriter>`
 
 .. _fragment-part-priorities:
 
@@ -57,21 +57,21 @@ Ren'Py使用片元着色器的优先级如下
 
 按顺序列出：
 
-200. :ref:`renpy.blur <shader-renpy-blur>`
-200. :ref:`renpy.dissolve <shader-renpy-dissolve>`
-200. :ref:`renpy.imagedissolve <shader-renpy-imagedissolve>`
-200. :ref:`renpy.mask <shader-renpy-mask>`
-200. :ref:`renpy.solid <shader-renpy-solid>`
-200. :ref:`renpy.texture <shader-renpy-texture>`
-300. :ref:`textshader.linetexture <shader-textshader-linetexture>`
-300. :ref:`textshader.texture <shader-textshader-texture>`
-325. :ref:`textshader.slowalpha <shader-textshader-slowalpha>`
-350. :ref:`textshader.dissolve <shader-textshader-dissolve>`
-350. :ref:`textshader.typewriter <shader-textshader-typewriter>`
-375. :ref:`textshader.slowalpha <shader-textshader-slowalpha>`
-400. :ref:`renpy.matrixcolor <shader-renpy-matrixcolor>`
-500. :ref:`renpy.alpha <shader-renpy-alpha>`
-500. :ref:`renpy.alpha_mask <shader-renpy-alpha-mask>`
+|  200. :ref:`renpy.blur <shader-renpy-blur>`
+|  200. :ref:`renpy.dissolve <shader-renpy-dissolve>`
+|  200. :ref:`renpy.imagedissolve <shader-renpy-imagedissolve>`
+|  200. :ref:`renpy.mask <shader-renpy-mask>`
+|  200. :ref:`renpy.solid <shader-renpy-solid>`
+|  200. :ref:`renpy.texture <shader-renpy-texture>`
+|  300. :ref:`textshader.linetexture <shader-textshader-linetexture>`
+|  300. :ref:`textshader.texture <shader-textshader-texture>`
+|  325. :ref:`textshader.slowalpha <shader-textshader-slowalpha>`
+|  350. :ref:`textshader.dissolve <shader-textshader-dissolve>`
+|  350. :ref:`textshader.typewriter <shader-textshader-typewriter>`
+|  375. :ref:`textshader.slowalpha <shader-textshader-slowalpha>`
+|  400. :ref:`renpy.matrixcolor <shader-renpy-matrixcolor>`
+|  500. :ref:`renpy.alpha <shader-renpy-alpha>`
+|  500. :ref:`renpy.alpha_mask <shader-renpy-alpha-mask>`
 
 .. _shader-renpy-alpha:
 
@@ -91,7 +91,7 @@ renpy.alpha
 
     gl_FragColor = gl_FragColor * vec4(u_renpy_alpha, u_renpy_alpha, u_renpy_alpha, u_renpy_alpha * u_renpy_over);
 
-.. _shader-renpy-alpha_mask:
+.. _shader-renpy-alpha-mask:
 
 renpy.alpha_mask
 -----------------
@@ -385,9 +385,12 @@ textshader.dissolve
 
     float l_textshader_dissolve_duration = u_textshader_dissolve_duration * u_text_slow_duration;
     float l_textshader_dissolve_done;
-    if (l_textshader_dissolve_duration > 0.0) {
+    if (l_textshader_dissolve_duration > 0.0)
+    {
         l_textshader_dissolve_done = clamp((u_text_slow_time - v_text_time) / l_textshader_dissolve_duration, 0.0, 1.0);
-    } else {
+    }
+    else
+    {
         l_textshader_dissolve_done = v_text_time <= u_text_slow_time ? 1.0 : 0.0;
     }
     gl_FragColor = gl_FragColor * l_textshader_dissolve_done;
@@ -414,9 +417,12 @@ textshader.flip
     float l_textshader_flip_duration = u_textshader_flip_duration * u_text_slow_duration;
     float l_textshader_flip_done;
 
-    if (l_textshader_flip_duration > 0.0) {
+    if (l_textshader_flip_duration > 0.0)
+    {
         l_textshader_flip_done = clamp((u_text_slow_time - a_text_min_time) / l_textshader_flip_duration, 0.0, 1.0);
-    } else {
+    }
+    else
+    {
         l_textshader_flip_done = a_text_min_time <= u_text_slow_time ? 1.0 : 0.0;
     }
 
@@ -472,7 +478,8 @@ textshader.linetexture
 
 ::
 
-    if (u_text_main == 1.0) {
+    if (u_text_main == 1.0)
+    {
         gl_FragColor = texture2D(u_textshader_linetexture_texture, v_textshader_linetexture_coord) * gl_FragColor;
     }
 
@@ -541,7 +548,8 @@ textshader.texture
 
 ::
 
-    if (u_text_main == 1.0) {
+    if (u_text_main == 1.0)
+    {
         gl_FragColor = texture2D(u_textshader_texture_texture, v_textshader_texture_coord) * gl_FragColor;
     }
 
@@ -616,7 +624,8 @@ textshader.zoom
 
     float l_textshader_zoom_duration = u_textshader_zoom_duration * u_text_slow_duration;
 
-    if (l_textshader_zoom_duration > 0.0) {
+    if (l_textshader_zoom_duration > 0.0)
+    {
         float l_textshader_zoom_done = clamp((u_text_slow_time - a_text_min_time) / l_textshader_zoom_duration, 0.0, 1.0);
         gl_Position.xy = mix(a_text_center + (gl_Position.xy - a_text_center) * u_textshader_zoom_zoom, gl_Position.xy, l_textshader_zoom_done);
     }
