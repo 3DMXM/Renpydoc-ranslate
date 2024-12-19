@@ -73,7 +73,7 @@ Ren'Py使用片元着色器的优先级如下
 500. :ref:`renpy.alpha <shader-renpy-alpha>`
 500. :ref:`renpy.alpha_mask <shader-renpy-alpha-mask>`
 
-.. _shader-renpy.alpha:
+.. _shader-renpy-alpha:
 
 renpy.alpha
 -----------
@@ -91,7 +91,7 @@ renpy.alpha
 
     gl_FragColor = gl_FragColor * vec4(u_renpy_alpha, u_renpy_alpha, u_renpy_alpha, u_renpy_alpha * u_renpy_over);
 
-.. _shader-renpy.alpha_mask:
+.. _shader-renpy-alpha_mask:
 
 renpy.alpha_mask
 -----------------
@@ -120,7 +120,7 @@ renpy.alpha_mask
 
     gl_FragColor = vec4(src.r * mask.r, src.g * mask.r, src.b * mask.r, mask.r);
 
-.. _shader-renpy.blur:
+.. _shader-renpy-blur:
 
 renpy.blur
 ----------
@@ -177,7 +177,7 @@ renpy.blur
         gl_FragColor = texture2D(tex0, v_tex_coord.xy, 0.0);
     }
 
-.. _shader-renpy.dissolve:
+.. _shader-renpy-dissolve:
 
 renpy.dissolve
 --------------
@@ -208,7 +208,7 @@ renpy.dissolve
 
     gl_FragColor = mix(color0, color1, u_renpy_dissolve);
 
-.. _shader-renpy.geometry:
+.. _shader-renpy-geometry:
 
 renpy.geometry
 --------------
@@ -232,7 +232,7 @@ renpy.geometry
 
     gl_Position = u_transform * gl_Position;
 
-.. _shader-renpy.imagedissolve:
+.. _shader-renpy-imagedissolve:
 
 renpy.imagedissolve
 -------------------
@@ -267,7 +267,7 @@ renpy.imagedissolve
     float a = clamp((color0.a + u_renpy_dissolve_offset) * u_renpy_dissolve_multiplier, 0.0, 1.0);
     gl_FragColor = mix(color1, color2, a);
 
-.. _shader-renpy.mask:
+.. _shader-renpy-mask:
 
 renpy.mask
 ----------
@@ -299,7 +299,7 @@ renpy.mask
 
     gl_FragColor = src * (mask.a * u_renpy_mask_multiplier + u_renpy_mask_offset);
 
-.. _shader-renpy.matrixcolor:
+.. _shader-renpy-matrixcolor:
 
 renpy.matrixcolor
 -----------------
@@ -316,7 +316,7 @@ renpy.matrixcolor
 
     gl_FragColor = u_renpy_matrixcolor * gl_FragColor;
 
-.. _shader-renpy.solid:
+.. _shader-renpy-solid:
 
 renpy.solid
 -----------
@@ -333,7 +333,7 @@ renpy.solid
 
     gl_FragColor = u_renpy_solid_color;
 
-.. _shader-renpy.texture:
+.. _shader-renpy-texture:
 
 renpy.texture
 -------------
@@ -373,12 +373,12 @@ textshader.dissolve
     attribute float a_text_time;
     varying float v_text_time;
 
-顶点着色器(优先级 200):
+顶点着色器(优先级 200)：
 
 ::
     v_text_time = a_text_time;
 
-片元着色器(优先级 350):
+片元着色器(优先级 350)：
 
 ::
     float l_textshader_dissolve_duration = u_textshader_dissolve_duration * u_text_slow_duration;

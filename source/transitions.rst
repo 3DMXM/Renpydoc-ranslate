@@ -34,7 +34,7 @@ Ren'Py自带一些预定义的转场(transition)效果，可以直接使用在 :
     0.5秒时间，将图像移动到新的位置。一个 :func:`MoveTransition()` 的转场实例。
 
     move转场，与ease转场类似，只能使用 :ref:`with语句 <with-statement>` 应用在单个图层或同时应用在所有图层。
-    其不能在其他场景下生效，比如 :ref:`ATL <expression-atl-statement>`、:func:`ComposeTransition` 等。
+    其不能在其他场景下生效，比如 :ref:`ATL <displayable-atl-statement>`、:func:`ComposeTransition` 等。
 
 .. var:: moveinright
 
