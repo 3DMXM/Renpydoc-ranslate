@@ -358,7 +358,7 @@ renpy.texture
 
     gl_FragColor = texture2D(tex0, v_tex_coord.xy, u_lod_bias);
 
-.. _shader-textshader.dissolve:
+.. _shader-textshader-dissolve:
 
 textshader.dissolve
 -------------------
@@ -376,11 +376,13 @@ textshader.dissolve
 顶点着色器(优先级 200)：
 
 ::
+
     v_text_time = a_text_time;
 
 片元着色器(优先级 350)：
 
 ::
+
     float l_textshader_dissolve_duration = u_textshader_dissolve_duration * u_text_slow_duration;
     float l_textshader_dissolve_done;
     if (l_textshader_dissolve_duration > 0.0) {
@@ -390,7 +392,7 @@ textshader.dissolve
     }
     gl_FragColor = gl_FragColor * l_textshader_dissolve_done;
 
-.. _shader-textshader.flip:
+.. _shader-textshader-flip:
 
 textshader.flip
 ---------------
@@ -420,7 +422,7 @@ textshader.flip
 
     gl_Position.x = mix(a_text_center.x - (gl_Position.x - a_text_center.x), gl_Position.x, l_textshader_flip_done);
 
-.. _shader-textshader.jitter:
+.. _shader-textshader-jitter:
 
 textshader.jitter
 -----------------
@@ -440,7 +442,7 @@ textshader.jitter
     vec2 l_textshader_jitter_jitter = u_textshader_jitter_jitter * u_text_to_drawable;
     gl_Position.xy += l_textshader_jitter_jitter * u_random.xy - l_textshader_jitter_jitter / 2.0;
 
-.. _shader-textshader.linetexture:
+.. _shader-textshader-linetexture:
 
 textshader.linetexture
 ----------------------
@@ -474,7 +476,7 @@ textshader.linetexture
         gl_FragColor = texture2D(u_textshader_linetexture_texture, v_textshader_linetexture_coord) * gl_FragColor;
     }
 
-.. _shader-textshader.offset:
+.. _shader-textshader-offset:
 
 textshader.offset
 -----------------
@@ -491,7 +493,7 @@ textshader.offset
 
     gl_Position.xy += u_textshader_offset_offset * u_text_to_drawable;
 
-.. _shader-textshader.slowalpha:
+.. _shader-textshader-slowalpha:
 
 textshader.slowalpha
 --------------------
@@ -513,7 +515,7 @@ textshader.slowalpha
 
     gl_FragColor = mix(gl_FragColor, l_textshader_slowalpha_color, u_textshader_slowalpha_alpha);
 
-.. _shader-textshader.texture:
+.. _shader-textshader-texture:
 
 textshader.texture
 ------------------
@@ -543,7 +545,7 @@ textshader.texture
         gl_FragColor = texture2D(u_textshader_texture_texture, v_textshader_texture_coord) * gl_FragColor;
     }
 
-.. _shader-textshader.typewriter:
+.. _shader-textshader-typewriter:
 
 textshader.typewriter
 ---------------------
@@ -569,7 +571,7 @@ textshader.typewriter
     float l_textshader_typewriter_done = v_text_min_time <= u_text_slow_time ? 1.0 : 0.0;
     gl_FragColor = gl_FragColor * l_textshader_typewriter_done;
 
-.. _shader-textshader.wave:
+.. _shader-textshader-wave:
 
 textshader.wave
 ---------------
@@ -592,7 +594,7 @@ textshader.wave
 
     gl_Position.y += cos(2.0 * 3.14159265359 * (a_text_index / u_textshader_wave_wavelength + u_time * u_textshader_wave_frequency)) * u_textshader_wave_amplitude * u_text_to_drawable;
 
-.. _shader-textshader.zoom:
+.. _shader-textshader-zoom:
 
 textshader.zoom
 ---------------
