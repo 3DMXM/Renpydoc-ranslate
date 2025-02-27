@@ -1122,9 +1122,6 @@ ATL变换在Python中等效于一个Transform对象。
 可调用对象用作变换
 =======================
 
-Finally, simple Python callables can be used as transforms. These callables
-should take a single :doc:`displayable <displayables>` as an argument, and
-return a new Displayable. For example
 最后，Python中的可调用对象可以用作变换。这些可调用对象必须能使用 :doc:`可视组件 <displayables>` 作为入参，
 并且能返回一个新的可视组件。例如：
 
