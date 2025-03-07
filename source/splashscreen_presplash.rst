@@ -61,12 +61,12 @@
 ------------------
 
 加载等待(presplash)是Ren'Py在加载脚本并启动游戏过程中显示的画面。
-如果需要当引擎启动后显示加载等待画面，值需要创建名为 :file:`presplash.png` 或 :file:`presplash.jpg` 的图片文件，保存到game目录下就行了。
+如果需要当引擎启动后显示加载等待画面，只需要创建名为 :file:`presplash.png` 或 :file:`presplash.jpg` 的图片文件，保存到game目录下就行了。
 
 presplash.png
     游戏加载过程中显示的图片。
 
-该项尽在电脑平台上生效，在安卓、iOS和Web平台无效。
+该项仅在电脑平台上生效，在安卓、iOS和Web平台无效。
 安卓平台需要设置 :ref:`android-presplash`，Web平台需要设置 :ref:`Web Presplash <web-presplash>`。
 
 :var:`config.minimum_presplash_time` 配置项设置了preslash画面的最小显示时间。
