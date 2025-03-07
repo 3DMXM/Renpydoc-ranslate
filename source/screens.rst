@@ -1286,11 +1286,11 @@ vpgrid拥有下列特性：
 
 .. screen-property:: cols
 
-    网格(grid)的行数。
+    网格(grid)的列数。
 
 .. screen-property:: rows
 
-    网格(grid)的列数。
+    网格(grid)的行数。
 
 .. screen-property:: transpose
 
