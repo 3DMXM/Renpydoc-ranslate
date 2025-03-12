@@ -115,7 +115,7 @@ transform存在以下特性(property)。
     :type: (position, position)
     :default: (0.0, 0.0)
 
-    等效于将pos的值设置为该特性的值，并同时将archor设置为(0.5, 0.5)。
+    等效于将pos的值设置为该特性的值，并同时将anchor设置为(0.5, 0.5)。
 
 .. transform-property:: xcenter
 

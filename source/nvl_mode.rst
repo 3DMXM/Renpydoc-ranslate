@@ -263,4 +263,4 @@ Paged Rollback
 “The Question”的脚本(NVL模式版本)
 -----------------------------------------
 
-你可以在:doc:`这里 <thequestion_nvl>` 查看MVL模式版本的“The Question”。
+你可以在 :doc:`这里 <thequestion_nvl>` 查看MVL模式版本的“The Question”。

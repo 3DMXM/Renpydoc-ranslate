@@ -556,7 +556,7 @@ Ren'Py不保证包含的SDL2版本编译后包含或不包含某些特性(featur
 
     该函数是线程安全的(threadsafe)。
 
-.. function:: renpy.quit(relaunch=False, status=0)
+.. function:: renpy.quit(relaunch=False, status=0, save=False)
 
     该函数让Ren'Py完全退出。
 
@@ -565,6 +565,9 @@ Ren'Py不保证包含的SDL2版本编译后包含或不包含某些特性(featur
 
     `status`
         Ren'Py返回给操作系统的状态代码。大体来说，0表示成功，负数表示失败。
+
+    `save`
+        若为True，在Ren'Py进程结束前，游戏将在 :var:`_quit_slot` 位置存档。
 
 .. function:: renpy.quit_event()
 

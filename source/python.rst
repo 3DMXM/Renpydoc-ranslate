@@ -244,11 +244,8 @@ define语句将一个值声明为一个变量，也可用作定义一个角色�
 使用 ``from store.named import variable`` 可以将变量导入存储区。
 存储区自身可以使用 ``from store import named`` 导入脚本中。
 
-Named stores can be accessed by supplying the ``in`` clause to
-``python`` or ``init python`` (or ``python early``), all of which
-run the Python they contain in the given named store.
-
-命名存储区可以可以通过 ``python`` 或 ``init python`` 语句中的 ``in`` 分句接入。python和init python语句都在命名存储区内运行Python。每个存储区相当于一个Python模块(module)。默认存储区就是  ``store`` ，接入该存储区内的变量名格式为 ``store.name`` 。这些python模块可以通过使用Python import语句导入(import)，模块中的变量和函数名可以使用Python ``from`` 语句导入(import)。
+命名存储区可以通过 ``python`` 或 ``init python`` (``python early``) 语句中的 ``in`` 分句读取，
+使对应的python语句都在该命名存储区内运行Python。
 
 举例：
 

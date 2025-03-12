@@ -466,17 +466,17 @@ hide和show窗口
 
 .. function:: renpy.can_show(name, layer=None, tag=None)
 
-    该函数判断入参 *name* 代表的图像是否能显示。函数把入参 *name* 看做一个图像标签(tag)和属性(attribute)。该函数依据目前正显示在 *图层* 上的所有 *tag* 来尝试确认唯一的图像。若存在唯一可显示图像，则以元组形式返回图像名。否则返回None。
+    该函数判断入参 *name* 代表的图像是否能显示。函数把入参 *name* 看做一个图像标签(tag)和属性(attribute)。该函数依据目前正显示在 *图层* 上的所有 `tag` 来尝试确认唯一的图像。若存在唯一可显示图像，则以元组形式返回图像名。否则返回None。
 
     `tag`
         图像标签(tag)属性。若为空，默认使用入参name的第一个组件。
 
     `layer`
-        需要确认的图层(layer)名。若为空，则默认使用 *tag* 所在图层。
+        需要确认的图层(layer)名。若为空，则默认使用 `tag` 所在图层。
 
 .. function:: renpy.change_zorder(layer, tag, zorder)
 
-    修改图层 *layer* 上标签为 *tag* 图像的zorder值。
+    修改图层 `layer` 上标签为 `tag` 图像的zorder值。
 
 .. function:: renpy.check_image_attributes(tag, attributes)
 
@@ -508,15 +508,16 @@ hide和show窗口
 
 .. function:: renpy.flush_cache_file(fn)
 
-    该函数会将所以引用文件 *fn* 的图像缓存都清空。
+    该函数会将所以引用文件 `fn` 的图像缓存都清空。
     需要Ren'Py强制更新图像文件时可以调用该函数。
 
 .. function:: renpy.get_attributes(tag, layer=None)
 
-    根据入参图片标签 *tag* ，返回对应图像属性(attribute)的元组。若图像整在显示，则返回None。
+    根据入参图片标签 `tag` ，返回对应图像属性(attribute)的元组。
+    若对应tag在上次隐藏时就不带任何图像书香，则返回 `if_hidden` 。
 
     `layer`
-        待检图层(layer)。若为空，使用 *tag* 所在的默认图层。
+        待检图层(layer)。若为None，使用 `tag` 所在的默认图层。
 
 .. function:: renpy.get_available_image_tags()
 
@@ -528,7 +529,7 @@ hide和show窗口
 
 .. renpy.get_image_bounds(tag, width=None, height=None, layer=None)
 
-    如果带有指定 *tag* 的图像显示在图层 *lay* 上，则返回图像的包围盒。
+    如果带有指定 `tag` 的图像显示在图层 `layer` 上，则返回图像的包围盒。
     如果符合条件的图像不存在，则返回None。
 
     包围盒是一个 (x, y, width, height) 形式的元组。
@@ -580,11 +581,11 @@ hide和show窗口
 
 .. function:: renpy.get_showing_tags(layer='master')
 
-    返回入参 *layer* 图层上显示的所有图像标签(tag)的集。
+    返回入参 `layer` 图层上显示的所有图像标签(tag)的集。
 
 .. function:: renpy.get_zorder_list(layer)
 
-    返回图层 *layer* 的(tag, zorder)列表。
+    返回图层 `layer` 的(tag, zorder)列表。
 
 .. function:: renpy.has_image(name, exact=False)
 
@@ -610,13 +611,13 @@ hide和show窗口
 
 .. function:: renpy.showing(name, layer='master')
 
-    若与name同名标签的图像整在图层  *layer* 上显示，则返回真(true)。
+    若与name同名标签的图像整在图层 `layer` 上显示，则返回真(true)。
 
     `image`
         可能是一个给定图像名的字符串，或者给定图像名各组件的元组。还可以只是给定图像标签(tag)的字符串。
 
     `layer`
-        待检图层(layer)。若为None，使用 *tag* 所在默认图层。
+        待检图层(layer)。若为None，使用 `tag` 所在默认图层。
 
 .. function:: renpy.start_predict(*args)
 

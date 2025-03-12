@@ -143,9 +143,9 @@ Gallery类实例管理画廊。同一个gallery类的实例可能会被多个画
             add g.make_button("dawn mary", "gal-dawn_mary.png", xalign=0.5, yalign=0.5)
             add g.make_button("title", "title.png", xalign=0.5, yalign=0.5)
 
-            # 用于响应后返回主菜单的界面。
-            # 也能用于导航到其他画廊界面。
-            textbutton "Return" action Return() xalign 0.5 yalign 0.5
+        # 用于响应后返回主菜单的界面。
+        # 也能用于导航到其他画廊界面。
+        textbutton "Return" action Return() xalign 0.5 yalign 0.5
 
 步骤4会由于游戏结构的不同而大相径庭，不过一种通用办法是添加下面这行：
 
